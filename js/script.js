@@ -376,8 +376,9 @@ window.addEventListener(
 
 
 /* =========================================================
-   OOMBAM — WEIBO GALA 2026
-   LIVE COUNTDOWN
+   OOMBAM — Saturday, August 15, 2026
+  Main Event: 1:00 PM Beijing Time
+  China = UTC+8
 ========================================================= */
 
 /*
@@ -387,7 +388,7 @@ window.addEventListener(
 */
 
 const WEIBO_GALA_TARGET =
-  "2026-08-08T18:00:00+07:00";
+  "2026-08-15T13:00:00+08:00";
 
 
 const eventCountdown =
@@ -544,7 +545,7 @@ function updateEventCountdown() {
     if (countdownStatus) {
 
       countdownStatus.textContent =
-        "OOMBAM • Weibo Gala 2026 ✨";
+        "OOMBAM • Shanghai Private Event ✨";
 
     }
 
@@ -614,7 +615,7 @@ function updateEventCountdown() {
   if (countdownStatus) {
 
     countdownStatus.textContent =
-      "Main show • August 8, 2026 • 6:00 PM Thailand Time";
+      "Shanghai Private Event • August 15, 2026 • 1:00 PM Beijing Time";
 
   }
 
