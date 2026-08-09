@@ -29,15 +29,15 @@
 
 
 /* TYPOGRAPHY
-   Display: Bodoni Moda
-   Body/UI: Manrope
+   Display: Playfair Display
+   Body/UI: Inter
    Signature only: Great Vibes
 
    Suggested scale:
-   H1: clamp(4.9rem, 8.5vw, 7.9rem)
+   H1: clamp(4.4rem, 7.8vw, 7rem)
    H2: clamp(2.5rem, 4.2vw, 3.7rem)
-   Body: 0.92rem / 1.9
-   Labels/Nav: 0.66–0.68rem
+   Body: 0.95rem / 1.85
+   Labels/Nav: 0.70–0.72rem
 */
 
 /* RESET */
@@ -84,7 +84,7 @@ body {
   color: var(--ink);
 
   font-family:
-    "Manrope",
+    "Inter",
     sans-serif;
 
   line-height: 1.6;
@@ -229,7 +229,7 @@ a {
 
   color: #5c5759;
 
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 600;
 
   letter-spacing: 0.08em;
@@ -485,7 +485,7 @@ a {
   color: #4c4b50;
 
   font-family:
-    "Bodoni Moda",
+    "Playfair Display",
     serif;
 
   font-size: 1.05rem;
@@ -610,7 +610,7 @@ a {
     1px solid rgba(75, 89, 99, 0.10);
 
   font-family:
-    "Bodoni Moda",
+    "Playfair Display",
     serif;
 
   font-size: 1.45rem;
@@ -654,15 +654,11 @@ a {
   color: #343337;
 
   font-family:
-    "Bodoni Moda",
+    "Playfair Display",
     serif;
 
   font-size:
-    clamp(
-      4.9rem,
-      8.5vw,
-      7.9rem
-    );
+    clamp(4.4rem, 7.8vw, 7rem);
 
   font-weight: 500;
 
@@ -680,7 +676,7 @@ a {
   color: #60636a;
 
   font-family:
-    "Bodoni Moda",
+    "Playfair Display",
     serif;
 
   font-size: 1.05rem;
@@ -781,7 +777,7 @@ a {
     18px;
 
   font-family:
-    "Bodoni Moda",
+    "Playfair Display",
     serif;
 
   font-size:
@@ -806,21 +802,22 @@ a {
 
   color: var(--text);
 
-  font-size: 0.92rem;
+  font-size: 0.95rem;
 
-  line-height: 1.9;
+  line-height: 1.85;
 }
 
 
-/* SPLIT AREA */
+
+/* =========================================================
+   CAREER HIGHLIGHTS + FUN FACTS
+========================================================= */
 
 .split-sections {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-
-  gap: 28px;
+  gap: 34px;
 
   margin-top: 48px;
 
@@ -830,23 +827,40 @@ a {
     0;
 
   border-top:
-    1px solid rgba(75, 89, 99, 0.10);
+    1px solid rgba(32, 37, 45, 0.10);
 }
 
 .mini-section + .mini-section {
-  padding-left: 28px;
+  padding-left: 34px;
 
   border-left:
-    1px solid rgba(75, 89, 99, 0.10);
+    1px solid rgba(32, 37, 45, 0.10);
+}
+
+.section-label {
+  margin: 0;
+
+  color: var(--yellow-deep);
+
+  font-family:
+    "Inter",
+    sans-serif;
+
+  font-size: 0.70rem;
+  font-weight: 700;
+
+  letter-spacing: 0.20em;
+
+  text-transform: uppercase;
 }
 
 .highlight-list,
 .facts-list {
   display: grid;
 
-  gap: 18px;
+  gap: 24px;
 
-  margin-top: 24px;
+  margin-top: 28px;
 }
 
 .highlight-item,
@@ -854,10 +868,10 @@ a {
   display: grid;
 
   grid-template-columns:
-    44px
+    48px
     minmax(0, 1fr);
 
-  gap: 14px;
+  gap: 18px;
 
   align-items: center;
 }
@@ -867,49 +881,93 @@ a {
   display: grid;
   place-items: center;
 
-  width: 40px;
-  height: 40px;
+  width: 46px;
+  height: 46px;
+
+  color: var(--blue-deep);
 
   background:
     linear-gradient(
-      135deg,
-      rgba(255, 244, 189, 0.85),
-      rgba(230, 244, 253, 0.85)
+      145deg,
+      rgba(246, 237, 200, 0.95),
+      rgba(255, 253, 249, 0.95) 55%,
+      rgba(233, 239, 245, 0.90)
     );
+
+  border:
+    1px solid rgba(157, 123, 24, 0.08);
 
   border-radius: 50%;
 
-  font-size: 1rem;
+  box-shadow:
+    0 8px 22px rgba(32, 37, 45, 0.04);
+
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    color 220ms ease;
+}
+
+.highlight-icon svg,
+.fact-icon svg {
+  width: 20px;
+  height: 20px;
+
+  fill: none;
+
+  stroke: currentColor;
+  stroke-width: 1.6;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.fact-icon {
+  color: var(--yellow-deep);
+}
+
+.highlight-item:hover .highlight-icon,
+.fact-row:hover .fact-icon {
+  transform: translateY(-2px);
+
+  background: var(--yellow-soft);
 }
 
 .highlight-item h3,
 .fact-row strong {
+  display: block;
+
   margin: 0;
 
-  color: #46474b;
+  color: var(--ink);
 
   font-family:
-    "Bodoni Moda",
+    "Playfair Display",
     serif;
 
-  font-size: 1.08rem;
+  font-size: 1.12rem;
   font-weight: 600;
+
+  line-height: 1.3;
 }
 
 .highlight-item p,
 .fact-row p {
   margin:
-    2px
+    4px
     0
     0;
 
   color: var(--muted);
 
-  font-size: 0.68rem;
+  font-family:
+    "Inter",
+    sans-serif;
 
-  line-height: 1.45;
+  font-size: 0.72rem;
+
+  line-height: 1.55;
 }
-
 
 /* GALLERY */
 
@@ -1013,7 +1071,7 @@ a {
   color: rgba(210, 166, 0, 0.55);
 
   font-family:
-    "Bodoni Moda",
+    "Playfair Display",
     serif;
 
   font-size: 3rem;
@@ -1029,7 +1087,7 @@ a {
   color: #55575b;
 
   font-family:
-    "Bodoni Moda",
+    "Playfair Display",
     serif;
 
   font-size:
@@ -1546,6 +1604,57 @@ a {
 
   .return-button {
     width: 100%;
+  }
+
+  .split-sections {
+    grid-template-columns: 1fr;
+
+    gap: 34px;
+
+    padding-top: 30px;
+  }
+
+  .mini-section + .mini-section {
+    padding:
+      32px
+      0
+      0;
+
+    border-top:
+      1px solid rgba(32, 37, 45, 0.10);
+
+    border-left: 0;
+  }
+
+  .highlight-item,
+  .fact-row {
+    grid-template-columns:
+      44px
+      minmax(0, 1fr);
+
+    gap: 15px;
+  }
+
+  .highlight-icon,
+  .fact-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .highlight-icon svg,
+  .fact-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .highlight-item h3,
+  .fact-row strong {
+    font-size: 1.05rem;
+  }
+
+  .highlight-item p,
+  .fact-row p {
+    font-size: 0.71rem;
   }
 
 }
