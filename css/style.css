@@ -2306,7 +2306,76 @@ body.dark-theme
   }
 }
 
+/* =========================
+   STORY EDITORIAL
+========================= */
 
-/* Add editorial styles here */
-.story-panel{min-height:auto;}
-.story-copy-block{max-width:600px;}
+.story-panel {
+  min-height: auto;
+}
+
+.story-copy-block {
+  max-width: 600px;
+}
+
+.story-intro {
+  max-width: 580px;
+  margin: 0 0 28px;
+
+  color: #5f5a5c;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 1.15rem;
+  font-style: italic;
+
+  line-height: 1.7;
+}
+
+.story-editorial {
+  max-width: 590px;
+}
+
+.story-editorial p {
+  margin: 0 0 18px;
+
+  color: #716a6b;
+
+  font-size: 0.9rem;
+
+  line-height: 1.9;
+}
+
+.story-closing {
+  margin: 28px 0 30px;
+
+  color: #4e484a;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 1.15rem;
+  font-style: italic;
+
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .story-intro {
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  .story-editorial p {
+    font-size: 0.88rem;
+    line-height: 1.82;
+  }
+
+  .story-closing {
+    font-size: 1.05rem;
+  }
+}
+
