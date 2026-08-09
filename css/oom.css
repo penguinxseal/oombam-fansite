@@ -4,20 +4,20 @@
 ========================================================= */
 
 :root {
-  --yellow: #f4cf55;
-  --yellow-deep: #d2a600;
-  --yellow-soft: #fff4bd;
+  --yellow: #d8b84a;        /* antique gold */
+  --yellow-deep: #9d7b18;   /* rich ochre */
+  --yellow-soft: #f6edc8;   /* pale champagne */
 
-  --blue: #a9d5f2;
-  --blue-deep: #75add1;
-  --blue-soft: #e6f4fd;
+  --blue: #aabed4;          /* muted powder blue */
+  --blue-deep: #405a73;     /* slate navy */
+  --blue-soft: #e9eff5;     /* cool mist */
 
-  --cream: #fffdf8;
-  --white: #ffffff;
+  --cream: #f8f4ec;         /* warm ivory */
+  --white: #fffdf9;
 
-  --ink: #393638;
-  --text: #706a6d;
-  --muted: #999397;
+  --ink: #20252d;           /* deep ink navy */
+  --text: #5e6269;
+  --muted: #8f9197;
 
   --border: rgba(83, 72, 77, 0.1);
 
@@ -27,6 +27,18 @@
   --ease: 220ms ease;
 }
 
+
+/* TYPOGRAPHY
+   Display: Bodoni Moda
+   Body/UI: Manrope
+   Signature only: Great Vibes
+
+   Suggested scale:
+   H1: clamp(4.9rem, 8.5vw, 7.9rem)
+   H2: clamp(2.5rem, 4.2vw, 3.7rem)
+   Body: 0.92rem / 1.9
+   Labels/Nav: 0.66–0.68rem
+*/
 
 /* RESET */
 
@@ -64,15 +76,15 @@ body {
     ),
     linear-gradient(
       135deg,
-      #fff4bd 0%,
-      #fffdf8 48%,
-      #e6f4fd 100%
+      #f2e4a3 0%,
+      #f8f4ec 48%,
+      #dfe8f0 100%
     );
 
   color: var(--ink);
 
   font-family:
-    "Poppins",
+    "Manrope",
     sans-serif;
 
   line-height: 1.6;
@@ -103,12 +115,12 @@ a {
     clamp(28px, 4vw, 54px)
     48px;
 
-  background: rgba(255, 255, 255, 0.93);
+  background: rgba(255, 253, 249, 0.95);
 
   border:
     1px solid rgba(255, 255, 255, 0.95);
 
-  border-radius: 34px;
+  border-radius: 22px;
 
   box-shadow: var(--shadow);
 
@@ -217,10 +229,10 @@ a {
 
   color: #5c5759;
 
-  font-size: 0.71rem;
+  font-size: 0.68rem;
   font-weight: 600;
 
-  letter-spacing: 0.055em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 
   transition:
@@ -332,9 +344,9 @@ a {
   background:
     linear-gradient(
       180deg,
-      rgba(255, 244, 189, 0.66),
-      rgba(255, 255, 255, 0.92) 42%,
-      rgba(230, 244, 253, 0.70)
+      rgba(246, 237, 200, 0.82),
+      rgba(255, 253, 249, 0.96) 44%,
+      rgba(233, 239, 245, 0.82)
     );
 
   border:
@@ -399,9 +411,9 @@ a {
 
   font-size:
     clamp(
-      4rem,
-      7vw,
-      6rem
+      3.8rem,
+      6.4vw,
+      5.6rem
     );
 
   line-height: 0.9;
@@ -466,18 +478,18 @@ a {
 .profile-details span {
   color: #817b7e;
 
-  font-size: 0.69rem;
+  font-size: 0.66rem;
 }
 
 .profile-details strong {
   color: #4c4b50;
 
   font-family:
-    "Cormorant Garamond",
+    "Bodoni Moda",
     serif;
 
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 500;
 }
 
 .sidebar-socials {
@@ -598,7 +610,7 @@ a {
     1px solid rgba(75, 89, 99, 0.10);
 
   font-family:
-    "Cormorant Garamond",
+    "Bodoni Moda",
     serif;
 
   font-size: 1.45rem;
@@ -642,19 +654,19 @@ a {
   color: #343337;
 
   font-family:
-    "Cormorant Garamond",
+    "Bodoni Moda",
     serif;
 
   font-size:
     clamp(
-      4.7rem,
-      8vw,
-      7.5rem
+      4.9rem,
+      8.5vw,
+      7.9rem
     );
 
   font-weight: 500;
 
-  letter-spacing: 0.02em;
+  letter-spacing: -0.015em;
 
   line-height: 0.78;
 }
@@ -668,13 +680,13 @@ a {
   color: #60636a;
 
   font-family:
-    "Cormorant Garamond",
+    "Bodoni Moda",
     serif;
 
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 500;
 
-  letter-spacing: 0.20em;
+  letter-spacing: 0.18em;
 
   text-transform: uppercase;
 }
@@ -769,14 +781,14 @@ a {
     18px;
 
   font-family:
-    "Cormorant Garamond",
+    "Bodoni Moda",
     serif;
 
   font-size:
     clamp(
-      2.3rem,
-      4vw,
-      3.4rem
+      2.5rem,
+      4.2vw,
+      3.7rem
     );
 
   font-weight: 500;
@@ -794,9 +806,9 @@ a {
 
   color: var(--text);
 
-  font-size: 0.88rem;
+  font-size: 0.92rem;
 
-  line-height: 1.85;
+  line-height: 1.9;
 }
 
 
@@ -877,7 +889,7 @@ a {
   color: #46474b;
 
   font-family:
-    "Cormorant Garamond",
+    "Bodoni Moda",
     serif;
 
   font-size: 1.08rem;
@@ -982,9 +994,9 @@ a {
   background:
     linear-gradient(
       90deg,
-      rgba(255, 244, 189, 0.72),
-      rgba(255, 255, 255, 0.90) 50%,
-      rgba(230, 244, 253, 0.74)
+      rgba(246, 237, 200, 0.86),
+      rgba(255, 253, 249, 0.96) 50%,
+      rgba(233, 239, 245, 0.86)
     );
 
   border-radius: 18px;
@@ -1001,7 +1013,7 @@ a {
   color: rgba(210, 166, 0, 0.55);
 
   font-family:
-    "Cormorant Garamond",
+    "Bodoni Moda",
     serif;
 
   font-size: 3rem;
@@ -1017,7 +1029,7 @@ a {
   color: #55575b;
 
   font-family:
-    "Cormorant Garamond",
+    "Bodoni Moda",
     serif;
 
   font-size:
@@ -1040,7 +1052,7 @@ a {
   font-size: 0.61rem;
   font-weight: 600;
 
-  letter-spacing: 0.20em;
+  letter-spacing: 0.18em;
 
   text-transform: uppercase;
 }
@@ -1148,21 +1160,21 @@ a {
 
   flex-shrink: 0;
 
-  color: #63501e;
+  color: #2f3540;
 
   background:
     linear-gradient(
       135deg,
-      var(--yellow),
-      #f8e49c
+      #d8b84a,
+      #ead788
     );
 
   border-radius: 999px;
 
-  font-size: 0.69rem;
+  font-size: 0.66rem;
   font-weight: 700;
 
-  letter-spacing: 0.055em;
+  letter-spacing: 0.08em;
 
   text-transform: uppercase;
 
@@ -1350,9 +1362,9 @@ a {
     background:
       linear-gradient(
         145deg,
-        #fff4bd,
-        #fffdf8 50%,
-        #e6f4fd
+        #f2e4a3,
+        #f8f4ec 50%,
+        #dfe8f0
       );
   }
 
