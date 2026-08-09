@@ -2240,3 +2240,68 @@ body.dark-theme
     font-size: 0.73rem;
   }
 }
+
+
+/* =========================
+   SHANGHAI EVENT OVERRIDES
+========================= */
+
+.upcoming-event {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.event-schedule {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.event-item {
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: 14px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.event-item:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.18);
+}
+
+.event-label {
+  display: block;
+  margin-bottom: 6px;
+  color: rgba(255,255,255,0.72);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.event-value {
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .event-item {
+    padding: 12px;
+  }
+
+  .event-label {
+    font-size: 0.58rem;
+  }
+
+  .event-value {
+    font-size: 0.72rem;
+  }
+}
