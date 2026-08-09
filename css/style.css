@@ -2305,3 +2305,8 @@ body.dark-theme
     font-size: 0.72rem;
   }
 }
+
+
+/* Add editorial styles here */
+.story-panel{min-height:auto;}
+.story-copy-block{max-width:600px;}
