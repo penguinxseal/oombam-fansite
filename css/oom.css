@@ -1149,6 +1149,143 @@ a {
 }
 
 
+
+/* =========================================================
+   FULL WIDTH EDITORIAL CONTENT
+========================================================= */
+
+.full-width-content {
+  position: relative;
+  z-index: 4;
+
+  width: 100%;
+
+  margin-top: 64px;
+}
+
+.full-width-content .full-width-section {
+  width: 100%;
+
+  margin-top: 0;
+
+  padding:
+    50px
+    clamp(20px, 3vw, 42px);
+
+  border-top:
+    1px solid rgba(157, 123, 24, 0.12);
+}
+
+.full-width-content .gallery-section {
+  padding-top: 48px;
+}
+
+.full-width-content .section-heading-row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+
+  gap: 30px;
+}
+
+.full-width-content .gallery-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 18px;
+
+  margin-top: 30px;
+}
+
+.full-width-content .gallery-placeholder {
+  aspect-ratio: 4 / 5;
+
+  display: grid;
+  place-items: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(246, 237, 200, 0.65),
+      rgba(255, 253, 249, 0.95) 52%,
+      rgba(233, 239, 245, 0.70)
+    );
+
+  border:
+    1px solid rgba(157, 123, 24, 0.10);
+
+  border-radius: 18px;
+}
+
+.full-width-content .quote-banner {
+  width: 100%;
+
+  margin-top: 34px;
+
+  padding:
+    42px
+    clamp(28px, 6vw, 90px);
+
+  border:
+    1px solid rgba(157, 123, 24, 0.10);
+
+  border-radius: 20px;
+}
+
+.full-width-content .updates-section {
+  margin-top: 40px;
+}
+
+.full-width-content .updates-section h2 {
+  max-width: none;
+}
+
+
+/* TABLET — FULL WIDTH CONTENT */
+
+@media (max-width: 850px) {
+
+  .full-width-content {
+    margin-top: 42px;
+  }
+
+  .full-width-content .gallery-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+/* MOBILE — FULL WIDTH CONTENT */
+
+@media (max-width: 600px) {
+
+  .full-width-content .full-width-section {
+    padding:
+      34px
+      4px;
+  }
+
+  .full-width-content .gallery-grid {
+    gap: 12px;
+  }
+
+  .full-width-content .section-heading-row {
+    align-items: flex-start;
+  }
+
+  .full-width-content .quote-banner {
+    padding:
+      34px
+      22px;
+  }
+
+}
+
+
 /* RETURN */
 
 .return-section {
@@ -1761,4 +1898,17 @@ a {
   border: 1px solid rgba(212,175,55,0.08);
   border-radius: 18px;
   padding: 16px;
+}
+
+
+/* v18 layout correction: lower editorial sections span the page */
+.full-width-content .editorial-section,
+.full-width-content .quote-banner {
+  max-width: none;
+}
+
+.full-width-content .gallery-section,
+.full-width-content .updates-section {
+  margin-left: 0;
+  margin-right: 0;
 }
