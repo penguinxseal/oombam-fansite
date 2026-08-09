@@ -387,7 +387,7 @@ window.addEventListener(
   Thailand = UTC+7
 */
 
-const WEIBO_GALA_TARGET =
+const SHANGHAI_EVENT_TARGET =
   "2026-08-15T13:00:00+08:00";
 
 
@@ -501,15 +501,14 @@ function updateEventCountdown() {
   */
 
   eventCountdown.setAttribute(
-    "data-event-date",
-    WEIBO_GALA_TARGET
-  );
+  "data-event-date",
+  SHANGHAI_EVENT_TARGET
+);
 
-
-  const targetTime =
-    new Date(
-      WEIBO_GALA_TARGET
-    ).getTime();
+const targetTime =
+  new Date(
+    SHANGHAI_EVENT_TARGET
+  ).getTime();
 
 
   const currentTime =
