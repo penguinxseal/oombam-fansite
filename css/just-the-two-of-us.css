@@ -2309,3 +2309,166 @@ body {
     padding-bottom: 52px;
   }
 }
+
+
+
+/* =========================================================
+   FINAL HEADER / BREADCRUMB OFFSET FIX
+   Keep breadcrumb fully below the fixed navigation.
+========================================================= */
+
+/* DESKTOP */
+@media (min-width: 1101px) {
+
+  .site-header {
+    min-height: 92px;
+  }
+
+  .fulfill-hero {
+    padding-top: 92px;
+  }
+
+  .hero-art {
+    top: 92px;
+  }
+
+  .hero-wash {
+    inset: 92px 0 0;
+  }
+
+  .hero-inner {
+    min-height: calc(min(820px, 92vh) - 92px);
+    padding-top: 30px;
+  }
+
+  .breadcrumb {
+    margin-top: 0;
+    padding-top: 4px;
+
+    line-height: 1.45;
+
+    overflow: visible;
+  }
+}
+
+
+/* TABLET */
+@media (min-width: 701px) and (max-width: 1100px) {
+
+  .site-header {
+    min-height: 82px;
+  }
+
+  .fulfill-hero {
+    padding-top: 82px;
+  }
+
+  .hero-art {
+    top: 82px;
+  }
+
+  .hero-wash {
+    inset: 82px 0 0;
+  }
+
+  .hero-inner {
+    min-height: calc(720px - 82px);
+    padding-top: 28px;
+  }
+
+  .breadcrumb {
+    margin-top: 0;
+    padding-top: 3px;
+
+    line-height: 1.45;
+
+    overflow: visible;
+  }
+}
+
+
+/* MOBILE */
+@media (max-width: 700px) {
+
+  .site-header {
+    min-height: 74px;
+  }
+
+  .fulfill-hero {
+    padding-top: 74px;
+  }
+
+  .hero-art {
+    top: 74px;
+  }
+
+  .hero-wash {
+    inset: 74px 0 0;
+  }
+
+  .hero-inner {
+    min-height: calc(760px - 74px);
+  }
+
+  .breadcrumb {
+    top: 18px;
+
+    line-height: 1.5;
+
+    overflow: visible;
+  }
+}
+
+
+
+/* =========================================================
+   COMPACT HERO BANNER
+   Preserve composition while reducing vertical dominance.
+========================================================= */
+
+@media (min-width: 1101px) {
+  .fulfill-hero {
+    min-height: 610px;
+  }
+
+  .hero-inner {
+    min-height: 518px;
+    padding-top: 24px;
+    padding-bottom: 38px;
+  }
+
+  .hero-copy {
+    padding-top: 28px;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 1100px) {
+  .fulfill-hero {
+    min-height: 570px;
+  }
+
+  .hero-inner {
+    min-height: 488px;
+    padding-top: 22px;
+    padding-bottom: 32px;
+  }
+
+  .hero-copy {
+    padding-top: 22px;
+  }
+}
+
+@media (max-width: 700px) {
+  .fulfill-hero {
+    min-height: 540px;
+  }
+
+  .hero-inner {
+    min-height: 466px;
+    padding-bottom: 28px;
+  }
+
+  .hero-copy {
+    padding-top: 18px;
+  }
+}
