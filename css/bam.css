@@ -1936,3 +1936,325 @@ a {
   margin-left: 0;
   margin-right: 0;
 }
+
+
+
+/* =========================================================
+   FINAL RESPONSIVE HEADER OVERRIDE
+   Desktop stays unchanged; tablet/mobile use hamburger.
+========================================================= */
+
+.menu-toggle {
+  display: none;
+
+  width: 42px;
+  height: 42px;
+
+  padding: 0;
+
+  color: #575153;
+
+  background: transparent;
+  border: 0;
+
+  cursor: pointer;
+}
+
+
+/* TABLET + MOBILE */
+
+@media (max-width: 1100px) {
+
+  .top-nav {
+    position: relative;
+
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    width: 100%;
+  }
+
+
+  .brand-link {
+    position: relative;
+
+    z-index: 1002;
+
+    display: flex;
+    align-items: center;
+
+    flex-shrink: 0;
+
+    margin-right: auto;
+  }
+
+
+  .menu-toggle {
+    position: relative;
+
+    z-index: 1002;
+
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    gap: 6px;
+
+    margin-left: auto;
+  }
+
+
+  .menu-toggle span {
+    display: block;
+
+    width: 27px;
+    height: 1.6px;
+
+    background: currentColor;
+
+    border-radius: 999px;
+
+    transition:
+      transform 0.25s ease,
+      opacity 0.25s ease;
+  }
+
+
+  .menu-toggle.is-active span:nth-child(1) {
+    transform:
+      translateY(7.6px)
+      rotate(45deg);
+  }
+
+
+  .menu-toggle.is-active span:nth-child(2) {
+    opacity: 0;
+  }
+
+
+  .menu-toggle.is-active span:nth-child(3) {
+    transform:
+      translateY(-7.6px)
+      rotate(-45deg);
+  }
+
+
+  /* Existing nav becomes dropdown */
+
+  .top-nav .nav-links {
+    position: absolute;
+
+    top: calc(100% + 10px);
+    right: 0;
+    left: auto;
+
+    z-index: 1001;
+
+    display: flex;
+
+    flex: none;
+
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    flex-wrap: nowrap;
+
+    width:
+      min(
+        360px,
+        calc(100vw - 48px)
+      );
+
+    max-height:
+      calc(100vh - 130px);
+
+    overflow-y: auto;
+
+    gap: 0;
+
+    padding:
+      14px
+      22px;
+
+    background:
+      rgba(255, 253, 249, 0.98);
+
+    border:
+      1px solid rgba(157, 95, 115, 0.16);
+
+    border-radius: 18px;
+
+    box-shadow:
+      0 22px 55px rgba(87, 68, 76, 0.14);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    white-space: normal;
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transform:
+      translateY(-10px);
+
+    transition:
+      opacity 0.25s ease,
+      visibility 0.25s ease,
+      transform 0.25s ease;
+  }
+
+
+  .top-nav .nav-links.is-open {
+    opacity: 1;
+    visibility: visible;
+
+    pointer-events: auto;
+
+    transform:
+      translateY(0);
+  }
+
+
+  .top-nav .nav-links a,
+  .top-nav .nav-links a.active {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+
+    min-height: 50px;
+
+    margin: 0;
+
+    padding:
+      0
+      4px;
+
+    color: #5f595b;
+
+    background: transparent;
+
+    border: 0;
+
+    border-bottom:
+      1px solid rgba(93, 75, 82, 0.09);
+
+    border-radius: 0;
+
+    font-size: 0.72rem;
+    font-weight: 600;
+
+    letter-spacing: 0.09em;
+
+    text-transform: uppercase;
+  }
+
+
+  .top-nav .nav-links a::after {
+    display: none;
+  }
+
+
+  .top-nav .nav-links a:last-child {
+    border-bottom: 0;
+  }
+
+
+  /* Active Bam link */
+
+  .top-nav .nav-links a.active {
+    padding-left: 13px;
+
+    color: var(--pink-deep);
+  }
+
+
+  .top-nav .nav-links a.active::before {
+    position: absolute;
+
+    top: 14px;
+    bottom: 14px;
+    left: 0;
+
+    width: 2px;
+
+    content: "";
+
+    background: var(--pink);
+
+    border-radius: 999px;
+  }
+
+}
+
+
+/* SMALL MOBILE */
+
+@media (max-width: 600px) {
+
+  .top-nav {
+    min-height: 68px;
+
+    padding-bottom: 14px;
+  }
+
+
+  .logo {
+    width: 76px;
+  }
+
+
+  .menu-toggle {
+    width: 38px;
+    height: 38px;
+  }
+
+
+  .menu-toggle span {
+    width: 24px;
+  }
+
+
+  .top-nav .nav-links {
+    top: calc(100% + 8px);
+
+    right: 0;
+
+    width:
+      min(
+        330px,
+        calc(100vw - 32px)
+      );
+
+    padding:
+      10px
+      18px;
+
+    border-radius: 16px;
+  }
+
+
+  .top-nav .nav-links a,
+  .top-nav .nav-links a.active {
+    min-height: 48px;
+
+    font-size: 0.70rem;
+  }
+
+}
