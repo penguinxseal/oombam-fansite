@@ -646,3 +646,60 @@ if (eventCountdown) {
     );
 
 } 
+
+
+/* =========================================================
+   OUR SOUNDTRACK — YOUTUBE MINI PLAYER
+========================================================= */
+
+const OOMBAM_SOUNDTRACK = [
+  "RHnPq3Z0A8c",
+  "CKclkO6HHrY"
+];
+
+let oombamYouTubePlayer = null;
+
+function onYouTubeIframeAPIReady() {
+  const playerTarget =
+    document.getElementById("oombamYouTubePlayer");
+
+  if (!playerTarget || typeof YT === "undefined") {
+    return;
+  }
+
+  oombamYouTubePlayer = new YT.Player(
+    "oombamYouTubePlayer",
+    {
+      width: "100%",
+      height: "100%",
+
+      playerVars: {
+        autoplay: 0,
+        controls: 1,
+        rel: 0,
+        playsinline: 1,
+        modestbranding: 1
+      },
+
+      events: {
+        onReady: (event) => {
+          event.target.cuePlaylist({
+            playlist: OOMBAM_SOUNDTRACK,
+            index: 0
+          });
+
+          event.target.setLoop(true);
+        },
+
+        onStateChange: (event) => {
+          if (
+            event.data === YT.PlayerState.CUED ||
+            event.data === YT.PlayerState.PLAYING
+          ) {
+            event.target.setLoop(true);
+          }
+        }
+      }
+    }
+  );
+}
