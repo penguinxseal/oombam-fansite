@@ -78,7 +78,26 @@
         <a href="index.html#letters">Fan Letters</a>
       </nav>
 
+      <button class="menu-toggle" id="menuToggle" type="button"
+        aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+
     </header>
+
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <nav class="mobile-menu-panel" aria-label="Mobile navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#story">About</a>
+        <a href="oom.html" class="active" aria-current="page">Oom</a>
+        <a href="bam.html">Bam</a>
+        <a href="index.html#moments">Moments</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="index.html#media">Media</a>
+        <a href="index.html#updates">Updates</a>
+        <a href="index.html#letters">Fan Letters</a>
+      </nav>
+    </div>
 
     <!-- BREADCRUMB -->
     <div class="breadcrumb">
@@ -559,6 +578,29 @@
 
   </main>
   
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    if (menuToggle && mobileMenu) {
+      menuToggle.addEventListener("click", () => {
+        const open = mobileMenu.classList.toggle("is-open");
+        menuToggle.classList.toggle("is-active", open);
+        menuToggle.setAttribute("aria-expanded", String(open));
+        mobileMenu.setAttribute("aria-hidden", String(!open));
+      });
+
+      mobileMenu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.remove("is-open");
+          menuToggle.classList.remove("is-active");
+          menuToggle.setAttribute("aria-expanded", "false");
+          mobileMenu.setAttribute("aria-hidden", "true");
+        });
+      });
+    }
+  </script>
+
 </body>
 
 </html>
