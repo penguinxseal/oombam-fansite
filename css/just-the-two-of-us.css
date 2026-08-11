@@ -2499,3 +2499,298 @@ body {
     transform: none;
   }
 }
+
+
+/* =========================================================
+   DEFINITIVE BREADCRUMB / HEADER SEPARATION
+   The breadcrumb now sits in its own safe space below header.
+========================================================= */
+
+/* Reset conflicting breadcrumb positioning from earlier rules */
+.breadcrumb {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+
+  display: flex !important;
+  align-items: center;
+
+  min-height: 28px;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  line-height: 1.45 !important;
+
+  overflow: visible !important;
+  transform: none !important;
+}
+
+/* DESKTOP */
+@media (min-width: 1101px) {
+
+  .site-header {
+    min-height: 88px;
+  }
+
+  .fulfill-hero {
+    padding-top: 88px;
+  }
+
+  .hero-art {
+    top: 88px;
+  }
+
+  .hero-wash {
+    inset: 88px 0 0;
+  }
+
+  .hero-inner {
+    min-height: 522px;
+
+    /* This is the real fix: breadcrumb gets clear air below header */
+    padding-top: 34px !important;
+  }
+
+}
+
+
+/* TABLET */
+@media (min-width: 701px) and (max-width: 1100px) {
+
+  .site-header {
+    min-height: 78px;
+  }
+
+  .fulfill-hero {
+    padding-top: 78px;
+  }
+
+  .hero-art {
+    top: 78px;
+  }
+
+  .hero-wash {
+    inset: 78px 0 0;
+  }
+
+  .hero-inner {
+    min-height: 492px;
+    padding-top: 32px !important;
+  }
+
+  .breadcrumb {
+    min-height: 26px;
+  }
+
+}
+
+
+/* MOBILE */
+@media (max-width: 700px) {
+
+  .site-header {
+    min-height: 72px;
+  }
+
+  .fulfill-hero {
+    padding-top: 72px;
+  }
+
+  .hero-art {
+    top: 72px;
+  }
+
+  .hero-wash {
+    inset: 72px 0 0;
+  }
+
+  .hero-inner {
+    min-height: 468px;
+
+    padding:
+      28px
+      20px
+      28px !important;
+
+    justify-content: flex-start;
+  }
+
+  .breadcrumb {
+    min-height: 24px;
+
+    margin-bottom: auto !important;
+  }
+
+  .hero-copy {
+    margin-top: auto;
+  }
+
+}
+
+
+/* =========================================================
+   FINAL HEADER HEIGHT FIX
+   Previous issue: min-height allowed the logo + padding to make
+   the header taller than the hero offset, so the breadcrumb sat
+   underneath the real header edge.
+========================================================= */
+
+/* DESKTOP */
+@media (min-width: 1101px) {
+
+  .site-header {
+    height: 78px !important;
+    min-height: 78px !important;
+
+    padding:
+      8px
+      clamp(28px, 4vw, 70px) !important;
+
+    overflow: visible;
+  }
+
+  .brand-logo {
+    width: 105px !important;
+    max-height: 60px;
+    object-fit: contain;
+  }
+
+  .fulfill-hero {
+    padding-top: 78px !important;
+  }
+
+  .hero-art {
+    top: 78px !important;
+  }
+
+  .hero-wash {
+    inset: 78px 0 0 !important;
+  }
+
+  .hero-inner {
+    min-height: 532px !important;
+
+    padding:
+      26px
+      clamp(30px, 5.5vw, 84px)
+      36px !important;
+  }
+
+  .breadcrumb {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+
+    min-height: 22px !important;
+
+    margin: 0 0 24px 0 !important;
+    padding: 0 !important;
+
+    line-height: 1.4 !important;
+  }
+}
+
+
+/* TABLET */
+@media (min-width: 701px) and (max-width: 1100px) {
+
+  .site-header {
+    height: 72px !important;
+    min-height: 72px !important;
+
+    padding:
+      7px
+      22px !important;
+  }
+
+  .brand-logo {
+    width: 94px !important;
+    max-height: 54px;
+  }
+
+  .fulfill-hero {
+    padding-top: 72px !important;
+  }
+
+  .hero-art {
+    top: 72px !important;
+  }
+
+  .hero-wash {
+    inset: 72px 0 0 !important;
+  }
+
+  .hero-inner {
+    min-height: 498px !important;
+
+    padding:
+      24px
+      30px
+      32px !important;
+  }
+
+  .breadcrumb {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+
+    min-height: 22px !important;
+
+    margin: 0 0 22px 0 !important;
+    padding: 0 !important;
+  }
+}
+
+
+/* MOBILE */
+@media (max-width: 700px) {
+
+  .site-header {
+    height: 68px !important;
+    min-height: 68px !important;
+
+    padding:
+      6px
+      16px !important;
+  }
+
+  .brand-logo {
+    width: 84px !important;
+    max-height: 50px;
+  }
+
+  .fulfill-hero {
+    padding-top: 68px !important;
+  }
+
+  .hero-art {
+    top: 68px !important;
+  }
+
+  .hero-wash {
+    inset: 68px 0 0 !important;
+  }
+
+  .hero-inner {
+    min-height: 472px !important;
+
+    padding:
+      22px
+      18px
+      28px !important;
+  }
+
+  .breadcrumb {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+
+    min-height: 20px !important;
+
+    margin: 0 0 18px 0 !important;
+    padding: 0 !important;
+
+    line-height: 1.4 !important;
+  }
+}
