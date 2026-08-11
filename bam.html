@@ -34,7 +34,7 @@
 
   <link
     rel="stylesheet"
-    href="./css/bam.css?v=19"
+    href="./css/bam.css?v=20"
   >
 </head>
 
@@ -57,10 +57,7 @@
         >
       </a>
 
-      <nav
-        class="nav-links"
-        aria-label="Main navigation"
-      >
+      <nav class="nav-links" id="mainNav" aria-label="Main navigation">
         <a href="index.html">Home</a>
         <a href="index.html#story">About</a>
         <a href="oom.html">Oom</a>
@@ -74,6 +71,18 @@
         <a href="index.html#updates">Updates</a>
         <a href="index.html#letters">Fan Letters</a>
       </nav>
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mainNav"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
     </header>
 
@@ -560,6 +569,56 @@
     </section>
 
   </main>
+
+
+  <!-- MOBILE / TABLET NAVIGATION -->
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const mainNav = document.getElementById("mainNav");
+
+    if (menuToggle && mainNav) {
+      const closeMenu = () => {
+        mainNav.classList.remove("is-open");
+        menuToggle.classList.remove("is-active");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation menu");
+      };
+
+      menuToggle.addEventListener("click", () => {
+        const isOpen = mainNav.classList.toggle("is-open");
+
+        menuToggle.classList.toggle("is-active", isOpen);
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+        menuToggle.setAttribute(
+          "aria-label",
+          isOpen
+            ? "Close navigation menu"
+            : "Open navigation menu"
+        );
+      });
+
+      mainNav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", closeMenu);
+      });
+
+      document.addEventListener("click", (event) => {
+        if (
+          window.innerWidth <= 1100 &&
+          mainNav.classList.contains("is-open") &&
+          !mainNav.contains(event.target) &&
+          !menuToggle.contains(event.target)
+        ) {
+          closeMenu();
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 1100) {
+          closeMenu();
+        }
+      });
+    }
+  </script>
 
 </body>
 
