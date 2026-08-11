@@ -2472,3 +2472,30 @@ body {
     padding-top: 18px;
   }
 }
+
+
+/* =========================================================
+   BREADCRUMB VISIBILITY SAFETY FIX
+========================================================= */
+
+@media (min-width: 701px) {
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+    margin: 0 0 18px 0;
+    padding: 6px 0 0 0;
+    line-height: 1.5;
+    overflow: visible;
+    transform: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .breadcrumb {
+    min-height: 22px;
+    line-height: 1.5;
+    overflow: visible;
+    transform: none;
+  }
+}
