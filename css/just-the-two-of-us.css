@@ -3517,3 +3517,247 @@ body {
     height: 68px !important;
   }
 }
+
+
+
+/* =========================================================
+   V10 — FINAL MEDIA + TYPOGRAPHY POLISH
+========================================================= */
+
+/* ---------------------------------------------------------
+   SCENES WORTH RETURNING TO
+   Bigger thumbnails + consistent alignment
+--------------------------------------------------------- */
+
+.playlist-card {
+  min-height: 112px !important;
+
+  grid-template-columns:
+    150px
+    minmax(0, 1fr) !important;
+
+  gap: 18px !important;
+
+  padding: 12px !important;
+}
+
+.playlist-card img {
+  width: 150px !important;
+  height: 88px !important;
+
+  object-fit: cover !important;
+  object-position: center center !important;
+
+  border-radius: 9px !important;
+}
+
+/* Fine-tune crops for specific source photos */
+.playlist-card:nth-child(1) img {
+  object-position: center 42% !important;
+}
+
+.playlist-card:nth-child(2) img {
+  object-position: center 38% !important;
+}
+
+.playlist-card:nth-child(3) img {
+  object-position: center 44% !important;
+}
+
+.playlist-card:nth-child(4) img {
+  object-position: center 48% !important;
+}
+
+.playlist-card:nth-child(5) img,
+.playlist-card:nth-child(6) img {
+  object-position: center 42% !important;
+}
+
+.playlist-card span {
+  font-size: 0.60rem !important;
+}
+
+.playlist-card h3 {
+  font-size: 1.18rem !important;
+}
+
+.playlist-card p {
+  font-size: 0.68rem !important;
+  line-height: 1.55 !important;
+}
+
+
+/* ---------------------------------------------------------
+   BEYOND THE SCENES
+   Slightly larger text while preserving current card layout
+--------------------------------------------------------- */
+
+.story-player-copy {
+  padding:
+    22px
+    24px
+    24px !important;
+}
+
+.story-player-copy > span {
+  font-size: 0.66rem !important;
+}
+
+.story-player-copy h3 {
+  font-size: 1.55rem !important;
+  line-height: 1.12 !important;
+}
+
+.story-player-copy p {
+  font-size: 0.80rem !important;
+  line-height: 1.7 !important;
+}
+
+.story-player-copy a {
+  font-size: 0.64rem !important;
+}
+
+.soft-section .section-heading > p {
+  font-size: 0.88rem !important;
+  line-height: 1.75 !important;
+}
+
+
+/* ---------------------------------------------------------
+   WATCH FULFILL
+   Bring text scale up without changing current tile balance
+--------------------------------------------------------- */
+
+.watch-copy .section-kicker {
+  font-size: 0.70rem !important;
+}
+
+.watch-copy h2 {
+  font-size: clamp(3rem, 3.6vw, 3.9rem) !important;
+}
+
+.watch-copy .lead {
+  font-size: 1.35rem !important;
+  line-height: 1.5 !important;
+}
+
+.watch-copy p {
+  font-size: 0.96rem !important;
+  line-height: 1.85 !important;
+}
+
+.netflix-button {
+  font-size: 0.66rem !important;
+}
+
+
+/* ---------------------------------------------------------
+   TABLET
+--------------------------------------------------------- */
+
+@media (min-width: 701px) and (max-width: 1100px) {
+
+  .playlist-card {
+    grid-template-columns:
+      128px
+      minmax(0, 1fr) !important;
+
+    min-height: 104px !important;
+  }
+
+  .playlist-card img {
+    width: 128px !important;
+    height: 82px !important;
+  }
+
+  .story-player-copy h3 {
+    font-size: 1.42rem !important;
+  }
+
+  .story-player-copy p {
+    font-size: 0.76rem !important;
+  }
+
+  .watch-copy h2 {
+    font-size: clamp(2.7rem, 5vw, 3.3rem) !important;
+  }
+
+  .watch-copy .lead {
+    font-size: 1.22rem !important;
+  }
+
+  .watch-copy p {
+    font-size: 0.90rem !important;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+--------------------------------------------------------- */
+
+@media (max-width: 700px) {
+
+  .playlist-card {
+    grid-template-columns:
+      118px
+      minmax(0, 1fr) !important;
+
+    min-height: 104px !important;
+
+    gap: 14px !important;
+  }
+
+  .playlist-card img {
+    width: 118px !important;
+    height: 82px !important;
+  }
+
+  .playlist-card h3 {
+    font-size: 1.08rem !important;
+  }
+
+  .playlist-card p {
+    font-size: 0.64rem !important;
+  }
+
+  .story-player-copy {
+    padding:
+      19px
+      20px
+      21px !important;
+  }
+
+  .story-player-copy > span {
+    font-size: 0.62rem !important;
+  }
+
+  .story-player-copy h3 {
+    font-size: 1.34rem !important;
+  }
+
+  .story-player-copy p {
+    font-size: 0.74rem !important;
+  }
+
+  .story-player-copy a {
+    font-size: 0.60rem !important;
+  }
+
+  .watch-copy .section-kicker {
+    font-size: 0.66rem !important;
+  }
+
+  .watch-copy h2 {
+    font-size: 2.7rem !important;
+  }
+
+  .watch-copy .lead {
+    font-size: 1.17rem !important;
+  }
+
+  .watch-copy p {
+    font-size: 0.92rem !important;
+  }
+
+}
