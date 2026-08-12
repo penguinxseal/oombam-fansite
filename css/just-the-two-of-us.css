@@ -2953,3 +2953,90 @@ body {
     object-fit: contain !important;
   }
 }
+
+
+
+/* =========================================================
+   V7 — MOBILE HERO CENTERING + MOBILE CONTENT STACK FIX
+========================================================= */
+
+@media (max-width: 700px) {
+
+  /* HERO IMAGE
+     The banner is very wide (1495x495), so on mobile we shift
+     the crop to the right to keep both Oom and Bam more centered. */
+  .hero-art {
+    background-position: 72% center !important;
+  }
+
+  /* Keep the text readable without covering too much of the faces. */
+  .hero-wash {
+    background:
+      linear-gradient(
+        to top,
+        #fbf8f6 0%,
+        rgba(251, 248, 246, 0.96) 42%,
+        rgba(251, 248, 246, 0.48) 66%,
+        rgba(251, 248, 246, 0.10) 100%
+      ) !important;
+  }
+
+  /* MOMENTS + SOUNDTRACK
+     Force clean vertical stacking on narrow screens. */
+  .moments-soundtrack-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  .moments-column,
+  .soundtrack-card {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .playlist-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .playlist-card {
+    width: 100% !important;
+    min-width: 0 !important;
+
+    grid-template-columns:
+      88px
+      minmax(0, 1fr) !important;
+
+    gap: 12px !important;
+  }
+
+  .playlist-card img {
+    width: 88px !important;
+    height: 66px !important;
+
+    object-fit: cover !important;
+  }
+
+  .playlist-card > div {
+    min-width: 0 !important;
+  }
+
+  .playlist-card h3,
+  .playlist-card p {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .soundtrack-card {
+    position: static !important;
+    top: auto !important;
+
+    padding:
+      24px
+      20px !important;
+
+    border-radius: 18px !important;
+  }
+}
