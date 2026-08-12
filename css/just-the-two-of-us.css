@@ -3294,3 +3294,226 @@ body {
     font-size: 1.38rem !important;
   }
 }
+
+
+
+/* =========================================================
+   V9 — BANNER / NETFLIX / VIDEO PLAYERS / MOMENTS
+========================================================= */
+
+.hero-art {
+  background-image: url("../assets/images/fulfill-banner.jpg?v=3") !important;
+}
+
+/* Wider hero image on desktop */
+@media (min-width: 1101px) {
+  .hero-art {
+    width: 70% !important;
+    background-position: 52% center !important;
+  }
+
+  .hero-copy {
+    width: min(500px, 34%) !important;
+  }
+}
+
+/* Dark mode hero blend */
+.dark-theme .hero-wash {
+  background:
+    linear-gradient(
+      90deg,
+      #202126 0%,
+      rgba(32, 33, 38, 0.98) 24%,
+      rgba(32, 33, 38, 0.82) 36%,
+      rgba(32, 33, 38, 0.34) 49%,
+      rgba(32, 33, 38, 0.06) 62%,
+      rgba(32, 33, 38, 0.00) 100%
+    ) !important;
+}
+
+.dark-theme .hero-copy h1,
+.dark-theme .hero-subtitle,
+.dark-theme .eyebrow,
+.dark-theme .text-link,
+.dark-theme .breadcrumb {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.dark-theme .hero-copy h1 > strong,
+.dark-theme .hero-copy h1 em,
+.dark-theme .breadcrumb span:last-child {
+  color: #e7a3b4 !important;
+}
+
+/* Netflix tile: larger and balanced */
+@media (min-width: 1101px) {
+  .watch-grid {
+    max-width: 1160px !important;
+    grid-template-columns: minmax(420px, 1fr) minmax(360px, 430px) !important;
+    gap: 64px !important;
+  }
+
+  .netflix-feature {
+    width: min(390px, 100%) !important;
+  }
+
+  .watch-copy h2 {
+    font-size: clamp(2.6rem, 3.2vw, 3.5rem) !important;
+  }
+
+  .watch-copy p {
+    font-size: 0.88rem !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .netflix-feature {
+    width: min(330px, 94vw) !important;
+  }
+
+  .watch-copy h2 {
+    font-size: 2.35rem !important;
+  }
+
+  .watch-copy p {
+    font-size: 0.90rem !important;
+  }
+}
+
+/* Beyond the Scenes: larger YouTube player cards */
+.story-player-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.story-player-card {
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 14px 36px rgba(61, 53, 57, 0.07);
+}
+
+.story-video-shell {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #111318;
+}
+
+.story-video-shell iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.story-player-copy {
+  padding: 20px 22px 22px;
+}
+
+.story-player-copy > span {
+  color: var(--blue-deep);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.story-player-copy h3 {
+  margin: 5px 0 8px;
+  color: #40393c;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.story-player-copy p {
+  margin: 0 0 13px;
+  color: var(--text);
+  font-size: 0.70rem;
+  line-height: 1.6;
+}
+
+.story-player-copy a {
+  color: var(--pink-deep);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dark-theme .story-player-card {
+  background: #292a2f;
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+.dark-theme .story-player-copy h3 {
+  color: #f4eef0;
+}
+
+.dark-theme .story-player-copy p {
+  color: rgba(255, 255, 255, 0.64);
+}
+
+/* Scenes Worth Returning To: 6 photo links */
+.playlist-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.playlist-card {
+  grid-template-columns: 112px minmax(0, 1fr) !important;
+  gap: 14px !important;
+  padding: 10px !important;
+}
+
+.playlist-card img {
+  width: 112px !important;
+  height: 78px !important;
+  object-fit: cover !important;
+}
+
+@media (min-width: 701px) and (max-width: 1100px) {
+  .story-player-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .story-player-card:last-child {
+    grid-column: 1 / -1;
+    width: min(560px, 100%);
+    justify-self: center;
+  }
+}
+
+@media (max-width: 700px) {
+  .story-player-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .story-player-copy {
+    padding: 17px 18px 19px;
+  }
+
+  .story-player-copy h3 {
+    font-size: 1.2rem;
+  }
+
+  .playlist-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .playlist-card {
+    grid-template-columns: 96px minmax(0, 1fr) !important;
+  }
+
+  .playlist-card img {
+    width: 96px !important;
+    height: 68px !important;
+  }
+}
