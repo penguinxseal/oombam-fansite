@@ -1605,6 +1605,8 @@ body.dark-theme {
   display: block;
 }
 
+} /* END TABLET @media */
+
 
 /* =========================================================
    MOBILE
@@ -1786,6 +1788,8 @@ body.dark-theme {
   .media-card-featured .media-thumb {
   aspect-ratio: 16 / 9;
 }
+
+} /* END MOBILE @media */
 
 
 /* =========================================================
@@ -2798,14 +2802,23 @@ body {
 
 
 /* =========================================================
-   V6 — TARGETED LIVE-PAGE FIX
-   Applied to the user's current HTML/CSS files.
+   V7 — CLEAN FINAL OVERRIDES
 ========================================================= */
 
-/* 1) HEADER + BREADCRUMB
-   Keep the existing fixed header, but reserve a real safe zone
-   inside the hero before the breadcrumb. */
+/* HERO BANNER */
+.hero-art {
+  background-image:
+    url("../assets/images/fulfill-banner.jpg?v=2") !important;
+
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+
+/* HEADER / BREADCRUMB — DESKTOP */
 @media (min-width: 1101px) {
+
   .site-header {
     height: 86px !important;
     min-height: 86px !important;
@@ -2815,177 +2828,106 @@ body {
     padding-top: 86px !important;
   }
 
+  .hero-art {
+    top: 86px !important;
+  }
+
+  .hero-wash {
+    inset: 86px 0 0 !important;
+  }
+
   .hero-inner {
-    padding-top: 44px !important;
+    padding-top: 34px !important;
   }
 
   .breadcrumb {
     position: relative !important;
     top: auto !important;
     left: auto !important;
-    margin: 0 0 24px 0 !important;
-    padding: 0 !important;
+
     min-height: 24px !important;
-    line-height: 24px !important;
+
+    margin:
+      0
+      0
+      20px !important;
+
+    padding: 0 !important;
+
+    line-height: 1.45 !important;
     overflow: visible !important;
     transform: none !important;
   }
 }
 
-/* 2) NEW FULFILL HERO IMAGE
-   This must be the exact repository path:
-   assets/images/fulfill-banner.jpg */
-.hero-art {
-  background-image:
-    url("../assets/images/fulfill-banner.jpg") !important;
 
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  background-position: center center !important;
-}
-
-/* Keep the banner visible rather than washing most of it out. */
-.hero-wash {
-  background:
-    linear-gradient(
-      90deg,
-      #fbf8f6 0%,
-      rgba(251, 248, 246, 0.98) 30%,
-      rgba(251, 248, 246, 0.72) 42%,
-      rgba(251, 248, 246, 0.08) 60%,
-      rgba(251, 248, 246, 0.00) 100%
-    ) !important;
-}
-
-/* 3) NETFLIX IMAGE — SHOW THE WHOLE PORTRAIT IMAGE
-   No object-fit: cover cropping. */
+/* NETFLIX TILE — SHOW FULL IMAGE */
 .netflix-feature {
-  min-height: 360px !important;
-  background: #f6f0ec !important;
+  min-height: 0 !important;
 }
 
 .netflix-feature img {
+  display: block !important;
+
   width: 100% !important;
-  height: 360px !important;
+  height: auto !important;
   min-height: 0 !important;
+
+  aspect-ratio: auto !important;
 
   object-fit: contain !important;
   object-position: center center !important;
 
-  background: #f6f0ec !important;
+  background: #f6f0ec;
 }
 
-/* Tablet */
+
+/* TABLET */
 @media (min-width: 701px) and (max-width: 1100px) {
-  .site-header {
-    height: 78px !important;
-    min-height: 78px !important;
-  }
-
-  .fulfill-hero {
-    padding-top: 78px !important;
-  }
-
-  .hero-inner {
-    padding-top: 36px !important;
-  }
-
-  .breadcrumb {
-    position: relative !important;
-    top: auto !important;
-    margin: 0 0 20px 0 !important;
-    min-height: 22px !important;
-    line-height: 22px !important;
-    overflow: visible !important;
-  }
 
   .hero-art {
     background-position: center center !important;
-  }
-
-  .netflix-feature,
-  .netflix-feature img {
-    height: 330px !important;
-    min-height: 330px !important;
-  }
-
-  .netflix-feature img {
-    object-fit: contain !important;
-  }
-}
-
-/* Mobile */
-@media (max-width: 700px) {
-  .site-header {
-    height: 72px !important;
-    min-height: 72px !important;
-  }
-
-  .fulfill-hero {
-    padding-top: 72px !important;
-  }
-
-  .hero-inner {
-    padding-top: 30px !important;
   }
 
   .breadcrumb {
     position: relative !important;
     top: auto !important;
     left: auto !important;
-    margin: 0 0 18px 0 !important;
-    min-height: 22px !important;
-    line-height: 22px !important;
+
+    margin-bottom: 18px !important;
+
+    line-height: 1.45 !important;
     overflow: visible !important;
   }
 
-  .hero-art {
-    background-position: 58% center !important;
-  }
-
-  .netflix-feature,
-  .netflix-feature img {
-    height: 310px !important;
-    min-height: 310px !important;
-  }
-
-  .netflix-feature img {
-    object-fit: contain !important;
-  }
 }
 
 
-
-/* =========================================================
-   V7 — MOBILE HERO CENTERING + MOBILE CONTENT STACK FIX
-========================================================= */
-
+/* MOBILE */
 @media (max-width: 700px) {
 
-  /* HERO IMAGE
-     The banner is very wide (1495x495), so on mobile we shift
-     the crop to the right to keep both Oom and Bam more centered. */
   .hero-art {
     background-position: 72% center !important;
   }
 
-  /* Keep the text readable without covering too much of the faces. */
-  .hero-wash {
-    background:
-      linear-gradient(
-        to top,
-        #fbf8f6 0%,
-        rgba(251, 248, 246, 0.96) 42%,
-        rgba(251, 248, 246, 0.48) 66%,
-        rgba(251, 248, 246, 0.10) 100%
-      ) !important;
+  .breadcrumb {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+
+    margin:
+      0
+      0
+      18px !important;
+
+    line-height: 1.45 !important;
+    overflow: visible !important;
   }
 
-  /* MOMENTS + SOUNDTRACK
-     Force clean vertical stacking on narrow screens. */
   .moments-soundtrack-grid {
     display: grid !important;
     grid-template-columns: 1fr !important;
+
     gap: 28px !important;
   }
 
@@ -2998,6 +2940,7 @@ body {
   .playlist-grid {
     display: grid !important;
     grid-template-columns: 1fr !important;
+
     gap: 12px !important;
   }
 
@@ -3023,12 +2966,6 @@ body {
     min-width: 0 !important;
   }
 
-  .playlist-card h3,
-  .playlist-card p {
-    overflow-wrap: anywhere;
-    word-break: normal;
-  }
-
   .soundtrack-card {
     position: static !important;
     top: auto !important;
@@ -3038,5 +2975,12 @@ body {
       20px !important;
 
     border-radius: 18px !important;
+  }
+
+  .netflix-feature img {
+    width: 100% !important;
+    height: auto !important;
+
+    object-fit: contain !important;
   }
 }
