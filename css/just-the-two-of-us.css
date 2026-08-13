@@ -335,11 +335,8 @@ button {
 .fulfill-hero {
   position: relative;
 
-  min-height:
-    min(
-      820px,
-      92vh
-    );
+  min-height: 560px;
+  height: 560px;
 
   overflow: hidden;
 
@@ -355,13 +352,13 @@ button {
   right: 0;
   bottom: 0;
 
-  width: 60%;
+  width: 68%;
 
   background-image:
     url("../assets/images/moment-just-two.jpg");
 
   background-repeat: no-repeat;
-  background-position: center center;
+  background-position: center 48%;
   background-size: cover;
 }
 
@@ -374,14 +371,15 @@ button {
     linear-gradient(
       90deg,
       #fbf8f6 0%,
-      rgba(251, 248, 246, 0.98) 34%,
-      rgba(251, 248, 246, 0.80) 47%,
-      rgba(251, 248, 246, 0.08) 69%
+      rgba(251, 248, 246, 0.99) 28%,
+      rgba(251, 248, 246, 0.88) 38%,
+      rgba(251, 248, 246, 0.22) 55%,
+      rgba(251, 248, 246, 0.03) 70%
     ),
     linear-gradient(
       0deg,
-      rgba(251, 248, 246, 0.26),
-      transparent 40%
+      rgba(251, 248, 246, 0.16),
+      transparent 34%
     );
 }
 
@@ -396,19 +394,16 @@ button {
       100%
     );
 
-  min-height:
-    calc(
-      min(820px, 92vh) - 86px
-    );
+  min-height: calc(560px - 86px);
 
   margin:
     0
     auto;
 
   padding:
-    34px
+    26px
     clamp(30px, 5.5vw, 84px)
-    74px;
+    44px;
 
   display: flex;
   flex-direction: column;
@@ -436,15 +431,15 @@ button {
 .hero-copy {
   width:
     min(
-      600px,
-      48%
+      520px,
+      42%
     );
 
   margin-top: auto;
   margin-bottom: auto;
 
   padding:
-    58px
+    22px
     0;
 }
 
@@ -485,9 +480,9 @@ button {
 
   font-size:
     clamp(
-      4.2rem,
-      7vw,
-      7.4rem
+      3.8rem,
+      5.7vw,
+      6.1rem
     );
 }
 
@@ -498,9 +493,9 @@ button {
 
   font-size:
     clamp(
-      5.5rem,
-      8.5vw,
-      9rem
+      4.8rem,
+      7vw,
+      7.2rem
     );
 
   font-weight: 500;
@@ -518,12 +513,12 @@ button {
 }
 
 .hero-subtitle {
-  max-width: 410px;
+  max-width: 390px;
 
   margin:
     0
     0
-    30px;
+    24px;
 
   color: #625a5d;
 
@@ -533,14 +528,14 @@ button {
 
   font-size:
     clamp(
-      1.35rem,
-      2vw,
-      1.75rem
+      1.15rem,
+      1.6vw,
+      1.45rem
     );
 
   font-style: italic;
 
-  line-height: 1.45;
+  line-height: 1.42;
 }
 
 .hero-actions {
@@ -1555,13 +1550,15 @@ body.dark-theme {
   }
 
   .fulfill-hero {
+    height: 520px;
+    min-height: 520px;
     padding-top: 80px;
   }
 
   .hero-art {
     top: 80px;
-
-    width: 58%;
+    width: 64%;
+    background-position: center 48%;
   }
 
   .hero-wash {
@@ -1572,16 +1569,16 @@ body.dark-theme {
   }
 
   .hero-inner {
-    min-height: 720px;
+    min-height: calc(520px - 80px);
 
     padding:
-      28px
+      24px
       36px
-      58px;
+      40px;
   }
 
   .hero-copy {
-    width: 52%;
+    width: 48%;
   }
 
   .watch-grid {
@@ -1631,7 +1628,8 @@ body.dark-theme {
   }
 
   .fulfill-hero {
-    min-height: 760px;
+    height: auto;
+    min-height: 720px;
 
     padding-top: 72px;
   }
@@ -1677,7 +1675,7 @@ body.dark-theme {
   .hero-inner {
     min-height:
       calc(
-        760px - 72px
+        720px - 72px
       );
 
     padding:
