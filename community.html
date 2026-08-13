@@ -91,23 +91,24 @@
          HERO
     ======================================================= -->
 
-    <section class="community-hero">
+    <section class="community-hero" aria-labelledby="communityHeroTitle">
 
-      <!-- COMMUNITY BANNER -->
-      <div class="community-banner">
-        <img
-          src="assets/images/Community-banner.png"
-          alt="Community Blossoms — OomBam fan community"
-        />
-      </div>
+      <img
+        class="community-hero-image"
+        src="assets/images/Community-banner.png"
+        alt=""
+        aria-hidden="true"
+      />
 
-      <div class="community-container hero-grid">
+      <div class="community-hero-shade" aria-hidden="true"></div>
 
-        <div class="hero-copy">
+      <div class="community-container hero-overlay">
+
+        <div class="hero-copy hero-glass">
 
           <p class="eyebrow">OOMBAM COMMUNITY</p>
 
-          <h1>
+          <h1 id="communityHeroTitle">
             <span class="community-word">Community</span>
             <span class="blossoms-word">Blossoms</span>
           </h1>
@@ -130,23 +131,16 @@
 
         </div>
 
-        <!-- BLOSSOM GARDEN -->
-        <aside class="garden-card">
+        <aside class="garden-card hero-garden-card">
 
-          <span class="garden-flower">🌸</span>
+          <span class="garden-flower" aria-hidden="true">🌸</span>
 
           <h2>Our Blossom Garden</h2>
 
           <p>
-            Every letter and message
-            helps our garden bloom.
+            Every letter, message, memory, and creation
+            helps our community garden bloom.
           </p>
-
-          <strong class="garden-count">1,248</strong>
-
-          <span class="garden-label">
-            BLOSSOMS &amp; GROWING
-          </span>
 
           <a href="#blossom-wall" class="garden-btn">
             See Our Garden →
@@ -474,7 +468,7 @@
           </p>
 
           <div class="chat-rules">
-            <a href="#guidelines">Community Guidelines</a>
+            <a href="community-guidelines.html">Community Guidelines</a>
             <span>•</span>
             <span>Be kind</span>
             <span>•</span>
