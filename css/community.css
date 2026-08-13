@@ -287,214 +287,181 @@ button {
 
 
 /* =========================================================
-   HERO
+   HERO — BANNER + GLASS OVERLAYS
 ========================================================= */
 
 .community-hero {
   position: relative;
+  min-height: clamp(560px, 64vw, 820px);
+  display: flex;
+  align-items: center;
   overflow: hidden;
-  padding: 0 0 58px;
-  background:
-    radial-gradient(circle at 15% 55%, rgba(187, 222, 248, 0.34), transparent 32%),
-    radial-gradient(circle at 88% 62%, rgba(255, 201, 216, 0.38), transparent 32%),
-    linear-gradient(135deg, #f6fbff, #fffaf9 58%, #fff3f6);
+  isolation: isolate;
+  background: #eaf5ff;
 }
 
-.community-banner {
+.community-hero-image {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
   width: 100%;
-  overflow: hidden;
-  background: #fff;
-  border-bottom: 1px solid rgba(0,0,0,.05);
-}
-
-.community-banner img {
-  width: 100%;
-  height: auto;
-  max-height: 620px;
+  height: 100%;
   object-fit: cover;
   object-position: center;
 }
 
-.hero-grid {
+.community-hero-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(22, 35, 50, 0.20) 0%,
+      rgba(22, 35, 50, 0.05) 45%,
+      rgba(22, 35, 50, 0.10) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.04),
+      rgba(20,30,40,0.08)
+    );
+}
+
+.hero-overlay {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(280px, .55fr);
+  grid-template-columns: minmax(320px, 0.95fr) minmax(250px, 0.52fr);
   align-items: center;
-  gap: clamp(36px, 6vw, 92px);
-  padding-top: 54px;
+  justify-content: space-between;
+  gap: clamp(32px, 6vw, 96px);
+  padding-block: clamp(52px, 7vw, 92px);
 }
 
-.hero-copy {
-  max-width: 760px;
+.hero-glass,
+.hero-garden-card {
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.50);
+  box-shadow: 0 18px 55px rgba(28, 39, 53, 0.12);
+}
+
+.hero-glass {
+  width: min(620px, 100%);
+  padding: clamp(30px, 4vw, 52px);
+  border-radius: 28px;
+  background: rgba(255,255,255,0.64);
 }
 
 .hero-copy h1 {
   display: flex;
   flex-direction: column;
-  line-height: 0.9;
+  line-height: 0.88;
   margin-bottom: 28px;
 }
 
 .community-word {
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(3.2rem, 5vw, 5.4rem);
+  font-size: clamp(3.15rem, 5vw, 5.5rem);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
 
 .blossoms-word {
-  margin-left: 48px;
+  margin-left: 46px;
   font-family: "Great Vibes", cursive;
-  font-size: clamp(3.9rem, 6vw, 6.3rem);
+  font-size: clamp(4rem, 6vw, 6.4rem);
   font-weight: 400;
   color: var(--pink);
+  text-shadow: 0 2px 18px rgba(255,255,255,0.72);
 }
 
 .hero-lead {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(1.5rem, 2.1vw, 2.1rem);
+  font-size: clamp(1.5rem, 2vw, 2.05rem);
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.16;
 }
 
 .hero-description {
-  max-width: 560px;
-  color: var(--text-soft);
-  font-size: 0.95rem;
+  max-width: 430px;
   margin-bottom: 28px;
+  color: #536170;
+  font-size: 0.95rem;
 }
 
-/* =========================================================
-   GARDEN
-========================================================= */
+.hero-garden-card {
+  width: min(360px, 100%);
+  justify-self: end;
+  padding: 38px 32px 32px;
+  text-align: center;
+  background: rgba(255,255,255,0.58);
+  border-radius: 24px;
+}
 
 .garden-card {
-
   position: relative;
-
-  padding: 38px 30px;
-
-  text-align: center;
-
-  background:
-    rgba(255,255,255,.86);
-
-  border:
-    1px solid var(--border);
-
-  border-radius: var(--radius);
-
-  box-shadow: var(--shadow);
 }
 
 .garden-flower {
-
   position: absolute;
-
-  top: -14px;
-  right: 20px;
-
-  font-size: 1.8rem;
+  top: -16px;
+  right: 22px;
+  font-size: 2rem;
+  filter: drop-shadow(0 8px 15px rgba(107, 55, 72, 0.12));
 }
 
 .garden-card h2 {
-
-  font-family:
-    "Great Vibes",
-    cursive;
-
-  font-size: 2rem;
-
-  font-weight: 400;
-
-  color: var(--brown);
-
   margin-bottom: 14px;
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  font-weight: 400;
+  color: var(--brown);
 }
 
 .garden-card p {
-
-  max-width: 210px;
-
-  margin: 0 auto 18px;
-
-  font-size: 0.88rem;
-}
-
-.garden-count {
-
-  display: block;
-
-  font-family:
-    "Cormorant Garamond",
-    serif;
-
-  font-size: 3rem;
-
-  line-height: 1;
-
-  color: var(--pink);
-}
-
-.garden-label {
-
-  display: block;
-
-  margin: 7px 0 20px;
-
-  font-size: 0.65rem;
-
-  letter-spacing: 0.1em;
+  max-width: 270px;
+  margin: 0 auto 24px;
+  color: #536170;
+  font-size: 0.9rem;
 }
 
 .garden-btn,
 .primary-btn {
-
   display: inline-flex;
-
   align-items: center;
-
   justify-content: center;
-
   gap: 10px;
-
   padding: 12px 24px;
-
   border-radius: 8px;
-
   transition:
     transform .25s,
     box-shadow .25s;
 }
 
 .garden-btn {
-
-  color: #b74c6b;
-
-  background: #ffdce6;
+  color: #a94361;
+  background: rgba(255, 220, 230, 0.88);
+  border: 1px solid rgba(255,255,255,0.55);
 }
 
 .primary-btn {
-
   color: white;
-
   background:
     linear-gradient(
       135deg,
       var(--pink),
       #e96c91
     );
-
   box-shadow:
     0 10px 24px rgba(239,120,155,.22);
 }
 
 .primary-btn:hover,
 .garden-btn:hover {
-
   transform: translateY(-2px);
 }
 
@@ -1658,11 +1625,18 @@ button {
   }
 
   .hero-grid {
-    grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr);
+
+    grid-template-columns:
+      1fr 1.1fr;
   }
 
   .garden-card {
-    width: 100%;
+
+    grid-column:
+      1 / -1;
+
+    width: min(480px, 100%);
+
     margin-inline: auto;
   }
 
@@ -1687,38 +1661,6 @@ button {
 
 
 @media (max-width: 900px) {
-  .community-banner img {
-    max-height: 480px;
-  }
-
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
-    padding-top: 38px;
-  }
-
-  .hero-copy {
-    text-align: center;
-    margin-inline: auto;
-  }
-
-  .hero-description {
-    margin-inline: auto;
-  }
-
-  .hero-copy .primary-btn {
-    margin-inline: auto;
-  }
-
-  .blossoms-word {
-    margin-left: 0;
-  }
-
-  .garden-card {
-    max-width: 520px;
-    margin-inline: auto;
-  }
-
 
   .community-container {
 
@@ -2019,3 +1961,160 @@ button {
   }
 
 }
+
+/* =========================================================
+   HERO RESPONSIVE OVERRIDES — BANNER LAYOUT
+========================================================= */
+
+@media (max-width: 1180px) {
+  .hero-overlay {
+    grid-template-columns: minmax(300px, 1fr) minmax(240px, .55fr);
+    gap: 32px;
+  }
+
+  .hero-garden-card {
+    grid-column: auto;
+    width: min(330px, 100%);
+    margin-inline: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .community-hero {
+    min-height: auto;
+    align-items: stretch;
+  }
+
+  .community-hero-image {
+    object-position: center;
+  }
+
+  .community-hero-shade {
+    background: rgba(24, 35, 49, 0.10);
+  }
+
+  .hero-overlay {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding-block: 38px;
+    text-align: left;
+  }
+
+  .hero-glass,
+  .hero-garden-card {
+    width: min(560px, 100%);
+  }
+
+  .hero-glass {
+    justify-self: start;
+  }
+
+  .hero-garden-card {
+    justify-self: end;
+    text-align: center;
+  }
+
+  .hero-description {
+    margin-inline: 0;
+  }
+
+  .blossoms-word {
+    margin-left: 30px;
+  }
+
+  /* Disable rules from the previous mascot hero */
+  .hero-art {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .community-hero {
+    min-height: 620px;
+  }
+
+  .community-hero-image {
+    object-position: center top;
+  }
+
+  .community-hero-shade {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(20,30,40,0.04) 0%,
+        rgba(20,30,40,0.08) 45%,
+        rgba(20,30,40,0.14) 100%
+      );
+  }
+
+  .hero-overlay {
+    align-content: end;
+    gap: 12px;
+    padding-top: 130px;
+    padding-bottom: 22px;
+  }
+
+  .hero-glass,
+  .hero-garden-card {
+    width: 100%;
+    -webkit-backdrop-filter: blur(11px);
+    backdrop-filter: blur(11px);
+  }
+
+  .hero-glass {
+    padding: 24px 20px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.68);
+  }
+
+  .hero-copy h1 {
+    margin-bottom: 18px;
+  }
+
+  .community-word {
+    font-size: 2.45rem;
+  }
+
+  .blossoms-word {
+    margin-left: 18px;
+    font-size: 3.45rem;
+  }
+
+  .hero-lead {
+    font-size: 1.35rem;
+  }
+
+  .hero-description {
+    margin-bottom: 20px;
+    font-size: .84rem;
+  }
+
+  .hero-garden-card {
+    padding: 24px 20px 20px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.64);
+  }
+
+  .garden-card h2 {
+    font-size: 2rem;
+  }
+
+  .garden-card p {
+    margin-bottom: 18px;
+    font-size: .82rem;
+  }
+
+  .garden-flower {
+    top: -13px;
+    right: 18px;
+    font-size: 1.6rem;
+  }
+
+  /* Cancel legacy scaling/margins from the old mascot hero */
+  .hero-art {
+    display: none;
+    transform: none;
+    margin: 0;
+  }
+}
+
