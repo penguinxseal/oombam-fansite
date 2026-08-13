@@ -36,6 +36,38 @@
     rel="stylesheet"
     href="./css/bam.css?v=20"
   >
+
+  <style>
+    /* OomBam Society PH logo — responsive size override */
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .brand-link .logo {
+      width: clamp(155px, 12vw, 210px);
+      max-width: none;
+      height: auto;
+      max-height: 78px;
+      object-fit: contain;
+    }
+
+    @media (max-width: 1100px) {
+      .brand-link .logo {
+        width: clamp(145px, 20vw, 185px);
+        max-height: 72px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .brand-link .logo {
+        width: 145px;
+        max-height: 64px;
+      }
+    }
+  </style>
+
 </head>
 
 <body>
@@ -51,8 +83,8 @@
         aria-label="Return to OomBam homepage"
       >
         <img
-          src="assets/images/logo-icon-v2.png"
-          alt="OomBam Forever Together"
+          src="assets/images/OBSocPH-Logo-transparent.png"
+          alt="OomBam Society Philippines"
           class="logo"
         >
       </a>
@@ -69,7 +101,7 @@
         <a href="index.html#gallery">Gallery</a>
         <a href="index.html#media">Media</a>
         <a href="index.html#updates">Updates</a>
-        <a href="index.html#letters">Fan Letters</a>
+        <a href="community.html#letters">Fan Letters</a>
       </nav>
       <button
         class="menu-toggle"
