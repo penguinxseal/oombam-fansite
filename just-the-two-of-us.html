@@ -33,6 +33,53 @@
     rel="stylesheet"
     href="css/just-the-two-of-us.css?v=10"
   >
+
+  <style>
+    /* OomBam Society PH logo — responsive sizing */
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .brand .brand-logo {
+      width: clamp(155px, 12vw, 210px);
+      max-width: none;
+      height: auto;
+      max-height: 78px;
+      object-fit: contain;
+    }
+
+    .footer-brand img {
+      width: clamp(145px, 11vw, 190px);
+      max-width: none;
+      height: auto;
+      object-fit: contain;
+    }
+
+    @media (max-width: 1100px) {
+      .brand .brand-logo {
+        width: clamp(145px, 20vw, 185px);
+        max-height: 72px;
+      }
+
+      .footer-brand img {
+        width: 160px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .brand .brand-logo {
+        width: 145px;
+        max-height: 64px;
+      }
+
+      .footer-brand img {
+        width: 145px;
+      }
+    }
+  </style>
+
 </head>
 
 <body>
@@ -52,8 +99,8 @@
       aria-label="OomBam home"
     >
       <img
-        src="assets/images/logo-icon-v2.png"
-        alt="OomBam Forever Together"
+        src="assets/images/OBSocPH-Logo-transparent.png"
+        alt="OomBam Society Philippines"
         class="brand-logo"
       >
     </a>
@@ -71,7 +118,7 @@
       <a href="index.html#gallery" class="nav-link">Gallery</a>
       <a href="index.html#media" class="nav-link">Media</a>
       <a href="index.html#updates" class="nav-link">Updates</a>
-      <a href="index.html#community" class="nav-link">Blossom Community</a>
+      <a href="community.html" class="nav-link">Blossom Community</a>
     </nav>
 
 
@@ -134,7 +181,7 @@
       <a href="index.html#gallery">Gallery</a>
       <a href="index.html#media">Media</a>
       <a href="index.html#updates">Updates</a>
-      <a href="index.html#community">Blossom Community</a>
+      <a href="community.html">Blossom Community</a>
     </nav>
   </div>
 
@@ -566,8 +613,8 @@
       class="footer-brand"
     >
       <img
-        src="assets/images/logo-icon-v2.png"
-        alt="OomBam Forever Together"
+        src="assets/images/OBSocPH-Logo-transparent.png"
+        alt="OomBam Society Philippines"
       >
     </a>
 
