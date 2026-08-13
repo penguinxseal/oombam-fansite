@@ -292,7 +292,8 @@ button {
 
 .community-hero {
   position: relative;
-  min-height: clamp(620px, 56vw, 820px);
+  height: 520px;
+  min-height: 520px;
   display: flex;
   align-items: stretch;
   overflow: hidden;
@@ -307,7 +308,7 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center 48%;
 }
 
 .community-hero-shade {
@@ -343,13 +344,13 @@ button {
   justify-content: space-between;
   align-items: center;
   gap: clamp(36px, 7vw, 110px);
-  padding-block: clamp(50px, 6vw, 84px);
+  padding-block: 38px;
 }
 
 /* Main text — no box */
 .hero-copy {
-  align-self: end;
-  padding: 0 0 clamp(18px, 3vw, 42px);
+  align-self: center;
+  padding: 0;
   text-shadow:
     0 1px 0 rgba(255,255,255,.65),
     0 10px 30px rgba(255,255,255,.28);
@@ -404,10 +405,10 @@ button {
 /* Garden text — no box */
 .garden-copy {
   position: relative;
-  align-self: start;
+  align-self: center;
   justify-self: end;
   width: min(290px, 100%);
-  padding-top: clamp(10px, 2vw, 28px);
+  padding-top: 0;
   text-align: center;
   text-shadow:
     0 1px 0 rgba(255,255,255,.72),
@@ -1979,7 +1980,8 @@ button {
 
 @media (max-width: 900px) {
   .community-hero {
-    min-height: 760px;
+    height: auto;
+    min-height: 700px;
   }
 
   .community-hero-image {
@@ -2005,7 +2007,7 @@ button {
     grid-template-columns: 1fr;
     align-content: end;
     gap: 22px;
-    padding-top: 240px;
+    padding-top: 210px;
     padding-bottom: 30px;
   }
 
@@ -2034,7 +2036,8 @@ button {
 
 @media (max-width: 600px) {
   .community-hero {
-    min-height: 820px;
+    height: auto;
+    min-height: 760px;
   }
 
   .community-hero-image {
@@ -2046,7 +2049,7 @@ button {
   }
 
   .hero-text-only {
-    padding-top: 300px;
+    padding-top: 250px;
     padding-bottom: 20px;
     gap: 16px;
   }
@@ -2078,3 +2081,233 @@ button {
     font-size: .76rem;
   }
 }
+
+/* =========================================================
+   MOBILE COMMUNITY HERO + LETTER IMAGE FIX
+   - Keeps banner artwork and text from overlapping
+   - Shows the full OomBam letter thumbnail
+========================================================= */
+
+@media (max-width: 600px) {
+
+  /* HERO:
+     On phones, give the artwork its own visual area first.
+     The copy begins below the artwork instead of sitting over faces/logo. */
+
+  .community-hero {
+    position: relative;
+    display: block;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+    background: #eef8fa;
+  }
+
+  .community-hero-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: auto;
+
+    width: 100%;
+    height: 360px;
+
+    object-fit: cover;
+    object-position: center 32%;
+  }
+
+  .community-hero-shade {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: auto;
+
+    height: 360px;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(238,248,250,0.02) 0%,
+        rgba(238,248,250,0.05) 66%,
+        rgba(238,248,250,0.95) 100%
+      );
+  }
+
+  .hero-overlay {
+    width: calc(100% - 32px);
+    min-height: 0;
+  }
+
+  .hero-text-only {
+    display: block;
+
+    padding:
+      385px
+      0
+      34px;
+  }
+
+  .hero-copy {
+    width: 100%;
+    padding: 0;
+    text-align: left;
+    text-shadow: none;
+  }
+
+  .hero-copy .eyebrow {
+    margin-bottom: 8px;
+    font-size: .6rem;
+  }
+
+  .hero-copy h1 {
+    margin-bottom: 18px;
+  }
+
+  .community-word {
+    font-size: clamp(2.25rem, 11vw, 3rem);
+    line-height: .92;
+  }
+
+  .blossoms-word {
+    margin-left: 14px;
+    font-size: clamp(3rem, 15vw, 4rem);
+    line-height: .9;
+  }
+
+  .hero-lead {
+    margin-bottom: 12px;
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+
+  .hero-description {
+    max-width: 100%;
+    margin-bottom: 20px;
+    font-size: .82rem;
+    line-height: 1.65;
+  }
+
+  .primary-btn {
+    width: auto;
+    max-width: 100%;
+  }
+
+  /* Garden copy becomes a simple secondary block beneath hero copy. */
+
+  .garden-copy {
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 24px;
+
+    text-align: left;
+    text-shadow: none;
+
+    border-top:
+      1px solid rgba(116, 83, 76, 0.14);
+  }
+
+  .garden-flower {
+    margin: 0 0 4px;
+  }
+
+  .garden-copy h2 {
+    margin-bottom: 8px;
+    font-size: 2rem;
+  }
+
+  .garden-copy p {
+    max-width: 100%;
+    margin: 0 0 12px;
+    font-size: .78rem;
+  }
+
+
+  /* LETTER CARDS */
+
+  .letter-card {
+    grid-template-columns: 1fr;
+  }
+
+  .letter-photo {
+    height: 280px;
+    min-height: 0;
+  }
+
+  /* The OomBam source image is taller than the card crop.
+     Let it use its natural aspect ratio so nobody is cut off. */
+
+  .oombam-letter .letter-photo {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    background: #fff8ed;
+  }
+
+  .oombam-letter .letter-photo img {
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
+    object-position: center;
+
+    aspect-ratio: auto;
+  }
+}
+
+
+/* Extra-small phones */
+@media (max-width: 430px) {
+
+  .community-hero-image,
+  .community-hero-shade {
+    height: 330px;
+  }
+
+  .community-hero-image {
+    object-position: center 28%;
+  }
+
+  .hero-text-only {
+    padding-top: 354px;
+  }
+
+  .community-word {
+    font-size: 2.2rem;
+  }
+
+  .blossoms-word {
+    margin-left: 10px;
+    font-size: 3.15rem;
+  }
+
+  .hero-lead {
+    font-size: 1.28rem;
+  }
+}
+
+/* =========================================================
+   COMMUNITY HEADER — MATCH HOMEPAGE MENU
+========================================================= */
+
+@media (min-width: 901px) {
+  .desktop-nav {
+    gap: clamp(15px, 1.45vw, 26px);
+  }
+
+  .desktop-nav a {
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  .header-inner {
+    width: min(1540px, calc(100% - 54px));
+    gap: 26px;
+  }
+
+  .site-logo {
+    width: 120px;
+  }
+}
+
