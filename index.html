@@ -31,12 +31,12 @@
 
   <link
     rel="stylesheet"
-    href="css/global.css?v=3"
+    href="css/global.css?v=4"
   >
 
   <link
     rel="stylesheet"
-    href="css/style.css?v=10"
+    href="css/style.css?v=11"
   >
 </head>
 
@@ -82,8 +82,11 @@
 
       <button
         class="header-icon"
+        id="searchToggle"
         type="button"
-        aria-label="Search"
+        aria-label="Search site"
+        aria-expanded="false"
+        aria-controls="siteSearch"
       >
         <svg
           viewBox="0 0 24 24"
@@ -437,66 +440,7 @@
             </div>
 
 
-            <!-- OUR SOUNDTRACK MINI PLAYER -->
 
-            <div class="story-soundtrack" aria-label="OomBam soundtrack">
-
-              <div class="soundtrack-topline">
-
-                <div>
-                  <p class="soundtrack-eyebrow">
-                    Our Soundtrack
-                  </p>
-
-                  <p class="soundtrack-title">
-                    The melodies that carried the story of Fulfill.
-                  </p>
-                </div>
-
-                <span
-                  class="soundtrack-note"
-                  aria-hidden="true"
-                >
-                  ♫
-                </span>
-
-              </div>
-
-
-              <div class="soundtrack-player-shell">
-                <div id="oombamYouTubePlayer"></div>
-              </div>
-
-
-              <div class="soundtrack-bottom">
-
-                <span class="soundtrack-loop">
-                  01 → 02 → repeat
-                </span>
-
-                <span class="soundtrack-links">
-                  <a
-                    href="https://youtu.be/RHnPq3Z0A8c?si=4wHs9wk1SmEROy8O"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="soundtrack-youtube-link"
-                  >
-                    Track 01 ↗
-                  </a>
-
-                  <a
-                    href="https://youtu.be/CKclkO6HHrY?si=Mp3vlasXStTSTknn"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="soundtrack-youtube-link"
-                  >
-                    Track 02 ↗
-                  </a>
-                </span>
-
-              </div>
-
-            </div>
 
           </div>
 
@@ -509,6 +453,7 @@
 
         <aside class="upcoming-panel">
           <div class="upcoming-content compact-upcoming">
+
             <p class="upcoming-label">What's Next</p>
             <p class="upcoming-kicker">Next Event</p>
             <h3>OOMBAM</h3>
@@ -524,17 +469,59 @@
               id="eventCountdown"
               data-event-date="2026-08-15T00:00:00+08:00"
             >
-              <div class="countdown-box"><strong id="countdownDays">--</strong><span>Days</span></div>
-              <div class="countdown-box"><strong id="countdownHours">--</strong><span>Hrs</span></div>
-              <div class="countdown-box"><strong id="countdownMinutes">--</strong><span>Mins</span></div>
-              <div class="countdown-box"><strong id="countdownSeconds">--</strong><span>Secs</span></div>
+              <div class="countdown-box">
+                <strong id="countdownDays">--</strong>
+                <span>Days</span>
+              </div>
+              <div class="countdown-box">
+                <strong id="countdownHours">--</strong>
+                <span>Hrs</span>
+              </div>
+              <div class="countdown-box">
+                <strong id="countdownMinutes">--</strong>
+                <span>Mins</span>
+              </div>
+              <div class="countdown-box">
+                <strong id="countdownSeconds">--</strong>
+                <span>Secs</span>
+              </div>
             </div>
 
-            <p class="countdown-status" id="countdownStatus" aria-live="polite">
+            <p
+              class="countdown-status"
+              id="countdownStatus"
+              aria-live="polite"
+            >
               Event day • August 15, 2026 • Shanghai, China
             </p>
 
-            <a href="#updates" class="schedule-button">View Schedule →</a>
+            <div class="upcoming-updates" id="updates">
+              <div class="upcoming-updates-heading">
+                <p class="upcoming-kicker">Latest Updates</p>
+                <span>Recent</span>
+              </div>
+
+              <div class="upcoming-update-list">
+                <a href="#updates" class="upcoming-update-row">
+                  <time datetime="2026-08-21">21 AUG</time>
+                  <span>OomBam latest update</span>
+                  <strong aria-hidden="true">→</strong>
+                </a>
+
+                <a href="#updates" class="upcoming-update-row">
+                  <time datetime="2026-08-15">15 AUG</time>
+                  <span>Shanghai Private Event</span>
+                  <strong aria-hidden="true">→</strong>
+                </a>
+
+                <a href="#updates" class="upcoming-update-row">
+                  <time datetime="2026-08-08">08 AUG</time>
+                  <span>Weibo Cultural Communication Night</span>
+                  <strong aria-hidden="true">→</strong>
+                </a>
+              </div>
+            </div>
+
           </div>
         </aside>
 
@@ -571,14 +558,6 @@
 
           </div>
 
-          <a
-            href="#gallery"
-            class="moments-view-all"
-          >
-            Explore Our Moments
-            <span aria-hidden="true">→</span>
-          </a>
-
         </div>
 
 
@@ -595,11 +574,7 @@
 
           <article class="moment-card">
 
-            <a
-              href="just-the-two-of-us.html"
-              class="moment-image-link"
-              aria-label="View Just the Two of Us"
-            >
+            <div class="moment-image-link">
 
               <div class="moment-image-wrap">
 
@@ -611,15 +586,11 @@
 
               </div>
 
-            </a>
+            </div>
 
             <div class="moment-meta">
 
-              <h3>
-                <a href="just-the-two-of-us.html">
-                  Just the Two of Us
-                </a>
-              </h3>
+              <h3>Just the Two of Us</h3>
 
               <p>
                 The story, the scenes, and the moments that started it all.
@@ -636,11 +607,7 @@
 
           <article class="moment-card">
 
-            <a
-              href="#gallery"
-              class="moment-image-link"
-              aria-label="View Behind the Moments"
-            >
+            <div class="moment-image-link">
 
               <div class="moment-image-wrap">
 
@@ -652,7 +619,7 @@
 
               </div>
 
-            </a>
+            </div>
 
             <div class="moment-meta">
 
@@ -675,11 +642,7 @@
 
           <article class="moment-card">
 
-            <a
-              href="#gallery"
-              class="moment-image-link"
-              aria-label="View Sunset at the Station"
-            >
+            <div class="moment-image-link">
 
               <div class="moment-image-wrap">
 
@@ -691,7 +654,7 @@
 
               </div>
 
-            </a>
+            </div>
 
             <div class="moment-meta">
 
@@ -714,11 +677,7 @@
 
           <article class="moment-card">
 
-            <a
-              href="#gallery"
-              class="moment-image-link"
-              aria-label="View Little Things"
-            >
+            <div class="moment-image-link">
 
               <div class="moment-image-wrap">
 
@@ -730,7 +689,7 @@
 
               </div>
 
-            </a>
+            </div>
 
             <div class="moment-meta">
 
@@ -748,38 +707,6 @@
 
         </div>
 
-
-        <!-- =========================
-             MOMENTS CONTROLS
-        ========================== -->
-
-        <div
-          class="moments-controls"
-          aria-label="Moments navigation"
-        >
-
-          <button
-            type="button"
-            class="moments-arrow"
-            aria-label="Previous moments"
-          >
-            ←
-          </button>
-
-          <span class="moments-page">
-            01 / 04
-          </span>
-
-          <button
-            type="button"
-            class="moments-arrow"
-            aria-label="Next moments"
-          >
-            →
-          </button>
-
-        </div>
-
       </div>
 
     </section>
@@ -790,43 +717,106 @@
     ================================================== -->
     <section class="media-home-section" id="media">
       <div class="media-home-inner">
+
         <div class="media-home-heading">
-          <div>
-            <p class="section-label">Media</p>
-            <h2>Watch • Listen • Revisit</h2>
-          </div>
-          <p>Explore the stories, music, and moments that became part of the OomBam journey.</p>
+          <p class="section-label">Media</p>
+          <h2>Watch • Listen • Revisit</h2>
+          <p class="media-home-description">
+            Explore the stories, conversations, music, and official content surrounding OomBam and Fulfill.
+          </p>
         </div>
 
         <div class="media-home-grid">
-          <a href="just-the-two-of-us.html" class="media-home-card media-home-card-featured">
+
+          <!-- FULFILL -->
+          <a
+            href="just-the-two-of-us.html"
+            class="media-home-card media-home-card-featured media-fulfill-card"
+          >
+            <div class="media-card-image-wrap">
+              <img
+                src="assets/images/OomBam-Fan-Illustration.png"
+                alt="OomBam fan illustration inspired by Fulfill"
+                class="media-card-image"
+                loading="lazy"
+              >
+            </div>
+
             <div class="media-home-card-copy">
               <span>Fulfill</span>
               <h3>The Series</h3>
-              <p>Return to the story, scenes, music, and memories.</p>
+              <p>
+                Return to the story, behind the scenes, special content, and teasers.
+              </p>
               <strong>Explore Fulfill →</strong>
             </div>
           </a>
 
-          <a href="https://youtube.com/playlist?list=PL0VVVtBqsoupB9qJQfWYq2dB02T0OXK1P&si=GM_D3Nq5OgahClzT"
-             target="_blank" rel="noopener noreferrer" class="media-home-card">
+          <!-- INTERVIEWS -->
+          <a
+            href="https://youtube.com/playlist?list=PL0VVVtBqsoupB9qJQfWYq2dB02T0OXK1P&si=GM_D3Nq5OgahClzT"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="media-home-card media-interviews-card"
+          >
             <div class="media-home-card-copy">
-              <span>Watch</span>
+              <span>Interviews</span>
               <h3>OomBam Videos</h3>
-              <p>Official clips, moments, and playlists.</p>
-              <strong>Watch on YouTube ↗</strong>
+              <p>
+                Interviews, official clips, appearances, and videos.
+              </p>
+              <strong>Watch Videos ↗</strong>
             </div>
           </a>
 
-          <a href="#about" class="media-home-card">
-            <div class="media-home-card-copy">
-              <span>Listen</span>
-              <h3>Our Soundtrack</h3>
-              <p>The melodies that carried the story of Fulfill.</p>
-              <strong>Play the Soundtrack →</strong>
+          <!-- SOUNDTRACK -->
+          <article class="media-home-card media-soundtrack-card">
+            <div class="story-soundtrack" aria-label="OomBam soundtrack">
+
+              <div class="soundtrack-topline">
+                <div>
+                  <p class="soundtrack-eyebrow">Our Soundtrack</p>
+                  <p class="soundtrack-title">
+                    The melodies that carried the story of Fulfill.
+                  </p>
+                </div>
+
+                <span class="soundtrack-note" aria-hidden="true">♫</span>
+              </div>
+
+              <div class="soundtrack-player-shell">
+                <div id="oombamYouTubePlayer"></div>
+              </div>
+
+              <div class="soundtrack-bottom">
+                <span class="soundtrack-loop">01 → 02 → repeat</span>
+
+                <span class="soundtrack-links">
+                  <a
+                    href="https://youtu.be/RHnPq3Z0A8c?si=4wHs9wk1SmEROy8O"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="soundtrack-youtube-link"
+                  >
+                    Track 01 ↗
+                  </a>
+
+                  <a
+                    href="https://youtu.be/CKclkO6HHrY?si=Mp3vlasXStTSTknn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="soundtrack-youtube-link"
+                  >
+                    Track 02 ↗
+                  </a>
+                </span>
+              </div>
+
             </div>
-          </a>
+          </article>
+
         </div>
+
       </div>
     </section>
 
@@ -843,43 +833,60 @@
       </div>
     </section>
 
-    <!-- =================================================
-         UPDATES
-    ================================================== -->
-    <section class="updates-home-section" id="updates">
-      <div class="updates-home-inner">
-        <div class="updates-home-heading">
-          <div>
-            <p class="section-label">Latest</p>
-            <h2>Updates</h2>
-          </div>
-          <p>What’s happening in the world of OomBam.</p>
-        </div>
-
-        <div class="updates-list">
-          <article class="update-row">
-            <time datetime="2026-08-21">21 AUG</time>
-            <div><span>OomBam</span><h3>Latest OomBam update</h3></div>
-            <span aria-hidden="true">→</span>
-          </article>
-
-          <article class="update-row">
-            <time datetime="2026-08-15">15 AUG</time>
-            <div><span>Event</span><h3>Shanghai Private Event</h3></div>
-            <span aria-hidden="true">→</span>
-          </article>
-
-          <article class="update-row">
-            <time datetime="2026-08-08">08 AUG</time>
-            <div><span>OomBam</span><h3>Weibo Cultural Communication Night</h3></div>
-            <span aria-hidden="true">→</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
 
   </main>
+
+
+  <!-- ======================================================
+       SITE SEARCH
+  ======================================================= -->
+
+  <div
+    class="site-search"
+    id="siteSearch"
+    aria-hidden="true"
+  >
+    <div class="site-search-backdrop" data-search-close></div>
+
+    <section
+      class="site-search-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="siteSearchTitle"
+    >
+      <div class="site-search-top">
+        <div>
+          <p class="section-label">Search</p>
+          <h2 id="siteSearchTitle">Find your way around.</h2>
+        </div>
+
+        <button
+          type="button"
+          class="site-search-close"
+          id="searchClose"
+          aria-label="Close search"
+        >
+          ×
+        </button>
+      </div>
+
+      <label class="site-search-field">
+        <span class="sr-only">Search the OomBam fansite</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="M20 20L16.6 16.6"></path>
+        </svg>
+        <input
+          type="search"
+          id="siteSearchInput"
+          placeholder="Search Oom, Bam, Moments, Fulfill..."
+          autocomplete="off"
+        >
+      </label>
+
+      <div class="site-search-results" id="siteSearchResults"></div>
+    </section>
+  </div>
 
 
 
@@ -933,7 +940,7 @@
   ========================== -->
 
   <script src="https://www.youtube.com/iframe_api"></script>
-  <script src="js/script.js?v=7"></script>
+  <script src="js/script.js?v=8"></script>
 
   <script>
     const currentYear = document.getElementById("currentYear");
