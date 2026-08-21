@@ -4723,3 +4723,221 @@ body.dark-theme .site-search-result {
 
 }
 
+
+
+/* =========================================================
+   V13 — DESKTOP FIRST-FOLD + STORY CONTRAST + MEDIA REFINEMENT
+========================================================= */
+
+/* ---------------------------------------------------------
+   WELCOME / HERO — FIRST VIEW SHOULD BE HERO ONLY
+--------------------------------------------------------- */
+
+@media (min-width: 1101px) {
+
+  .page-home .hero {
+    /*
+      Fill the initial viewport beneath the desktop header so
+      Our Story / What's Next do not appear in the first fold.
+    */
+    height: calc(100svh - 92px);
+    min-height: 690px;
+    max-height: 920px;
+  }
+
+  .page-home .hero-content {
+    padding-top: clamp(110px, 13vh, 170px);
+  }
+
+}
+
+
+/* Mobile first fold — keep the hero as the opening screen */
+@media (max-width: 600px) {
+
+  .page-home .hero {
+    height: calc(100svh - 68px);
+    min-height: 680px;
+    max-height: none;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   OUR STORY — DARK MODE READABILITY
+--------------------------------------------------------- */
+
+body.dark-theme.page-home .story-copy,
+body.dark-theme.page-home .story-editorial,
+body.dark-theme.page-home .story-editorial p {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+body.dark-theme.page-home .story-intro {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+body.dark-theme.page-home .story-closing {
+  color: rgba(255, 255, 255, 0.64);
+}
+
+body.dark-theme.page-home .story-title,
+body.dark-theme.page-home .story-copy h2 {
+  color: #fff9fa;
+}
+
+body.dark-theme.page-home .story-kicker,
+body.dark-theme.page-home .section-label {
+  color: #8db5cc;
+}
+
+body.dark-theme.page-home .story-copy-block .primary-button {
+  color: #172029;
+  background: #a9cee5;
+}
+
+body.dark-theme.page-home .story-copy-block .primary-button:hover {
+  background: #bddbeb;
+}
+
+
+/* ---------------------------------------------------------
+   MOMENTS — SHORTER, SMALLER HEADLINE
+--------------------------------------------------------- */
+
+.page-home .moments-title {
+  max-width: 560px;
+  font-size: clamp(2.65rem, 4.2vw, 4.15rem);
+  line-height: 0.96;
+}
+
+@media (max-width: 700px) {
+  .page-home .moments-title {
+    max-width: 330px;
+    font-size: clamp(2.35rem, 10vw, 3.15rem);
+  }
+}
+
+
+/* ---------------------------------------------------------
+   MEDIA — SOUNDTRACK TILE: MORE BREATHING ROOM
+--------------------------------------------------------- */
+
+/*
+  The overall media cards stay compact, but the soundtrack card
+  gets slightly more vertical room so the YouTube controls remain
+  usable and the card does not feel cramped.
+*/
+
+.page-home .media-home-grid {
+  align-items: stretch;
+}
+
+.page-home .media-soundtrack-card {
+  min-height: 278px;
+  max-height: 294px;
+}
+
+.page-home .media-soundtrack-card .story-soundtrack {
+  padding: 16px 16px 14px;
+}
+
+.page-home .media-soundtrack-card .soundtrack-topline {
+  min-height: 46px;
+  margin-bottom: 8px;
+}
+
+.page-home .media-soundtrack-card .soundtrack-title {
+  max-width: 230px;
+  font-size: 0.86rem;
+  line-height: 1.22;
+}
+
+.page-home .media-soundtrack-card .soundtrack-note {
+  width: 30px;
+  height: 30px;
+}
+
+.page-home .media-soundtrack-card .soundtrack-player-shell {
+  flex: 0 0 auto;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  margin-top: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.page-home .media-soundtrack-card #oombamYouTubePlayer,
+.page-home .media-soundtrack-card #oombamYouTubePlayer iframe {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+}
+
+.page-home .media-soundtrack-card .soundtrack-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 7px;
+  min-height: 16px;
+}
+
+.page-home .media-soundtrack-card .soundtrack-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-home .media-soundtrack-card .soundtrack-youtube-link {
+  font-size: 0.54rem;
+  letter-spacing: 0.04em;
+}
+
+
+/* Keep the other two cards compact */
+.page-home .media-fulfill-card,
+.page-home .media-interviews-card {
+  min-height: 228px;
+  max-height: 250px;
+}
+
+
+/* Mobile — soundtrack gets enough room for native YouTube controls */
+@media (max-width: 700px) {
+
+  .page-home .media-soundtrack-card {
+    min-height: 0;
+    max-height: none;
+  }
+
+  .page-home .media-soundtrack-card .soundtrack-player-shell {
+    aspect-ratio: 16 / 9;
+  }
+
+  .page-home .media-soundtrack-card .soundtrack-bottom {
+    justify-content: flex-start;
+  }
+
+}
+
+
+/* =========================================================
+   V13.1 — MOBILE HERO FOCAL POINT REFINEMENT
+   Show more of Oom on the right while keeping Bam visible.
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .page-home .hero-background {
+    /*
+      Shift the crop toward the right side of the source image.
+      Higher X-position reveals more of Oom while preserving Bam.
+    */
+    background-position: 72% center;
+  }
+
+}
