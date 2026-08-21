@@ -5426,3 +5426,293 @@ body.dark-theme.page-home .footer-message {
   }
 
 }
+
+
+/* =========================================================
+   V13.5 — MOMENTS COPY + FOOTER BALANCE + DARK UPCOMING
+========================================================= */
+
+/* ---------------------------------------------------------
+   MOMENTS — NEW HEADING + SUPPORTING NARRATIVE
+--------------------------------------------------------- */
+
+.page-home .moments-intro {
+  align-items: flex-start;
+}
+
+.page-home .moments-intro > div {
+  max-width: 720px;
+}
+
+.page-home .moments-heading {
+  max-width: 520px;
+
+  font-size:
+    clamp(
+      2.55rem,
+      3.5vw,
+      3.75rem
+    );
+
+  line-height: 1;
+}
+
+.page-home .moments-description {
+  max-width: 620px;
+
+  margin:
+    16px
+    0
+    0;
+
+  color: #666b70;
+
+  font-size: 0.88rem;
+  line-height: 1.72;
+}
+
+body.dark-theme.page-home .moments-description {
+  color: rgba(255, 255, 255, 0.70);
+}
+
+
+/* ---------------------------------------------------------
+   MEDIA — KEEP CTA VISIBLE INSIDE FULFILL CARD
+--------------------------------------------------------- */
+
+@media (min-width: 901px) {
+
+  .page-home .media-fulfill-card {
+    height: 294px;
+    min-height: 294px;
+    max-height: 294px;
+  }
+
+  .page-home .media-fulfill-card .media-card-image-wrap {
+    flex: 0 0 150px;
+    height: 150px;
+    min-height: 150px;
+  }
+
+  .page-home .media-fulfill-card .media-home-card-copy {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
+
+    padding:
+      12px
+      18px
+      14px;
+  }
+
+  .page-home .media-fulfill-card .media-home-card-copy p {
+    margin-bottom: 6px;
+  }
+
+  .page-home .media-fulfill-card .media-home-card-copy strong {
+    display: block;
+
+    margin-top: auto;
+
+    color: #cf788e;
+
+    font-size: 0.56rem;
+    line-height: 1.2;
+  }
+
+}
+
+body.dark-theme.page-home
+.media-fulfill-card
+.media-home-card-copy strong {
+  color: #f1a1b3;
+}
+
+
+/* ---------------------------------------------------------
+   WHAT'S NEXT — PARTICIPATES IN DARK MODE
+--------------------------------------------------------- */
+
+body.dark-theme.page-home .upcoming-panel {
+  color: #f6f2f3;
+
+  background: #1f2024;
+
+  border-left-color:
+    rgba(255, 255, 255, 0.07);
+
+  box-shadow: none;
+}
+
+body.dark-theme.page-home .upcoming-panel h3,
+body.dark-theme.page-home .event-name {
+  color: #fffafb;
+}
+
+body.dark-theme.page-home .upcoming-label,
+body.dark-theme.page-home .upcoming-kicker,
+body.dark-theme.page-home .event-meta-line,
+body.dark-theme.page-home .countdown-box span,
+body.dark-theme.page-home .upcoming-update-row time {
+  color: #8db5cc;
+}
+
+body.dark-theme.page-home .event-subtitle,
+body.dark-theme.page-home .countdown-status {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+body.dark-theme.page-home .compact-countdown,
+body.dark-theme.page-home .upcoming-updates,
+body.dark-theme.page-home .upcoming-update-list,
+body.dark-theme.page-home .upcoming-update-row {
+  border-color:
+    rgba(255, 255, 255, 0.09);
+}
+
+body.dark-theme.page-home
+.compact-countdown
+.countdown-box {
+  border-right-color:
+    rgba(255, 255, 255, 0.09);
+}
+
+body.dark-theme.page-home
+.compact-countdown
+strong {
+  color: #fffafb;
+}
+
+body.dark-theme.page-home .upcoming-update-row {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+body.dark-theme.page-home
+.upcoming-updates-heading > span {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+
+/* ---------------------------------------------------------
+   FOOTER — CLEANER, MORE INTENTIONAL ALIGNMENT
+--------------------------------------------------------- */
+
+.page-home .site-footer {
+  padding:
+    16px
+    0
+    10px;
+}
+
+.page-home .footer-inner {
+  display: grid;
+
+  grid-template-columns:
+    92px
+    minmax(240px, 1fr)
+    auto;
+
+  align-items: center;
+
+  column-gap: 28px;
+}
+
+.page-home .footer-logo {
+  width: 82px;
+}
+
+.page-home .footer-main-copy {
+  justify-self: start;
+
+  margin: 0;
+
+  font-size: 0.74rem;
+  line-height: 1.45;
+
+  text-align: left;
+}
+
+.page-home .footer-message {
+  justify-self: end;
+
+  margin: 0;
+
+  font-size: 1.28rem;
+
+  white-space: nowrap;
+}
+
+.page-home .footer-bottom {
+  margin-top: 8px;
+
+  padding-top: 8px;
+
+  border-top:
+    1px solid rgba(83, 72, 77, 0.06);
+
+  font-size: 0.64rem;
+
+  text-align: center;
+}
+
+body.dark-theme.page-home .footer-bottom {
+  border-top-color:
+    rgba(255, 255, 255, 0.06);
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE / TABLET
+--------------------------------------------------------- */
+
+@media (max-width: 900px) {
+
+  .page-home .moments-description {
+    font-size: 0.84rem;
+  }
+
+  .page-home .footer-inner {
+    grid-template-columns: 1fr;
+
+    justify-items: center;
+
+    row-gap: 9px;
+
+    text-align: center;
+  }
+
+  .page-home .footer-main-copy,
+  .page-home .footer-message {
+    justify-self: center;
+
+    text-align: center;
+  }
+
+  .page-home .footer-message {
+    white-space: normal;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .page-home .moments-heading {
+    font-size:
+      clamp(
+        2.35rem,
+        10vw,
+        3rem
+      );
+  }
+
+  .page-home .moments-description {
+    max-width: 330px;
+
+    margin-top: 12px;
+
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+
+}
