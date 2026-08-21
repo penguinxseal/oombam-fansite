@@ -5716,3 +5716,84 @@ body.dark-theme.page-home .footer-bottom {
   }
 
 }
+
+
+/* =========================================================
+   V13.6 — MOBILE HERO SOCIAL LINKS HOTFIX
+   Keep all four official OomBam social icons visible.
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .page-home .hero-socials {
+    position: absolute;
+
+    top: auto;
+    right: auto;
+    bottom: 14px;
+    left: 50%;
+
+    z-index: 30;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    width: auto;
+    max-width: calc(100% - 32px);
+
+    gap: 14px;
+
+    transform: translateX(-50%);
+  }
+
+  .page-home .hero-socials .social-line {
+    display: none;
+  }
+
+  .page-home .hero-socials .social-icon {
+    display: grid;
+    place-items: center;
+
+    flex: 0 0 38px;
+
+    width: 38px;
+    height: 38px;
+
+    margin: 0;
+    padding: 0;
+
+    color: rgba(255, 255, 255, 0.94);
+  }
+
+  .page-home .hero-socials .social-icon svg {
+    display: block;
+
+    width: 21px;
+    height: 21px;
+  }
+
+}
+
+
+/* Extra breathing room for narrow phones */
+@media (max-width: 390px) {
+
+  .page-home .hero-socials {
+    gap: 10px;
+  }
+
+  .page-home .hero-socials .social-icon {
+    flex-basis: 36px;
+
+    width: 36px;
+    height: 36px;
+  }
+
+  .page-home .hero-socials .social-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+}
