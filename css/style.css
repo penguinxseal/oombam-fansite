@@ -6152,3 +6152,88 @@ body.dark-theme.page-home .footer-bottom {
   }
 
 }
+
+
+/* =========================================================
+   V13.7.1 — LANDSCAPE HERO SOCIAL ICON FIX
+   Landscape phones can be wider than 600px, so explicitly
+   switch the hero socials to the mobile horizontal layout.
+========================================================= */
+
+@media
+  (max-width: 1100px)
+  and (max-height: 600px)
+  and (orientation: landscape) {
+
+  .page-home .hero-socials {
+    position: absolute;
+
+    top: auto;
+    right: auto;
+    bottom: 14px;
+    left: 50%;
+
+    z-index: 30;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    width: auto;
+    max-width: calc(100% - 40px);
+
+    gap: 14px;
+
+    transform: translateX(-50%);
+  }
+
+  .page-home .hero-socials .social-line {
+    display: none;
+  }
+
+  .page-home .hero-socials .social-icon {
+    display: grid;
+    place-items: center;
+
+    flex: 0 0 36px;
+
+    width: 36px;
+    height: 36px;
+
+    margin: 0;
+    padding: 0;
+
+    color: rgba(255,255,255,.94);
+  }
+
+  .page-home .hero-socials .social-icon svg {
+    display: block;
+
+    width: 20px;
+    height: 20px;
+  }
+
+}
+
+
+/* Extra-short landscape phones */
+@media
+  (max-width: 900px)
+  and (max-height: 450px)
+  and (orientation: landscape) {
+
+  .page-home .hero-socials {
+    bottom: 10px;
+
+    gap: 10px;
+  }
+
+  .page-home .hero-socials .social-icon {
+    flex-basis: 34px;
+
+    width: 34px;
+    height: 34px;
+  }
+
+}
