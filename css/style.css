@@ -5119,3 +5119,310 @@ html:has(body.dark-theme) {
     background: #1f2024 !important;
   }
 }
+
+
+/* =========================================================
+   V13.4 — BLOSSOMS / MEDIA / FOOTER REFINEMENT
+========================================================= */
+
+/* ---------------------------------------------------------
+   BLOSSOMS — LEFT-ALIGNED EDITORIAL HEADER
+--------------------------------------------------------- */
+
+.page-home .blossoms-home-section {
+  padding:
+    50px
+    clamp(38px, 5vw, 70px);
+
+  text-align: left;
+}
+
+.page-home .blossoms-home-inner {
+  max-width: 760px;
+  margin-inline: 0;
+}
+
+.page-home .blossoms-home-section .section-label {
+  margin-bottom: 16px;
+  font-size: 0.76rem;
+}
+
+.page-home .blossoms-home-section h2 {
+  max-width: 680px;
+  margin: 0;
+
+  font-size:
+    clamp(
+      2.7rem,
+      3.5vw,
+      3.8rem
+    );
+
+  line-height: 1.02;
+}
+
+.page-home .blossoms-home-section p:not(.section-label) {
+  max-width: 650px;
+
+  margin:
+    22px
+    0
+    24px;
+
+  color: #5f6662;
+
+  font-size: 0.90rem;
+  line-height: 1.82;
+}
+
+.page-home .blossoms-home-link {
+  font-size: 0.72rem;
+}
+
+
+/* ---------------------------------------------------------
+   MEDIA — GIVE FULFILL IMAGE MORE VISUAL WEIGHT
+--------------------------------------------------------- */
+
+@media (min-width: 901px) {
+
+  .page-home .media-fulfill-card {
+    grid-template-rows: none;
+  }
+
+  .page-home .media-fulfill-card .media-card-image-wrap {
+    flex:
+      0
+      0
+      162px;
+
+    height: 162px;
+    min-height: 162px;
+  }
+
+  .page-home .media-fulfill-card .media-home-card-copy {
+    flex: 1 1 auto;
+
+    padding:
+      14px
+      18px
+      16px;
+  }
+
+  .page-home .media-fulfill-card .media-home-card-copy h3 {
+    margin:
+      2px
+      0
+      4px;
+
+    font-size: 1.30rem;
+  }
+
+  .page-home .media-fulfill-card .media-home-card-copy p {
+    margin-bottom: 8px;
+
+    font-size: 0.64rem;
+    line-height: 1.42;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   DARK MODE — MEDIA + BLOSSOMS JOIN THE DARK CANVAS
+--------------------------------------------------------- */
+
+body.dark-theme.page-home .media-home-section,
+body.dark-theme.page-home .blossoms-home-section {
+  background: #1f2024;
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+body.dark-theme.page-home .media-home-heading h2,
+body.dark-theme.page-home .blossoms-home-section h2 {
+  color: #fffafb;
+}
+
+body.dark-theme.page-home .media-home-description,
+body.dark-theme.page-home .blossoms-home-section p:not(.section-label) {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+body.dark-theme.page-home .media-home-card {
+  background: #24262b;
+  border-color: rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0
+    12px
+    28px
+    rgba(0, 0, 0, 0.14);
+}
+
+body.dark-theme.page-home .media-home-card-featured,
+body.dark-theme.page-home .media-interviews-card {
+  background:
+    linear-gradient(
+      145deg,
+      #24262b,
+      #202226
+    );
+}
+
+body.dark-theme.page-home .media-home-card-copy h3 {
+  color: #fffafb;
+}
+
+body.dark-theme.page-home .media-home-card-copy p {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+body.dark-theme.page-home .blossoms-home-link {
+  color: #a9cba0;
+
+  border-bottom-color:
+    rgba(169, 203, 160, 0.32);
+}
+
+
+/* ---------------------------------------------------------
+   FOOTER — COMPACT + SAME DARK CANVAS
+--------------------------------------------------------- */
+
+.page-home .site-footer {
+  margin:
+    28px
+    clamp(28px, 4vw, 54px)
+    0;
+
+  padding:
+    18px
+    0
+    12px;
+}
+
+.page-home .footer-inner {
+  grid-template-columns:
+    auto
+    1fr
+    auto;
+
+  gap: 22px;
+}
+
+.page-home .footer-logo {
+  width: 92px;
+}
+
+.page-home .footer-main-copy {
+  color: #596066;
+
+  font-size: 0.74rem;
+  line-height: 1.55;
+}
+
+.page-home .footer-message {
+  font-size: 1.32rem;
+}
+
+.page-home .footer-bottom {
+  margin-top: 10px;
+
+  color: #7d8388;
+
+  font-size: 0.66rem;
+  line-height: 1.45;
+}
+
+
+/* Dark footer should visually disappear into shell */
+body.dark-theme.page-home .site-footer {
+  color: rgba(255, 255, 255, 0.74);
+
+  background: #1f2024;
+
+  border-top-color:
+    rgba(255, 255, 255, 0.07);
+}
+
+body.dark-theme.page-home .footer-main-copy {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+body.dark-theme.page-home .footer-bottom {
+  color: rgba(255, 255, 255, 0.48);
+}
+
+body.dark-theme.page-home .footer-message {
+  color: #a9cee5;
+}
+
+
+/* ---------------------------------------------------------
+   TABLET / MOBILE
+--------------------------------------------------------- */
+
+@media (max-width: 900px) {
+
+  .page-home .blossoms-home-section {
+    padding:
+      44px
+      24px;
+  }
+
+  .page-home .blossoms-home-section h2 {
+    font-size:
+      clamp(
+        2.45rem,
+        8vw,
+        3.15rem
+      );
+  }
+
+  .page-home .blossoms-home-section p:not(.section-label) {
+    margin-top: 18px;
+    font-size: 0.86rem;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .page-home .blossoms-home-section {
+    padding:
+      42px
+      22px;
+  }
+
+  .page-home .footer-inner {
+    grid-template-columns: 1fr;
+
+    justify-items: center;
+
+    gap: 10px;
+
+    text-align: center;
+  }
+
+  .page-home .footer-logo {
+    width: 84px;
+  }
+
+  .page-home .footer-main-copy {
+    max-width: 320px;
+
+    font-size: 0.70rem;
+  }
+
+  .page-home .footer-message {
+    font-size: 1.22rem;
+  }
+
+  .page-home .footer-bottom {
+    margin-top: 8px;
+
+    font-size: 0.62rem;
+  }
+
+}
