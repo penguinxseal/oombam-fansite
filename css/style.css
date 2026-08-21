@@ -4470,3 +4470,256 @@ body.dark-theme .site-search-result {
     border-radius: 16px;
   }
 }
+
+
+/* =========================================================
+   V12 — MOBILE HERO + COMPACT MEDIA + PLAYER FIX SUPPORT
+========================================================= */
+
+/* ---------------------------------------------------------
+   MOBILE HERO — RESTORE THE BETTER FACE CROP
+   Keep text low without pushing the image off-screen.
+--------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+  .page-home .hero {
+    min-height: 720px;
+    background: #15181d;
+  }
+
+  .page-home .hero-background {
+    /*
+      Revert to the earlier focal point that showed both faces.
+      The previous 38% rule shifted the crop too far.
+    */
+    background-position: 61% center;
+    background-size: cover;
+  }
+
+  .page-home .hero-overlay {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(8, 10, 14, 0.02) 0%,
+        rgba(8, 10, 14, 0.02) 47%,
+        rgba(8, 10, 14, 0.34) 65%,
+        rgba(8, 10, 14, 0.88) 100%
+      );
+  }
+
+  .page-home .hero-content {
+    bottom: 12px;
+    padding:
+      0
+      22px
+      20px;
+  }
+
+  .page-home .hero-title {
+    font-size:
+      clamp(
+        3.65rem,
+        16vw,
+        4.65rem
+      );
+  }
+
+  .page-home .hero-description {
+    max-width: 320px;
+    font-size: 0.82rem;
+    line-height: 1.48;
+  }
+
+  .page-home .hero-hashtags {
+    margin-bottom: 13px;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   MEDIA — CUT CARD HEIGHT APPROXIMATELY IN HALF
+--------------------------------------------------------- */
+
+.page-home .media-home-section {
+  padding-top: 44px;
+  padding-bottom: 44px;
+}
+
+.page-home .media-home-heading {
+  margin-bottom: 22px;
+}
+
+.page-home .media-home-grid {
+  gap: 16px;
+}
+
+.page-home .media-home-card {
+  min-height: 228px;
+  max-height: 250px;
+}
+
+.page-home .media-home-card-copy {
+  padding:
+    17px
+    19px
+    18px;
+}
+
+.page-home .media-home-card-copy h3 {
+  margin:
+    3px
+    0
+    5px;
+
+  font-size: 1.38rem;
+}
+
+.page-home .media-home-card-copy p {
+  margin-bottom: 11px;
+
+  font-size: 0.67rem;
+  line-height: 1.45;
+}
+
+.page-home .media-home-card-copy strong {
+  font-size: 0.56rem;
+}
+
+
+/* Fulfill — compact visual card */
+
+.page-home .media-fulfill-card {
+  grid-template-rows:
+    118px
+    1fr;
+}
+
+.page-home .media-card-image {
+  object-position: center 34%;
+}
+
+
+/* Interviews */
+
+.page-home .media-interviews-card {
+  min-height: 228px;
+}
+
+.page-home .media-interviews-card .media-home-card-copy {
+  padding: 25px 22px;
+}
+
+
+/* Soundtrack — preserve its character, shrink the player */
+
+.page-home .media-soundtrack-card {
+  min-height: 228px;
+  max-height: 250px;
+}
+
+.page-home .media-soundtrack-card .story-soundtrack {
+  display: flex;
+  flex-direction: column;
+
+  padding: 15px;
+
+  overflow: hidden;
+}
+
+.page-home .media-soundtrack-card .soundtrack-topline {
+  align-items: flex-start;
+}
+
+.page-home .media-soundtrack-card .soundtrack-eyebrow {
+  margin-bottom: 2px;
+
+  font-size: 0.54rem;
+}
+
+.page-home .media-soundtrack-card .soundtrack-title {
+  max-width: 210px;
+
+  font-size: 0.88rem;
+  line-height: 1.18;
+}
+
+.page-home .media-soundtrack-card .soundtrack-note {
+  width: 30px;
+  height: 30px;
+
+  font-size: 0.72rem;
+}
+
+.page-home .media-soundtrack-card .soundtrack-player-shell {
+  flex: 0 0 112px;
+
+  height: 112px;
+  min-height: 112px;
+
+  margin-top: 8px;
+
+  border-radius: 9px;
+}
+
+.page-home .media-soundtrack-card #oombamYouTubePlayer,
+.page-home .media-soundtrack-card #oombamYouTubePlayer iframe {
+  width: 100% !important;
+  height: 100% !important;
+
+  border-radius: 9px;
+}
+
+.page-home .media-soundtrack-card .soundtrack-bottom {
+  margin-top: 6px;
+
+  font-size: 0.50rem;
+}
+
+.page-home .media-soundtrack-card .soundtrack-links {
+  gap: 8px;
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE MEDIA
+--------------------------------------------------------- */
+
+@media (max-width: 700px) {
+
+  .page-home .media-home-section {
+    padding:
+      40px
+      18px;
+  }
+
+  .page-home .media-home-card {
+    min-height: 210px;
+    max-height: none;
+  }
+
+  .page-home .media-fulfill-card {
+    grid-template-rows:
+      132px
+      auto;
+  }
+
+  .page-home .media-interviews-card {
+    min-height: 190px;
+  }
+
+  .page-home .media-soundtrack-card {
+    min-height: 244px;
+    max-height: none;
+  }
+
+  .page-home .media-soundtrack-card .soundtrack-player-shell {
+    flex-basis: 124px;
+
+    height: 124px;
+    min-height: 124px;
+  }
+
+}
+
