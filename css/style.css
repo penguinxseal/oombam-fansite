@@ -5797,3 +5797,39 @@ body.dark-theme.page-home .footer-bottom {
   }
 
 }
+
+
+/* =========================================================
+   V13.6.1 — MOBILE SOCIAL ROW SPACING FIX
+   Move social links below the CTA so they do not overlap text.
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .page-home .hero-content {
+    /* Reserve enough room for CTA + social row */
+    padding-bottom: 132px;
+  }
+
+  .page-home .hero-socials {
+    bottom: 18px;
+  }
+
+  .page-home .hero-cta,
+  .page-home .hero-button,
+  .page-home .hero-content .primary-button {
+    position: relative;
+    z-index: 31;
+  }
+
+}
+
+
+/* Slightly tighter spacing on very narrow screens */
+@media (max-width: 390px) {
+
+  .page-home .hero-content {
+    padding-bottom: 126px;
+  }
+
+}
