@@ -760,3 +760,161 @@ document.addEventListener(
   }
 );
 
+
+
+/* =========================================================
+   OUR SOUNDTRACK — YOUTUBE MINI PLAYER
+   Robust loader for the Media soundtrack card
+========================================================= */
+
+const OOMBAM_SOUNDTRACK = [
+  "RHnPq3Z0A8c",
+  "CKclkO6HHrY"
+];
+
+let oombamYouTubePlayer = null;
+let oombamYouTubePlayerStarted = false;
+
+
+function initOomBamYouTubePlayer() {
+
+  const playerTarget =
+    document.getElementById(
+      "oombamYouTubePlayer"
+    );
+
+  if (
+    !playerTarget ||
+    oombamYouTubePlayerStarted ||
+    !window.YT ||
+    !window.YT.Player
+  ) {
+    return;
+  }
+
+  oombamYouTubePlayerStarted = true;
+
+  oombamYouTubePlayer =
+    new window.YT.Player(
+      "oombamYouTubePlayer",
+      {
+        width: "100%",
+        height: "100%",
+
+        videoId:
+          OOMBAM_SOUNDTRACK[0],
+
+        playerVars: {
+          autoplay: 0,
+          controls: 1,
+          rel: 0,
+          playsinline: 1,
+          modestbranding: 1,
+          origin:
+            window.location.origin
+        },
+
+        events: {
+
+          onReady: (event) => {
+
+            event.target.cuePlaylist({
+              playlist:
+                OOMBAM_SOUNDTRACK,
+              index: 0
+            });
+
+            event.target.setLoop(true);
+          },
+
+
+          onStateChange: (event) => {
+
+            if (
+              event.data ===
+                window.YT.PlayerState.ENDED
+            ) {
+
+              /*
+                Keep the two-track playlist
+                moving continuously.
+              */
+
+              event.target.nextVideo();
+            }
+          }
+
+        }
+      }
+    );
+}
+
+
+/*
+  The YouTube iframe API calls this
+  global callback after it is ready.
+*/
+
+window.onYouTubeIframeAPIReady =
+  function () {
+    initOomBamYouTubePlayer();
+  };
+
+
+function loadOomBamYouTubeAPI() {
+
+  const playerTarget =
+    document.getElementById(
+      "oombamYouTubePlayer"
+    );
+
+  if (!playerTarget) {
+    return;
+  }
+
+
+  /*
+    API may already be available from
+    a browser cache or another embed.
+  */
+
+  if (
+    window.YT &&
+    window.YT.Player
+  ) {
+
+    initOomBamYouTubePlayer();
+
+    return;
+  }
+
+
+  /*
+    Prevent duplicate API scripts.
+  */
+
+  if (
+    document.querySelector(
+      'script[src="https://www.youtube.com/iframe_api"]'
+    )
+  ) {
+    return;
+  }
+
+
+  const youtubeApiScript =
+    document.createElement("script");
+
+  youtubeApiScript.src =
+    "https://www.youtube.com/iframe_api";
+
+  youtubeApiScript.async = true;
+
+  document.head.appendChild(
+    youtubeApiScript
+  );
+}
+
+
+loadOomBamYouTubeAPI();
+
