@@ -5879,3 +5879,276 @@ body.dark-theme.page-home .footer-bottom {
   }
 
 }
+
+
+/* =========================================================
+   V13.7 — MOBILE LANDSCAPE + COMPACT SCROLLABLE NAV
+   Fix horizontal clipping on landscape phones and make the
+   navigation drawer smaller, contained, and scrollable.
+========================================================= */
+
+/* ---------------------------------------------------------
+   MOBILE / TABLET NAV — COMPACT SCROLLABLE DRAWER
+--------------------------------------------------------- */
+@media (max-width: 1100px) {
+
+  .page-home .mobile-menu.is-open {
+    align-items: flex-start;
+    justify-content: flex-end;
+
+    padding: 12px;
+
+    overflow: hidden;
+  }
+
+  .page-home .mobile-menu-panel {
+    width: min(68vw, 300px);
+    height: auto;
+    max-height: calc(100dvh - 24px);
+
+    margin: 0;
+
+    padding:
+      72px
+      24px
+      20px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+
+    border-radius: 18px;
+
+    scrollbar-width: thin;
+  }
+
+  .page-home .mobile-menu-panel a {
+    flex: 0 0 auto;
+
+    padding: 9px 0;
+
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   LANDSCAPE PHONES / SHORT TABLETS
+--------------------------------------------------------- */
+@media
+  (max-width: 1100px)
+  and (max-height: 600px)
+  and (orientation: landscape) {
+
+  html,
+  body.page-home {
+    max-width: 100%;
+
+    overflow-x: hidden;
+  }
+
+  body.page-home {
+    padding:
+      8px
+      8px
+      14px;
+  }
+
+  .page-home .home-shell {
+    width: 100%;
+    max-width: 100%;
+
+    overflow-x: hidden;
+
+    border-radius: 16px;
+  }
+
+  /* HEADER */
+  .page-home .site-header,
+  .page-home .site-header.is-scrolled {
+    min-height: 58px;
+
+    padding:
+      5px
+      14px;
+  }
+
+  .page-home .brand-logo,
+  .page-home .site-header.is-scrolled .brand-logo {
+    width: 70px;
+    max-height: 46px;
+  }
+
+  .page-home .header-actions {
+    gap: 6px;
+  }
+
+  /* HERO — do not let portrait copy consume excessive height */
+  .page-home .hero {
+    min-height: max(410px, calc(100svh - 58px));
+
+    margin:
+      0
+      12px;
+  }
+
+  .page-home .hero-content {
+    max-width: 410px;
+
+    margin-left: 32px;
+
+    padding-top: 62px;
+    padding-bottom: 52px;
+  }
+
+  .page-home .hero-title {
+    font-size:
+      clamp(
+        3.6rem,
+        10vw,
+        5rem
+      );
+  }
+
+  .page-home .hero-description {
+    max-width: 360px;
+
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  /* STORY / WHAT'S NEXT
+     Collapse inner story columns so nothing extends past viewport. */
+  .page-home .story-section,
+  .page-home .moments-section,
+  .page-home .placeholder-section {
+    width: auto;
+    max-width: 100%;
+
+    margin-inline: 12px;
+  }
+
+  .page-home .story-grid,
+  .page-home .story-panel {
+    grid-template-columns: 1fr;
+
+    min-width: 0;
+    min-height: auto;
+  }
+
+  .page-home .story-panel {
+    gap: 28px;
+
+    padding:
+      38px
+      32px;
+  }
+
+  .page-home .story-copy-block,
+  .page-home .story-photo-wrap,
+  .page-home .story-photo-frame,
+  .page-home .upcoming-panel,
+  .page-home .upcoming-content,
+  .page-home .compact-upcoming {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .page-home .story-photo-frame {
+    width: min(360px, 58vw);
+
+    margin-inline: auto;
+  }
+
+  .page-home .upcoming-content {
+    padding:
+      34px
+      30px;
+  }
+
+  .page-home .compact-countdown {
+    width: 100%;
+
+    grid-template-columns:
+      repeat(
+        4,
+        minmax(0, 1fr)
+      );
+  }
+
+  .page-home .compact-countdown .countdown-box {
+    min-width: 0;
+
+    padding:
+      4px
+      5px;
+  }
+
+  .page-home .compact-countdown strong {
+    font-size: 1.35rem;
+  }
+
+  .page-home .upcoming-update-row,
+  .page-home .update-row {
+    min-width: 0;
+  }
+
+  /* MOBILE MENU — smaller in landscape */
+  .page-home .mobile-menu.is-open {
+    padding: 8px;
+  }
+
+  .page-home .mobile-menu-panel {
+    width: min(46vw, 270px);
+    max-height: calc(100dvh - 16px);
+
+    padding:
+      52px
+      20px
+      14px;
+
+    border-radius: 14px;
+  }
+
+  .page-home .mobile-menu-panel a {
+    padding: 7px 0;
+
+    font-size: 0.92rem;
+  }
+
+  /* FOOTER */
+  .page-home .site-footer {
+    margin:
+      24px
+      12px
+      0;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   EXTRA-SHORT LANDSCAPE VIEWPORTS
+--------------------------------------------------------- */
+@media
+  (max-width: 900px)
+  and (max-height: 450px)
+  and (orientation: landscape) {
+
+  .page-home .mobile-menu-panel {
+    width: min(44vw, 250px);
+
+    padding-top: 44px;
+  }
+
+  .page-home .mobile-menu-panel a {
+    padding: 6px 0;
+
+    font-size: 0.86rem;
+  }
+
+}
