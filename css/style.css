@@ -2977,3 +2977,664 @@ body.dark-theme .back-to-top {
   }
 
 }
+
+
+
+/* =========================================================
+   V9 — HOME MIGRATION TO OOM/BAM MASTER SHELL
+   OB_00001 + OB_00003 + OB_00009
+========================================================= */
+
+/* OUTER PAGE — HOME = LIGHT BLUE */
+body.page-home {
+  min-height: 100vh;
+
+  padding:
+    clamp(24px, 4vw, 62px)
+    20px;
+
+  display: block;
+
+  background:
+    radial-gradient(
+      circle at 10% 8%,
+      rgba(169, 213, 242, 0.40),
+      transparent 31%
+    ),
+    radial-gradient(
+      circle at 92% 12%,
+      rgba(220, 238, 249, 0.62),
+      transparent 33%
+    ),
+    linear-gradient(
+      135deg,
+      #dceffa 0%,
+      #eef8fd 48%,
+      #d8edf8 100%
+    );
+}
+
+
+/* OOM/BAM-STYLE MASTER CANVAS */
+.home-shell {
+  position: relative;
+
+  width: min(1480px, 96vw);
+
+  margin-inline: auto;
+
+  overflow: hidden;
+
+  background:
+    rgba(255, 253, 249, 0.97);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.96);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 28px 80px rgba(64, 83, 96, 0.11);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+
+/* =========================================================
+   HEADER — MATCH OOM/BAM STRUCTURE
+========================================================= */
+
+.page-home .site-header {
+  position: relative;
+
+  top: auto;
+  right: auto;
+  left: auto;
+
+  z-index: 1000;
+
+  min-height: 92px;
+
+  padding:
+    10px
+    clamp(28px, 4vw, 54px);
+
+  color: #20252d;
+
+  background:
+    rgba(255, 253, 249, 0.96);
+
+  border-bottom:
+    1px solid rgba(83, 72, 77, 0.10);
+
+  box-shadow: none;
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.page-home .site-header.is-scrolled {
+  position: sticky;
+  top: 0;
+
+  min-height: 76px;
+
+  padding-top: 8px;
+  padding-bottom: 8px;
+
+  color: #20252d;
+
+  background:
+    rgba(255, 253, 249, 0.96);
+
+  box-shadow:
+    0 10px 28px rgba(64, 83, 96, 0.07);
+}
+
+.page-home .site-header-inner {
+  width: 100%;
+}
+
+.page-home .brand-logo {
+  width: 96px;
+  max-height: 62px;
+
+  filter:
+    drop-shadow(
+      0 6px 14px rgba(54, 48, 51, 0.08)
+    );
+}
+
+.page-home .site-header.is-scrolled .brand-logo {
+  width: 88px;
+}
+
+.page-home .desktop-nav {
+  gap:
+    clamp(
+      13px,
+      1.7vw,
+      27px
+    );
+
+  margin-right: 10px;
+}
+
+.page-home .nav-link {
+  padding:
+    9px
+    2px;
+
+  color: #5c5759;
+
+  font-size: 0.70rem;
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+}
+
+.page-home .nav-link::after {
+  background:
+    linear-gradient(
+      90deg,
+      #678ca4,
+      #a9cee5
+    );
+}
+
+.page-home .nav-link:hover {
+  color: #678ca4;
+}
+
+.page-home .nav-link.active {
+  padding:
+    9px
+    17px;
+
+  color: #678ca4;
+
+  border:
+    1px solid rgba(103, 140, 164, 0.48);
+
+  border-radius: 999px;
+}
+
+.page-home .nav-link.active::after {
+  display: none;
+}
+
+.page-home .header-icon,
+.page-home .menu-toggle {
+  color: #4e5157;
+}
+
+.page-home .header-icon:hover {
+  background:
+    rgba(169, 206, 229, 0.16);
+}
+
+
+/* =========================================================
+   HERO — KEEP HOME IDENTITY INSIDE EDITORIAL SHELL
+========================================================= */
+
+.page-home .hero {
+  min-height:
+    clamp(
+      610px,
+      72vh,
+      760px
+    );
+
+  margin:
+    0
+    clamp(28px, 4vw, 54px);
+
+  border-radius:
+    0
+    0
+    20px
+    20px;
+}
+
+.page-home .hero-content {
+  margin-left:
+    clamp(86px, 7vw, 130px);
+
+  padding-top:
+    clamp(95px, 9vw, 138px);
+}
+
+.page-home .hero-socials {
+  left:
+    clamp(24px, 2.6vw, 42px);
+}
+
+
+/* =========================================================
+   CONTENT SECTIONS — ALIGN TO SAME MASTER CANVAS
+========================================================= */
+
+.page-home .story-section,
+.page-home .moments-section,
+.page-home .placeholder-section {
+  margin-inline:
+    clamp(28px, 4vw, 54px);
+}
+
+.page-home .story-section {
+  margin-top: 0;
+
+  border-radius:
+    0
+    0
+    20px
+    20px;
+
+  overflow: hidden;
+}
+
+.page-home .story-grid,
+.page-home .moments-inner {
+  width: 100%;
+}
+
+.page-home .moments-section {
+  margin-top: 34px;
+
+  border-radius: 20px;
+}
+
+.page-home .placeholder-section {
+  border-radius: 18px;
+}
+
+
+/* =========================================================
+   COMMUNITY-STYLE GLOBAL FOOTER
+========================================================= */
+
+.page-home .site-footer {
+  display: block;
+
+  width: auto;
+
+  margin:
+    38px
+    clamp(28px, 4vw, 54px)
+    0;
+
+  padding:
+    28px
+    0
+    15px;
+
+  color: #6f7278;
+
+  background:
+    transparent;
+
+  border-top:
+    1px solid rgba(0, 0, 0, 0.06);
+}
+
+.page-home .footer-inner {
+  display: grid;
+
+  grid-template-columns:
+    auto
+    1fr
+    auto;
+
+  align-items: center;
+
+  gap: 30px;
+}
+
+.page-home .footer-logo {
+  display: block;
+
+  width: 120px;
+
+  line-height: 0;
+}
+
+.page-home .footer-logo img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+}
+
+.page-home .footer-main-copy {
+  margin: 0;
+
+  color: #6f7278;
+
+  font-size: 0.70rem;
+}
+
+.page-home .footer-message {
+  margin: 0;
+
+  color: #557da4;
+
+  font-family:
+    "Great Vibes",
+    cursive;
+
+  font-size: 1.45rem;
+
+  line-height: 1.1;
+}
+
+.page-home .footer-bottom {
+  margin-top: 18px;
+
+  text-align: center;
+
+  color: #aaa;
+
+  font-size: 0.62rem;
+}
+
+.page-home .footer-bottom p {
+  margin: 0;
+}
+
+
+/* =========================================================
+   DARK MODE — KEEP SHELL COHESIVE
+========================================================= */
+
+body.dark-theme.page-home {
+  background:
+    radial-gradient(
+      circle at 10% 8%,
+      rgba(87, 120, 143, 0.22),
+      transparent 31%
+    ),
+    radial-gradient(
+      circle at 92% 12%,
+      rgba(74, 89, 105, 0.22),
+      transparent 33%
+    ),
+    linear-gradient(
+      135deg,
+      #16191e 0%,
+      #20242a 48%,
+      #171b20 100%
+    );
+}
+
+body.dark-theme.page-home .home-shell {
+  background:
+    rgba(31, 32, 36, 0.98);
+
+  border-color:
+    rgba(255, 255, 255, 0.06);
+}
+
+body.dark-theme.page-home .site-header,
+body.dark-theme.page-home .site-header.is-scrolled {
+  color: #f4eff1;
+
+  background:
+    rgba(31, 32, 36, 0.96);
+
+  border-bottom-color:
+    rgba(255, 255, 255, 0.07);
+}
+
+body.dark-theme.page-home .nav-link,
+body.dark-theme.page-home .header-icon,
+body.dark-theme.page-home .menu-toggle {
+  color:
+    rgba(255, 255, 255, 0.78);
+}
+
+body.dark-theme.page-home .nav-link:hover,
+body.dark-theme.page-home .nav-link.active {
+  color: #a9cee5;
+}
+
+body.dark-theme.page-home .nav-link.active {
+  border-color:
+    rgba(169, 206, 229, 0.42);
+}
+
+body.dark-theme.page-home .site-footer {
+  border-top-color:
+    rgba(255, 255, 255, 0.07);
+}
+
+body.dark-theme.page-home .footer-main-copy,
+body.dark-theme.page-home .footer-bottom {
+  color:
+    rgba(255, 255, 255, 0.52);
+}
+
+body.dark-theme.page-home .footer-message {
+  color: #a9cee5;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  body.page-home {
+    padding:
+      22px
+      14px;
+  }
+
+  .home-shell {
+    width: 100%;
+
+    border-radius: 24px;
+  }
+
+  .page-home .site-header {
+    min-height: 76px;
+
+    padding:
+      8px
+      24px;
+  }
+
+  .page-home .brand-logo {
+    width: 88px;
+    max-height: 56px;
+  }
+
+  .page-home .hero {
+    margin:
+      0
+      24px;
+
+    min-height: 620px;
+  }
+
+  .page-home .hero-content {
+    margin-left:
+      clamp(56px, 7vw, 84px);
+  }
+
+  .page-home .story-section,
+  .page-home .moments-section,
+  .page-home .placeholder-section {
+    margin-inline: 24px;
+  }
+
+  .page-home .site-footer {
+    margin:
+      34px
+      24px
+      0;
+  }
+
+  .page-home .footer-inner {
+    grid-template-columns: 1fr;
+
+    justify-items: center;
+
+    gap: 14px;
+
+    text-align: center;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  body.page-home {
+    padding: 0;
+
+    background:
+      linear-gradient(
+        145deg,
+        #dceffa,
+        #f4fbff 50%,
+        #d8edf8
+      );
+  }
+
+  .home-shell {
+    width: 100%;
+
+    min-height: 100vh;
+
+    border: 0;
+    border-radius: 0;
+
+    box-shadow: none;
+  }
+
+  .page-home .site-header {
+    min-height: 68px;
+
+    padding:
+      7px
+      16px;
+  }
+
+  .page-home .brand-logo {
+    width: 78px;
+    max-height: 50px;
+  }
+
+  .page-home .site-header.is-scrolled .brand-logo {
+    width: 74px;
+  }
+
+  .page-home .hero {
+    min-height: 690px;
+
+    margin: 0;
+
+    border-radius: 0;
+  }
+
+  .page-home .hero-content {
+    margin-left: 0;
+
+    padding:
+      145px
+      24px
+      82px;
+  }
+
+  .page-home .hero-socials {
+    left: 16px;
+  }
+
+  .page-home .story-section,
+  .page-home .moments-section,
+  .page-home .placeholder-section {
+    margin-inline: 0;
+
+    border-radius: 0;
+  }
+
+  .page-home .moments-section {
+    margin-top: 0;
+  }
+
+  .page-home .site-footer {
+    margin:
+      28px
+      16px
+      0;
+
+    padding-bottom: 18px;
+  }
+
+  .page-home .footer-logo {
+    width: 104px;
+  }
+
+  .page-home .footer-main-copy {
+    font-size: 0.66rem;
+  }
+
+  .page-home .footer-message {
+    font-size: 1.3rem;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE MENU — MATCH EDITORIAL SHELL
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .page-home .mobile-menu.is-open {
+    background:
+      rgba(25, 22, 24, 0.42);
+  }
+
+  .page-home .mobile-menu-panel {
+    background:
+      linear-gradient(
+        160deg,
+        rgba(255, 253, 249, 0.995),
+        rgba(239, 247, 252, 0.995)
+      );
+  }
+
+  .page-home .mobile-menu-panel a {
+    color: #4f4a4c;
+
+    border-bottom-color:
+      rgba(83, 72, 77, 0.09);
+  }
+
+  body.dark-theme.page-home .mobile-menu-panel {
+    background:
+      linear-gradient(
+        160deg,
+        #24262b,
+        #1c1e22
+      );
+  }
+
+  body.dark-theme.page-home .mobile-menu-panel a {
+    color:
+      rgba(255, 255, 255, 0.88);
+
+    border-bottom-color:
+      rgba(255, 255, 255, 0.08);
+  }
+
+}
