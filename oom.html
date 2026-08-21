@@ -1,630 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="description"
-    content="An unofficial fan profile dedicated to Oom Eisaya."
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Official OomBam fansite profile celebrating Oom Eisaya, her work, personality, appearances, and selected career highlights.">
   <title>Oom Eisaya | OomBam Fansite</title>
-
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
-    rel="stylesheet"
-  >
-
-  <link
-    rel="stylesheet"
-    href="./css/oom.css?v=19"
-  >
-
-  <style>
-    /* OomBam Society PH logo — responsive size override */
-    .brand-link {
-      display: inline-flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .brand-link .logo {
-      width: clamp(155px, 12vw, 210px);
-      max-width: none;
-      height: auto;
-      max-height: 78px;
-      object-fit: contain;
-    }
-
-    @media (max-width: 1100px) {
-      .brand-link .logo {
-        width: clamp(145px, 20vw, 185px);
-        max-height: 72px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .brand-link .logo {
-        width: 145px;
-        max-height: 64px;
-      }
-    }
-  </style>
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/oom.css?v=20">
 </head>
-
 <body>
-
   <main class="profile-shell">
-
-    <!-- TOP NAV -->
     <header class="top-nav">
-
-      <a
-        href="index.html"
-        class="brand-link"
-        aria-label="Return to OomBam homepage"
-      >
-        <img
-          src="assets/images/OBSocPH-Logo-transparent.png"
-          alt="OomBam Society Philippines"
-          class="logo"
-        >
+      <a href="index.html" class="brand-link" aria-label="Return to OomBam homepage">
+        <img src="assets/images/OBSocPH-Logo-transparent.png" alt="OomBam Society Philippines" class="logo">
       </a>
 
       <nav class="nav-links" id="mainNav" aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="index.html#story">About</a>
-        <a
-          href="oom.html"
-          class="active"
-          aria-current="page"
-        >
-          Oom
-        </a>
+        <a href="index.html">Welcome 🌸</a>
+        <a href="index.html#story">Our Story</a>
+        <a href="oom.html" class="active" aria-current="page">Oom</a>
         <a href="bam.html">Bam</a>
         <a href="index.html#moments">Moments</a>
-        <a href="index.html#gallery">Gallery</a>
         <a href="index.html#media">Media</a>
+        <a href="community.html">Blossoms</a>
         <a href="index.html#updates">Updates</a>
-        <a href="community.html#letters">Fan Letters</a>
       </nav>
-      <button class="menu-toggle" id="menuToggle" type="button"
-        aria-label="Open navigation menu" aria-expanded="false" aria-controls="mainNav">
-        <span></span><span></span><span></span>
-      </button>
 
+      <div class="nav-actions">
+        <button class="icon-button search-toggle" id="searchToggle" type="button" aria-label="Search this page" aria-expanded="false" aria-controls="siteSearch">⌕</button>
+        <button class="icon-button theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">☾</button>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mainNav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </header>
 
-    <!-- BREADCRUMB -->
-    <div class="breadcrumb">
-      <a href="index.html">Home</a>
-      <span aria-hidden="true">›</span>
-      <span>Oom</span>
+    <div class="site-search" id="siteSearch" hidden>
+      <label for="searchInput">Search Oom's profile</label>
+      <div class="search-row">
+        <input id="searchInput" type="search" placeholder="Try “Fulfill”, “hobbies”, or “appearances”">
+        <button id="searchButton" type="button">Search</button>
+      </div>
+      <p id="searchStatus" class="search-status" aria-live="polite"></p>
     </div>
 
-    <!-- EDITORIAL PROFILE -->
-    <section class="editorial-layout" aria-labelledby="oom-name">
-
-      <!-- LEFT COLUMN -->
-      <aside class="editorial-sidebar">
-
-        <div class="portrait-wrap">
-          <img
-            src="assets/images/oom-profile.jpg"
-            alt="Oom Eisaya"
-            class="editorial-photo"
-          >
-
+    <section class="profile-intro" aria-labelledby="oom-name">
+      <aside class="portrait-column">
+        <div class="portrait-card">
+          <img src="assets/images/oom-profile.jpg" alt="Oom Eisaya" class="editorial-photo">
           <div class="portrait-gradient" aria-hidden="true"></div>
-
           <div class="portrait-signature">
             <span class="signature-script">Oom</span>
             <span class="signature-note">Stay true, stay you.</span>
           </div>
         </div>
 
-        <div class="profile-card-info">
-
-          <p class="side-eyebrow">Profile</p>
-
-          <div class="profile-details">
-            <div>
-              <span>Full Name</span>
-              <strong>Eisaya Hosuwan</strong>
-            </div>
-
-            <div>
-              <span>Profession</span>
-              <strong>Actress|Model</strong>
-            </div>
-
-            <div>
-              <span>Birthday</span>
-              <strong>July 4, 1996</strong>
-            </div>
-
-            <div>
-              <span>Zodiac</span>
-              <strong>Cancer</strong>
-            </div>
-
-            <div>
-              <span>Birthplace</span>
-              <strong>Nong Han District, Udon Thani Province</strong>
-            </div>
-
-            <div>
-              <span>Height</span>
-              <strong>5ft 5in (1.65 m)</strong>
-            </div>
-
-            <div>
-              <span>Languages</span>
-              <strong>Thai, English</strong>
-            </div>
-
-            <div>
-              <span>Education</span>
-              <strong>Silpakorn University Visual Communication Design</strong>
-            </div>
+        <section class="follow-card" aria-labelledby="follow-oom">
+          <p class="section-label" id="follow-oom">Follow Oom</p>
+          <div class="socials" aria-label="Oom Eisaya social media links">
+            <a href="https://www.instagram.com/oomeisaya/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Oom Eisaya on Instagram"><span>IG</span><small>Instagram</small></a>
+            <a href="https://x.com/OomeisayaH" target="_blank" rel="noopener noreferrer" aria-label="Oom Eisaya on X"><span>𝕏</span><small>X</small></a>
+            <a href="https://www.tiktok.com/@oomeisayah?lang=en" target="_blank" rel="noopener noreferrer" aria-label="Oom Eisaya on TikTok"><span>♪</span><small>TikTok</small></a>
+            <a href="https://www.threads.com/@oomeisaya" target="_blank" rel="noopener noreferrer" aria-label="Oom Eisaya on Threads"><span>@</span><small>Threads</small></a>
           </div>
+        </section>
 
-          <!-- SOCIAL MEDIA -->
-          <div class="sidebar-socials">
-            <p class="side-eyebrow">Follow Oom</p>
-
-            <div
-              class="socials"
-              aria-label="Oom Eisaya social media links"
-            >
-
-              <a
-                href="https://www.instagram.com/oomeisaya/?hl=en"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link social-yellow"
-                aria-label="Oom Eisaya on Instagram"
-              >
-                <span class="social-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <rect
-                      x="3"
-                      y="3"
-                      width="18"
-                      height="18"
-                      rx="5"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                    />
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="4"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                    />
-                    <circle
-                      cx="17.3"
-                      cy="6.7"
-                      r="1.1"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
-                <span class="social-label">Instagram</span>
-              </a>
-
-              <a
-                href="https://x.com/OomeisayaH"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link social-blue"
-                aria-label="Oom Eisaya on X"
-              >
-                <span class="social-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path
-                      d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.5 22H3.4l7.3-8.4L1 2h6.3l4.3 5.8L18.9 2Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
-                <span class="social-label">X</span>
-              </a>
-
-              <a
-                href="https://www.tiktok.com/@oomeisayah?lang=en"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link social-yellow"
-                aria-label="Oom Eisaya on TikTok"
-              >
-                <span class="social-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path
-                      d="M14.4 3v10.1a3.25 3.25 0 1 1-2.7-3.2V7.2a6.5 6.5 0 1 0 5.8 6.45V8.2A6.7 6.7 0 0 0 21 9.35V6.6A4.45 4.45 0 0 1 17.35 3Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
-                <span class="social-label">TikTok</span>
-              </a>
-
-              <a
-                href="https://www.threads.com/@oomeisaya"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link social-blue"
-                aria-label="Oom Eisaya on Threads"
-              >
-                <span class="social-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path
-                      d="M12.2 2.5c-5.2 0-9.1 3.6-9.1 9.3 0 5.8 3.8 9.7 9.3 9.7 4.4 0 7.8-2.4 8.5-6.2.6-3.2-.9-5.6-3.7-6.8-.5-3-2.4-4.8-5.2-4.8-2.6 0-4.6 1.4-5.4 3.8l2.2.8c.5-1.5 1.6-2.3 3.2-2.3 1.5 0 2.5.7 2.9 2.1-.7-.1-1.5-.2-2.3-.2-3.5 0-5.8 1.8-5.8 4.6 0 2.7 2.2 4.5 5.2 4.5 2.9 0 5-1.5 5.4-4.1 1.2.8 1.7 2 1.4 3.6-.5 2.5-2.8 4.2-6 4.2-4.2 0-6.9-3-6.9-7.6 0-4.3 2.8-7 6.8-7 3.4 0 5.8 1.9 6.4 5.1l2.3-.5C20.5 5.7 17 2.5 12.2 2.5Zm-.1 12.1c-1.8 0-2.9-.8-2.9-2.1 0-1.4 1.2-2.3 3.4-2.3.9 0 1.7.1 2.5.3v.6c0 2.2-1.1 3.5-3 3.5Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
-                <span class="social-label">Threads</span>
-              </a>
-
-            </div>
-          </div>
-
-          <blockquote class="sidebar-quote">
-            “Grateful for every step, every moment, and every person who believes in me.”
-          </blockquote>
-
-        </div>
-
+        <section class="profile-facts" aria-labelledby="profile-heading">
+          <p class="section-label" id="profile-heading">Profile</p>
+          <dl>
+            <div><dt>Full Name</dt><dd>Eisaya Hosuwan</dd></div>
+            <div><dt>Profession</dt><dd>Actress | Artist</dd></div>
+            <div><dt>Birthday</dt><dd>July 4, 1996</dd></div>
+            <div><dt>Zodiac</dt><dd>Cancer</dd></div>
+            <div><dt>Birthplace</dt><dd>Nong Han District, Udon Thani Province</dd></div>
+            <div><dt>Height</dt><dd>5 ft 5 in (1.65 m)</dd></div>
+            <div><dt>Languages</dt><dd>Thai, English</dd></div>
+            <div><dt>Education</dt><dd>Silpakorn University · Visual Communication Design</dd></div>
+          </dl>
+        </section>
       </aside>
 
-      <!-- RIGHT COLUMN -->
-      <div class="editorial-content">
-
+      <div class="profile-story">
         <section class="editorial-hero">
-
           <p class="hero-kicker">Oom's Profile</p>
-
-          <h1 class="editorial-title" id="oom-name">
-            <span>OOM</span>
-            <span>EISAYA</span>
-          </h1>
-
-          <p class="editorial-role">
-            Actress <span>•</span> Dreamer
-          </p>
-
-          <div class="hero-divider" aria-hidden="true">
-            <span></span>
-            <b>✦</b>
-            <span></span>
-          </div>
-
-          <p class="editorial-quote">
-            Every story begins with a dream.
-          </p>
-
+          <h1 class="editorial-title" id="oom-name"><span>OOM</span><span>EISAYA</span></h1>
+          <p class="editorial-role">Actress <span>•</span> Artist <span>•</span> Storyteller</p>
+          <div class="hero-divider" aria-hidden="true"><span></span><b>✦</b><span></span></div>
+          <p class="editorial-quote">Every story begins with a dream.</p>
         </section>
 
-        <!-- ABOUT -->
-        <section class="editorial-section" id="about-oom">
-
+        <section class="about-section content-rule" id="about-oom">
           <p class="section-label">About</p>
-
-          <h2>Warmth, elegance, and a sky full of dreams.</h2>
-
-          <p class="editorial-copy">
-            A dedicated space celebrating Oom Eisaya — her journey, her work,
-            her personality, and the moments supporters continue to treasure.
-          </p>
-
-          <p class="editorial-copy">
-            This profile brings together selected projects, photos, appearances,
-            and updates in one place, creating a simple archive of the chapters
-            supporters continue to follow and celebrate.
-          </p>
-
+          <h2>Warmth, elegance, and a story uniquely her own.</h2>
+          <p>A space dedicated to <strong>Oom Eisaya</strong> — celebrating her journey as an actress and artist, the creativity she brings to her work, and the warmth and sincerity that continue to endear her to those who follow her story.</p>
+          <p>From the roles she brings to life to the moments beyond the screen, each chapter reveals another side of Oom: thoughtful, expressive, quietly determined, and always growing. This profile celebrates her work, her personality, and the journey that continues to unfold.</p>
+          <p class="closing-line">One chapter at a time, with many more stories still to tell.</p>
         </section>
-        <!-- HIGHLIGHTS + FUN FACTS -->
-        <section class="split-sections">
 
-          <!-- CAREER HIGHLIGHTS -->
-          <div class="mini-section" id="oom-projects">
-
-            <p class="section-label">Career Highlights</p>
-
-            <div class="highlight-list">
-
-              <article class="highlight-item">
-
-                <span class="highlight-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M4 7h16v12H4z"></path>
-                    <path d="M4 7l3-4h4l-3 4"></path>
-                    <path d="M11 7l3-4h4l-3 4"></path>
-                    <path d="M4 11h16"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <h3>Selected Projects</h3>
-                  <p>Fulfill The Series (2026) · Lead Role (Aioon)</p>
-                </div>
-
-              </article>
-
-              <article class="highlight-item">
-
-                <span class="highlight-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <h3>Appearances</h3>
-                  <p>Girls Cup 2026 · Team Mint</p>
-                </div>
-
-              </article>
-
-              <article class="highlight-item">
-
-                <span class="highlight-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M6 8h12l1 11H5z"></path>
-                    <path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <h3>Brand Collaborations</h3>
-                  <p>Selected campaigns and collaborations will be added here.</p>
-                </div>
-
-              </article>
-
-            </div>
-
+        <section class="selected-works content-rule" id="oom-projects">
+          <div class="section-heading">
+            <div><p class="section-label">Career</p><h2>Selected Works</h2></div>
+            <a class="text-link" href="https://en.wikipedia.org/wiki/Eisaya_Hosuwan" target="_blank" rel="noopener noreferrer">Full career history ↗</a>
           </div>
 
-          <!-- FUN FACTS -->
-          <div class="mini-section">
-
-            <p class="section-label">Fun Facts</p>
-
-            <div class="facts-list">
-
-              <div class="fact-row">
-
-                <span class="fact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="4"></circle>
-                    <path d="M12 2v3"></path>
-                    <path d="M12 19v3"></path>
-                    <path d="M4.9 4.9L7 7"></path>
-                    <path d="M17 17l2.1 2.1"></path>
-                    <path d="M2 12h3"></path>
-                    <path d="M19 12h3"></path>
-                    <path d="M4.9 19.1L7 17"></path>
-                    <path d="M17 7l2.1-2.1"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <strong>Favorite Color</strong>
-                  <p>Yellow</p>
-                </div>
-
-              </div>
-
-              <div class="fact-row">
-
-                <span class="fact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <rect x="3" y="7" width="18" height="12" rx="2"></rect>
-                    <circle cx="12" cy="13" r="3.5"></circle>
-                    <path d="M8 7l1.5-2h5L16 7"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <strong>Hobbies</strong>
-                  <p>TBD</p>
-                </div>
-
-              </div>
-
-              <div class="fact-row">
-
-                <span class="fact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M9 18V6l10-2v12"></path>
-                    <circle cx="6" cy="18" r="3"></circle>
-                    <circle cx="16" cy="16" r="3"></circle>
-                  </svg>
-                </span>
-
-                <div>
-                  <strong>Favorite Music</strong>
-                  <p>TBD</p>
-                </div>
-
-              </div>
-
-              <div class="fact-row">
-
-                <span class="fact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M7 10h4v7H5v-5a7 7 0 0 1 7-7"></path>
-                    <path d="M17 10h4v7h-6v-5a7 7 0 0 1 6-7"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <strong>Motto</strong>
-                  <p>TBD</p>
-                </div>
-
-              </div>
-
-              <div class="fact-row">
-
-                <span class="fact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M6 8h10v6a5 5 0 0 1-10 0z"></path>
-                    <path d="M16 10h2a2.5 2.5 0 0 1 0 5h-2"></path>
-                    <path d="M5 20h13"></path>
-                    <path d="M8 4c0 1 1 1.2 1 2"></path>
-                    <path d="M12 4c0 1 1 1.2 1 2"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <strong>Favorite Drink</strong>
-                  <p>TBD</p>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-        </div>
-        <!-- END EDITORIAL CONTENT -->
-
-      </section>
-      <!-- END EDITORIAL PROFILE -->
-
-
-      <!-- FULL WIDTH CONTENT -->
-      <div class="full-width-content">
-
-<!-- GALLERY -->
-        <section class="editorial-section gallery-section full-width-section" id="oom-gallery">
-
-          <div class="section-heading-row">
+          <article class="featured-work">
+            <div class="work-year">2026</div>
             <div>
-              <p class="section-label">Gallery</p>
-              <h2>Through the Lens</h2>
+              <p class="work-type">Featured Work</p>
+              <h3>Fulfill The Series</h3>
+              <p class="work-role">Aioon · Lead Role</p>
+              <p>A defining chapter in Oom’s journey and the project that introduced audiences to the OomBam pairing, becoming an important part of the community and memories celebrated throughout this fansite.</p>
             </div>
-
-            <a href="index.html#gallery" class="view-more">
-              View More <span aria-hidden="true">→</span>
-            </a>
-          </div>
-
-          <div class="gallery-grid">
-            <div class="gallery-placeholder">Photo</div>
-            <div class="gallery-placeholder">Photo</div>
-            <div class="gallery-placeholder">Photo</div>
-            <div class="gallery-placeholder">Photo</div>
-          </div>
-
+          </article>
+          <p class="source-note">Additional filmography and career reference: Wikipedia.</p>
         </section>
-
-        <!-- QUOTE -->
-        <section class="quote-banner">
-          <span class="quote-mark">“</span>
-          <p>
-            The best chapters are the ones we live,
-            not just the ones we dream about.
-          </p>
-          <span class="quote-credit">— Oom Profile</span>
-        </section>
-
-        <!-- UPDATES -->
-        <section class="editorial-section updates-section full-width-section" id="oom-updates">
-
-          <p class="section-label">Latest Updates</p>
-
-          <h2>What’s New with Oom</h2>
-
-          <div class="updates-placeholder">
-            Oom’s latest appearances, photos, interviews, and updates will appear here.
-          </div>
-
-        </section>
-
       </div>
-      <!-- END FULL WIDTH CONTENT -->
-
-    <!-- RETURN -->
-    <section class="return-section">
-
-      <div>
-        <p class="return-kicker">Forever Together</p>
-        <p>Supporting Oom every step of the way.</p>
-      </div>
-
-      <a
-        href="index.html"
-        class="return-button"
-      >
-        Back to OomBam
-        <span aria-hidden="true">♡</span>
-      </a>
-
     </section>
 
+    <section class="lower-grid">
+      <section class="panel appearances" id="oom-appearances">
+        <p class="section-label">Recent Appearances</p>
+        <h2>Oom, lately.</h2>
+        <p class="section-intro">Selected artist appearances from the past three months.</p>
+        <div class="appearance-list">
+          <article><time datetime="2026-08-08">08 AUG 2026</time><div><h3>Weibo Gala 2026</h3><p>Weibo Cultural Communication Night · Artist Appearance</p></div></article>
+          <article><time datetime="2026-08-01">01 AUG 2026</time><div><h3>CH3 Girls Cup 2026</h3><p>Team Mint · Special Performance</p></div></article>
+          <article><time datetime="2026-07-16">16 JUL 2026</time><div><h3>The Running — Dara Live</h3><p>Drama Promotion · Media Appearance</p></div></article>
+          <article><time datetime="2026-07-04">04 JUL 2026</time><div><h3>OOM Eisaya Birthday Charity 2026</h3><p>Birthday Charity · Special Event</p></div></article>
+        </div>
+      </section>
+
+      <section class="panel fun-facts" id="oom-facts">
+        <p class="section-label">Fun Facts</p>
+        <h2>A little more Oom.</h2>
+        <div class="facts-grid">
+          <article><span>Hobbies</span><p><strong>Indoor:</strong> Painting, Pottery &amp; Tea-making<br><strong>Outdoor:</strong> Horseback Riding &amp; Archery with Bam</p></article>
+          <article><span>Favorite Colors</span><p>Pink &amp; Yellow</p></article>
+          <article class="wide"><span>Favorite Food</span><p>Som Tum (Green Papaya Salad) · Sushi · Dim Sum · Sticky Rice · Pad Kra Prow (Stir-fried Holy Basil) · Thai Desserts &amp; Baked Goods</p></article>
+          <article><span>Favorite Drinks</span><p>Matcha · Tea · Grapefruit Juice</p></article>
+          <article><span>Music</span><p>Acoustic · Feel-good · Gentle Pop</p></article>
+          <article class="wide"><span>Outlook</span><p>Finding happiness in what she loves, while moving forward with positivity, hope, and kindness.</p></article>
+        </div>
+      </section>
+    </section>
+
+    <section class="updates-section" id="oom-updates">
+      <div>
+        <p class="section-label">Latest Updates</p>
+        <h2>What’s New with Oom</h2>
+        <p>Recent projects, appearances, interviews, and moments from Oom’s journey will be collected here.</p>
+      </div>
+      <div class="updates-empty">New chapters are on the way. ♡</div>
+    </section>
+
+    <footer class="site-footer">
+      <a class="footer-logo-link" href="https://x.com/OomBamSocietyPH" target="_blank" rel="noopener noreferrer" aria-label="OomBam Society Philippines on X">
+        <img src="assets/images/OBSocPH-Logo-transparent.png" alt="Official OomBam Society Philippines logo">
+      </a>
+      <div class="footer-copy">
+        <p><strong>Official Fansite • Created with LOVE for OomBam</strong></p>
+        <p>Always with OomBam 💙🌸</p>
+        <p>© 2026 OomBam Blossoms Together.</p>
+      </div>
+    </footer>
   </main>
-  
 
   <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const mainNav = document.getElementById("mainNav");
+    const root = document.documentElement;
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+    const themeToggle = document.getElementById('themeToggle');
+    const searchToggle = document.getElementById('searchToggle');
+    const siteSearch = document.getElementById('siteSearch');
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const searchStatus = document.getElementById('searchStatus');
+
+    const savedTheme = localStorage.getItem('oombam-theme');
+    if (savedTheme === 'dark') root.dataset.theme = 'dark';
+    const syncThemeButton = () => {
+      const dark = root.dataset.theme === 'dark';
+      themeToggle.textContent = dark ? '☀' : '☾';
+      themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    };
+    syncThemeButton();
+    themeToggle.addEventListener('click', () => {
+      root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('oombam-theme', root.dataset.theme);
+      syncThemeButton();
+    });
 
     if (menuToggle && mainNav) {
       const closeMenu = () => {
-        mainNav.classList.remove("is-open");
-        menuToggle.classList.remove("is-active");
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.setAttribute("aria-label", "Open navigation menu");
+        mainNav.classList.remove('is-open');
+        menuToggle.classList.remove('is-active');
+        menuToggle.setAttribute('aria-expanded', 'false');
       };
-
-      menuToggle.addEventListener("click", () => {
-        const isOpen = mainNav.classList.toggle("is-open");
-        menuToggle.classList.toggle("is-active", isOpen);
-        menuToggle.setAttribute("aria-expanded", String(isOpen));
-        menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+      menuToggle.addEventListener('click', () => {
+        const open = mainNav.classList.toggle('is-open');
+        menuToggle.classList.toggle('is-active', open);
+        menuToggle.setAttribute('aria-expanded', String(open));
       });
-
-      mainNav.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
-
-      document.addEventListener("click", event => {
-        if (window.innerWidth <= 1100 && mainNav.classList.contains("is-open")
-            && !mainNav.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
-      });
-
-      window.addEventListener("resize", () => {
-        if (window.innerWidth > 1100) closeMenu();
+      mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+      document.addEventListener('click', e => {
+        if (window.innerWidth <= 1100 && mainNav.classList.contains('is-open') && !mainNav.contains(e.target) && !menuToggle.contains(e.target)) closeMenu();
       });
     }
+
+    searchToggle.addEventListener('click', () => {
+      const opening = siteSearch.hidden;
+      siteSearch.hidden = !opening;
+      searchToggle.setAttribute('aria-expanded', String(opening));
+      if (opening) setTimeout(() => searchInput.focus(), 0);
+    });
+
+    const runSearch = () => {
+      const q = searchInput.value.trim().toLowerCase();
+      document.querySelectorAll('.search-hit').forEach(el => el.classList.remove('search-hit'));
+      if (!q) { searchStatus.textContent = 'Enter a word or phrase to search this profile.'; return; }
+      const candidates = [...document.querySelectorAll('section h2, section h3, section p, section dd, section span')];
+      const hit = candidates.find(el => el.textContent.toLowerCase().includes(q));
+      if (!hit) { searchStatus.textContent = `No match found for “${searchInput.value.trim()}”.`; return; }
+      hit.classList.add('search-hit');
+      hit.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      searchStatus.textContent = `Showing the first match for “${searchInput.value.trim()}”.`;
+    };
+    searchButton.addEventListener('click', runSearch);
+    searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
   </script>
-
 </body>
-
 </html>
