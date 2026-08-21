@@ -4941,3 +4941,181 @@ body.dark-theme.page-home .story-copy-block .primary-button:hover {
   }
 
 }
+
+
+/* =========================================================
+   V13.2 — MEDIA CARD UNIFORMITY + STORY READABILITY
+========================================================= */
+
+/* ---------------------------------------------------------
+   MEDIA — ALL THREE DESKTOP TILES USE THE SAME FOOTPRINT
+--------------------------------------------------------- */
+@media (min-width: 901px) {
+
+  .page-home .media-home-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+  }
+
+  .page-home .media-fulfill-card,
+  .page-home .media-interviews-card,
+  .page-home .media-soundtrack-card {
+    height: 294px;
+    min-height: 294px;
+    max-height: 294px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  /* Fulfill image/card */
+  .page-home .media-fulfill-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-home .media-fulfill-card .media-card-image,
+  .page-home .media-fulfill-card .media-card-visual {
+    flex: 0 0 140px;
+    height: 140px;
+    min-height: 140px;
+  }
+
+  .page-home .media-fulfill-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Interview tile */
+  .page-home .media-interviews-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Soundtrack tile */
+  .page-home .media-soundtrack-card .story-soundtrack {
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-home .media-soundtrack-card .soundtrack-player-shell {
+    flex: 0 0 auto;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 170px;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   OUR STORY — STRONGER LIGHT-MODE TYPOGRAPHY
+--------------------------------------------------------- */
+
+.page-home .story-copy,
+.page-home .story-editorial,
+.page-home .story-editorial p,
+.page-home .story-copy-block p {
+  color: #4f555b;
+}
+
+.page-home .story-intro {
+  color: #596068;
+  font-weight: 400;
+}
+
+.page-home .story-closing {
+  color: #50575e;
+}
+
+.page-home .story-copy-block p {
+  font-size: clamp(1rem, 1.05vw, 1.08rem);
+  line-height: 1.72;
+}
+
+.page-home .story-intro,
+.page-home .story-closing {
+  font-size: clamp(1.05rem, 1.15vw, 1.16rem);
+  line-height: 1.65;
+}
+
+.page-home .story-title,
+.page-home .story-copy h2 {
+  color: #28272a;
+}
+
+
+/* Preserve the stronger dark-mode contrast from v13 */
+body.dark-theme.page-home .story-copy,
+body.dark-theme.page-home .story-editorial,
+body.dark-theme.page-home .story-editorial p,
+body.dark-theme.page-home .story-copy-block p {
+  color: rgba(255, 255, 255, 0.80);
+}
+
+body.dark-theme.page-home .story-intro {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+body.dark-theme.page-home .story-closing {
+  color: rgba(255, 255, 255, 0.70);
+}
+
+body.dark-theme.page-home .story-title,
+body.dark-theme.page-home .story-copy h2 {
+  color: #fffafb;
+}
+
+
+/* Mobile/tablet: equal cards without forcing desktop height */
+@media (max-width: 900px) {
+
+  .page-home .media-fulfill-card,
+  .page-home .media-interviews-card,
+  .page-home .media-soundtrack-card {
+    min-height: 0;
+    max-height: none;
+  }
+
+}
+
+/* =========================================================
+   V13.3 — UNIFIED DARK MODE CANVAS
+   Match outer page canvas with the inner Oom/Bam-style shell
+========================================================= */
+
+body.dark-theme,
+body.dark-theme.page-home {
+  background: #1f2024 !important;
+  background-image: none !important;
+}
+
+body.dark-theme.page-home .home-shell {
+  background: #1f2024 !important;
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+}
+
+/* Keep the dark header visually continuous with the shell. */
+body.dark-theme.page-home .site-header,
+body.dark-theme.page-home .site-header.is-scrolled {
+  background: #1f2024;
+}
+
+/* Prevent the root canvas from revealing a lighter shade
+   around the rounded desktop shell. */
+html:has(body.dark-theme) {
+  background: #1f2024;
+}
+
+/* Mobile has no outer shell spacing, but explicitly keep the
+   same dark canvas so theme switching stays seamless. */
+@media (max-width: 600px) {
+  body.dark-theme.page-home,
+  body.dark-theme.page-home .home-shell {
+    background: #1f2024 !important;
+  }
+}
