@@ -376,73 +376,36 @@ window.addEventListener(
 
 
 /* =========================================================
-   OOMBAM — Saturday, August 15, 2026
-  Main Event: 1:00 PM Beijing Time
-  China = UTC+8
+   OOMBAM — SHANGHAI PRIVATE EVENT
+   LIVE COUNTDOWN
 ========================================================= */
 
-/*
-  Saturday, August 8, 2026
-  Main Show: 6:00 PM Thailand Time
-  Thailand = UTC+7
-*/
-
 const SHANGHAI_EVENT_TARGET =
-  "2026-08-15T13:00:00+08:00";
-
+  "2026-08-15T00:00:00+08:00";
 
 const eventCountdown =
-  document.getElementById(
-    "eventCountdown"
-  );
+  document.getElementById("eventCountdown");
 
 const countdownDays =
-  document.getElementById(
-    "countdownDays"
-  );
+  document.getElementById("countdownDays");
 
 const countdownHours =
-  document.getElementById(
-    "countdownHours"
-  );
+  document.getElementById("countdownHours");
 
 const countdownMinutes =
-  document.getElementById(
-    "countdownMinutes"
-  );
+  document.getElementById("countdownMinutes");
 
 const countdownSeconds =
-  document.getElementById(
-    "countdownSeconds"
-  );
+  document.getElementById("countdownSeconds");
 
 const countdownStatus =
-  document.getElementById(
-    "countdownStatus"
-  );
-
+  document.getElementById("countdownStatus");
 
 let countdownTimer = null;
 
-
-/* =========================================================
-   FORMAT NUMBER
-========================================================= */
-
-function formatCountdownNumber(
-  value
-) {
-
-  return String(value).padStart(
-    2,
-    "0"
-  );
+function formatCountdownNumber(value) {
+  return String(value).padStart(2, "0");
 }
-
-
-/* =========================================================
-   DISPLAY COUNTDOWN
-========================================================= */
 
 function displayCountdown(
   days,
@@ -470,12 +433,8 @@ function displayCountdown(
     countdownSeconds.textContent =
       formatCountdownNumber(seconds);
   }
+
 }
-
-
-/* =========================================================
-   UPDATE COUNTDOWN
-========================================================= */
 
 function updateEventCountdown() {
 
@@ -486,50 +445,19 @@ function updateEventCountdown() {
     !countdownMinutes ||
     !countdownSeconds
   ) {
-
-    console.warn(
-      "Countdown elements were not found."
-    );
-
     return;
   }
 
-
-  /*
-    Keep HTML synchronized with
-    the correct event time.
-  */
-
-  eventCountdown.setAttribute(
-  "data-event-date",
-  SHANGHAI_EVENT_TARGET
-);
-
-const targetTime =
-  new Date(
-    SHANGHAI_EVENT_TARGET
-  ).getTime();
-
+  const targetTime =
+    new Date(
+      SHANGHAI_EVENT_TARGET
+    ).getTime();
 
   const currentTime =
     Date.now();
 
-
-  if (Number.isNaN(targetTime)) {
-
-    console.error(
-      "Invalid Weibo Gala event date."
-    );
-
-    return;
-  }
-
-
   const remaining =
     targetTime - currentTime;
-
-
-  /* EVENT HAS STARTED */
 
   if (remaining <= 0) {
 
@@ -540,68 +468,38 @@ const targetTime =
       0
     );
 
-
     if (countdownStatus) {
-
       countdownStatus.textContent =
-        "OOMBAM • Shanghai Private Event ✨";
-
+        "OOMBAM • Shanghai Private Event";
     }
 
-
-    if (countdownTimer) {
-
-      window.clearInterval(
-        countdownTimer
-      );
-
-      countdownTimer = null;
-
-    }
+    clearInterval(countdownTimer);
 
     return;
   }
 
-
-  const SECOND =
-    1000;
-
-  const MINUTE =
-    SECOND * 60;
-
-  const HOUR =
-    MINUTE * 60;
-
-  const DAY =
-    HOUR * 24;
-
+  const SECOND = 1000;
+  const MINUTE = SECOND * 60;
+  const HOUR = MINUTE * 60;
+  const DAY = HOUR * 24;
 
   const days =
-    Math.floor(
-      remaining / DAY
-    );
-
+    Math.floor(remaining / DAY);
 
   const hours =
     Math.floor(
-      (remaining % DAY) /
-      HOUR
+      (remaining % DAY) / HOUR
     );
-
 
   const minutes =
     Math.floor(
-      (remaining % HOUR) /
-      MINUTE
+      (remaining % HOUR) / MINUTE
     );
-
 
   const seconds =
     Math.floor(
-      (remaining % MINUTE) /
-      SECOND
+      (remaining % MINUTE) / SECOND
     );
-
 
   displayCountdown(
     days,
@@ -610,34 +508,16 @@ const targetTime =
     seconds
   );
 
-
   if (countdownStatus) {
-
     countdownStatus.textContent =
-      "Shanghai Private Event • August 15, 2026 • 1:00 PM Beijing Time";
-
+      "Shanghai Private Event • August 15, 2026 • Shanghai, China";
   }
 
 }
 
-
-/* =========================================================
-   START COUNTDOWN
-========================================================= */
-
 if (eventCountdown) {
 
-  /*
-    Run immediately so the
-    -- placeholders disappear.
-  */
-
   updateEventCountdown();
-
-
-  /*
-    Update once every second.
-  */
 
   countdownTimer =
     window.setInterval(
@@ -645,61 +525,238 @@ if (eventCountdown) {
       1000
     );
 
-} 
+}
+
 
 
 /* =========================================================
-   OUR SOUNDTRACK — FULFILL OST YOUTUBE MINI PLAYER
+   SITE SEARCH
 ========================================================= */
 
-const OOMBAM_SOUNDTRACK = [
-  "RHnPq3Z0A8c",
-  "CKclkO6HHrY"
+const searchToggle =
+  document.getElementById("searchToggle");
+
+const siteSearch =
+  document.getElementById("siteSearch");
+
+const searchClose =
+  document.getElementById("searchClose");
+
+const siteSearchInput =
+  document.getElementById("siteSearchInput");
+
+const siteSearchResults =
+  document.getElementById("siteSearchResults");
+
+
+const searchablePages = [
+  {
+    category: "Welcome",
+    title: "Welcome to OomBam",
+    keywords: "home welcome landing oom bam fansite",
+    href: "#home"
+  },
+  {
+    category: "Our Story",
+    title: "Our Journey, Our Memories",
+    keywords: "story journey memories oom bam",
+    href: "#about"
+  },
+  {
+    category: "Profile",
+    title: "Oom Eisaya",
+    keywords: "oom eisaya profile",
+    href: "oom.html"
+  },
+  {
+    category: "Profile",
+    title: "Bam Saralee",
+    keywords: "bam saralee profile",
+    href: "bam.html"
+  },
+  {
+    category: "Moments",
+    title: "Beautiful Moments We Cherish",
+    keywords: "moments memories behind little things sunset",
+    href: "#moments"
+  },
+  {
+    category: "Media",
+    title: "Fulfill — The Series",
+    keywords: "fulfill series behind scenes special content teasers",
+    href: "just-the-two-of-us.html"
+  },
+  {
+    category: "Media",
+    title: "OomBam Videos & Interviews",
+    keywords: "interviews official clips appearances videos youtube",
+    href: "#media"
+  },
+  {
+    category: "Media",
+    title: "Our Soundtrack",
+    keywords: "music soundtrack fulfill ost listen",
+    href: "#media"
+  },
+  {
+    category: "Community",
+    title: "Blossoms",
+    keywords: "community blossoms letters fans projects garden",
+    href: "community.html"
+  },
+  {
+    category: "Updates",
+    title: "What's Next & Latest Updates",
+    keywords: "updates news event schedule latest shanghai",
+    href: "#updates"
+  }
 ];
 
-let oombamYouTubePlayer = null;
 
-function onYouTubeIframeAPIReady() {
-  const playerTarget =
-    document.getElementById("oombamYouTubePlayer");
+function renderSearchResults(query = "") {
 
-  if (!playerTarget || typeof YT === "undefined") {
+  if (!siteSearchResults) {
     return;
   }
 
-  oombamYouTubePlayer = new YT.Player(
-    "oombamYouTubePlayer",
-    {
-      width: "100%",
-      height: "100%",
+  const normalized =
+    query.trim().toLowerCase();
 
-      playerVars: {
-        autoplay: 0,
-        controls: 1,
-        rel: 0,
-        playsinline: 1,
-        modestbranding: 1
-      },
+  const matches =
+    searchablePages.filter((item) => {
 
-      events: {
-        onReady: (event) => {
-          event.target.cuePlaylist({
-            playlist: OOMBAM_SOUNDTRACK,
-            index: 0
-          });
-
-          event.target.setLoop(true);
-        },
-
-        onStateChange: (event) => {
-          if (
-            event.data === YT.PlayerState.CUED ||
-            event.data === YT.PlayerState.PLAYING
-          ) {
-            event.target.setLoop(true);
-          }
-        }
+      if (!normalized) {
+        return true;
       }
-    }
-  );
+
+      return (
+        item.title.toLowerCase().includes(normalized) ||
+        item.category.toLowerCase().includes(normalized) ||
+        item.keywords.toLowerCase().includes(normalized)
+      );
+    });
+
+
+  if (!matches.length) {
+
+    siteSearchResults.innerHTML =
+      '<p class="site-search-empty">No matching pages or sections found.</p>';
+
+    return;
+  }
+
+
+  siteSearchResults.innerHTML =
+    matches
+      .map((item) => `
+        <a class="site-search-result" href="${item.href}">
+          <div>
+            <span>${item.category}</span>
+            <strong>${item.title}</strong>
+          </div>
+          <em>→</em>
+        </a>
+      `)
+      .join("");
 }
+
+
+function openSearch() {
+
+  if (!siteSearch) {
+    return;
+  }
+
+  siteSearch.classList.add("is-open");
+  siteSearch.setAttribute("aria-hidden", "false");
+
+  if (searchToggle) {
+    searchToggle.setAttribute("aria-expanded", "true");
+  }
+
+  body.classList.add("search-open");
+
+  renderSearchResults("");
+
+  window.setTimeout(() => {
+    siteSearchInput?.focus();
+  }, 80);
+}
+
+
+function closeSearch() {
+
+  if (!siteSearch) {
+    return;
+  }
+
+  siteSearch.classList.remove("is-open");
+  siteSearch.setAttribute("aria-hidden", "true");
+
+  if (searchToggle) {
+    searchToggle.setAttribute("aria-expanded", "false");
+  }
+
+  body.classList.remove("search-open");
+
+  if (siteSearchInput) {
+    siteSearchInput.value = "";
+  }
+}
+
+
+searchToggle?.addEventListener(
+  "click",
+  openSearch
+);
+
+
+searchClose?.addEventListener(
+  "click",
+  closeSearch
+);
+
+
+siteSearch
+  ?.querySelector("[data-search-close]")
+  ?.addEventListener(
+    "click",
+    closeSearch
+  );
+
+
+siteSearchInput?.addEventListener(
+  "input",
+  (event) => {
+    renderSearchResults(event.target.value);
+  }
+);
+
+
+siteSearchResults?.addEventListener(
+  "click",
+  (event) => {
+
+    const link =
+      event.target.closest("a");
+
+    if (link) {
+      closeSearch();
+    }
+  }
+);
+
+
+document.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (
+      event.key === "Escape" &&
+      siteSearch?.classList.contains("is-open")
+    ) {
+      closeSearch();
+    }
+  }
+);
+
