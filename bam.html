@@ -1,657 +1,291 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="description"
-    content="An unofficial fan profile dedicated to Bam Saralee."
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bam Saralee artist profile on the official OomBam Society PH fansite.">
+  <meta name="theme-color" content="#fffaf8">
   <title>Bam Saralee | OomBam Fansite</title>
 
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/bam.css?v=21">
 
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
-    rel="stylesheet"
-  >
-
-  <link
-    rel="stylesheet"
-    href="./css/bam.css?v=20"
-  >
-
-  <style>
-    /* OomBam Society PH logo — responsive size override */
-    .brand-link {
-      display: inline-flex;
-      align-items: center;
-      flex-shrink: 0;
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Bam Saralee",
+      "alternateName": "Saralee Prasitdumrong",
+      "image": "assets/images/bam-profile.jpg",
+      "jobTitle": "Actress, Artist, Creator",
+      "sameAs": [
+        "https://www.instagram.com/bbam_s/reels/?hl=en",
+        "https://x.com/Bam_Saralee?lang=en",
+        "https://www.tiktok.com/@bbam_s?lang=en",
+        "https://www.threads.net/@bbam_s"
+      ]
     }
-
-    .brand-link .logo {
-      width: clamp(155px, 12vw, 210px);
-      max-width: none;
-      height: auto;
-      max-height: 78px;
-      object-fit: contain;
-    }
-
-    @media (max-width: 1100px) {
-      .brand-link .logo {
-        width: clamp(145px, 20vw, 185px);
-        max-height: 72px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .brand-link .logo {
-        width: 145px;
-        max-height: 64px;
-      }
-    }
-  </style>
-
+  }
+  </script>
 </head>
 
 <body>
-
   <main class="profile-shell">
 
-    <!-- TOP NAV -->
     <header class="top-nav">
-
-      <a
-        href="index.html"
-        class="brand-link"
-        aria-label="Return to OomBam homepage"
-      >
-        <img
-          src="assets/images/OBSocPH-Logo-transparent.png"
-          alt="OomBam Society Philippines"
-          class="logo"
-        >
+      <a href="index.html" class="brand-link" aria-label="Return to OomBam homepage">
+        <img src="assets/images/OBSocPH-Logo-transparent.png" alt="OomBam Society Philippines" class="logo">
       </a>
 
       <nav class="nav-links" id="mainNav" aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="index.html#story">About</a>
+        <a href="index.html">Welcome 🌸</a>
+        <a href="index.html#story">Our Story</a>
         <a href="oom.html">Oom</a>
-        <a href="bam.html"
-          class="active"
-          aria-current="page"
-        >Bam</a>
+        <a href="bam.html" class="active" aria-current="page">Bam</a>
         <a href="index.html#moments">Moments</a>
-        <a href="index.html#gallery">Gallery</a>
         <a href="index.html#media">Media</a>
-        <a href="index.html#updates">Updates</a>
-        <a href="community.html#letters">Fan Letters</a>
+        <a href="community.html">Blossoms</a>
+        <a href="index.html#whats-next">Updates</a>
       </nav>
-      <button
-        class="menu-toggle"
-        id="menuToggle"
-        type="button"
-        aria-label="Open navigation menu"
-        aria-expanded="false"
-        aria-controls="mainNav"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
 
+      <div class="nav-actions">
+        <button class="icon-button search-toggle" id="searchToggle" type="button" aria-label="Open site search" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="6"></circle>
+            <path d="m16 16 4 4"></path>
+          </svg>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
+          <span class="theme-sun" aria-hidden="true">☀</span>
+          <span class="theme-moon" aria-hidden="true">☾</span>
+        </button>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mainNav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </header>
 
-    <!-- BREADCRUMB -->
-    <div class="breadcrumb">
-      <a href="index.html">Home</a>
-      <span aria-hidden="true">›</span>
-      <span>Bam</span>
-    </div>
+    <section class="site-search" id="siteSearch" aria-label="Site search">
+      <form class="search-row" id="siteSearchForm">
+        <label class="sr-only" for="siteSearchInput">Search this page</label>
+        <input id="siteSearchInput" type="search" placeholder="Search Bam's profile..." autocomplete="off">
+        <button type="submit">Search</button>
+      </form>
+      <p class="search-status" id="searchStatus" aria-live="polite"></p>
+    </section>
 
-    <!-- EDITORIAL PROFILE -->
-    <section class="editorial-layout" aria-labelledby="bam-name">
-
-      <!-- LEFT COLUMN -->
-      <aside class="editorial-sidebar">
-
+    <section class="profile-intro" aria-labelledby="bam-name">
+      <div class="portrait-column">
         <div class="portrait-wrap">
-          <img
-            src="assets/images/bam-profile.jpg"
-            alt="Bam Saralee"
-            class="editorial-photo"
-          >
-
+          <img src="assets/images/bam-profile.jpg" alt="Bam Saralee" class="editorial-photo">
           <div class="portrait-gradient" aria-hidden="true"></div>
-
           <div class="portrait-signature">
             <span class="signature-script">Bam</span>
             <span class="signature-note">Bloom in your own way.</span>
           </div>
         </div>
 
-        <div class="profile-card-info">
-
-          <p class="side-eyebrow">Profile</p>
-
-          <div class="profile-details">
-
-            <div>
-              <span>Full Name</span>
-              <strong>Saralee Prasitdumrong</strong>
-            </div>
-
-            <div>
-              <span>Profession</span>
-              <strong>Actress • Model • CEO </strong>
-            </div>
-
-            <div>
-              <span>Birthday</span>
-              <strong>October 8, 1998</strong>
-            </div>
-
-            <div>
-              <span>Zodiac</span>
-              <strong>Libra</strong>
-            </div>
-
-            <div>
-              <span>Birthplace</span>
-              <strong>Bangkok, Thailand</strong>
-            </div>
-
-            <div>
-              <span>Height</span>
-              <strong>5ft 5in (1.65 m)</strong>
-            </div>
-
-            <div>
-              <span>Languages</span>
-              <strong>Thai, English, Chinese, Spanish</strong>
-            </div>
-
-            <div>
-              <span>Education</span>
-              <strong>Mahidol University International College - Finance</strong>
-            </div>
-
-          </div>
-
-          <!-- SOCIAL MEDIA -->
-          <div class="sidebar-socials">
-            <p class="side-eyebrow">Follow Bam</p>
-
-            <div
-              class="socials"
-              aria-label="Bam Saralee social media links"
-            >
-
-              <a
-                href="https://www.instagram.com/bbam_s/reels/?hl=en"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link social-yellow"
-                aria-label="Bam Saralee on Instagram"
-              >
-                <span class="social-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <rect
-                      x="3"
-                      y="3"
-                      width="18"
-                      height="18"
-                      rx="5"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                    />
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="4"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                    />
-                    <circle
-                      cx="17.3"
-                      cy="6.7"
-                      r="1.1"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
-                <span class="social-label">Instagram</span>
-              </a>
-
-              <a
-                href="https://x.com/Bam_Saralee?lang=en"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link social-blue"
-                aria-label="Bam Saralee on X"
-              >
-                <span class="social-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path
-                      d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.5 22H3.4l7.3-8.4L1 2h6.3l4.3 5.8L18.9 2Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
-                <span class="social-label">X</span>
-              </a>
-
-              <a
-                href="https://www.tiktok.com/@bbam_s?lang=en"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link social-yellow"
-                aria-label="Bam Saralee on TikTok"
-              >
-                <span class="social-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path
-                      d="M14.4 3v10.1a3.25 3.25 0 1 1-2.7-3.2V7.2a6.5 6.5 0 1 0 5.8 6.45V8.2A6.7 6.7 0 0 0 21 9.35V6.6A4.45 4.45 0 0 1 17.35 3Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
-                <span class="social-label">TikTok</span>
-              </a>
-
-              <a
-                href="https://www.threads.net/@bbam_s"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link social-blue"
-                aria-label="Bam Saralee on Threads"
-              >
-                <span class="social-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path
-                      d="M12.2 2.5c-5.2 0-9.1 3.6-9.1 9.3 0 5.8 3.8 9.7 9.3 9.7 4.4 0 7.8-2.4 8.5-6.2.6-3.2-.9-5.6-3.7-6.8-.5-3-2.4-4.8-5.2-4.8-2.6 0-4.6 1.4-5.4 3.8l2.2.8c.5-1.5 1.6-2.3 3.2-2.3 1.5 0 2.5.7 2.9 2.1-.7-.1-1.5-.2-2.3-.2-3.5 0-5.8 1.8-5.8 4.6 0 2.7 2.2 4.5 5.2 4.5 2.9 0 5-1.5 5.4-4.1 1.2.8 1.7 2 1.4 3.6-.5 2.5-2.8 4.2-6 4.2-4.2 0-6.9-3-6.9-7.6 0-4.3 2.8-7 6.8-7 3.4 0 5.8 1.9 6.4 5.1l2.3-.5C20.5 5.7 17 2.5 12.2 2.5Zm-.1 12.1c-1.8 0-2.9-.8-2.9-2.1 0-1.4 1.2-2.3 3.4-2.3.9 0 1.7.1 2.5.3v.6c0 2.2-1.1 3.5-3 3.5Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
-                <span class="social-label">Threads</span>
-              </a>
-
-            </div>
-          </div>
-
-          <blockquote class="sidebar-quote">
-            “A space celebrating Bam, her work, her journey, and the moments supporters cherish.”
-          </blockquote>
-
-        </div>
-
-      </aside>
-
-      <!-- RIGHT COLUMN -->
-      <div class="editorial-content">
-
-        <section class="editorial-hero">
-
-          <p class="hero-kicker">Bam's Profile</p>
-
-          <h1 class="editorial-title" id="bam-name">
-            <span>BAM</span>
-            <span>SARALEE</span>
-          </h1>
-
-          <p class="editorial-role">
-            Actress <span>•</span> Artist <span>•</span> Creator
-          </p>
-
-          <div class="hero-divider" aria-hidden="true">
-            <span></span>
-            <b>✦</b>
-            <span></span>
-          </div>
-
-          <p class="editorial-quote">
-            Grace, warmth, and a world of her own.
-          </p>
-
-        </section>
-
-        <!-- ABOUT -->
-        <section class="editorial-section" id="about-bam">
-
-          <p class="section-label">About</p>
-
-          <h2>Grace, warmth, and a world of her own.</h2>
-
-          <p class="editorial-copy">
-            A dedicated space celebrating Bam Saralee — her journey, her work,
-            her personality, and the moments supporters continue to treasure.
-          </p>
-
-          <p class="editorial-copy">
-            This profile brings together selected projects, photos, appearances,
-            and updates in one place — a growing archive of the chapters,
-            milestones, and little moments supporters continue to celebrate.
-          </p>
-
-        </section>
-        <!-- HIGHLIGHTS + FUN FACTS -->
-        <section class="split-sections">
-
-          <!-- CAREER HIGHLIGHTS -->
-          <div class="mini-section" id="bam-projects">
-
-            <p class="section-label">Career Highlights</p>
-
-            <div class="highlight-list">
-
-              <article class="highlight-item">
-
-                <span class="highlight-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M4 7h16v12H4z"></path>
-                    <path d="M4 7l3-4h4l-3 4"></path>
-                    <path d="M11 7l3-4h4l-3 4"></path>
-                    <path d="M4 11h16"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <h3>Selected Projects</h3>
-                  <p>Fulfill The Series (2026) · Lead Role (Pafun)</p>
-                </div>
-
-              </article>
-
-              <article class="highlight-item">
-
-                <span class="highlight-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <h3>Appearances</h3>
-                  <p>Girls Cup 2026 · Team Peach</p>
-                </div>
-
-              </article>
-
-              <article class="highlight-item">
-
-                <span class="highlight-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M6 8h12l1 11H5z"></path>
-                    <path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <h3>Brand Collaborations</h3>
-                  <p>Selected campaigns and collaborations will be added here.</p>
-                </div>
-
-              </article>
-
-            </div>
-
-          </div>
-
-          <!-- FUN FACTS -->
-          <div class="mini-section">
-
-            <p class="section-label">Fun Facts</p>
-
-            <div class="facts-list">
-
-              <div class="fact-row">
-
-                <span class="fact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="4"></circle>
-                    <path d="M12 2v3"></path>
-                    <path d="M12 19v3"></path>
-                    <path d="M4.9 4.9L7 7"></path>
-                    <path d="M17 17l2.1 2.1"></path>
-                    <path d="M2 12h3"></path>
-                    <path d="M19 12h3"></path>
-                    <path d="M4.9 19.1L7 17"></path>
-                    <path d="M17 7l2.1-2.1"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <strong>Favorite Color</strong>
-                  <p>Pink, Peach, Pastel Purple</p>
-                </div>
-
-              </div>
-
-              <div class="fact-row">
-
-                <span class="fact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <rect x="3" y="7" width="18" height="12" rx="2"></rect>
-                    <circle cx="12" cy="13" r="3.5"></circle>
-                    <path d="M8 7l1.5-2h5L16 7"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <strong>Hobbies</strong>
-                  <p>Reading, Exercising, Horseback riding, Diving</p>
-                </div>
-
-              </div>
-
-              <div class="fact-row">
-
-                <span class="fact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M9 18V6l10-2v12"></path>
-                    <circle cx="6" cy="18" r="3"></circle>
-                    <circle cx="16" cy="16" r="3"></circle>
-                  </svg>
-                </span>
-
-                <div>
-                  <strong>Favorite Music</strong>
-                  <p>TBD</p>
-                </div>
-
-               </div>
-
-              <div class="fact-row">
-
-                <span class="fact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M7 2v8"></path>
-                    <path d="M4 2v4a3 3 0 0 0 6 0V2"></path>
-                    <path d="M15 2v20"></path>
-                    <path d="M18 2c1.5 2 1.5 5 0 7h-3V2z"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <strong>Favorite Food</strong>
-                  <p>Sushi, Japanese Food, Fruits</p>
-                  <p class="fact-note">Food allergy: Cow's milk</p>
-                </div>
-
-              </div>
-
-              <div class="fact-row">
-
-                <span class="fact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M6 8h10v6a5 5 0 0 1-10 0z"></path>
-                    <path d="M16 10h2a2.5 2.5 0 0 1 0 5h-2"></path>
-                    <path d="M5 20h13"></path>
-                    <path d="M8 4c0 1 1 1.2 1 2"></path>
-                    <path d="M12 4c0 1 1 1.2 1 2"></path>
-                  </svg>
-                </span>
-
-                <div>
-                  <strong>Favorite Drink</strong>
-                  <p>Water, Iced Chocolate</p>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-        </div>
-        <!-- END EDITORIAL CONTENT -->
-
-      </section>
-      <!-- END EDITORIAL PROFILE -->
-
-
-      <!-- FULL WIDTH CONTENT -->
-      <div class="full-width-content">
-
-<!-- GALLERY -->
-        <section class="editorial-section gallery-section full-width-section" id="bam-gallery">
-
-          <div class="section-heading-row">
-            <div>
-              <p class="section-label">Gallery</p>
-              <h2>Through the Lens</h2>
-            </div>
-
-            <a href="index.html#gallery" class="view-more">
-              View More <span aria-hidden="true">→</span>
+        <div class="follow-strip">
+          <p class="section-label">Follow Bam</p>
+          <div class="socials" aria-label="Bam Saralee social media links">
+            <a href="https://www.instagram.com/bbam_s/reels/?hl=en" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Bam Saralee on Instagram">
+              <span class="social-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.3" cy="6.7" r="1.1" class="fill"></circle></svg>
+              </span><span>Instagram</span>
+            </a>
+            <a href="https://x.com/Bam_Saralee?lang=en" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Bam Saralee on X">
+              <span class="social-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.5 22H3.4l7.3-8.4L1 2h6.3l4.3 5.8L18.9 2Z"></path></svg></span><span>X</span>
+            </a>
+            <a href="https://www.tiktok.com/@bbam_s?lang=en" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Bam Saralee on TikTok">
+              <span class="social-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M14.4 3v10.1a3.25 3.25 0 1 1-2.7-3.2V7.2a6.5 6.5 0 1 0 5.8 6.45V8.2A6.7 6.7 0 0 0 21 9.35V6.6A4.45 4.45 0 0 1 17.35 3Z"></path></svg></span><span>TikTok</span>
+            </a>
+            <a href="https://www.threads.net/@bbam_s" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Bam Saralee on Threads">
+              <span class="social-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M12.2 2.5c-5.2 0-9.1 3.6-9.1 9.3 0 5.8 3.8 9.7 9.3 9.7 4.4 0 7.8-2.4 8.5-6.2.6-3.2-.9-5.6-3.7-6.8-.5-3-2.4-4.8-5.2-4.8-2.6 0-4.6 1.4-5.4 3.8l2.2.8c.5-1.5 1.6-2.3 3.2-2.3 1.5 0 2.5.7 2.9 2.1-.7-.1-1.5-.2-2.3-.2-3.5 0-5.8 1.8-5.8 4.6 0 2.7 2.2 4.5 5.2 4.5 2.9 0 5-1.5 5.4-4.1 1.2.8 1.7 2 1.4 3.6-.5 2.5-2.8 4.2-6 4.2-4.2 0-6.9-3-6.9-7.6 0-4.3 2.8-7 6.8-7 3.4 0 5.8 1.9 6.4 5.1l2.3-.5Z"></path></svg></span><span>Threads</span>
             </a>
           </div>
-
-          <div class="gallery-grid">
-            <div class="gallery-placeholder">Photo</div>
-            <div class="gallery-placeholder">Photo</div>
-            <div class="gallery-placeholder">Photo</div>
-            <div class="gallery-placeholder">Photo</div>
-          </div>
-
-        </section>
-
-        <!-- QUOTE -->
-        <section class="quote-banner">
-          <span class="quote-mark">“</span>
-          <p>
-            A collection of moments, milestones,
-            and memories worth keeping.
-          </p>
-          <span class="quote-credit">— Bam Profile</span>
-        </section>
-
-        <!-- UPDATES -->
-        <section class="editorial-section updates-section full-width-section" id="bam-updates">
-
-          <p class="section-label">Latest Updates</p>
-
-          <h2>What’s New with Bam</h2>
-
-          <div class="updates-placeholder">
-            Bam’s latest appearances, photos, interviews, and updates will appear here.
-          </div>
-
-        </section>
-
-      </div>
-      <!-- END FULL WIDTH CONTENT -->
-
-    <!-- RETURN -->
-    <section class="return-section">
-
-      <div>
-        <p class="return-kicker">Forever Together</p>
-        <p>Supporting Bam every step of the way.</p>
+        </div>
       </div>
 
-      <a
-        href="index.html"
-        class="return-button"
-      >
-        Back to OomBam
-        <span aria-hidden="true">♡</span>
-      </a>
+      <div class="intro-content">
+        <section class="identity-block">
+          <p class="hero-kicker">Bam's Profile</p>
+          <h1 class="editorial-title" id="bam-name"><span>BAM</span><span>SARALEE</span></h1>
+          <p class="editorial-role">Actress <span>•</span> Artist <span>•</span> Creator</p>
+          <div class="hero-divider" aria-hidden="true"><span></span><b>✦</b><span></span></div>
+          <p class="editorial-quote">Grace in her journey, confidence in her own way.</p>
+        </section>
 
+        <section class="about-block" id="about-bam">
+          <p class="section-label">About</p>
+          <h2>Entirely, unmistakably Bam.</h2>
+          <p>Bam Saralee brings together warmth, creativity, curiosity, and a quiet confidence that feels distinctly hers. From the characters she brings to life to the interests and experiences she embraces beyond the screen, each chapter reveals another side of an artist comfortable exploring the world in her own way.</p>
+          <p>Her journey is shaped not only by milestones, but by the details in between — the work she takes pride in, the things that inspire her, the experiences she shares, and the genuine moments supporters have come to treasure. This space celebrates those chapters while leaving room for everything still ahead.</p>
+        </section>
+
+        <section class="profile-facts">
+          <p class="section-label">Profile</p>
+          <div class="profile-details">
+            <div><span>Full Name</span><strong>Saralee Prasitdumrong</strong></div>
+            <div><span>Profession</span><strong>Actress • Model • CEO</strong></div>
+            <div><span>Birthday</span><strong>October 8, 1998</strong></div>
+            <div><span>Zodiac</span><strong>Libra</strong></div>
+            <div><span>Birthplace</span><strong>Bangkok, Thailand</strong></div>
+            <div><span>Height</span><strong>5 ft 5 in (1.65 m)</strong></div>
+            <div><span>Languages</span><strong>Thai, English, Chinese, Spanish</strong></div>
+            <div><span>Education</span><strong>Mahidol University International College — Finance</strong></div>
+          </div>
+        </section>
+      </div>
     </section>
 
+    <section class="content-section selected-works" id="bam-projects">
+      <div class="section-heading">
+        <p class="section-label">Selected Works</p>
+        <h2>Stories, roles, and chapters along the way.</h2>
+        <p>A curated look at selected works from Bam’s growing acting journey.</p>
+      </div>
+
+      <article class="featured-work">
+        <div>
+          <p class="card-kicker">Featured Work · 2026</p>
+          <h3>Fulfill The Series</h3>
+          <p class="work-meta">Pafun · Lead Role · Original Soundtrack</p>
+          <p>A defining chapter in Bam’s journey as an actress. As Pafun, she took on a leading role in the story at the heart of the OomBam community celebrated throughout this fansite.</p>
+        </div>
+        <span class="featured-mark" aria-hidden="true">F</span>
+      </article>
+
+      <div class="works-grid">
+        <article><span>2026</span><h3>Wrong Side of the Rainbow</h3><p>Mungming</p></article>
+        <article><span>2025</span><h3>My Sassy Wedding</h3><p>Yisun</p></article>
+        <article><span>2024</span><h3>Dhevaprom: Kwanruetai</h3><p>M.L. Pokkate “Ket” Juthathep · Acting Debut</p></article>
+      </div>
+
+      <a class="reference-link" href="https://zh.wikipedia.org/zh-cn/%E8%8E%8E%E6%8B%89%E8%8E%89%C2%B7%E6%99%AE%E6%8B%89%E8%A5%BF%E4%B8%B9%E9%9A%86" target="_blank" rel="noopener noreferrer">
+        View Full Filmography &amp; Career History <span aria-hidden="true">↗</span>
+      </a>
+      <p class="reference-note">Additional career reference: Wikipedia</p>
+    </section>
+
+    <section class="content-section appearances-section">
+      <div class="section-heading">
+        <p class="section-label">Recent Appearances</p>
+        <h2>Seen lately.</h2>
+        <p>Selected appearances from the past three months.</p>
+      </div>
+      <div class="appearances-grid">
+        <article><time datetime="2026-08-08">08 AUG 2026</time><h3>Weibo Gala 2026</h3><p>International Artist Appearance</p></article>
+        <article><time datetime="2026-08-01">01 AUG 2026</time><h3>CH3 Girls Cup 2026</h3><p>Team Peach · Channel 3 Event</p></article>
+        <article><time datetime="2026-07-31">31 JUL 2026</time><h3>OMEGA ICONSIAM Boutique Opening</h3><p>Luxury Brand Event · Special Guest</p></article>
+        <article><time datetime="2026-06-12">12 JUN 2026</time><h3>Fulfill Final Episode</h3><p>Lead Actress · Series Special Event</p></article>
+      </div>
+    </section>
+
+    <section class="content-section fun-facts-section">
+      <div class="section-heading">
+        <p class="section-label">Fun Facts</p>
+        <h2>A little more Bam.</h2>
+      </div>
+      <div class="facts-grid">
+        <article><span>Favorite Colors</span><p>Pink · Peach · Pastel Purple</p></article>
+        <article><span>Hobbies</span><p><b>Indoor:</b> Reading &amp; Baking<br><b>Outdoor:</b> Running, Pilates, Horseback Riding, Archery &amp; Diving</p></article>
+        <article class="wide"><span>Favorite Food</span><p>Sushi · Japanese Food · Durian &amp; Other Fruits</p><small>Food note: Cow’s milk allergy</small></article>
+        <article><span>Favorite Drinks</span><p>Water · Iced Chocolate</p></article>
+        <article><span>Music</span><p>Bright T-POP · Feel-good Acoustic · Modern Romantic Ballads</p></article>
+        <article class="wide"><span>Life Philosophy</span><p>Good things take time. Great things take time and effort. Brilliant things take time, effort, and discipline.</p></article>
+      </div>
+    </section>
+
+    <section class="content-section updates-section" id="bam-updates">
+      <div class="updates-copy">
+        <p class="section-label">Latest Updates</p>
+        <h2>What’s New with Bam</h2>
+        <p>Recent projects, appearances, interviews, and moments from Bam’s journey will be collected here as new chapters unfold.</p>
+      </div>
+      <div class="updates-accent" aria-hidden="true"><span>B</span></div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <a href="https://x.com/OomBamSocietyPH" target="_blank" rel="noopener noreferrer" class="footer-logo" aria-label="Visit OomBam Society PH on X">
+          <img src="assets/images/OBSocPH-Logo-transparent.png" alt="OomBam Society PH" loading="lazy">
+        </a>
+        <p class="footer-main-copy">Official Fansite • Created with LOVE for OomBam</p>
+        <p class="footer-message">Always with OomBam 🩵🌸</p>
+      </div>
+      <div class="footer-bottom"><p>© <span id="currentYear">2026</span> OomBam Blossoms Together.</p></div>
+    </footer>
   </main>
 
-
-  <!-- MOBILE / TABLET NAVIGATION -->
   <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const mainNav = document.getElementById("mainNav");
+    const root = document.documentElement;
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+    const themeToggle = document.getElementById('themeToggle');
+    const searchToggle = document.getElementById('searchToggle');
+    const siteSearch = document.getElementById('siteSearch');
+    const siteSearchForm = document.getElementById('siteSearchForm');
+    const siteSearchInput = document.getElementById('siteSearchInput');
+    const searchStatus = document.getElementById('searchStatus');
+    const currentYear = document.getElementById('currentYear');
 
-    if (menuToggle && mainNav) {
-      const closeMenu = () => {
-        mainNav.classList.remove("is-open");
-        menuToggle.classList.remove("is-active");
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.setAttribute("aria-label", "Open navigation menu");
-      };
+    if (currentYear) currentYear.textContent = new Date().getFullYear();
 
-      menuToggle.addEventListener("click", () => {
-        const isOpen = mainNav.classList.toggle("is-open");
+    const savedTheme = localStorage.getItem('oombam-theme');
+    if (savedTheme === 'dark' || savedTheme === 'light') root.dataset.theme = savedTheme;
 
-        menuToggle.classList.toggle("is-active", isOpen);
-        menuToggle.setAttribute("aria-expanded", String(isOpen));
-        menuToggle.setAttribute(
-          "aria-label",
-          isOpen
-            ? "Close navigation menu"
-            : "Open navigation menu"
-        );
-      });
+    const syncThemeLabel = () => {
+      if (!themeToggle) return;
+      themeToggle.setAttribute('aria-label', root.dataset.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    };
+    syncThemeLabel();
 
-      mainNav.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", closeMenu);
-      });
+    themeToggle?.addEventListener('click', () => {
+      root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('oombam-theme', root.dataset.theme);
+      syncThemeLabel();
+    });
 
-      document.addEventListener("click", (event) => {
-        if (
-          window.innerWidth <= 1100 &&
-          mainNav.classList.contains("is-open") &&
-          !mainNav.contains(event.target) &&
-          !menuToggle.contains(event.target)
-        ) {
-          closeMenu();
-        }
-      });
+    const closeMenu = () => {
+      mainNav?.classList.remove('is-open');
+      menuToggle?.classList.remove('is-active');
+      menuToggle?.setAttribute('aria-expanded', 'false');
+    };
 
-      window.addEventListener("resize", () => {
-        if (window.innerWidth > 1100) {
-          closeMenu();
-        }
-      });
-    }
+    menuToggle?.addEventListener('click', () => {
+      const isOpen = mainNav.classList.toggle('is-open');
+      menuToggle.classList.toggle('is-active', isOpen);
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    mainNav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+    searchToggle?.addEventListener('click', () => {
+      const isOpen = siteSearch.classList.toggle('is-open');
+      searchToggle.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) setTimeout(() => siteSearchInput?.focus(), 80);
+    });
+
+    siteSearchForm?.addEventListener('submit', event => {
+      event.preventDefault();
+      const query = siteSearchInput.value.trim().toLowerCase();
+      if (!query) {
+        searchStatus.textContent = 'Type something to search Bam’s profile.';
+        return;
+      }
+      const sections = [...document.querySelectorAll('.content-section, .about-block, .profile-facts')];
+      const match = sections.find(section => section.innerText.toLowerCase().includes(query));
+      if (match) {
+        match.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        searchStatus.textContent = `Found “${siteSearchInput.value.trim()}”.`;
+      } else {
+        searchStatus.textContent = `No match found for “${siteSearchInput.value.trim()}”.`;
+      }
+    });
   </script>
-
 </body>
-
 </html>
