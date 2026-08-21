@@ -11,7 +11,7 @@
 
   <meta
     name="description"
-    content="Just the Two of Us — a Fulfill The Series archive within the unofficial OomBam fansite."
+    content="Just the Two of Us — a curated Fulfill The Series archive within the OomBam fansite."
   >
 
   <title>Just the Two of Us | OomBam Fansite</title>
@@ -31,55 +31,8 @@
 
   <link
     rel="stylesheet"
-    href="css/just-the-two-of-us.css?v=11"
+    href="css/just-the-two-of-us.css?v=12"
   >
-
-  <style>
-    /* OomBam Society PH logo — responsive sizing */
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .brand .brand-logo {
-      width: clamp(155px, 12vw, 210px);
-      max-width: none;
-      height: auto;
-      max-height: 78px;
-      object-fit: contain;
-    }
-
-    .footer-brand img {
-      width: clamp(145px, 11vw, 190px);
-      max-width: none;
-      height: auto;
-      object-fit: contain;
-    }
-
-    @media (max-width: 1100px) {
-      .brand .brand-logo {
-        width: clamp(145px, 20vw, 185px);
-        max-height: 72px;
-      }
-
-      .footer-brand img {
-        width: 160px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .brand .brand-logo {
-        width: 145px;
-        max-height: 64px;
-      }
-
-      .footer-brand img {
-        width: 145px;
-      }
-    }
-  </style>
-
 </head>
 
 <body>
@@ -110,19 +63,33 @@
       class="desktop-nav"
       aria-label="Main navigation"
     >
-      <a href="index.html#home" class="nav-link">Home</a>
-      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#home" class="nav-link">Welcome 🌸</a>
+      <a href="index.html#story" class="nav-link">Our Story</a>
       <a href="oom.html" class="nav-link">Oom</a>
       <a href="bam.html" class="nav-link">Bam</a>
       <a href="index.html#moments" class="nav-link active">Moments</a>
-      <a href="index.html#gallery" class="nav-link">Gallery</a>
       <a href="index.html#media" class="nav-link">Media</a>
+      <a href="community.html" class="nav-link">Blossoms</a>
       <a href="index.html#updates" class="nav-link">Updates</a>
-      <a href="community.html" class="nav-link">Blossom Community</a>
     </nav>
 
 
     <div class="header-actions">
+
+
+      <button
+        class="header-icon"
+        id="archiveSearchToggle"
+        type="button"
+        aria-label="Search this archive"
+        aria-expanded="false"
+        aria-controls="archiveSearch"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="6.5"></circle>
+          <path d="m16 16 4 4"></path>
+        </svg>
+      </button>
 
       <button
         class="header-icon"
@@ -160,6 +127,18 @@
   </header>
 
 
+  <div class="archive-search" id="archiveSearch" hidden>
+    <div class="archive-search-inner">
+      <label for="archiveSearchInput">Search the Fulfill archive</label>
+      <div class="archive-search-row">
+        <input id="archiveSearchInput" type="search" placeholder="Try “soundtrack”, “pilot”, or “recap”">
+        <button id="archiveSearchButton" type="button">Search</button>
+      </div>
+      <p id="archiveSearchStatus" aria-live="polite"></p>
+    </div>
+  </div>
+
+
   <!-- =====================================================
        MOBILE MENU
   ====================================================== -->
@@ -173,15 +152,14 @@
       class="mobile-menu-panel"
       aria-label="Mobile navigation"
     >
-      <a href="index.html#home">Home</a>
-      <a href="index.html#about">About</a>
+      <a href="index.html#home">Welcome 🌸</a>
+      <a href="index.html#story">Our Story</a>
       <a href="oom.html">Oom</a>
       <a href="bam.html">Bam</a>
       <a href="index.html#moments">Moments</a>
-      <a href="index.html#gallery">Gallery</a>
       <a href="index.html#media">Media</a>
+      <a href="community.html">Blossoms</a>
       <a href="index.html#updates">Updates</a>
-      <a href="community.html">Blossom Community</a>
     </nav>
   </div>
 
@@ -275,13 +253,13 @@
           </h2>
 
           <p class="lead">
-            Before they became memories, they were moments.
+            Where their story found its beginning.
           </p>
 
           <p>
-            Revisit the story through its official streaming home, then explore the
-            pilot, reactions, special content, favorite scenes, recaps, and music
-            that became part of the Fulfill journey.
+            Fulfill brought Oom and Bam together on screen, and the moments surrounding
+            the series became part of a much larger journey. Revisit its official
+            streaming home, special chapters, memorable scenes, recaps, and music.
           </p>
 
           <a
@@ -336,13 +314,13 @@
         <div class="section-heading">
 
           <div>
-            <p class="section-kicker">Behind the Story</p>
-            <h2>Beyond the Scenes</h2>
+            <p class="section-kicker">The Fulfill Archive</p>
+            <h2>From the Fulfill Archive</h2>
           </div>
 
           <p>
-            Watch the official pilot, special content, and a favorite scene
-            from Fulfill directly from the archive.
+            Official videos, special chapters, and moments worth returning to —
+            preserved here as part of the story that started it all.
           </p>
 
         </div>
@@ -440,7 +418,7 @@
               </p>
 
               <h2>
-                Scenes Worth Returning To
+                Moments Worth Returning To
               </h2>
             </div>
 
@@ -450,7 +428,7 @@
           <div class="playlist-grid">
 
             <a href="https://youtube.com/playlist?list=PLDIqVRSvaz9IaJDmCNF503b5DWz7KnY_w&si=6dwZQJtP1hJEYvU3"
-               target="_blank" rel="noopener noreferrer" class="playlist-card">
+               target="_blank" rel="noopener noreferrer" class="playlist-card featured-memory">
               <img src="assets/images/fulfill-photo1.jpg" alt="Reaction Videos | Fulfill" loading="lazy">
               <div>
                 <span>Reaction Videos</span>
@@ -531,8 +509,7 @@
           </h2>
 
           <p>
-            Two songs, one story — revisit the music through the original
-            YouTube uploads.
+            Two songs, one story — return to the official music that carried Fulfill beyond the screen.
           </p>
 
 
@@ -584,8 +561,8 @@
         </h2>
 
         <p>
-          From the first scenes to the music, reactions, and moments in between,
-          this archive keeps a little piece of Fulfill close.
+          Fulfill gave us a story on screen — and along the way, introduced a journey
+          that continued far beyond it. This archive keeps a little piece of that beginning close.
         </p>
 
         <a
@@ -607,34 +584,87 @@
   ====================================================== -->
 
   <footer class="site-footer">
-
-    <a
-      href="index.html"
-      class="footer-brand"
-    >
-      <img
-        src="assets/images/OBSocPH-Logo-transparent.png"
-        alt="OomBam Society Philippines"
+    <div class="footer-inner">
+      <a
+        href="https://x.com/OomBamSocietyPH"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="footer-brand"
+        aria-label="Visit OomBam Society Philippines on X"
       >
-    </a>
+        <img
+          src="assets/images/OBSocPH-Logo-transparent.png"
+          alt="OomBam Society Philippines"
+        >
+      </a>
 
-    <p>
-      Unofficial fan archive • Created with love for OomBam.
-    </p>
+      <div class="footer-copy">
+        <p class="footer-main">Official Fansite • Created with LOVE for OomBam</p>
+        <p class="footer-script">Always with OomBam 🩵🌸</p>
+        <p class="footer-copyline">© 2026 OomBam Blossoms Together.</p>
+      </div>
 
-    <a
-      href="#"
-      class="back-to-top"
-      aria-label="Back to top"
-    >
-      ↑
-    </a>
-
+      <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+    </div>
   </footer>
 
 
   <!-- Reuse the homepage navigation/theme script -->
   <script src="js/script.js?v=7"></script>
+
+  <script>
+    (() => {
+      const toggle = document.getElementById("archiveSearchToggle");
+      const panel = document.getElementById("archiveSearch");
+      const input = document.getElementById("archiveSearchInput");
+      const button = document.getElementById("archiveSearchButton");
+      const status = document.getElementById("archiveSearchStatus");
+
+      if (!toggle || !panel || !input || !button || !status) return;
+
+      toggle.addEventListener("click", () => {
+        const opening = panel.hidden;
+        panel.hidden = !opening;
+        toggle.setAttribute("aria-expanded", String(opening));
+        if (opening) requestAnimationFrame(() => input.focus());
+      });
+
+      const runSearch = () => {
+        const q = input.value.trim().toLowerCase();
+        document.querySelectorAll(".archive-search-hit")
+          .forEach(el => el.classList.remove("archive-search-hit"));
+
+        if (!q) {
+          status.textContent = "Enter a word or phrase to search the archive.";
+          return;
+        }
+
+        const candidates = [
+          ...document.querySelectorAll(
+            "main h1, main h2, main h3, main p, main span, main strong"
+          )
+        ];
+
+        const hit = candidates.find(el =>
+          el.textContent.toLowerCase().includes(q)
+        );
+
+        if (!hit) {
+          status.textContent = `No match found for “${input.value.trim()}”.`;
+          return;
+        }
+
+        hit.classList.add("archive-search-hit");
+        hit.scrollIntoView({ behavior: "smooth", block: "center" });
+        status.textContent = `Showing the first match for “${input.value.trim()}”.`;
+      };
+
+      button.addEventListener("click", runSearch);
+      input.addEventListener("keydown", event => {
+        if (event.key === "Enter") runSearch();
+      });
+    })();
+  </script>
 
 </body>
 
