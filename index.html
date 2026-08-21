@@ -11,7 +11,7 @@
 
   <meta
     name="description"
-    content="An unofficial OomBam fan site celebrating Oom Eisaya and Bam Saralee."
+    content="Official Fansite of OomBam Society PH, celebrating Oom Eisaya and Bam Saralee."
   >
 
   <title>OomBam | Forever Together</title>
@@ -31,43 +31,16 @@
 
   <link
     rel="stylesheet"
-    href="css/style.css?v=7"
+    href="css/global.css?v=1"
   >
 
-  <style>
-    /* OomBam Society PH logo — responsive header sizing */
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .brand .brand-logo {
-      width: clamp(155px, 12vw, 210px);
-      max-width: none;
-      height: auto;
-      max-height: 78px;
-      object-fit: contain;
-    }
-
-    @media (max-width: 1100px) {
-      .brand .brand-logo {
-        width: clamp(145px, 20vw, 185px);
-        max-height: 72px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .brand .brand-logo {
-        width: 145px;
-        max-height: 64px;
-      }
-    }
-  </style>
-
+  <link
+    rel="stylesheet"
+    href="css/style.css?v=8"
+  >
 </head>
 
-<body>
+<body class="page-home">
 
   <!-- =========================
        HEADER
@@ -77,6 +50,8 @@
     class="site-header"
     id="siteHeader"
   >
+
+    <div class="site-header-inner">
 
     <a
       href="#home"
@@ -150,6 +125,8 @@
         <span></span>
         <span></span>
       </button>
+
+    </div>
 
     </div>
 
@@ -977,6 +954,43 @@
 
 
   </main>
+
+
+
+  <!-- =========================
+       GLOBAL FOOTER
+  ========================== -->
+
+  <footer class="site-footer">
+
+    <a
+      href="https://x.com/OomBamSocietyPH"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="footer-logo-link"
+      aria-label="Visit OomBam Society PH on X"
+    >
+      <img
+        src="assets/images/OBSocPH-Logo-transparent.png"
+        alt="OomBam Society PH"
+        class="footer-logo"
+        loading="lazy"
+      >
+    </a>
+
+    <p class="footer-copy">
+      Official Fansite • Created with LOVE for OomBam
+    </p>
+
+    <a
+      href="#home"
+      class="back-to-top"
+      aria-label="Back to top"
+    >
+      ↑
+    </a>
+
+  </footer>
 
 
   <!-- =========================
