@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./css/oom.css?v=20">
+  <link rel="stylesheet" href="./css/oom.css?v=21">
 </head>
 <body>
   <main class="profile-shell">
@@ -141,7 +141,7 @@
           <article class="wide"><span>Favorite Food</span><p>Som Tum (Green Papaya Salad) · Sushi · Dim Sum · Sticky Rice · Pad Kra Prow (Stir-fried Holy Basil) · Thai Desserts &amp; Baked Goods</p></article>
           <article><span>Favorite Drinks</span><p>Matcha · Tea · Grapefruit Juice</p></article>
           <article><span>Music</span><p>Acoustic · Feel-good · Gentle Pop</p></article>
-          <article class="wide"><span>Outlook</span><p>Finding happiness in what she loves, while moving forward with positivity, hope, and kindness.</p></article>
+          <article class="wide"><span>Life Philosophy</span><p>Finding happiness in doing what she loves, while moving through life with positivity, hope, and kindness.</p></article>
         </div>
       </section>
     </section>
@@ -156,14 +156,40 @@
     </section>
 
     <footer class="site-footer">
-      <a class="footer-logo-link" href="https://x.com/OomBamSocietyPH" target="_blank" rel="noopener noreferrer" aria-label="OomBam Society Philippines on X">
-        <img src="assets/images/OBSocPH-Logo-transparent.png" alt="Official OomBam Society Philippines logo">
-      </a>
-      <div class="footer-copy">
-        <p><strong>Official Fansite • Created with LOVE for OomBam</strong></p>
-        <p>Always with OomBam 💙🌸</p>
-        <p>© 2026 OomBam Blossoms Together.</p>
+
+      <div class="footer-inner">
+
+        <a
+          href="https://x.com/OomBamSocietyPH"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-logo"
+          aria-label="Visit OomBam Society PH on X"
+        >
+          <img
+            src="assets/images/OBSocPH-Logo-transparent.png"
+            alt="OomBam Society PH"
+            loading="lazy"
+          >
+        </a>
+
+        <p class="footer-main-copy">
+          Official Fansite • Created with LOVE for OomBam
+        </p>
+
+        <p class="footer-message">
+          Always with OomBam 🩵🌸
+        </p>
+
       </div>
+
+      <div class="footer-bottom">
+        <p>
+          © <span id="currentYear">2026</span>
+          OomBam Blossoms Together.
+        </p>
+      </div>
+
     </footer>
   </main>
 
@@ -177,6 +203,9 @@
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
     const searchStatus = document.getElementById('searchStatus');
+
+    const currentYear = document.getElementById('currentYear');
+    if (currentYear) currentYear.textContent = new Date().getFullYear();
 
     const savedTheme = localStorage.getItem('oombam-theme');
     if (savedTheme === 'dark') root.dataset.theme = 'dark';
