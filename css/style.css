@@ -5833,3 +5833,49 @@ body.dark-theme.page-home .footer-bottom {
   }
 
 }
+
+
+/* =========================================================
+   V13.6.2 — MOBILE HERO COPY + SOCIAL ROW BALANCE
+   Keep hero copy below the faces while preserving all socials.
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .page-home .hero-content {
+    right: 0;
+    bottom: 38px;
+    left: 0;
+
+    /* Restore compact hero spacing; v13.6.1's large
+       bottom padding pushed the entire copy over the faces. */
+    padding:
+      0
+      22px
+      28px;
+  }
+
+  .page-home .hero-socials {
+    bottom: 14px;
+  }
+
+}
+
+
+/* Narrow phones */
+@media (max-width: 390px) {
+
+  .page-home .hero-content {
+    bottom: 36px;
+
+    padding:
+      0
+      18px
+      28px;
+  }
+
+  .page-home .hero-socials {
+    bottom: 12px;
+  }
+
+}
