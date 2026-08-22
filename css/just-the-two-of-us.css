@@ -2433,3 +2433,295 @@ body.dark-theme {
     font-size: .80rem !important;
   }
 }
+
+
+/* =========================================================
+   V20 — EDITORIAL FULFILL MEDIA LAYOUT
+   Featured rewatch + archive collection side by side
+========================================================= */
+
+.archive-media-section {
+  padding-top: 76px;
+  padding-bottom: 76px;
+}
+
+.archive-media-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.72fr) minmax(330px, .98fr);
+  gap: clamp(30px, 3.6vw, 54px);
+  align-items: start;
+}
+
+.featured-rewatch-column,
+.collection-column {
+  min-width: 0;
+}
+
+.archive-section-heading {
+  margin-bottom: 26px;
+}
+
+.archive-section-heading .section-kicker {
+  margin-bottom: 10px;
+}
+
+.archive-section-heading h2 {
+  margin: 0 0 13px;
+  color: #302a2c;
+  font-family: var(--display);
+  font-size: clamp(2.45rem, 3.25vw, 3.75rem);
+  font-weight: 500;
+  letter-spacing: -.03em;
+  line-height: .98;
+}
+
+.archive-section-intro {
+  max-width: 620px;
+  margin: 0;
+  color: var(--text);
+  font-size: .82rem;
+  line-height: 1.68;
+}
+
+.series-name {
+  color: #4a4145;
+  font-weight: 700;
+}
+
+/* Four featured videos form a balanced 2 × 2 editorial grid. */
+.archive-media-layout .story-player-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.archive-media-layout .story-player-card:last-child {
+  grid-column: auto;
+  max-width: none;
+  width: auto;
+  justify-self: stretch;
+}
+
+.archive-media-layout .story-player-copy {
+  padding: 17px 18px 19px;
+}
+
+.archive-media-layout .story-player-copy h3 {
+  font-size: 1.22rem;
+}
+
+.archive-media-layout .story-player-copy p {
+  font-size: .71rem;
+}
+
+/* Archive becomes a compact vertical browsing rail. */
+.archive-media-layout .playlist-grid {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.archive-media-layout .playlist-card,
+.archive-media-layout .playlist-card.featured-memory {
+  grid-column: auto;
+  grid-template-columns: 102px minmax(0, 1fr);
+  min-height: 86px;
+  gap: 11px;
+  padding: 8px;
+}
+
+.archive-media-layout .playlist-card img,
+.archive-media-layout .playlist-card.featured-memory img {
+  width: 102px;
+  height: 68px;
+  border-radius: 7px;
+}
+
+.archive-media-layout .playlist-card.featured-memory {
+  background: linear-gradient(135deg,#fff,#fdf4f6);
+}
+
+.archive-media-layout .playlist-card h3,
+.archive-media-layout .playlist-card.featured-memory h3 {
+  margin: 3px 0 4px;
+  font-size: .98rem;
+}
+
+.archive-media-layout .playlist-card p,
+.archive-media-layout .playlist-card.featured-memory p {
+  font-size: .60rem;
+  line-height: 1.38;
+}
+
+.archive-media-layout .playlist-card span {
+  font-size: .52rem;
+}
+
+.dark-theme .archive-section-heading h2 {
+  color: #f5eff1;
+}
+
+.dark-theme .archive-section-intro {
+  color: rgba(255,255,255,.66);
+}
+
+.dark-theme .series-name {
+  color: rgba(255,255,255,.9);
+}
+
+.dark-theme .archive-media-layout .playlist-card.featured-memory {
+  background: linear-gradient(135deg,#292a2f,#30272b);
+}
+
+/* Tablet: stack before either column becomes cramped. */
+@media (max-width: 980px) {
+  .archive-media-layout {
+    grid-template-columns: 1fr;
+    gap: 52px;
+  }
+
+  .archive-section-heading {
+    max-width: 720px;
+  }
+
+  .archive-media-layout .playlist-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+
+  .archive-media-layout .playlist-card,
+  .archive-media-layout .playlist-card.featured-memory {
+    grid-template-columns: 112px minmax(0,1fr);
+  }
+
+  .archive-media-layout .playlist-card img,
+  .archive-media-layout .playlist-card.featured-memory img {
+    width: 112px;
+    height: 74px;
+  }
+}
+
+@media (max-width: 700px) and (orientation: portrait) {
+  .archive-media-section {
+    padding-top: 58px;
+    padding-bottom: 58px;
+  }
+
+  .archive-media-layout {
+    gap: 44px;
+  }
+
+  .archive-section-heading {
+    margin-bottom: 22px;
+  }
+
+  .archive-section-heading h2 {
+    font-size: 2.4rem;
+  }
+
+  .archive-section-intro {
+    font-size: .80rem;
+    line-height: 1.6;
+  }
+
+  .archive-media-layout .story-player-grid,
+  .archive-media-layout .playlist-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .archive-media-layout .playlist-card,
+  .archive-media-layout .playlist-card.featured-memory {
+    grid-template-columns: 104px minmax(0,1fr);
+  }
+
+  .archive-media-layout .playlist-card img,
+  .archive-media-layout .playlist-card.featured-memory img {
+    width: 104px;
+    height: 72px;
+  }
+}
+
+/* Short landscape: preserve density without squeezing cards. */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  .archive-media-section {
+    padding-top: 42px;
+    padding-bottom: 42px;
+  }
+
+  .archive-media-layout {
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, .9fr);
+    gap: 26px;
+  }
+
+  .archive-section-heading {
+    margin-bottom: 18px;
+  }
+
+  .archive-section-heading h2 {
+    font-size: clamp(2rem, 3.2vw, 2.65rem);
+    margin-bottom: 9px;
+  }
+
+  .archive-section-intro {
+    font-size: .70rem;
+    line-height: 1.5;
+  }
+
+  .archive-media-layout .story-player-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 12px;
+  }
+
+  .archive-media-layout .story-player-copy {
+    padding: 12px 13px 14px;
+  }
+
+  .archive-media-layout .story-player-copy h3 {
+    font-size: .98rem;
+  }
+
+  .archive-media-layout .story-player-copy p {
+    font-size: .61rem;
+  }
+
+  .archive-media-layout .playlist-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .archive-media-layout .playlist-card,
+  .archive-media-layout .playlist-card.featured-memory {
+    grid-template-columns: 82px minmax(0,1fr);
+    min-height: 70px;
+    gap: 8px;
+    padding: 6px;
+  }
+
+  .archive-media-layout .playlist-card img,
+  .archive-media-layout .playlist-card.featured-memory img {
+    width: 82px;
+    height: 54px;
+  }
+
+  .archive-media-layout .playlist-card span {
+    font-size: .46rem;
+  }
+
+  .archive-media-layout .playlist-card h3,
+  .archive-media-layout .playlist-card.featured-memory h3 {
+    font-size: .82rem;
+  }
+
+  .archive-media-layout .playlist-card p,
+  .archive-media-layout .playlist-card.featured-memory p {
+    font-size: .52rem;
+  }
+}
+
+@media (max-width: 820px) and (max-height: 600px) and (orientation: landscape) {
+  .archive-media-layout {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .archive-media-layout .playlist-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+}
