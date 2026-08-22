@@ -3876,3 +3876,140 @@ button {
   }
 }
 
+/* =========================================================
+   COMMUNITY BLOSSOMS v11 — HERO TYPOGRAPHY CLEANUP
+   Remove card overlays; use typography + subtle global shade
+========================================================= */
+
+/* No tile/card behind hero copy */
+.community-page .hero-copy,
+.community-page .garden-copy {
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Light mode: darker ink tones directly on the pale banner */
+.community-page:not(.dark-theme) .hero-copy .eyebrow {
+  color: #c84f78 !important;
+  text-shadow: 0 1px 8px rgba(255,255,255,.65);
+}
+
+.community-page:not(.dark-theme) .community-word {
+  color: #17324b !important;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.76),
+    0 2px 12px rgba(255,255,255,.56);
+}
+
+.community-page:not(.dark-theme) .blossoms-word {
+  color: #e56d98 !important;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.80),
+    0 2px 10px rgba(255,255,255,.50);
+}
+
+.community-page:not(.dark-theme) .hero-lead,
+.community-page:not(.dark-theme) .garden-copy h2 {
+  color: #1f3850 !important;
+  text-shadow: 0 1px 10px rgba(255,255,255,.72);
+}
+
+.community-page:not(.dark-theme) .hero-description,
+.community-page:not(.dark-theme) .garden-copy p {
+  color: #334f65 !important;
+  text-shadow: 0 1px 8px rgba(255,255,255,.72);
+}
+
+.community-page:not(.dark-theme) .garden-link {
+  color: #b84f72 !important;
+  border-bottom-color: rgba(184,79,114,.45) !important;
+  text-shadow: 0 1px 8px rgba(255,255,255,.65);
+}
+
+/* A very soft page-wide wash replaces the old tiles. */
+.community-page:not(.dark-theme) .community-hero-shade {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(244,251,253,.58) 0%,
+      rgba(244,251,253,.22) 25%,
+      rgba(244,251,253,0) 48%,
+      rgba(244,251,253,.08) 70%,
+      rgba(244,251,253,.30) 100%
+    ) !important;
+}
+
+/* Dark mode: ivory/soft white with pink accent; no tiles */
+.community-page.dark-theme .hero-copy,
+.community-page.dark-theme .garden-copy {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.community-page.dark-theme .hero-copy .eyebrow {
+  color: #f18cab !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,.48);
+}
+
+.community-page.dark-theme .community-word {
+  color: #fffaf7 !important;
+  text-shadow:
+    0 2px 2px rgba(0,0,0,.45),
+    0 3px 16px rgba(0,0,0,.48);
+}
+
+.community-page.dark-theme .blossoms-word {
+  color: #f07fa6 !important;
+  text-shadow:
+    0 2px 2px rgba(0,0,0,.44),
+    0 3px 14px rgba(0,0,0,.46);
+}
+
+.community-page.dark-theme .hero-lead,
+.community-page.dark-theme .garden-copy h2 {
+  color: #fff7f4 !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,.58);
+}
+
+.community-page.dark-theme .hero-description,
+.community-page.dark-theme .garden-copy p {
+  color: rgba(255,250,247,.88) !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,.58);
+}
+
+.community-page.dark-theme .garden-link {
+  color: #f18cab !important;
+  border-bottom-color: rgba(241,140,171,.50) !important;
+  text-shadow: 0 2px 9px rgba(0,0,0,.50);
+}
+
+.community-page.dark-theme .community-hero-shade {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(10,15,20,.56) 0%,
+      rgba(10,15,20,.26) 25%,
+      rgba(10,15,20,.06) 50%,
+      rgba(10,15,20,.16) 76%,
+      rgba(10,15,20,.40) 100%
+    ) !important;
+}
+
+/* Keep mobile layouts tile-free too */
+@media (max-width: 900px) {
+  .community-page .hero-copy,
+  .community-page .garden-copy {
+    padding: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
