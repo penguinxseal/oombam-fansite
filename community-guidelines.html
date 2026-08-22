@@ -14,7 +14,7 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="css/guidelines.css?v=3">
+  <link rel="stylesheet" href="css/guidelines.css?v=4">
 </head>
 
 <body>
@@ -311,58 +311,171 @@
 
   </div>
 
-  <script src="js/script.js?v=7"></script>
-
   <script>
     (() => {
-      const toggle = document.getElementById("guidelineSearchToggle");
-      const panel = document.getElementById("guidelineSearch");
-      const input = document.getElementById("guidelineSearchInput");
-      const button = document.getElementById("guidelineSearchButton");
-      const status = document.getElementById("guidelineSearchStatus");
+      const body = document.body;
 
-      if (!toggle || !panel || !input || !button || !status) return;
+      /* MOBILE NAVIGATION */
+      const menuToggle = document.getElementById("menuToggle");
+      const mobileMenu = document.getElementById("mobileMenu");
 
-      toggle.addEventListener("click", () => {
-        const opening = panel.hidden;
-        panel.hidden = !opening;
-        toggle.setAttribute("aria-expanded", String(opening));
-        if (opening) requestAnimationFrame(() => input.focus());
-      });
+      const closeMenu = () => {
+        if (!menuToggle || !mobileMenu) return;
 
-      const runSearch = () => {
-        const q = input.value.trim().toLowerCase();
+        mobileMenu.classList.remove("open", "is-open");
+        mobileMenu.setAttribute("aria-hidden", "true");
 
-        document
-          .querySelectorAll(".guideline-search-hit")
-          .forEach(el => el.classList.remove("guideline-search-hit"));
-
-        if (!q) {
-          status.textContent = "Enter a word or phrase to search the guidelines.";
-          return;
-        }
-
-        const cards = [...document.querySelectorAll(".rule-card, .promise-card, .guideline-note")];
-
-        const hit = cards.find(el =>
-          el.textContent.toLowerCase().includes(q)
-        );
-
-        if (!hit) {
-          status.textContent = `No guideline found for “${input.value.trim()}”.`;
-          return;
-        }
-
-        hit.classList.add("guideline-search-hit");
-        hit.scrollIntoView({ behavior: "smooth", block: "center" });
-        status.textContent = `Showing the first match for “${input.value.trim()}”.`;
+        menuToggle.classList.remove("active");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation menu");
       };
 
-      button.addEventListener("click", runSearch);
+      const openMenu = () => {
+        if (!menuToggle || !mobileMenu) return;
 
-      input.addEventListener("keydown", event => {
-        if (event.key === "Enter") runSearch();
-      });
+        mobileMenu.classList.add("open", "is-open");
+        mobileMenu.setAttribute("aria-hidden", "false");
+
+        menuToggle.classList.add("active");
+        menuToggle.setAttribute("aria-expanded", "true");
+        menuToggle.setAttribute("aria-label", "Close navigation menu");
+      };
+
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener("click", event => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const isOpen =
+            mobileMenu.classList.contains("open") ||
+            mobileMenu.classList.contains("is-open");
+
+          isOpen ? closeMenu() : openMenu();
+        });
+
+        mobileMenu.querySelectorAll("a").forEach(link => {
+          link.addEventListener("click", closeMenu);
+        });
+
+        mobileMenu.addEventListener("click", event => {
+          if (event.target === mobileMenu) closeMenu();
+        });
+
+        document.addEventListener("keydown", event => {
+          if (event.key === "Escape") closeMenu();
+        });
+
+        window.addEventListener("resize", () => {
+          if (window.innerWidth > 1100) closeMenu();
+        });
+      }
+
+      /* THEME */
+      const themeToggle = document.getElementById("themeToggle");
+      const storageKey = "oombam-theme";
+      const storedTheme = localStorage.getItem(storageKey);
+
+      if (storedTheme === "dark") {
+        body.classList.add("dark-theme");
+      } else if (storedTheme === "light") {
+        body.classList.remove("dark-theme");
+      }
+
+      if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+          body.classList.toggle("dark-theme");
+
+          localStorage.setItem(
+            storageKey,
+            body.classList.contains("dark-theme")
+              ? "dark"
+              : "light"
+          );
+        });
+      }
+
+      /* GUIDELINE SEARCH */
+      const searchToggle =
+        document.getElementById("guidelineSearchToggle");
+      const searchPanel =
+        document.getElementById("guidelineSearch");
+      const searchInput =
+        document.getElementById("guidelineSearchInput");
+      const searchButton =
+        document.getElementById("guidelineSearchButton");
+      const searchStatus =
+        document.getElementById("guidelineSearchStatus");
+
+      if (
+        searchToggle &&
+        searchPanel &&
+        searchInput &&
+        searchButton &&
+        searchStatus
+      ) {
+        searchToggle.addEventListener("click", () => {
+          const opening = searchPanel.hidden;
+
+          searchPanel.hidden = !opening;
+          searchToggle.setAttribute(
+            "aria-expanded",
+            String(opening)
+          );
+
+          if (opening) {
+            requestAnimationFrame(() => searchInput.focus());
+          }
+        });
+
+        const runSearch = () => {
+          const query =
+            searchInput.value.trim().toLowerCase();
+
+          document
+            .querySelectorAll(".guideline-search-hit")
+            .forEach(el =>
+              el.classList.remove("guideline-search-hit")
+            );
+
+          if (!query) {
+            searchStatus.textContent =
+              "Enter a word or phrase to search the guidelines.";
+            return;
+          }
+
+          const targets = [
+            ...document.querySelectorAll(
+              ".rule-card, .promise-card, .guideline-note"
+            )
+          ];
+
+          const result = targets.find(el =>
+            el.textContent.toLowerCase().includes(query)
+          );
+
+          if (!result) {
+            searchStatus.textContent =
+              `No guideline found for “${searchInput.value.trim()}”.`;
+            return;
+          }
+
+          result.classList.add("guideline-search-hit");
+
+          result.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+
+          searchStatus.textContent =
+            `Showing the first match for “${searchInput.value.trim()}”.`;
+        };
+
+        searchButton.addEventListener("click", runSearch);
+
+        searchInput.addEventListener("keydown", event => {
+          if (event.key === "Enter") runSearch();
+        });
+      }
     })();
   </script>
 
