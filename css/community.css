@@ -3524,3 +3524,355 @@ button {
     max-width: 260px;
   }
 }
+
+/* =========================================================
+   COMMUNITY BLOSSOMS v10 — HERO FINAL FIX
+   Desktop readability + mobile/landscape composition
+========================================================= */
+
+/* DESKTOP / LARGE TABLET */
+.community-page .community-hero {
+  position: relative;
+  min-height: 540px;
+  height: 540px;
+  overflow: hidden;
+  background: #eaf5f7;
+}
+
+.community-page .community-hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.community-page .community-hero-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(248, 251, 252, 0.90) 0%,
+      rgba(248, 251, 252, 0.76) 20%,
+      rgba(248, 251, 252, 0.14) 48%,
+      rgba(248, 251, 252, 0.46) 76%,
+      rgba(248, 251, 252, 0.86) 100%
+    );
+}
+
+.community-page .hero-overlay {
+  position: relative;
+  z-index: 2;
+  width: min(1360px, calc(100% - 72px));
+  min-height: 540px;
+  margin: 0 auto;
+}
+
+.community-page .hero-text-only {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) minmax(220px, 260px);
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(28px, 4vw, 64px);
+  min-height: 540px;
+  padding: 40px 0;
+}
+
+.community-page .hero-copy,
+.community-page .garden-copy {
+  position: relative;
+  z-index: 2;
+  padding: 22px 24px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.40);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 12px 30px rgba(45, 62, 72, 0.06);
+}
+
+.community-page .hero-copy {
+  max-width: 380px;
+  text-shadow: none;
+}
+
+.community-page .garden-copy {
+  max-width: 260px;
+  justify-self: end;
+  text-align: left;
+  text-shadow: none;
+}
+
+.community-page .hero-copy .eyebrow {
+  color: #d45f86;
+}
+
+.community-page .community-word {
+  color: #1f3448;
+}
+
+.community-page .blossoms-word {
+  color: #e56f98;
+}
+
+.community-page .hero-lead,
+.community-page .garden-copy h2 {
+  color: #203448;
+}
+
+.community-page .hero-description,
+.community-page .garden-copy p {
+  color: #415466;
+}
+
+.community-page .garden-link {
+  color: #a94c6b;
+  border-bottom: 1px solid rgba(169, 76, 107, 0.38);
+}
+
+/* TABLET + MOBILE GENERAL */
+@media (max-width: 900px) {
+  .community-page .community-hero {
+    min-height: auto;
+    height: auto;
+    background: #eef8fa;
+  }
+
+  .community-page .community-hero-image,
+  .community-page .community-hero-shade {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: auto;
+    height: 350px;
+  }
+
+  .community-page .community-hero-image {
+    object-fit: cover;
+    object-position: center 24%;
+  }
+
+  .community-page .community-hero-shade {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(238, 248, 250, 0.04) 0%,
+        rgba(238, 248, 250, 0.12) 62%,
+        rgba(255, 253, 250, 0.96) 100%
+      );
+  }
+
+  .community-page .hero-overlay {
+    width: calc(100% - 30px);
+    min-height: 0;
+  }
+
+  .community-page .hero-text-only {
+    display: block;
+    min-height: 0;
+    padding: 372px 0 28px;
+  }
+
+  .community-page .hero-copy {
+    width: min(100%, 420px);
+    max-width: 100%;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    text-shadow: none;
+  }
+
+  .community-page .garden-copy {
+    display: none;
+  }
+
+  .community-page .hero-copy h1 {
+    margin-bottom: 14px;
+  }
+
+  .community-page .community-word {
+    font-size: clamp(2.2rem, 10vw, 3rem);
+    line-height: 0.92;
+  }
+
+  .community-page .blossoms-word {
+    margin-left: 10px;
+    font-size: clamp(3rem, 13vw, 4rem);
+    line-height: 0.92;
+  }
+
+  .community-page .hero-lead {
+    font-size: 1.14rem;
+    line-height: 1.22;
+  }
+
+  .community-page .hero-description {
+    max-width: 320px;
+    margin-bottom: 0;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+}
+
+/* MOBILE PORTRAIT */
+@media (max-width: 700px) and (orientation: portrait) {
+  .community-page .community-hero-image,
+  .community-page .community-hero-shade {
+    height: 330px;
+  }
+
+  .community-page .community-hero-image {
+    object-position: center 22%;
+  }
+
+  .community-page .hero-text-only {
+    padding-top: 350px;
+    padding-bottom: 24px;
+  }
+
+  .community-page .community-word {
+    font-size: clamp(2rem, 11vw, 2.7rem);
+  }
+
+  .community-page .blossoms-word {
+    margin-left: 8px;
+    font-size: clamp(2.8rem, 15vw, 3.6rem);
+  }
+
+  .community-page .hero-lead {
+    font-size: 1.05rem;
+  }
+
+  .community-page .hero-description {
+    max-width: 280px;
+    font-size: 0.79rem;
+  }
+}
+
+/* MOBILE / TABLET LANDSCAPE */
+@media (max-width: 1100px) and (max-height: 700px) and (orientation: landscape) {
+  .community-page .site-header {
+    min-height: 64px;
+    padding: 0 16px;
+  }
+
+  .community-page .community-search {
+    top: 64px;
+  }
+
+  .community-page .mobile-menu.open,
+  .community-page .mobile-menu.is-open {
+    top: 70px;
+    right: 10px;
+  }
+
+  .community-page .mobile-menu-panel {
+    width: min(220px, 42vw);
+    max-height: calc(100dvh - 84px);
+    padding: 10px 14px;
+    border-radius: 14px;
+  }
+
+  .community-page .mobile-menu-panel a {
+    padding: 8px 2px;
+    font-size: 0.82rem;
+    line-height: 1.12;
+  }
+
+  .community-page .community-hero {
+    min-height: auto;
+    height: auto;
+  }
+
+  .community-page .community-hero-image,
+  .community-page .community-hero-shade {
+    height: 240px;
+  }
+
+  .community-page .community-hero-image {
+    object-fit: cover;
+    object-position: center 18%;
+  }
+
+  .community-page .community-hero-shade {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(238, 248, 250, 0.02) 0%,
+        rgba(238, 248, 250, 0.08) 58%,
+        rgba(255, 253, 250, 0.96) 100%
+      );
+  }
+
+  .community-page .hero-overlay {
+    width: min(100% - 32px, 960px);
+    min-height: 0;
+  }
+
+  .community-page .hero-text-only {
+    display: block;
+    min-height: 0;
+    padding: 258px 0 20px;
+  }
+
+  .community-page .hero-copy {
+    width: min(100%, 520px);
+    max-width: 100%;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .community-page .community-word {
+    font-size: 2.35rem;
+  }
+
+  .community-page .blossoms-word {
+    margin-left: 12px;
+    font-size: 3.15rem;
+  }
+
+  .community-page .hero-lead {
+    font-size: 1.05rem;
+  }
+
+  .community-page .hero-description {
+    max-width: 460px;
+    font-size: 0.76rem;
+    line-height: 1.55;
+  }
+}
+
+/* DARK MODE HERO READABILITY */
+.community-page.dark-theme .hero-copy,
+.community-page.dark-theme .garden-copy {
+  background: rgba(18, 21, 25, 0.48);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
+}
+
+.community-page.dark-theme .community-word,
+.community-page.dark-theme .hero-lead,
+.community-page.dark-theme .garden-copy h2 {
+  color: #f7f4f5;
+}
+
+.community-page.dark-theme .hero-description,
+.community-page.dark-theme .garden-copy p {
+  color: rgba(255,255,255,.76);
+}
+
+@media (max-width: 900px) {
+  .community-page.dark-theme .hero-copy {
+    background: none;
+    box-shadow: none;
+  }
+}
+
