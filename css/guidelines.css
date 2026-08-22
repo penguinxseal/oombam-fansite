@@ -1490,3 +1490,57 @@ body.dark-theme {
     font-size: .50rem;
   }
 }
+
+
+/* =========================================================
+   COMMUNITY GUIDELINES v4 — MOBILE HAMBURGER FUNCTION FIX
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .mobile-menu {
+    visibility: hidden;
+    opacity: 0;
+
+    pointer-events: none;
+  }
+
+  .mobile-menu.open,
+  .mobile-menu.is-open {
+    visibility: visible;
+    opacity: 1;
+
+    pointer-events: auto;
+  }
+
+  .mobile-menu-panel {
+    position: relative;
+
+    z-index: 2;
+  }
+
+  .menu-toggle {
+    position: relative;
+
+    z-index: 1300;
+  }
+}
+
+@media
+  (max-width: 1100px)
+  and (max-height: 600px)
+  and (orientation: landscape) {
+
+  .mobile-menu.open,
+  .mobile-menu.is-open {
+    visibility: visible;
+    opacity: 1;
+
+    pointer-events: none;
+  }
+
+  .mobile-menu.open .mobile-menu-panel,
+  .mobile-menu.is-open .mobile-menu-panel {
+    pointer-events: auto;
+  }
+}
