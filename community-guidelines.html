@@ -14,36 +14,68 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="css/guidelines.css?v=1" />
+  <link rel="stylesheet" href="css/guidelines.css?v=3">
 </head>
 
 <body>
 
-  <header class="site-header">
-    <div class="header-inner">
+  <div class="site-shell">
 
-      <a href="index.html" class="site-logo" aria-label="OomBam Home">
-        <img
-          src="assets/images/OBSocPH-Logo-transparent.png"
-          alt="OomBam Official Fansite"
-        />
-      </a>
+  <header class="site-header" id="siteHeader">
 
-      <nav class="desktop-nav" aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="oom.html">Oom</a>
-        <a href="bam.html">Bam</a>
-        <a href="index.html#gallery">Gallery</a>
-        <a href="community.html" class="active">Community</a>
-        <a href="community.html#community-submissions">Fan Submission</a>
-        <a href="index.html#about">About</a>
-      </nav>
+    <a href="index.html#home" class="brand" aria-label="OomBam home">
+      <img
+        src="assets/images/OBSocPH-Logo-transparent.png"
+        alt="OomBam Society Philippines"
+        class="brand-logo"
+      >
+    </a>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="index.html#home" class="nav-link">Welcome 🌸</a>
+      <a href="index.html#story" class="nav-link">Our Story</a>
+      <a href="oom.html" class="nav-link">Oom</a>
+      <a href="bam.html" class="nav-link">Bam</a>
+      <a href="index.html#moments" class="nav-link">Moments</a>
+      <a href="index.html#media" class="nav-link">Media</a>
+      <a href="community.html" class="nav-link active">Blossoms</a>
+      <a href="index.html#updates" class="nav-link">Updates</a>
+    </nav>
+
+    <div class="header-actions">
+
+      <button
+        class="header-icon"
+        id="guidelineSearchToggle"
+        type="button"
+        aria-label="Search community guidelines"
+        aria-expanded="false"
+        aria-controls="guidelineSearch"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="6.5"></circle>
+          <path d="m16 16 4 4"></path>
+        </svg>
+      </button>
+
+      <button
+        class="header-icon"
+        id="themeToggle"
+        type="button"
+        aria-label="Switch theme"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 15A8.5 8.5 0 0 1 9 4 8.5 8.5 0 1 0 20 15Z"></path>
+        </svg>
+      </button>
 
       <button
         class="menu-toggle"
         id="menuToggle"
-        aria-label="Open navigation"
+        type="button"
+        aria-label="Open navigation menu"
         aria-expanded="false"
+        aria-controls="mobileMenu"
       >
         <span></span>
         <span></span>
@@ -52,16 +84,35 @@
 
     </div>
 
-    <nav class="mobile-menu" id="mobileMenu">
-      <a href="index.html">Home</a>
+  </header>
+
+  <div class="guideline-search" id="guidelineSearch" hidden>
+    <div class="guideline-search-inner">
+      <label for="guidelineSearchInput">Search community guidelines</label>
+      <div class="guideline-search-row">
+        <input
+          id="guidelineSearchInput"
+          type="search"
+          placeholder="Try “privacy”, “credit”, or “moderation”"
+        >
+        <button id="guidelineSearchButton" type="button">Search</button>
+      </div>
+      <p id="guidelineSearchStatus" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav class="mobile-menu-panel" aria-label="Mobile navigation">
+      <a href="index.html#home">Welcome 🌸</a>
+      <a href="index.html#story">Our Story</a>
       <a href="oom.html">Oom</a>
       <a href="bam.html">Bam</a>
-      <a href="index.html#gallery">Gallery</a>
-      <a href="community.html" class="active">Community</a>
-      <a href="community.html#community-submissions">Fan Submission</a>
-      <a href="index.html#about">About</a>
+      <a href="index.html#moments">Moments</a>
+      <a href="index.html#media">Media</a>
+      <a href="community.html" class="active">Blossoms</a>
+      <a href="index.html#updates">Updates</a>
     </nav>
-  </header>
+  </div>
 
   <main>
 
@@ -226,45 +277,93 @@
   </main>
 
   <footer class="site-footer">
-    <div class="guideline-container footer-inner">
+    <div class="footer-grid">
 
-      <a href="index.html" class="footer-logo">
-        <img
-          src="assets/images/OBSocPH-Logo-transparent.png"
-          alt="OomBam Fansite"
-        />
-      </a>
+      <div class="footer-left">
+        <a
+          href="https://x.com/OomBamSocietyPH"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-brand"
+          aria-label="Visit OomBam Society Philippines on X"
+        >
+          <img
+            src="assets/images/OBSocPH-Logo-transparent.png"
+            alt="OomBam Society Philippines"
+          >
+        </a>
 
-      <p>Unofficial fan archive • Created with love for OomBam.</p>
+        <p class="footer-main">
+          Official Fansite • Created with LOVE for OomBam
+        </p>
+      </div>
 
-      <p class="footer-message">Always with OomBam 🩵🌸</p>
-    </div>
+      <p class="footer-message">
+        Always with OomBam 🩵🌸
+      </p>
 
-    <div class="footer-bottom">
-      <p>© <span id="currentYear"></span> OomBam Blossoms Together.</p>
+      <p class="footer-copyline">
+        © 2026 OomBam Blossoms Together.
+      </p>
+
     </div>
   </footer>
 
+  </div>
+
+  <script src="js/script.js?v=7"></script>
+
   <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const mobileMenu = document.getElementById("mobileMenu");
+    (() => {
+      const toggle = document.getElementById("guidelineSearchToggle");
+      const panel = document.getElementById("guidelineSearch");
+      const input = document.getElementById("guidelineSearchInput");
+      const button = document.getElementById("guidelineSearchButton");
+      const status = document.getElementById("guidelineSearchStatus");
 
-    menuToggle.addEventListener("click", () => {
-      const isOpen = mobileMenu.classList.toggle("open");
-      menuToggle.classList.toggle("active", isOpen);
-      menuToggle.setAttribute("aria-expanded", isOpen);
-    });
+      if (!toggle || !panel || !input || !button || !status) return;
 
-    document.querySelectorAll(".mobile-menu a").forEach(link => {
-      link.addEventListener("click", () => {
-        mobileMenu.classList.remove("open");
-        menuToggle.classList.remove("active");
-        menuToggle.setAttribute("aria-expanded", "false");
+      toggle.addEventListener("click", () => {
+        const opening = panel.hidden;
+        panel.hidden = !opening;
+        toggle.setAttribute("aria-expanded", String(opening));
+        if (opening) requestAnimationFrame(() => input.focus());
       });
-    });
 
-    document.getElementById("currentYear").textContent =
-      new Date().getFullYear();
+      const runSearch = () => {
+        const q = input.value.trim().toLowerCase();
+
+        document
+          .querySelectorAll(".guideline-search-hit")
+          .forEach(el => el.classList.remove("guideline-search-hit"));
+
+        if (!q) {
+          status.textContent = "Enter a word or phrase to search the guidelines.";
+          return;
+        }
+
+        const cards = [...document.querySelectorAll(".rule-card, .promise-card, .guideline-note")];
+
+        const hit = cards.find(el =>
+          el.textContent.toLowerCase().includes(q)
+        );
+
+        if (!hit) {
+          status.textContent = `No guideline found for “${input.value.trim()}”.`;
+          return;
+        }
+
+        hit.classList.add("guideline-search-hit");
+        hit.scrollIntoView({ behavior: "smooth", block: "center" });
+        status.textContent = `Showing the first match for “${input.value.trim()}”.`;
+      };
+
+      button.addEventListener("click", runSearch);
+
+      input.addEventListener("keydown", event => {
+        if (event.key === "Enter") runSearch();
+      });
+    })();
   </script>
 
 </body>
