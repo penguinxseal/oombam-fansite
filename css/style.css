@@ -7474,3 +7474,48 @@ body.dark-theme.page-home .blossoms-feature-icon {
   }
 }
 
+
+/* =========================================================
+   HOMEPAGE v14.2 — DESKTOP HERO ALIGNMENT
+   ---------------------------------------------------------
+   Align the hero with the compact homepage content column.
+   Desktop only:
+   - same 1120px editorial width as Moments + Media
+   - preserve original 16:9 artwork proportion
+   - remove the old 100svh desktop height
+   - keep tablet/mobile hero behavior unchanged
+========================================================= */
+
+@media (min-width: 1101px) {
+  .page-home .hero {
+    width: min(1120px, calc(100% - 64px)) !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+
+    margin-inline: auto !important;
+
+    border-radius: 0 0 20px 20px !important;
+    overflow: hidden !important;
+  }
+
+  .page-home .hero-background,
+  .page-home .hero-overlay {
+    border-radius: inherit !important;
+  }
+
+  /* Keep the existing composition, but scale the copy with the
+     narrower editorial hero instead of the old full-width canvas. */
+  .page-home .hero-content {
+    width: min(460px, 43%) !important;
+    margin-left: clamp(90px, 8vw, 120px) !important;
+  }
+
+  .page-home .hero-title {
+    font-size: clamp(4.2rem, 6vw, 6.5rem) !important;
+  }
+
+  .page-home .hero-description {
+    max-width: 390px !important;
+  }
+}
+
