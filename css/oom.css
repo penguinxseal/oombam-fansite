@@ -2107,3 +2107,70 @@ body.page-oom > .profile-shell > .profile-intro {
     border-radius: 0 !important;
   }
 }
+
+/* =========================================================
+   v24.5 — HOMEPAGE SHELL / OUTER-CANVAS PARITY
+   ---------------------------------------------------------
+   Match Oom's outer spacing to the stable homepage shell.
+   The shared header remains a direct child of <body>, so the
+   body gutter controls the visible breathing room above the
+   header on desktop/tablet exactly as it does on Home.
+========================================================= */
+
+/* Desktop — same top/side breathing room as homepage. */
+@media (min-width: 1101px) {
+  body.page-oom {
+    padding: clamp(24px, 4vw, 62px) 20px;
+  }
+
+  body.page-oom > .profile-shell {
+    width: min(1480px, 96vw);
+    margin: 0 auto 42px !important;
+  }
+}
+
+/* Tablet — mirror homepage's 22px vertical / 14px horizontal gutter. */
+@media (min-width: 601px) and (max-width: 1100px) {
+  body.page-oom {
+    padding: 22px 14px;
+  }
+
+  body.page-oom > .profile-shell {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 28px !important;
+  }
+}
+
+/* Phone portrait — homepage is edge-to-edge. */
+@media (max-width: 600px) {
+  body.page-oom {
+    padding: 0;
+  }
+
+  body.page-oom > .profile-shell {
+    width: 100%;
+    margin: 0 !important;
+  }
+}
+
+/* Short landscape phones/tablets — same compact outer gutter as Home. */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-oom {
+    padding: 8px 8px 14px;
+  }
+
+  body.page-oom > .profile-shell {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 !important;
+  }
+}
+
+/* In dark mode, use the same outer canvas as the homepage so the
+   breathing room around the global header is visually identical. */
+html[data-theme="dark"] body.page-oom,
+body.dark-theme.page-oom {
+  background: #1f2024 !important;
+  background-image: none !important;
+}
