@@ -4381,3 +4381,61 @@ body.dark-theme.page-community .footer-copyline {
   }
 }
 
+
+/* =========================================================
+   COMMUNITY BLOSSOMS v12.1
+   SEARCH PANEL ORDER FIX
+   ---------------------------------------------------------
+   Canonical order:
+   1. Global header/navigation
+   2. Global search panel
+   3. Community page shell/content
+
+   Search styling/layout remains controlled by Global.css.
+========================================================= */
+
+body.page-community > .ob-header {
+  position: relative;
+  z-index: 30;
+}
+
+body.page-community > .ob-site-search {
+  position: relative !important;
+  z-index: 20;
+  width: min(1480px, 96vw);
+  margin: 0 auto !important;
+}
+
+/* Search must visually attach beneath the header, never above it. */
+@media (min-width: 1101px) {
+  body.page-community > .ob-header {
+    width: min(1480px, 96vw);
+    margin-inline: auto;
+    border-radius: 24px 24px 0 0;
+  }
+
+  body.page-community > .ob-site-search:not([hidden]) {
+    width: min(1480px, 96vw) !important;
+    margin-inline: auto !important;
+    border-radius: 0 !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-community > .ob-site-search:not([hidden]) {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-inline: auto !important;
+    border-radius: 0 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body.page-community > .ob-site-search:not([hidden]) {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-inline: 0 !important;
+    border-radius: 0 !important;
+  }
+}
+
