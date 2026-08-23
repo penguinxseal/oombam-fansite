@@ -252,6 +252,28 @@
   /* -----------------------------------------------------
      Mobile menu
   ----------------------------------------------------- */
+  /* -----------------------------------------------------
+     Mobile menu viewport anchoring
+     -----------------------------------------------------
+     Static 58px/72px offsets drift on iOS/Chrome landscape as
+     browser chrome changes the visible viewport. Measure the
+     actual sticky-header bottom and expose it to Global.css.
+  ----------------------------------------------------- */
+  function syncMobileMenuAnchor() {
+    if (!siteHeader) return;
+
+    if (window.innerWidth > DESKTOP_BREAKPOINT) {
+      root.style.removeProperty("--ob-mobile-menu-top");
+      return;
+    }
+
+    const headerRect = siteHeader.getBoundingClientRect();
+    const headerBottom = Math.max(0, Math.round(headerRect.bottom));
+    root.style.setProperty("--ob-mobile-menu-top", `${headerBottom}px`);
+  }
+
+  syncMobileMenuAnchor();
+
   let menuWasFocusedBy = null;
 
   function closeMenu({ restoreFocus = false } = {}) {
@@ -268,6 +290,7 @@
 
   function openMenu() {
     if (!mobileMenu || !menuToggle) return;
+    syncMobileMenuAnchor();
     closeSearch();
     menuWasFocusedBy = document.activeElement;
     mobileMenu.classList.add("is-open");
@@ -285,6 +308,7 @@
     }
 
     requestAnimationFrame(() => {
+      syncMobileMenuAnchor();
       mobileMenu.querySelector("a")?.focus({ preventScroll: true });
     });
   }
@@ -302,8 +326,20 @@
   });
 
   window.addEventListener("resize", () => {
+    syncMobileMenuAnchor();
     if (window.innerWidth > DESKTOP_BREAKPOINT) closeMenu();
+  }, { passive: true });
+
+  window.addEventListener("orientationchange", () => {
+    window.setTimeout(syncMobileMenuAnchor, 80);
   });
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", syncMobileMenuAnchor, { passive: true });
+    window.visualViewport.addEventListener("scroll", () => {
+      if (mobileMenu?.classList.contains("is-open")) syncMobileMenuAnchor();
+    }, { passive: true });
+  }
 
   /* -----------------------------------------------------
      Theme
