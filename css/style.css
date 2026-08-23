@@ -7519,3 +7519,54 @@ body.dark-theme.page-home .blossoms-feature-icon {
   }
 }
 
+
+/* =========================================================
+   HOMEPAGE v14.3 — HERO SHELL ALIGNMENT
+   ---------------------------------------------------------
+   Corrects v14.2:
+   The hero should NOT use the narrower Moments/Media preview width.
+   On desktop it must span the same horizontal content area as the
+   combined "Our Story + What's Next" section below it.
+========================================================= */
+
+@media (min-width: 1101px) {
+  .page-home .hero {
+    /* Match the main homepage content span / story section width */
+    width: calc(100% - 64px) !important;
+    max-width: none !important;
+
+    /* Keep the hero proportional without making it excessively tall */
+    min-height: 0 !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9 !important;
+
+    margin-left: 32px !important;
+    margin-right: 32px !important;
+    margin-inline: 32px !important;
+
+    border-radius: 0 0 20px 20px !important;
+    overflow: hidden !important;
+  }
+
+  .page-home .hero-background,
+  .page-home .hero-overlay {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: inherit !important;
+  }
+
+  /* Restore copy scale appropriate for the wider hero. */
+  .page-home .hero-content {
+    width: min(500px, 42%) !important;
+    margin-left: clamp(84px, 7vw, 120px) !important;
+  }
+
+  .page-home .hero-title {
+    font-size: clamp(4.6rem, 6.2vw, 7rem) !important;
+  }
+
+  .page-home .hero-description {
+    max-width: 420px !important;
+  }
+}
+
