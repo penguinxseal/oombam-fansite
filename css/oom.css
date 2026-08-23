@@ -2174,3 +2174,97 @@ body.dark-theme.page-oom {
   background: #1f2024 !important;
   background-image: none !important;
 }
+
+/* =========================================================
+   v24.6 — BAM DARK-CANVAS PARITY + OOM PORTRAIT FRAMING
+   ---------------------------------------------------------
+   1) Match Bam's dark-mode page/shell canvas exactly.
+   2) Keep Oom's gold + blue identity for accents and content.
+   3) Preserve the same 4:5 portrait geometry as Bam while
+      biasing the crop upward so Oom's hair/head is not clipped.
+   4) This is page-specific. Global navigation behavior is
+      intentionally untouched.
+========================================================= */
+
+/* --- Dark-mode canvas: exact Bam baseline --- */
+html[data-theme="dark"] body.page-oom,
+body.dark-theme.page-oom {
+  background: #090a0c !important;
+  background-image: none !important;
+  color: var(--ink);
+}
+
+html[data-theme="dark"] body.page-oom > .profile-shell,
+body.dark-theme.page-oom > .profile-shell {
+  background: #090a0c !important;
+  border-color: #090a0c !important;
+  box-shadow: none !important;
+}
+
+/* Match the header surface to Bam's near-black canvas on Oom only.
+   Higher specificity keeps this page override independent of Home. */
+html[data-theme="dark"] body.page-oom > .ob-header,
+body.dark-theme.page-oom > .ob-header {
+  background: #090a0c !important;
+  background-image: none !important;
+  border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+  box-shadow: none;
+}
+
+/* Keep Oom's content hierarchy equivalent to Bam's dark layout. */
+html[data-theme="dark"] body.page-oom .featured-work,
+html[data-theme="dark"] body.page-oom .panel,
+html[data-theme="dark"] body.page-oom .updates-section {
+  background: #111214;
+}
+
+html[data-theme="dark"] body.page-oom .socials a > span,
+html[data-theme="dark"] body.page-oom .facts-grid article,
+html[data-theme="dark"] body.page-oom .updates-empty {
+  background: #141518;
+}
+
+/* --- Portrait: same geometry as Bam, corrected crop for Oom --- */
+body.page-oom .portrait-card {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 25px;
+}
+
+body.page-oom .editorial-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+
+  /* Oom's source portrait places her head closer to the top edge.
+     Bias the crop upward instead of using the centered crop that
+     visually trims the top of her hair. */
+  object-position: 50% 18%;
+}
+
+/* Portrait tablet/mobile: keep the same card proportions but
+   preserve slightly more headroom on smaller screens. */
+@media (max-width: 1100px) {
+  body.page-oom .editorial-photo {
+    object-position: 50% 15%;
+  }
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  body.page-oom .portrait-card {
+    border-radius: 18px;
+  }
+
+  body.page-oom .editorial-photo {
+    aspect-ratio: 4 / 5;
+    object-position: 50% 12%;
+  }
+}
+
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-oom .editorial-photo {
+    object-position: 50% 14%;
+  }
+}
+
