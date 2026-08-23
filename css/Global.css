@@ -1207,3 +1207,51 @@ html[data-theme="dark"] .ob-search-result:focus-visible {
     pointer-events: auto;
   }
 }
+
+
+/* =========================================================
+   OB_00001.5E — THEME ICON + SHARED DARK HEADER HARDENING
+   ---------------------------------------------------------
+   1) Use SVG icons instead of Unicode emoji/text glyphs so the
+      icon renders identically on desktop, iPad and phones.
+   2) The sun is intentionally warm yellow on every viewport.
+   3) Keep the global dark header on one exact opaque surface.
+========================================================= */
+.ob-theme-glyph {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+}
+
+.ob-theme-svg {
+  display: block;
+  width: 19px;
+  height: 19px;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ob-theme-svg--moon {
+  color: currentColor;
+}
+
+.ob-theme-svg--sun {
+  color: #f2bc3f;
+}
+
+html[data-theme="dark"] .ob-theme-svg--sun {
+  color: #f2bc3f;
+}
+
+html[data-theme="dark"] .ob-header {
+  background-color: #1d1f23;
+  background-image: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
