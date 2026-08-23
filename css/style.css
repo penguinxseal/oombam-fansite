@@ -6327,3 +6327,103 @@ body.dark-theme.page-home .footer-bottom {
     font-size: 0.51rem;
   }
 }
+
+
+/* =========================================================
+   V13.7.4 — MOBILE HERO CREDIT + SOUNDTRACK CONSISTENCY
+========================================================= */
+
+/*
+  Hero credit: on phones move attribution to the top-right of
+  the photograph. This keeps it clear of both the primary CTA
+  and the social-media row at the bottom of the hero.
+*/
+@media (max-width: 700px) {
+  .page-home .hero-photo-credit {
+    top: 12px;
+    right: 10px;
+    bottom: auto;
+    left: auto;
+
+    padding: 4px 7px;
+    font-size: 0.53rem;
+  }
+}
+
+@media
+  (max-width: 1100px)
+  and (max-height: 600px)
+  and (orientation: landscape) {
+
+  .page-home .hero-photo-credit {
+    top: 10px;
+    right: 12px;
+    bottom: auto;
+    left: auto;
+  }
+}
+
+/*
+  Soundtrack card: use the same light editorial surface as the
+  other Media tiles. The embedded video itself retains its native
+  YouTube appearance; only the surrounding card follows the page
+  theme.
+*/
+.page-home .media-soundtrack-card {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(169, 206, 229, 0.30), transparent 32%),
+    linear-gradient(145deg, #ffffff, #edf6fb);
+  border-color: rgba(169, 206, 229, 0.42);
+}
+
+.page-home .media-soundtrack-card .story-soundtrack {
+  color: #4f555b;
+  background: transparent;
+}
+
+.page-home .media-soundtrack-card .soundtrack-eyebrow {
+  color: #7399ae;
+}
+
+.page-home .media-soundtrack-card .soundtrack-title {
+  color: #4f555b;
+}
+
+.page-home .media-soundtrack-card .soundtrack-loop {
+  color: #7d858c;
+}
+
+.page-home .media-soundtrack-card .soundtrack-youtube-link {
+  color: #6f99b3;
+}
+
+/* Make the real YouTube iframe fill the media player area. */
+.page-home .media-soundtrack-card .soundtrack-player-shell iframe {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0;
+  border-radius: inherit;
+}
+
+/* Dark mode stays consistent with the site's dark surfaces. */
+body.dark-theme.page-home .media-soundtrack-card {
+  background:
+    linear-gradient(145deg, rgba(34, 37, 43, 0.98), rgba(27, 29, 34, 0.98));
+  border-color: rgba(169, 206, 229, 0.16);
+}
+
+body.dark-theme.page-home .media-soundtrack-card .story-soundtrack {
+  color: rgba(255, 255, 255, 0.76);
+  background: transparent;
+}
+
+body.dark-theme.page-home .media-soundtrack-card .soundtrack-title {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+body.dark-theme.page-home .media-soundtrack-card .soundtrack-youtube-link {
+  color: #8db5cc;
+}
