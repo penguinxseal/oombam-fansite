@@ -944,7 +944,8 @@ body.ob-menu-open {
    DARK MODE
 ========================================================= */
 html[data-theme="dark"] .ob-header {
-  background: rgba(29, 31, 35, 0.97);
+  /* Opaque global surface: prevents page-specific backgrounds from tinting the shared header. */
+  background: var(--ob-dark-bg);
   color: var(--ob-dark-ink);
   border-bottom-color: var(--ob-dark-line);
 }
