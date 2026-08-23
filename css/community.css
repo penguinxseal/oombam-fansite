@@ -4439,3 +4439,96 @@ body.page-community > .ob-site-search {
   }
 }
 
+
+/* =========================================================
+   COMMUNITY BLOSSOMS v12.2
+   HERO / LETTERS PARALLEL ALIGNMENT
+   ---------------------------------------------------------
+   The Community hero now uses the same outer width and horizontal
+   alignment as the "Letters to Oom & Bam" panel beneath it.
+   This creates one consistent editorial content column.
+========================================================= */
+
+/* ---------- Desktop ---------- */
+@media (min-width: 1101px) {
+  body.page-community .community-hero {
+    width: min(1360px, calc(100% - 64px)) !important;
+    margin: 28px auto 0 !important;
+
+    border-radius: 24px !important;
+    overflow: hidden;
+  }
+
+  body.page-community .community-hero-image,
+  body.page-community .community-hero-shade {
+    border-radius: inherit !important;
+  }
+
+  /* Keep the hero text comfortably inset inside the now-contained banner. */
+  body.page-community .hero-overlay {
+    width: calc(100% - 72px) !important;
+    max-width: none !important;
+  }
+}
+
+/* ---------- Tablet ---------- */
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-community .community-hero {
+    width: min(100% - 44px, 980px) !important;
+    margin: 22px auto 0 !important;
+
+    border-radius: 22px !important;
+    overflow: hidden;
+  }
+
+  body.page-community .community-hero-image,
+  body.page-community .community-hero-shade {
+    border-radius: inherit !important;
+  }
+
+  body.page-community .hero-overlay {
+    width: calc(100% - 44px) !important;
+    max-width: none !important;
+  }
+}
+
+/* ---------- Mobile portrait ---------- */
+@media (max-width: 760px) and (orientation: portrait) {
+  body.page-community .community-hero {
+    width: calc(100% - 36px) !important;
+    margin: 18px auto 0 !important;
+
+    border-radius: 18px !important;
+    overflow: hidden;
+  }
+
+  body.page-community .community-hero-image,
+  body.page-community .community-hero-shade {
+    border-radius: inherit !important;
+  }
+
+  body.page-community .hero-overlay {
+    width: calc(100% - 32px) !important;
+  }
+}
+
+/* ---------- Short mobile/tablet landscape ---------- */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-community .community-hero {
+    width: calc(100% - 32px) !important;
+    margin: 14px auto 0 !important;
+
+    border-radius: 18px !important;
+    overflow: hidden;
+  }
+
+  body.page-community .community-hero-image,
+  body.page-community .community-hero-shade {
+    border-radius: inherit !important;
+  }
+
+  body.page-community .hero-overlay {
+    width: calc(100% - 32px) !important;
+  }
+}
+
