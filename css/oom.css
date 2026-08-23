@@ -1971,3 +1971,139 @@ body.page-oom > .ob-site-search {
 body.page-oom > .profile-shell {
   position: relative;
 }
+
+
+/* =========================================================
+   v24.1 — PROFILE SHELL ALIGNMENT
+   Match the homepage header → content transition.
+   - Remove the desktop/tablet gap below the global header.
+   - Keep header and profile content on one continuous canvas.
+   - Tablet uses the same 14px outer gutter as the homepage.
+   - Mobile portrait/short landscape remain edge-to-edge.
+========================================================= */
+
+/* Desktop: header and profile shell share the same 1480px / 96vw canvas. */
+@media (min-width: 1101px) {
+  body.page-oom > .profile-shell {
+    width: min(1480px, 96vw);
+    margin: 0 auto 42px;
+    border-top: 0;
+    border-radius: 0 0 24px 24px;
+  }
+}
+
+/* Tablet: mirror the homepage outer gutter and remove the header/content gap. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-oom {
+    padding-inline: 14px;
+  }
+
+  body.page-oom > .profile-shell {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 28px;
+    border-top: 0;
+    border-radius: 0 0 22px 22px;
+  }
+}
+
+/* Phone portrait remains fully edge-to-edge, matching the homepage. */
+@media (max-width: 760px) and (orientation: portrait) {
+  body.page-oom {
+    padding-inline: 0;
+  }
+
+  body.page-oom > .profile-shell {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+/* Short landscape uses the same flush canvas as the homepage mobile menu layout. */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-oom {
+    padding-inline: 0;
+  }
+
+  body.page-oom > .profile-shell {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+
+/* =========================================================
+   v24.2 — DARK HEADER / CONTENT TRANSITION
+   ---------------------------------------------------------
+   Global.css now uses an opaque shared dark header surface so
+   Oom and the homepage render the exact same menu background.
+   Also reduce Oom's legacy double top-spacing (profile shell +
+   profile intro), which was reading as a large black band below
+   the header in dark mode.
+========================================================= */
+
+@media (min-width: 1101px) {
+  body.page-oom > .profile-shell {
+    padding-top: 0;
+  }
+
+  body.page-oom > .profile-shell > .profile-intro {
+    padding-top: 22px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-oom > .profile-shell {
+    padding-top: 0;
+  }
+
+  body.page-oom > .profile-shell > .profile-intro {
+    padding-top: 20px;
+  }
+}
+
+
+/* =========================================================
+   v24.4 — ACTUAL HEADER → PROFILE CONTENT ALIGNMENT FIX
+   ---------------------------------------------------------
+   The remaining visible "header gap" was not the global header:
+   it was the profile intro's own top padding inside .profile-shell.
+   Remove that internal strip so the first profile content begins
+   directly beneath the shared header, matching the homepage hero.
+========================================================= */
+body.page-oom > .profile-shell {
+  padding-top: 0 !important;
+}
+
+body.page-oom > .profile-shell > .profile-intro {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Keep the shell flush beneath the header at every supported size. */
+@media (min-width: 1101px) {
+  body.page-oom > .profile-shell {
+    margin-top: 0 !important;
+    border-top: 0 !important;
+    border-radius: 0 0 24px 24px !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-oom > .profile-shell {
+    margin-top: 0 !important;
+    border-top: 0 !important;
+    border-radius: 0 0 22px 22px !important;
+  }
+}
+
+@media (max-width: 760px),
+       (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-oom > .profile-shell {
+    margin-top: 0 !important;
+    border-radius: 0 !important;
+  }
+}
