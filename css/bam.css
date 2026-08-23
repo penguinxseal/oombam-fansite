@@ -1,7 +1,7 @@
 /* =========================================================
-   BAM SARALEE PROFILE POLISH v23.5
+   BAM SARALEE PROFILE — OOM PARITY v24.0
    Blush Pink + Sage Editorial Identity
-   Unified desktop / portrait / landscape typography system
+   Homepage-standard global shell + unified profile typography
 ========================================================= */
 
 :root {
@@ -51,10 +51,9 @@ html {
 
 body {
   margin: 0;
-  padding: clamp(18px, 3.5vw, 54px) 18px;
+  padding: 0;
 
-  display: flex;
-  justify-content: center;
+  display: block;
 
   background:
     radial-gradient(circle at 8% 7%, rgba(217, 166, 182, 0.34), transparent 28%),
@@ -89,6 +88,7 @@ input {
 
 .profile-shell {
   width: min(1480px, 96vw);
+  margin: clamp(18px, 2.8vw, 40px) auto 42px;
 
   overflow: hidden;
 
@@ -324,7 +324,7 @@ input {
 }
 
 .search-hit {
-  outline: 2px solid rgba(217, 189, 98, 0.65);
+  outline: 2px solid rgba(215, 167, 184, 0.65);
   outline-offset: 5px;
 
   border-radius: 4px;
@@ -611,7 +611,7 @@ input {
     linear-gradient(
       90deg,
       transparent,
-      rgba(69, 100, 126, 0.5)
+      rgba(102, 123, 96, 0.5)
     );
 }
 
@@ -724,9 +724,9 @@ input {
   background:
     linear-gradient(
       135deg,
-      rgba(247, 233, 238, 0.62),
+      rgba(247, 233, 238, 0.56),
       rgba(255, 253, 249, 0.92) 55%,
-      rgba(237, 243, 233, 0.68)
+      rgba(233, 239, 245, 0.6)
     );
 
   border:
@@ -814,7 +814,7 @@ input {
       145deg,
       rgba(247, 233, 238, 0.48),
       rgba(255, 253, 249, 0.9) 55%,
-      rgba(237, 243, 233, 0.50)
+      rgba(233, 239, 245, 0.42)
     );
 
   border: 1px solid var(--line);
@@ -956,9 +956,9 @@ input {
   background:
     linear-gradient(
       90deg,
-      rgba(247, 233, 238, 0.56),
+      rgba(246, 237, 200, 0.46),
       rgba(255, 253, 249, 0.9),
-      rgba(237, 243, 233, 0.58)
+      rgba(233, 239, 245, 0.5)
     );
 
   border: 1px solid var(--line);
@@ -989,7 +989,7 @@ input {
   background: rgba(255, 255, 255, 0.45);
 
   border:
-    1px dashed rgba(102, 123, 96, 0.25);
+    1px dashed rgba(69, 100, 126, 0.25);
   border-radius: 14px;
 
   font-family: var(--font-display);
@@ -1110,7 +1110,7 @@ input {
 
   --line: rgba(255, 255, 255, 0.11);
 
-  --blue-deep: #a9c39f;
+  --blue-deep: #9abbd5;
   --gold: #d7a7b8;
 }
 
@@ -1169,7 +1169,7 @@ html[data-theme="dark"] .updates-empty {
 
 html[data-theme="dark"] .search-row button {
   color: #0b0c0d;
-  background: #a9c39f;
+  background: #9abbd5;
 }
 
 html[data-theme="dark"] .site-footer {
@@ -1184,7 +1184,7 @@ html[data-theme="dark"] .footer-main-copy {
 }
 
 html[data-theme="dark"] .footer-message {
-  color: #d7a7b8;
+  color: #a9cee5;
 }
 
 html[data-theme="dark"] .footer-bottom {
@@ -1201,7 +1201,9 @@ html[data-theme="dark"] .footer-bottom {
 @media (max-width: 1100px) {
 
   .profile-shell {
-    width: min(1000px, 96vw);
+    width: calc(100% - 28px);
+    max-width: none;
+    margin: 14px auto 28px;
   }
 
   .menu-toggle {
@@ -1323,6 +1325,7 @@ html[data-theme="dark"] .footer-bottom {
   .profile-shell {
     width: 100%;
     min-height: 100vh;
+    margin: 0;
 
     padding:
       16px
@@ -1538,22 +1541,23 @@ html[data-theme="dark"] .footer-bottom {
   and (orientation: landscape) {
 
   body {
-    padding: 8px;
+    padding: 0;
   }
 
   .profile-shell {
     width: 100%;
     max-width: 100%;
+    margin: 0;
 
     padding:
       10px
       18px
       22px;
 
-    border-radius: 16px;
+    border-radius: 0;
   }
 
-  /* Header */
+  /* Legacy header rules below are dormant; the active header is Global.css */
   .top-nav {
     grid-template-columns:
       auto
@@ -1947,4 +1951,451 @@ html[data-theme="dark"] .footer-bottom {
 
     gap: 10px;
   }
+}
+
+
+/* =========================================================
+   v24.0 — GLOBAL NAVIGATION INTEGRATION
+   ---------------------------------------------------------
+   The live header, search, theme control and mobile menu are
+   owned by css/Global.css + js/script.js. The older .top-nav,
+   .nav-links, .site-search and .menu-toggle rules above remain
+   dormant for rollback safety and do not style the `ob-*` UI.
+========================================================= */
+
+body.page-bam > .ob-header,
+body.page-bam > .ob-site-search {
+  flex: none;
+}
+
+body.page-bam > .profile-shell {
+  position: relative;
+}
+
+
+/* =========================================================
+   v24.1 — PROFILE SHELL ALIGNMENT
+   Match the homepage header → content transition.
+   - Remove the desktop/tablet gap below the global header.
+   - Keep header and profile content on one continuous canvas.
+   - Tablet uses the same 14px outer gutter as the homepage.
+   - Mobile portrait/short landscape remain edge-to-edge.
+========================================================= */
+
+/* Desktop: header and profile shell share the same 1480px / 96vw canvas. */
+@media (min-width: 1101px) {
+  body.page-bam > .profile-shell {
+    width: min(1480px, 96vw);
+    margin: 0 auto 42px;
+    border-top: 0;
+    border-radius: 0 0 24px 24px;
+  }
+}
+
+/* Tablet: mirror the homepage outer gutter and remove the header/content gap. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-bam {
+    padding-inline: 14px;
+  }
+
+  body.page-bam > .profile-shell {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 28px;
+    border-top: 0;
+    border-radius: 0 0 22px 22px;
+  }
+}
+
+/* Phone portrait remains fully edge-to-edge, matching the homepage. */
+@media (max-width: 760px) and (orientation: portrait) {
+  body.page-bam {
+    padding-inline: 0;
+  }
+
+  body.page-bam > .profile-shell {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+/* Short landscape uses the same flush canvas as the homepage mobile menu layout. */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-bam {
+    padding-inline: 0;
+  }
+
+  body.page-bam > .profile-shell {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+
+/* =========================================================
+   v24.2 — DARK HEADER / CONTENT TRANSITION
+   ---------------------------------------------------------
+   Global.css now uses an opaque shared dark header surface so
+   Oom and the homepage render the exact same menu background.
+   Also reduce Oom's legacy double top-spacing (profile shell +
+   profile intro), which was reading as a large black band below
+   the header in dark mode.
+========================================================= */
+
+@media (min-width: 1101px) {
+  body.page-bam > .profile-shell {
+    padding-top: 0;
+  }
+
+  body.page-bam > .profile-shell > .profile-intro {
+    padding-top: 22px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-bam > .profile-shell {
+    padding-top: 0;
+  }
+
+  body.page-bam > .profile-shell > .profile-intro {
+    padding-top: 20px;
+  }
+}
+
+
+/* =========================================================
+   v24.4 — ACTUAL HEADER → PROFILE CONTENT ALIGNMENT FIX
+   ---------------------------------------------------------
+   The remaining visible "header gap" was not the global header:
+   it was the profile intro's own top padding inside .profile-shell.
+   Remove that internal strip so the first profile content begins
+   directly beneath the shared header, matching the homepage hero.
+========================================================= */
+body.page-bam > .profile-shell {
+  padding-top: 0 !important;
+}
+
+body.page-bam > .profile-shell > .profile-intro {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Keep the shell flush beneath the header at every supported size. */
+@media (min-width: 1101px) {
+  body.page-bam > .profile-shell {
+    margin-top: 0 !important;
+    border-top: 0 !important;
+    border-radius: 0 0 24px 24px !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-bam > .profile-shell {
+    margin-top: 0 !important;
+    border-top: 0 !important;
+    border-radius: 0 0 22px 22px !important;
+  }
+}
+
+@media (max-width: 760px),
+       (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-bam > .profile-shell {
+    margin-top: 0 !important;
+    border-radius: 0 !important;
+  }
+}
+
+/* =========================================================
+   v24.5 — HOMEPAGE SHELL / OUTER-CANVAS PARITY
+   ---------------------------------------------------------
+   Match Oom's outer spacing to the stable homepage shell.
+   The shared header remains a direct child of <body>, so the
+   body gutter controls the visible breathing room above the
+   header on desktop/tablet exactly as it does on Home.
+========================================================= */
+
+/* Desktop — same top/side breathing room as homepage. */
+@media (min-width: 1101px) {
+  body.page-bam {
+    padding: clamp(24px, 4vw, 62px) 20px;
+  }
+
+  body.page-bam > .profile-shell {
+    width: min(1480px, 96vw);
+    margin: 0 auto 42px !important;
+  }
+}
+
+/* Tablet — mirror homepage's 22px vertical / 14px horizontal gutter. */
+@media (min-width: 601px) and (max-width: 1100px) {
+  body.page-bam {
+    padding: 22px 14px;
+  }
+
+  body.page-bam > .profile-shell {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 28px !important;
+  }
+}
+
+/* Phone portrait — homepage is edge-to-edge. */
+@media (max-width: 600px) {
+  body.page-bam {
+    padding: 0;
+  }
+
+  body.page-bam > .profile-shell {
+    width: 100%;
+    margin: 0 !important;
+  }
+}
+
+/* Short landscape phones/tablets — same compact outer gutter as Home. */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-bam {
+    padding: 8px 8px 14px;
+  }
+
+  body.page-bam > .profile-shell {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 !important;
+  }
+}
+
+/* In dark mode, use the same outer canvas as the homepage so the
+   breathing room around the global header is visually identical. */
+html[data-theme="dark"] body.page-bam,
+body.dark-theme.page-oom {
+  background: #1f2024 !important;
+  background-image: none !important;
+}
+
+/* =========================================================
+   v24.6 — BAM DARK-CANVAS PARITY + OOM PORTRAIT FRAMING
+   ---------------------------------------------------------
+   1) Match Bam's dark-mode page/shell canvas exactly.
+   2) Keep Oom's gold + blue identity for accents and content.
+   3) Preserve the same 4:5 portrait geometry as Bam while
+      biasing the crop upward so Oom's hair/head is not clipped.
+   4) This is page-specific. Global navigation behavior is
+      intentionally untouched.
+========================================================= */
+
+/* --- Dark-mode canvas: exact Bam baseline --- */
+html[data-theme="dark"] body.page-bam,
+body.dark-theme.page-oom {
+  background: #090a0c !important;
+  background-image: none !important;
+  color: var(--ink);
+}
+
+html[data-theme="dark"] body.page-bam > .profile-shell,
+body.dark-theme.page-oom > .profile-shell {
+  background: #090a0c !important;
+  border-color: #090a0c !important;
+  box-shadow: none !important;
+}
+
+/* Match the header surface to Bam's near-black canvas on Oom only.
+   Higher specificity keeps this page override independent of Home. */
+html[data-theme="dark"] body.page-bam > .ob-header,
+body.dark-theme.page-oom > .ob-header {
+  background: #090a0c !important;
+  background-image: none !important;
+  border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+  box-shadow: none;
+}
+
+/* Keep Oom's content hierarchy equivalent to Bam's dark layout. */
+html[data-theme="dark"] body.page-bam .featured-work,
+html[data-theme="dark"] body.page-bam .panel,
+html[data-theme="dark"] body.page-bam .updates-section {
+  background: #111214;
+}
+
+html[data-theme="dark"] body.page-bam .socials a > span,
+html[data-theme="dark"] body.page-bam .facts-grid article,
+html[data-theme="dark"] body.page-bam .updates-empty {
+  background: #141518;
+}
+
+/* --- Portrait: same geometry as Bam, corrected crop for Oom --- */
+body.page-bam .portrait-card {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 25px;
+}
+
+body.page-bam .editorial-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+
+  /* Oom's source portrait places her head closer to the top edge.
+     Bias the crop upward instead of using the centered crop that
+     visually trims the top of her hair. */
+  object-position: 50% 18%;
+}
+
+/* Portrait tablet/mobile: keep the same card proportions but
+   preserve slightly more headroom on smaller screens. */
+@media (max-width: 1100px) {
+  body.page-bam .editorial-photo {
+    object-position: 50% 15%;
+  }
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  body.page-bam .portrait-card {
+    border-radius: 18px;
+  }
+
+  body.page-bam .editorial-photo {
+    aspect-ratio: 4 / 5;
+    object-position: 50% 12%;
+  }
+}
+
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-bam .editorial-photo {
+    object-position: 50% 14%;
+  }
+}
+
+/* =========================================================
+   v24.7 — PROFILE INTRO SPACING PARITY WITH BAM
+   ---------------------------------------------------------
+   Earlier Oom header-alignment patches forced .profile-intro
+   padding-top to 0 with !important. That made the portrait and
+   profile narrative sit directly against the header divider.
+
+   Bam's approved profile composition keeps 38px of breathing
+   room between the navigation divider and the profile intro.
+   Restore that exact editorial spacing on desktop while keeping
+   responsive values proportional on smaller screens.
+========================================================= */
+
+/* Desktop: mirror Bam's approved 38px header-to-profile spacing. */
+@media (min-width: 1101px) {
+  body.page-bam > .profile-shell {
+    padding-top: 0 !important;
+  }
+
+  body.page-bam > .profile-shell > .profile-intro {
+    padding-top: 38px !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* Tablet: retain breathing room without wasting vertical space. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-bam > .profile-shell > .profile-intro {
+    padding-top: 28px !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* Mobile portrait: compact but visibly separated from the header. */
+@media (max-width: 760px) and (orientation: portrait) {
+  body.page-bam > .profile-shell > .profile-intro {
+    padding-top: 22px !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* Short mobile landscape: preserve the compact navigation layout. */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-bam > .profile-shell > .profile-intro {
+    padding-top: 18px !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* =========================================================
+   v24.8 — COMPLETE DESKTOP / TABLET SHELL CURVATURE
+   ---------------------------------------------------------
+   Oom's lower shell already finishes with rounded footer-side
+   corners. Restore matching curvature to the top of the shared
+   header so the complete page reads as one editorial card.
+========================================================= */
+
+@media (min-width: 1101px) {
+  body.page-bam > .ob-header {
+    width: min(1480px, 96vw);
+    margin-inline: auto;
+    border-radius: 24px 24px 0 0;
+  }
+
+  body.page-bam > .profile-shell {
+    width: min(1480px, 96vw);
+    margin-inline: auto;
+    border-radius: 0 0 24px 24px !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-bam > .ob-header {
+    width: 100%;
+    border-radius: 22px 22px 0 0;
+  }
+
+  body.page-bam > .profile-shell {
+    border-radius: 0 0 22px 22px !important;
+  }
+}
+
+/* Phones remain edge-to-edge, matching the homepage mobile shell. */
+@media (max-width: 760px) {
+  body.page-bam > .ob-header,
+  body.page-bam > .profile-shell {
+    border-radius: 0 !important;
+  }
+}
+
+
+
+/* =========================================================
+   BAM v24.0 — OOM PAGE PARITY FINAL OVERRIDES
+   Exact shell / spacing / responsive geometry as Oom v24.8.
+========================================================= */
+
+/* Bam's portrait source is already composed correctly for a centered 4:5 crop. */
+body.page-bam .editorial-photo {
+  object-position: 50% 50%;
+}
+
+@media (max-width: 1100px) {
+  body.page-bam .editorial-photo {
+    object-position: 50% 50%;
+  }
+}
+
+/* Keep Bam's dark identity palette while using the same near-black
+   shell hierarchy as Oom. */
+html[data-theme="dark"] body.page-bam,
+body.dark-theme.page-bam,
+html[data-theme="dark"] body.page-bam > .profile-shell,
+body.dark-theme.page-bam > .profile-shell,
+html[data-theme="dark"] body.page-bam > .ob-header,
+body.dark-theme.page-bam > .ob-header {
+  background: #090a0c !important;
+  background-image: none !important;
+}
+
+html[data-theme="dark"] body.page-bam .featured-work,
+html[data-theme="dark"] body.page-bam .panel,
+html[data-theme="dark"] body.page-bam .updates-section {
+  background: #111214;
+}
+
+html[data-theme="dark"] body.page-bam .socials a > span,
+html[data-theme="dark"] body.page-bam .facts-grid article,
+html[data-theme="dark"] body.page-bam .updates-empty {
+  background: #141518;
 }
