@@ -2268,3 +2268,52 @@ body.page-oom .editorial-photo {
   }
 }
 
+/* =========================================================
+   v24.7 — PROFILE INTRO SPACING PARITY WITH BAM
+   ---------------------------------------------------------
+   Earlier Oom header-alignment patches forced .profile-intro
+   padding-top to 0 with !important. That made the portrait and
+   profile narrative sit directly against the header divider.
+
+   Bam's approved profile composition keeps 38px of breathing
+   room between the navigation divider and the profile intro.
+   Restore that exact editorial spacing on desktop while keeping
+   responsive values proportional on smaller screens.
+========================================================= */
+
+/* Desktop: mirror Bam's approved 38px header-to-profile spacing. */
+@media (min-width: 1101px) {
+  body.page-oom > .profile-shell {
+    padding-top: 0 !important;
+  }
+
+  body.page-oom > .profile-shell > .profile-intro {
+    padding-top: 38px !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* Tablet: retain breathing room without wasting vertical space. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-oom > .profile-shell > .profile-intro {
+    padding-top: 28px !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* Mobile portrait: compact but visibly separated from the header. */
+@media (max-width: 760px) and (orientation: portrait) {
+  body.page-oom > .profile-shell > .profile-intro {
+    padding-top: 22px !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* Short mobile landscape: preserve the compact navigation layout. */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-oom > .profile-shell > .profile-intro {
+    padding-top: 18px !important;
+    margin-top: 0 !important;
+  }
+}
+
