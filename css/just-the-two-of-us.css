@@ -3133,4 +3133,89 @@ html[data-theme="dark"] body.page-fulfill .site-footer {
 }
 
 
+/* =========================================================
+   v22.2 — SHARED SEARCH LAYOUT FIX
+   Search field first; Search button sits BELOW the field.
+   Applies consistently to desktop + tablet + mobile.
+========================================================= */
+body.page-fulfill > .ob-site-search .ob-site-search__row {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+}
+
+body.page-fulfill > .ob-site-search .ob-site-search__row input {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+body.page-fulfill > .ob-site-search .ob-site-search__button {
+  width: auto !important;
+  min-width: 106px !important;
+  align-self: flex-start !important;
+  margin: 0 !important;
+}
+
+
+/* =========================================================
+   v22.3 — GLOBAL HEADER / SEARCH ORDER
+   Header must render first. Search expands directly BELOW it.
+========================================================= */
+
+body.page-fulfill > .ob-header {
+  position: relative;
+  z-index: 30;
+}
+
+body.page-fulfill > .ob-site-search {
+  position: relative !important;
+  z-index: 20;
+  order: initial;
+  margin-top: 0 !important;
+}
+
+/* Search field on first line, action button beneath it. */
+body.page-fulfill > .ob-site-search .ob-site-search__row {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+}
+
+body.page-fulfill > .ob-site-search .ob-site-search__row input {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+}
+
+body.page-fulfill > .ob-site-search .ob-site-search__button {
+  display: inline-flex !important;
+  width: max-content !important;
+  min-width: 106px !important;
+  align-self: flex-start !important;
+  margin: 0 !important;
+}
+
+/* Keep header + opened search + content as one editorial canvas. */
+@media (min-width: 1101px) {
+  body.page-fulfill > .ob-header {
+    border-radius: 24px 24px 0 0 !important;
+  }
+
+  body.page-fulfill > .ob-site-search:not([hidden]) {
+    width: min(1480px, 96vw) !important;
+    margin-inline: auto !important;
+    border-radius: 0 !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-fulfill > .ob-site-search:not([hidden]) {
+    width: 100% !important;
+    margin-inline: auto !important;
+    border-radius: 0 !important;
+  }
+}
 
