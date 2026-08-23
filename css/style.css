@@ -7176,3 +7176,79 @@ body.dark-theme.page-home .blossoms-feature-icon {
    - Elevated homepage dark surfaces use Bam's #111214 family.
    - Mobile-menu anchoring is owned by Global.css + script.js.
 ========================================================= */
+
+
+/* =========================================================
+   v14.0.2 — HOMEPAGE EDITORIAL SHELL CURVATURE
+   ---------------------------------------------------------
+   Match the approved Oom/Bam profile shell treatment:
+   - rounded top corners on the header
+   - continuous square join between header and hero
+   - rounded lower corners on the hero/banner
+   - matching outer shell finish
+   - mobile stays edge-to-edge
+========================================================= */
+
+@media (min-width: 1101px) {
+  /* Header becomes the curved top cap of the homepage canvas. */
+  body.page-home > .ob-header {
+    width: min(1480px, 96vw);
+    margin-inline: auto;
+    border-radius: 24px 24px 0 0;
+  }
+
+  /* The homepage content continues directly from the header. */
+  body.page-home > .home-shell {
+    width: min(1480px, 96vw);
+    margin-inline: auto;
+    border-top: 0;
+    border-radius: 0 0 24px 24px;
+  }
+
+  /* Hero/banner keeps the continuous top edge but gains the
+     same premium rounded finish at its lower corners. */
+  body.page-home .hero {
+    overflow: hidden;
+    border-radius: 0 0 24px 24px;
+  }
+
+  body.page-home .hero-background,
+  body.page-home .hero-overlay {
+    border-radius: inherit;
+  }
+}
+
+/* Tablet keeps the same visual system at a slightly tighter radius. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-home > .ob-header {
+    border-radius: 22px 22px 0 0;
+  }
+
+  body.page-home > .home-shell {
+    border-top: 0;
+    border-radius: 0 0 22px 22px;
+  }
+
+  body.page-home .hero {
+    overflow: hidden;
+    border-radius: 0 0 22px 22px;
+  }
+
+  body.page-home .hero-background,
+  body.page-home .hero-overlay {
+    border-radius: inherit;
+  }
+}
+
+/* Mobile remains edge-to-edge, matching the established homepage
+   hamburger/navigation behavior and avoiding clipped viewport edges. */
+@media (max-width: 760px) {
+  body.page-home > .ob-header,
+  body.page-home > .home-shell,
+  body.page-home .hero,
+  body.page-home .hero-background,
+  body.page-home .hero-overlay {
+    border-radius: 0 !important;
+  }
+}
+
