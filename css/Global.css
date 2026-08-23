@@ -1169,3 +1169,37 @@ html[data-theme="dark"] .ob-search-result:focus-visible {
     padding: 8px 18px 9px;
   }
 }
+
+
+/* =========================================================
+   OB00001.6 — TOUCH-TABLET DESKTOP-NAV BEHAVIOR
+   iPad landscape can retain the full desktop navigation while
+   using coarse touch input. Keep dropdown parents tap-friendly.
+========================================================= */
+@media (hover: none), (pointer: coarse) {
+  .ob-nav__group,
+  .ob-nav__parent,
+  .ob-nav__link,
+  .ob-nav__submenu-toggle {
+    touch-action: manipulation;
+  }
+
+  .ob-nav__group > .ob-nav__parent .ob-nav__link {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* On touch, JS owns the open/closed state; avoid hover persistence. */
+  .ob-nav__group:not(.is-open) > .ob-submenu {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .ob-nav__group.is-open > .ob-submenu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
