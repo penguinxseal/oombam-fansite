@@ -4747,3 +4747,136 @@ body.page-community:not(.dark-theme) .footer-copyline {
   border-top-color: rgba(99, 134, 110, .13) !important;
 }
 
+
+/* =========================================================
+   COMMUNITY BLOSSOMS v12.5
+   HERO COPY CLEANUP + READABILITY
+   ---------------------------------------------------------
+   Removed redundant:
+   - OomBam Community
+   - Community Blossoms
+   - Our Blossom Garden
+
+   Retained:
+   - Where love for OomBam grows together.
+   - Supporting community description
+   - Garden bloom sentence
+   - See Our Garden →
+========================================================= */
+
+/* Desktop hero copy becomes two clean editorial text islands. */
+@media (min-width: 901px) {
+  body.page-community .hero-overlay {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.05fr) minmax(260px, .55fr) !important;
+    align-items: center !important;
+    gap: clamp(32px, 5vw, 72px) !important;
+
+    width: calc(100% - 64px) !important;
+    max-width: none !important;
+
+    left: 32px !important;
+    right: 32px !important;
+    bottom: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  body.page-community .hero-copy,
+  body.page-community .garden-copy {
+    position: relative !important;
+    inset: auto !important;
+    width: auto !important;
+    max-width: none !important;
+
+    padding: 20px 22px !important;
+    border-radius: 16px !important;
+
+    background: rgba(255, 253, 248, .72) !important;
+    border: 1px solid rgba(73, 102, 84, .12) !important;
+    box-shadow: 0 12px 34px rgba(39, 61, 48, .08) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  body.page-community .hero-copy {
+    justify-self: start !important;
+    max-width: 470px !important;
+  }
+
+  body.page-community .garden-copy {
+    justify-self: end !important;
+    max-width: 330px !important;
+  }
+
+  body.page-community .hero-lead {
+    margin: 0 0 12px !important;
+    font-size: clamp(1.65rem, 2vw, 2.25rem) !important;
+    line-height: 1.08 !important;
+    color: #24372c !important;
+    text-shadow: none !important;
+  }
+
+  body.page-community .hero-description,
+  body.page-community .garden-copy p {
+    margin: 0 !important;
+    color: #52665a !important;
+    line-height: 1.6 !important;
+  }
+
+  body.page-community .garden-copy a {
+    display: inline-block !important;
+    margin-top: 14px !important;
+    color: #63866e !important;
+    font-weight: 700 !important;
+  }
+}
+
+/* Dark mode: stronger contrast while keeping the artwork visible. */
+html[data-theme="dark"] body.page-community .hero-copy,
+html[data-theme="dark"] body.page-community .garden-copy,
+body.page-community.dark-theme .hero-copy,
+body.page-community.dark-theme .garden-copy {
+  background: rgba(12, 14, 16, .74) !important;
+  border-color: rgba(255, 255, 255, .08) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .24) !important;
+}
+
+html[data-theme="dark"] body.page-community .hero-lead,
+body.page-community.dark-theme .hero-lead {
+  color: #f4f6f4 !important;
+}
+
+html[data-theme="dark"] body.page-community .hero-description,
+html[data-theme="dark"] body.page-community .garden-copy p,
+body.page-community.dark-theme .hero-description,
+body.page-community.dark-theme .garden-copy p {
+  color: rgba(255, 255, 255, .72) !important;
+}
+
+html[data-theme="dark"] body.page-community .garden-copy a,
+body.page-community.dark-theme .garden-copy a {
+  color: #b8d2bf !important;
+}
+
+/* Tablet/mobile: keep the primary copy below/over the banner according
+   to existing responsive layout, but preserve readable backing surfaces. */
+@media (max-width: 900px) {
+  body.page-community .hero-copy {
+    padding: 16px 18px !important;
+    border-radius: 14px !important;
+    background: rgba(255,253,248,.88) !important;
+    border: 1px solid rgba(73,102,84,.12) !important;
+  }
+
+  body.page-community .garden-copy {
+    display: none !important;
+  }
+
+  html[data-theme="dark"] body.page-community .hero-copy,
+  body.page-community.dark-theme .hero-copy {
+    background: rgba(12,14,16,.86) !important;
+    border-color: rgba(255,255,255,.08) !important;
+  }
+}
+
