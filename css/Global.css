@@ -109,7 +109,7 @@ body.ob-menu-open {
   margin-inline: auto;
   padding-inline: clamp(24px, 3.5vw, 52px);
   display: grid;
-  grid-template-columns: minmax(110px, 1fr) auto minmax(110px, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(16px, 2vw, 30px);
 }
@@ -144,13 +144,14 @@ body.ob-menu-open {
 }
 
 /* =========================================================
-   DESKTOP NAV
+   DESKTOP NAV — intentionally right-aligned
+   Brand stays left; navigation + actions form the right cluster.
 ========================================================= */
 .ob-nav {
-  justify-self: center;
+  justify-self: end;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: clamp(14px, 1.35vw, 23px);
   min-width: 0;
   margin: 0;
@@ -217,6 +218,22 @@ body.ob-menu-open {
   min-height: 44px;
 }
 
+/* Invisible hover bridge keeps the pointer path continuous between
+   the parent label and its dropdown. This prevents menu flicker. */
+.ob-nav__group::after {
+  content: "";
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  top: 100%;
+  height: 10px;
+  pointer-events: none;
+}
+
+.ob-nav__group.is-open::after {
+  pointer-events: auto;
+}
+
 .ob-nav__parent {
   display: inline-flex;
   align-items: center;
@@ -248,16 +265,14 @@ body.ob-menu-open {
   transition: transform 160ms ease;
 }
 
-.ob-nav__group.is-open .ob-nav__submenu-toggle svg,
-.ob-nav__group:hover .ob-nav__submenu-toggle svg,
-.ob-nav__group:focus-within .ob-nav__submenu-toggle svg {
+.ob-nav__group.is-open .ob-nav__submenu-toggle svg {
   transform: rotate(180deg);
 }
 
 /* Desktop dropdown */
 .ob-submenu {
   position: absolute;
-  top: calc(100% + 7px);
+  top: calc(100% - 1px);
   left: 50%;
   z-index: 5100;
   width: 252px;
@@ -275,9 +290,7 @@ body.ob-menu-open {
   transition: opacity 150ms ease, transform 150ms ease, visibility 150ms ease;
 }
 
-.ob-nav__group.is-open > .ob-submenu,
-.ob-nav__group:hover > .ob-submenu,
-.ob-nav__group:focus-within > .ob-submenu {
+.ob-nav__group.is-open > .ob-submenu {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -338,6 +351,7 @@ body.ob-menu-open {
 ========================================================= */
 .ob-header__actions {
   justify-self: end;
+  margin-left: clamp(10px, 1vw, 16px);
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -1066,5 +1080,47 @@ html[data-theme="dark"] .ob-search-result:focus-visible {
 
   .ob-site-search__results {
     max-height: min(190px, calc(100vh - var(--ob-header-height-landscape) - 105px));
+  }
+}
+
+
+/* =========================================================
+   OB_00001.4A — DESKTOP HEADER ALIGNMENT CORRECTION
+   Keep the global header on the same 1480px / 96vw canvas as
+   the homepage shell, and make the desktop menu a true
+   right-aligned cluster rather than a centered grid column.
+========================================================= */
+@media (min-width: 1101px) {
+  .ob-header {
+    width: min(var(--ob-shell-max), 96vw);
+    margin-inline: auto;
+  }
+
+  .ob-header__inner {
+    width: 100%;
+    max-width: none;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding-inline: clamp(28px, 3.4vw, 50px);
+  }
+
+  .ob-brand {
+    flex: 0 0 auto;
+    margin-right: auto;
+  }
+
+  .ob-nav {
+    flex: 0 1 auto;
+    margin-left: auto;
+    justify-self: auto;
+    justify-content: flex-end;
+    gap: clamp(14px, 1.2vw, 22px);
+  }
+
+  .ob-header__actions {
+    flex: 0 0 auto;
+    justify-self: auto;
+    margin-left: clamp(18px, 1.35vw, 24px);
   }
 }
