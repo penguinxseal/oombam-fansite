@@ -1544,3 +1544,423 @@ body.dark-theme {
     pointer-events: auto;
   }
 }
+
+
+/* =========================================================
+   BLOSSOMS GUIDELINE PAGES v5.0
+   GLOBAL SITE STANDARD + SAGE GARDEN FAMILY
+   ---------------------------------------------------------
+   Canonical completed-page standard:
+   - Global.css owns header / nav / submenus / search / theme / hamburger
+   - DOM order is HEADER -> SEARCH -> CONTENT SHELL
+   - 1480px / 96vw desktop master shell
+   - 24px desktop radius
+   - 22px tablet radius
+   - edge-to-edge mobile
+   - sticky navigation
+   - #090a0c / #111214 / #141518 dark system
+   - sage / mint / warm ivory light-mode Blossoms identity
+========================================================= */
+
+/* The old standalone header/search/mobile rules above are retained only
+   for historical compatibility. These global classes are authoritative. */
+
+body.page-guidelines {
+  --community-sage-50:  #f6faf6;
+  --community-sage-100: #edf5ef;
+  --community-sage-200: #dcecdf;
+  --community-sage-300: #c7dfcc;
+  --community-sage-500: #7ea48a;
+  --community-sage-600: #63866e;
+  --community-sage-700: #496654;
+  --community-ink:      #24372c;
+  --community-muted:    #66776d;
+  --community-ivory:    #fffdf8;
+  --community-blush:    #e983a2;
+
+  min-height: 100vh;
+  padding: clamp(24px, 4vw, 62px) 20px;
+
+  color: var(--community-ink);
+
+  background:
+    radial-gradient(circle at 8% 10%, rgba(185,218,194,.72), transparent 31%),
+    radial-gradient(circle at 92% 12%, rgba(221,238,226,.78), transparent 32%),
+    linear-gradient(135deg, #dcecdf 0%, #edf5ef 46%, #f7f5ea 100%) !important;
+}
+
+/* =========================
+   GLOBAL HEADER
+========================= */
+body.page-guidelines > .ob-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 5000 !important;
+
+  width: min(1480px, 96vw);
+  margin-inline: auto;
+
+  background: rgba(255,253,248,.97) !important;
+  border-radius: 24px 24px 0 0;
+}
+
+/* =========================
+   GLOBAL SEARCH
+   IMPORTANT: always BELOW menu bar in DOM + visual flow
+========================= */
+body.page-guidelines > .ob-site-search {
+  position: relative !important;
+  z-index: 30 !important;
+
+  width: min(1480px, 96vw);
+  margin: 0 auto !important;
+
+  background: #f8fbf8 !important;
+  border-color: rgba(99,134,110,.16) !important;
+  border-radius: 0 !important;
+}
+
+body.page-guidelines > .ob-site-search input {
+  background: #fffefa !important;
+  border-color: rgba(99,134,110,.22) !important;
+}
+
+body.page-guidelines > .ob-site-search input:focus {
+  border-color: #7ea48a !important;
+  box-shadow: 0 0 0 3px rgba(126,164,138,.14) !important;
+}
+
+/* =========================
+   MASTER PAGE SHELL
+========================= */
+body.page-guidelines > .guideline-shell {
+  width: min(1480px, 96vw) !important;
+  margin: 0 auto !important;
+
+  overflow: hidden;
+
+  background: var(--community-ivory) !important;
+  border: 1px solid rgba(99,134,110,.12) !important;
+  border-top: 0 !important;
+  border-radius: 0 0 24px 24px !important;
+
+  box-shadow: 0 22px 60px rgba(60,70,68,.09) !important;
+}
+
+/* =========================
+   INNER CONTENT
+========================= */
+body.page-guidelines .guideline-container {
+  width: min(1180px, calc(100% - 64px));
+  margin-inline: auto;
+}
+
+body.page-guidelines .guideline-hero {
+  padding: clamp(66px, 7vw, 104px) 0 54px;
+
+  background:
+    radial-gradient(circle at 14% 12%, rgba(199,223,204,.28), transparent 28%),
+    radial-gradient(circle at 88% 18%, rgba(233,131,162,.10), transparent 25%),
+    linear-gradient(180deg, #fffdf8, #f8fbf7);
+
+  border-bottom: 1px solid rgba(99,134,110,.10);
+}
+
+body.page-guidelines .guideline-kicker {
+  color: var(--community-sage-600) !important;
+}
+
+body.page-guidelines .guideline-hero h1,
+body.page-guidelines .rule-card h2 {
+  color: var(--community-ink) !important;
+}
+
+body.page-guidelines .guideline-script,
+body.page-guidelines .rule-number {
+  color: var(--community-blush) !important;
+}
+
+body.page-guidelines .guideline-intro,
+body.page-guidelines .guideline-note,
+body.page-guidelines .rule-card p,
+body.page-guidelines .rule-card li,
+body.page-guidelines .promise-card p {
+  color: var(--community-muted) !important;
+}
+
+body.page-guidelines .back-link {
+  color: var(--community-sage-700) !important;
+  background: rgba(255,255,255,.72) !important;
+  border-color: rgba(99,134,110,.20) !important;
+}
+
+body.page-guidelines .back-link:hover {
+  background: var(--community-sage-100) !important;
+  border-color: rgba(99,134,110,.34) !important;
+}
+
+/* Cards: botanical editorial surface */
+body.page-guidelines .guideline-note,
+body.page-guidelines .rule-card {
+  background:
+    linear-gradient(135deg, rgba(255,254,250,.98), rgba(237,245,239,.66)) !important;
+
+  border-color: rgba(99,134,110,.16) !important;
+  box-shadow: 0 14px 38px rgba(68,88,72,.065) !important;
+}
+
+body.page-guidelines .rule-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(126,164,138,.40) !important;
+  box-shadow: 0 18px 42px rgba(68,88,72,.10) !important;
+}
+
+body.page-guidelines .rule-number {
+  background: #edf5ef !important;
+}
+
+body.page-guidelines .promise-card {
+  border-color: rgba(99,134,110,.18) !important;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(220,236,223,.88),
+      rgba(255,253,248,.94) 50%,
+      rgba(253,231,237,.55)
+    ) !important;
+}
+
+body.page-guidelines .promise-card h2 {
+  color: var(--community-sage-700) !important;
+}
+
+/* Footer follows Community family */
+body.page-guidelines .site-footer {
+  background: var(--community-ivory) !important;
+  border-top-color: rgba(99,134,110,.11) !important;
+}
+
+body.page-guidelines .footer-message {
+  color: var(--community-sage-600) !important;
+}
+
+body.page-guidelines .footer-copyline {
+  color: #78877e !important;
+  border-top-color: rgba(99,134,110,.11) !important;
+}
+
+/* =========================
+   DARK MODE — shared site standard
+========================= */
+html[data-theme="dark"] body.page-guidelines,
+body.page-guidelines.dark-theme {
+  color: #f2eef0;
+  background: #090a0c !important;
+  background-image: none !important;
+}
+
+html[data-theme="dark"] body.page-guidelines > .ob-header,
+body.page-guidelines.dark-theme > .ob-header {
+  background: #090a0c !important;
+  border-bottom-color: rgba(255,255,255,.07) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.page-guidelines > .ob-site-search,
+body.page-guidelines.dark-theme > .ob-site-search {
+  background: #111214 !important;
+  border-color: rgba(255,255,255,.07) !important;
+}
+
+html[data-theme="dark"] body.page-guidelines > .guideline-shell,
+body.page-guidelines.dark-theme > .guideline-shell {
+  background: #090a0c !important;
+  border-color: rgba(255,255,255,.06) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.page-guidelines .guideline-hero,
+body.page-guidelines.dark-theme .guideline-hero {
+  background:
+    radial-gradient(circle at 14% 10%, rgba(126,164,138,.08), transparent 28%),
+    radial-gradient(circle at 88% 18%, rgba(233,131,162,.06), transparent 25%),
+    #090a0c !important;
+
+  border-bottom-color: rgba(255,255,255,.06) !important;
+}
+
+html[data-theme="dark"] body.page-guidelines .guideline-note,
+html[data-theme="dark"] body.page-guidelines .rule-card,
+html[data-theme="dark"] body.page-guidelines .promise-card,
+body.page-guidelines.dark-theme .guideline-note,
+body.page-guidelines.dark-theme .rule-card,
+body.page-guidelines.dark-theme .promise-card {
+  background: #141518 !important;
+  border-color: rgba(255,255,255,.07) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.page-guidelines .guideline-hero h1,
+html[data-theme="dark"] body.page-guidelines .rule-card h2,
+body.page-guidelines.dark-theme .guideline-hero h1,
+body.page-guidelines.dark-theme .rule-card h2 {
+  color: #f2eef0 !important;
+}
+
+html[data-theme="dark"] body.page-guidelines .guideline-intro,
+html[data-theme="dark"] body.page-guidelines .guideline-note,
+html[data-theme="dark"] body.page-guidelines .rule-card p,
+html[data-theme="dark"] body.page-guidelines .rule-card li,
+html[data-theme="dark"] body.page-guidelines .promise-card p,
+body.page-guidelines.dark-theme .guideline-intro,
+body.page-guidelines.dark-theme .guideline-note,
+body.page-guidelines.dark-theme .rule-card p,
+body.page-guidelines.dark-theme .rule-card li,
+body.page-guidelines.dark-theme .promise-card p {
+  color: rgba(255,255,255,.62) !important;
+}
+
+html[data-theme="dark"] body.page-guidelines .back-link,
+body.page-guidelines.dark-theme .back-link {
+  color: #b8d2bf !important;
+  background: #111214 !important;
+  border-color: rgba(255,255,255,.08) !important;
+}
+
+html[data-theme="dark"] body.page-guidelines .site-footer,
+body.page-guidelines.dark-theme .site-footer {
+  background: #090a0c !important;
+  border-top-color: rgba(255,255,255,.06) !important;
+}
+
+html[data-theme="dark"] body.page-guidelines .footer-main,
+body.page-guidelines.dark-theme .footer-main {
+  color: rgba(255,255,255,.70) !important;
+}
+
+html[data-theme="dark"] body.page-guidelines .footer-message,
+body.page-guidelines.dark-theme .footer-message {
+  color: #a9cee5 !important;
+}
+
+html[data-theme="dark"] body.page-guidelines .footer-copyline,
+body.page-guidelines.dark-theme .footer-copyline {
+  color: rgba(255,255,255,.46) !important;
+  border-top-color: rgba(255,255,255,.06) !important;
+}
+
+/* =========================
+   TABLET
+========================= */
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-guidelines {
+    padding: 22px 14px;
+  }
+
+  body.page-guidelines > .ob-header {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 22px 22px 0 0 !important;
+  }
+
+  body.page-guidelines > .ob-site-search,
+  body.page-guidelines > .guideline-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body.page-guidelines > .ob-site-search:not([hidden]) {
+    margin-inline: auto !important;
+    border-radius: 0 !important;
+  }
+
+  body.page-guidelines > .guideline-shell {
+    border-radius: 0 0 22px 22px !important;
+  }
+
+  body.page-guidelines .guideline-container {
+    width: min(100% - 44px, 900px);
+  }
+
+  body.page-guidelines .guideline-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.page-guidelines .full-width {
+    grid-column: auto;
+  }
+}
+
+/* =========================
+   MOBILE PORTRAIT
+========================= */
+@media (max-width: 760px) and (orientation: portrait) {
+  body.page-guidelines {
+    padding: 0 !important;
+  }
+
+  body.page-guidelines > .ob-header,
+  body.page-guidelines > .ob-site-search,
+  body.page-guidelines > .guideline-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  body.page-guidelines > .guideline-shell {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body.page-guidelines .guideline-container {
+    width: calc(100% - 34px);
+  }
+
+  body.page-guidelines .guideline-hero {
+    padding: 50px 0 38px;
+  }
+
+  body.page-guidelines .guideline-main {
+    padding-top: 30px;
+  }
+}
+
+/* =========================
+   MOBILE / TABLET LANDSCAPE
+   Shared Global.css/script.js owns fixed menu + scroll lock.
+========================= */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  html,
+  body.page-guidelines {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body.page-guidelines {
+    padding: 8px 8px 14px !important;
+  }
+
+  body.page-guidelines > .ob-header,
+  body.page-guidelines > .ob-site-search,
+  body.page-guidelines > .guideline-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  body.page-guidelines > .guideline-shell {
+    border-left: 0 !important;
+    border-right: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body.page-guidelines .guideline-hero {
+    padding: 42px 0 30px;
+  }
+
+  body.page-guidelines .guideline-main {
+    padding-top: 26px;
+  }
+}
+
