@@ -101,17 +101,55 @@
       closeTimer = window.setTimeout(() => setOpen(false), 140);
     };
 
-    /* Desktop: hovering the parent immediately reveals its submenu. */
-    group.addEventListener("pointerenter", () => setOpen(true));
-    group.addEventListener("pointerleave", scheduleClose);
-    submenu.addEventListener("pointerenter", cancelClose);
-    submenu.addEventListener("pointerleave", scheduleClose);
+    const parentLink = group.querySelector(".ob-nav__link");
+    const touchPrimary = window.matchMedia("(hover: none), (pointer: coarse)");
 
-    /* Chevron remains a click target for keyboard/touch-capable desktops. */
+    /*
+      Mouse/trackpad desktops: true hover navigation.
+      Touch tablets: never depend on hover because WebKit can synthesize
+      pointerenter/pointerleave around a tap and immediately close the menu.
+    */
+    group.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "mouse") setOpen(true);
+    });
+    group.addEventListener("pointerleave", (event) => {
+      if (event.pointerType === "mouse") scheduleClose();
+    });
+    submenu.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "mouse") cancelClose();
+    });
+    submenu.addEventListener("pointerleave", (event) => {
+      if (event.pointerType === "mouse") scheduleClose();
+    });
+
+    /* Chevron is always an explicit submenu toggle. */
     toggle.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();
       setOpen(!group.classList.contains("is-open"));
+    });
+
+    /*
+      Touch-tablet interaction:
+      - first tap on Media/Blossoms opens and keeps the submenu visible
+      - second tap on the already-open parent follows its normal link
+      - tapping elsewhere closes the submenu
+      This preserves the parent destination without sacrificing discoverability.
+    */
+    parentLink?.addEventListener("click", (event) => {
+      const touchLike = touchPrimary.matches || event.detail === 0;
+      if (!touchLike) return;
+
+      if (!group.classList.contains("is-open")) {
+        event.preventDefault();
+        event.stopPropagation();
+        setOpen(true);
+      }
+    });
+
+    /* Prevent the browser's long-press link sheet on touch navigation parents. */
+    parentLink?.addEventListener("contextmenu", (event) => {
+      if (touchPrimary.matches) event.preventDefault();
     });
 
     group.addEventListener("focusin", () => setOpen(true));
