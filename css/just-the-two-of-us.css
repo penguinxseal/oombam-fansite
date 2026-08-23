@@ -2955,3 +2955,180 @@ html[data-theme="dark"] body.page-fulfill .site-footer {
   }
 }
 
+
+/* =========================================================
+   v22.1 — TABLET HERO / BANNER FRAMING
+   ---------------------------------------------------------
+   Problem:
+   The older hero rules constrained the artwork to 64–68% of the
+   banner width. On iPad portrait and landscape this produced a
+   tall, narrow image window and cropped one of the two subjects.
+
+   Fix:
+   Use the supplied landscape banner across the FULL hero canvas
+   on tablets, then place the editorial wash/copy over the left.
+   This keeps both Oom and Bam visible while preserving the
+   existing desktop editorial composition.
+========================================================= */
+
+/* ---------- Tablet portrait ---------- */
+@media
+  (min-width: 701px)
+  and (max-width: 1100px)
+  and (orientation: portrait) {
+
+  body.page-fulfill .fulfill-hero {
+    height: 600px !important;
+    min-height: 600px !important;
+    padding-top: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.page-fulfill .hero-art {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    background-image:
+      url("../assets/images/fulfill-banner.jpg") !important;
+
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+
+    /* Full-width canvas prevents the portrait tablet crop. */
+    background-position: center center !important;
+  }
+
+  body.page-fulfill .hero-wash {
+    display: block !important;
+    inset: 0 !important;
+
+    background:
+      linear-gradient(
+        90deg,
+        #fbf8f6 0%,
+        rgba(251,248,246,.99) 27%,
+        rgba(251,248,246,.94) 38%,
+        rgba(251,248,246,.66) 48%,
+        rgba(251,248,246,.20) 60%,
+        rgba(251,248,246,.03) 74%
+      ) !important;
+  }
+
+  body.page-fulfill .hero-inner {
+    min-height: 600px !important;
+    padding:
+      28px
+      clamp(34px, 6vw, 62px)
+      42px !important;
+  }
+
+  body.page-fulfill .hero-copy {
+    width: 45% !important;
+    max-width: 390px !important;
+    margin: auto 0 !important;
+  }
+
+  body.page-fulfill .hero-copy h1 > span {
+    font-size: clamp(3.1rem, 7.3vw, 4.5rem) !important;
+  }
+
+  body.page-fulfill .hero-copy h1 > strong {
+    font-size: clamp(3.85rem, 9vw, 5.45rem) !important;
+  }
+
+  body.page-fulfill .hero-subtitle {
+    max-width: 330px !important;
+    font-size: clamp(1rem, 2vw, 1.15rem) !important;
+  }
+
+  html[data-theme="dark"] body.page-fulfill .hero-wash,
+  body.dark-theme.page-fulfill .hero-wash {
+    background:
+      linear-gradient(
+        90deg,
+        #090a0c 0%,
+        rgba(9,10,12,.99) 27%,
+        rgba(9,10,12,.94) 38%,
+        rgba(9,10,12,.70) 49%,
+        rgba(9,10,12,.24) 62%,
+        rgba(9,10,12,.03) 76%
+      ) !important;
+  }
+}
+
+
+/* ---------- iPad / tablet landscape ---------- */
+/*
+   Modern iPad landscape widths commonly exceed the 1100px mobile
+   breakpoint. This range keeps those devices from falling back to
+   the old 68%-wide artwork window.
+*/
+@media
+  (min-width: 1101px)
+  and (max-width: 1400px)
+  and (orientation: landscape) {
+
+  body.page-fulfill .fulfill-hero {
+    height: 560px !important;
+    min-height: 560px !important;
+    overflow: hidden !important;
+  }
+
+  body.page-fulfill .hero-art {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center 48% !important;
+  }
+
+  body.page-fulfill .hero-wash {
+    inset: 0 !important;
+
+    background:
+      linear-gradient(
+        90deg,
+        #fbf8f6 0%,
+        rgba(251,248,246,.99) 25%,
+        rgba(251,248,246,.92) 36%,
+        rgba(251,248,246,.58) 47%,
+        rgba(251,248,246,.14) 60%,
+        transparent 74%
+      ) !important;
+  }
+
+  body.page-fulfill .hero-inner {
+    min-height: 560px !important;
+    padding:
+      30px
+      clamp(42px, 5vw, 72px)
+      44px !important;
+  }
+
+  body.page-fulfill .hero-copy {
+    width: 42% !important;
+    max-width: 470px !important;
+  }
+
+  html[data-theme="dark"] body.page-fulfill .hero-wash,
+  body.dark-theme.page-fulfill .hero-wash {
+    background:
+      linear-gradient(
+        90deg,
+        #090a0c 0%,
+        rgba(9,10,12,.99) 25%,
+        rgba(9,10,12,.94) 36%,
+        rgba(9,10,12,.62) 48%,
+        rgba(9,10,12,.16) 62%,
+        transparent 76%
+      ) !important;
+  }
+}
+
