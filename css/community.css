@@ -4587,3 +4587,163 @@ body.page-community > .ob-site-search {
   }
 }
 
+
+/* =========================================================
+   COMMUNITY BLOSSOMS v12.4
+   SAGE GARDEN LIGHT-MODE PALETTE
+   ---------------------------------------------------------
+   A softer botanical identity for the Community page:
+   - pale sage outer canvas
+   - mint / ivory editorial surfaces
+   - eucalyptus green accents
+   - existing blush pink retained as a secondary accent
+   - dark mode remains unchanged
+========================================================= */
+
+body.page-community:not(.dark-theme) {
+  --community-sage-50:  #f6faf6;
+  --community-sage-100: #edf5ef;
+  --community-sage-200: #dcecdf;
+  --community-sage-300: #c7dfcc;
+  --community-sage-500: #7ea48a;
+  --community-sage-600: #63866e;
+  --community-sage-700: #496654;
+  --community-ink:      #24372c;
+  --community-muted:    #66776d;
+  --community-ivory:    #fffdf8;
+  --community-blush:    #e983a2;
+
+  color: var(--community-ink);
+
+  background:
+    radial-gradient(circle at 8% 10%, rgba(185, 218, 194, .72), transparent 31%),
+    radial-gradient(circle at 92% 12%, rgba(221, 238, 226, .78), transparent 32%),
+    linear-gradient(
+      135deg,
+      #dcecdf 0%,
+      #edf5ef 46%,
+      #f7f5ea 100%
+    ) !important;
+}
+
+/* Main editorial shell: warm ivory with a faint green cast. */
+body.page-community:not(.dark-theme) > .ob-header,
+body.page-community:not(.dark-theme) > .site-shell,
+body.page-community:not(.dark-theme) .site-footer {
+  background: rgba(255, 253, 248, .97) !important;
+}
+
+/* Search follows the same botanical light palette. */
+body.page-community:not(.dark-theme) > .ob-site-search {
+  background: #f8fbf8 !important;
+  border-color: rgba(99, 134, 110, .16) !important;
+}
+
+body.page-community:not(.dark-theme) > .ob-site-search input {
+  background: #fffefa !important;
+  border-color: rgba(99, 134, 110, .22) !important;
+}
+
+body.page-community:not(.dark-theme) > .ob-site-search input:focus {
+  border-color: #7ea48a !important;
+  box-shadow: 0 0 0 3px rgba(126, 164, 138, .14) !important;
+}
+
+/* Primary panels gain a subtle mint surface instead of plain white. */
+body.page-community:not(.dark-theme) .panel,
+body.page-community:not(.dark-theme) .letters-section .community-container,
+body.page-community:not(.dark-theme) .community-gallery-panel,
+body.page-community:not(.dark-theme) .guidelines-card,
+body.page-community:not(.dark-theme) .submission-inner {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(251, 253, 249, .98),
+      rgba(237, 245, 239, .72)
+    ) !important;
+
+  border-color: rgba(99, 134, 110, .16) !important;
+}
+
+/* Cards stay bright but pick up a very soft botanical tint. */
+body.page-community:not(.dark-theme) .letter-card,
+body.page-community:not(.dark-theme) .message-card,
+body.page-community:not(.dark-theme) .community-card,
+body.page-community:not(.dark-theme) .project-card,
+body.page-community:not(.dark-theme) .chat-window,
+body.page-community:not(.dark-theme) .guideline-links a,
+body.page-community:not(.dark-theme) .text-button,
+body.page-community:not(.dark-theme) .chat-input input {
+  background: rgba(255, 254, 250, .94) !important;
+  border-color: rgba(99, 134, 110, .15) !important;
+}
+
+/* Headings and body copy: green-black rather than neutral charcoal. */
+body.page-community:not(.dark-theme) .community-word,
+body.page-community:not(.dark-theme) .hero-lead,
+body.page-community:not(.dark-theme) .panel-header h2,
+body.page-community:not(.dark-theme) .section-heading h2,
+body.page-community:not(.dark-theme) .guidelines-card h2,
+body.page-community:not(.dark-theme) .letter-content h3,
+body.page-community:not(.dark-theme) .community-card-content h3,
+body.page-community:not(.dark-theme) .project-card h3,
+body.page-community:not(.dark-theme) .submission-inner h2 {
+  color: var(--community-ink) !important;
+}
+
+body.page-community:not(.dark-theme) .hero-description,
+body.page-community:not(.dark-theme) .garden-copy p,
+body.page-community:not(.dark-theme) .panel-header p,
+body.page-community:not(.dark-theme) .section-heading p,
+body.page-community:not(.dark-theme) .letter-content p,
+body.page-community:not(.dark-theme) .message-card p,
+body.page-community:not(.dark-theme) .community-card-content p,
+body.page-community:not(.dark-theme) .project-card > p,
+body.page-community:not(.dark-theme) .guidelines-copy p,
+body.page-community:not(.dark-theme) .submission-inner p:not(.eyebrow),
+body.page-community:not(.dark-theme) .moderation-note,
+body.page-community:not(.dark-theme) .chat-coming-soon,
+body.page-community:not(.dark-theme) .chat-rules {
+  color: var(--community-muted) !important;
+}
+
+/* Green becomes the Community page's primary interaction accent. */
+body.page-community:not(.dark-theme) .text-button,
+body.page-community:not(.dark-theme) .inline-link,
+body.page-community:not(.dark-theme) .project-link,
+body.page-community:not(.dark-theme) .guideline-links a:hover,
+body.page-community:not(.dark-theme) .garden-copy a {
+  color: var(--community-sage-600) !important;
+}
+
+body.page-community:not(.dark-theme) .text-button:hover,
+body.page-community:not(.dark-theme) .inline-link:hover,
+body.page-community:not(.dark-theme) .project-link:hover,
+body.page-community:not(.dark-theme) .garden-copy a:hover {
+  color: var(--community-sage-700) !important;
+}
+
+/* Keep blush as the secondary fandom accent rather than removing it. */
+body.page-community:not(.dark-theme) .blossoms-word,
+body.page-community:not(.dark-theme) .eyebrow,
+body.page-community:not(.dark-theme) .letter-number,
+body.page-community:not(.dark-theme) .project-label {
+  color: var(--community-blush) !important;
+}
+
+/* Soft green decorative treatment around the Guidelines artwork. */
+body.page-community:not(.dark-theme) .guidelines-art {
+  background:
+    radial-gradient(circle, rgba(199, 223, 204, .48), rgba(246, 250, 246, .94)) !important;
+}
+
+/* Footer becomes part of the same garden identity. */
+body.page-community:not(.dark-theme) .footer-message {
+  color: var(--community-sage-600) !important;
+}
+
+body.page-community:not(.dark-theme) .footer-copyline {
+  color: #78877e !important;
+  border-top-color: rgba(99, 134, 110, .13) !important;
+}
+
