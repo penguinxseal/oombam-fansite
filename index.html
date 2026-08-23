@@ -9,8 +9,8 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/style.css?v=13.7.4" rel="stylesheet"/>
-<link href="css/Global.css?v=OB00001.4-test" rel="stylesheet"/></head>
+<link href="css/style.css?v=13.8.2" rel="stylesheet"/>
+<link href="css/Global.css?v=OB00001.4c" rel="stylesheet"/></head>
 <body class="ob-global page-home ob-shell-v2" data-active-nav="welcome" data-page-title="Home"><header class="ob-header" id="siteHeader">
 <div class="ob-header__inner">
 <a aria-label="OomBam Society Philippines home" class="ob-brand" href="index.html#home">
@@ -30,7 +30,7 @@
 <div aria-label="Media submenu" class="ob-submenu" id="desktopSubmenu-media">
 <a class="ob-submenu__link" href="just-the-two-of-us.html"><span>Fulfill The Series</span><span aria-hidden="true" class="ob-submenu__arrow">→</span></a>
 <a class="ob-submenu__link" href="index.html#media-interviews"><span>Interviews</span><span aria-hidden="true" class="ob-submenu__arrow">→</span></a>
-<span aria-disabled="true" class="ob-submenu__disabled"><span>Blogs</span><small class="ob-submenu__note">Coming soon</small></span>
+<a class="ob-submenu__link" href="index.html#media-blogs"><span>Blogs</span><span aria-hidden="true" class="ob-submenu__arrow">→</span></a>
 <a class="ob-submenu__link" href="index.html#media-soundtrack"><span>Soundtrack</span><span aria-hidden="true" class="ob-submenu__arrow">→</span></a>
 </div>
 </div>
@@ -72,7 +72,7 @@
 <div class="ob-mobile-submenu__inner">
 <a class="ob-mobile-submenu__link" href="just-the-two-of-us.html">Fulfill The Series</a>
 <a class="ob-mobile-submenu__link" href="index.html#media-interviews">Interviews</a>
-<span aria-disabled="true" class="ob-mobile-submenu__disabled"><span>Blogs</span><small class="ob-mobile-submenu__note">Coming soon</small></span>
+<a class="ob-mobile-submenu__link" href="index.html#media-blogs">Blogs</a>
 <a class="ob-mobile-submenu__link" href="index.html#media-soundtrack">Soundtrack</a>
 </div>
 </div>
@@ -300,184 +300,173 @@
 <!-- =================================================
          EDITORIAL MOMENTS
     ================================================== -->
-<section class="moments-section" id="moments">
-<div class="moments-inner">
-<!-- INTRO -->
-<div class="moments-intro">
-<div>
-<p class="moments-eyebrow">
-              Moments
-            </p>
-<h2 class="moments-heading">
-              Moments That Stay
-            </h2>
-<p class="moments-description">
-              A collection of little moments, shared memories, and meaningful chapters we love returning to.
-            </p>
-</div>
-</div>
-<!-- =========================
-             MOMENTS GRID
-        ========================== -->
-<div class="moments-grid">
-<!-- =========================
-               MOMENT 01
-          ========================== -->
-<article class="moment-card">
-<div class="moment-image-link">
-<div class="moment-image-wrap">
-<img alt="Oom and Bam together" class="moment-image" src="assets/images/moment-just-two.jpg"/>
-</div>
-</div>
-<div class="moment-meta">
-<h3>Just the Two of Us</h3>
-<p>
-                The story, the scenes, and the moments that started it all.
-              </p>
-</div>
-</article>
-<!-- =========================
-               MOMENT 02
-          ========================== -->
-<article class="moment-card">
-<div class="moment-image-link">
-<div class="moment-image-wrap">
-<img alt="Oom and Bam together at an event" class="moment-image" src="assets/images/moment-behind.jpg"/>
-</div>
-</div>
-<div class="moment-meta">
-<h3>
-                Behind the Moments
-              </h3>
-<p>
-                Little memories between the big events.
-              </p>
-</div>
-</article>
-<!-- =========================
-               MOMENT 03
-          ========================== -->
-<article class="moment-card">
-<div class="moment-image-link">
-<div class="moment-image-wrap">
-<img alt="Oom and Bam together at sunset" class="moment-image moment-image-sunset" src="assets/images/moment-sunset.jpg"/>
-</div>
-</div>
-<div class="moment-meta">
-<h3>
-                Sunset at the Station
-              </h3>
-<p>
-                Golden hour memories and quiet conversations.
-              </p>
-</div>
-</article>
-<!-- =========================
-               MOMENT 04
-          ========================== -->
-<article class="moment-card">
-<div class="moment-image-link">
-<div class="moment-image-wrap">
-<img alt="Oom and Bam together in a bright studio" class="moment-image moment-image-studio" src="assets/images/moment-little-things.jpg"/>
-</div>
-</div>
-<div class="moment-meta">
-<h3>
-                Little Things
-              </h3>
-<p>
-                Playful moments that become favorite memories.
-              </p>
-</div>
-</article>
-</div>
-</div>
+<section class="moments-section moments-editorial" id="moments">
+  <div class="moments-inner">
+    <div class="moments-intro">
+      <div>
+        <p class="moments-eyebrow">Moments</p>
+        <h2 class="moments-heading">Moments That Stay</h2>
+        <p class="moments-description">A collection of little moments, shared memories, and meaningful chapters we love returning to.</p>
+      </div>
+    </div>
+
+    <div class="moments-vertical-list">
+      <article class="moment-feature-row">
+        <div class="moment-feature-media">
+          <img src="assets/images/moment-just-two.jpg" alt="Oom and Bam together" loading="lazy"/>
+        </div>
+        <div class="moment-feature-copy">
+          <span class="moment-feature-number">01</span>
+          <h3>Along the Way</h3>
+          <p>The story, the scenes, and the moments that started it all.</p>
+        </div>
+      </article>
+
+      <article class="moment-feature-row moment-feature-row--reverse">
+        <div class="moment-feature-media">
+          <img src="assets/images/moment-behind.jpg" alt="Oom and Bam together at an event" loading="lazy"/>
+        </div>
+        <div class="moment-feature-copy">
+          <span class="moment-feature-number">02</span>
+          <h3>Behind the Moments</h3>
+          <p>Little memories between the big events.</p>
+        </div>
+      </article>
+
+      <article class="moment-feature-row">
+        <div class="moment-feature-media">
+          <img src="assets/images/moment-sunset.jpg" alt="Oom and Bam together at sunset" loading="lazy"/>
+        </div>
+        <div class="moment-feature-copy">
+          <span class="moment-feature-number">03</span>
+          <h3>Sunset at the Station</h3>
+          <p>Golden hour memories and quiet conversations.</p>
+        </div>
+      </article>
+
+      <article class="moment-feature-row moment-feature-row--reverse">
+        <div class="moment-feature-media">
+          <img src="assets/images/moment-little-things.jpg" alt="Oom and Bam together in a bright studio" loading="lazy"/>
+        </div>
+        <div class="moment-feature-copy">
+          <span class="moment-feature-number">04</span>
+          <h3>Little Things</h3>
+          <p>Playful moments that become favorite memories.</p>
+        </div>
+      </article>
+    </div>
+  </div>
 </section>
+
 <!-- =================================================
          MEDIA
     ================================================== -->
-<section class="media-home-section" id="media">
-<div class="media-home-inner">
-<div class="media-home-heading">
-<p class="section-label">Media</p>
-<h2>Watch • Listen • Revisit</h2>
-<p class="media-home-description">
-            Explore the stories, conversations, music, and official content surrounding OomBam and Fulfill.
-          </p>
-</div>
-<div class="media-home-grid">
-<!-- FULFILL -->
-<a class="media-home-card media-home-card-featured media-fulfill-card" href="just-the-two-of-us.html">
-<div class="media-card-image-wrap">
-<img alt="OomBam fan illustration inspired by Fulfill" class="media-card-image" loading="lazy" src="assets/images/OomBam-Fan-Illustration.png"/>
-</div>
-<div class="media-home-card-copy">
-<span>Fulfill</span>
-<h3>The Series</h3>
-<p>
-                Return to the story, behind the scenes, special content, and teasers.
-              </p>
-<strong>Explore Fulfill →</strong>
-</div>
-</a>
-<!-- INTERVIEWS -->
-<a class="media-home-card media-interviews-card" href="https://youtube.com/playlist?list=PL0VVVtBqsoupB9qJQfWYq2dB02T0OXK1P&amp;si=GM_D3Nq5OgahClzT" id="media-interviews" rel="noopener noreferrer" target="_blank">
-<div class="media-home-card-copy">
-<span>Interviews</span>
-<h3>OomBam Videos</h3>
-<p>
-                Interviews, official clips, appearances, and videos.
-              </p>
-<strong>Watch Videos ↗</strong>
-</div>
-</a>
-<!-- SOUNDTRACK -->
-<article class="media-home-card media-soundtrack-card" id="media-soundtrack">
-<div aria-label="OomBam soundtrack" class="story-soundtrack">
-<div class="soundtrack-topline">
-<div>
-<p class="soundtrack-eyebrow">Our Soundtrack</p>
-<p class="soundtrack-title">
-                    The melodies that carried the story of Fulfill.
-                  </p>
-</div>
-<span aria-hidden="true" class="soundtrack-note">♫</span>
-</div>
-<div class="soundtrack-player-shell">
-<iframe
-  src="https://www.youtube-nocookie.com/embed/RHnPq3Z0A8c?playlist=CKclkO6HHrY&amp;loop=1&amp;rel=0"
-  title="OomBam Fulfill soundtrack playlist"
-  loading="lazy"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen
-></iframe>
-</div>
-<div class="soundtrack-bottom">
-<span class="soundtrack-links">
-<a class="soundtrack-youtube-link" href="https://youtu.be/RHnPq3Z0A8c?si=4wHs9wk1SmEROy8O" rel="noopener noreferrer" target="_blank">
-                    01 ↗
-                  </a>
-<a class="soundtrack-youtube-link" href="https://youtu.be/CKclkO6HHrY?si=Mp3vlasXStTSTknn" rel="noopener noreferrer" target="_blank">
-                    02 ↗
-                  </a>
-</span>
-</div>
-</div>
-</article>
-</div>
-</div>
+<section class="media-home-section media-editorial" id="media">
+  <div class="media-home-inner">
+    <div class="media-home-heading">
+      <p class="section-label">Media</p>
+      <h2>Watch • Listen • Revisit</h2>
+      <p class="media-home-description">Explore the stories, conversations, music, and official content surrounding OomBam and Fulfill.</p>
+    </div>
+
+    <div class="media-vertical-list">
+      <article class="media-feature-row" id="media-fulfill">
+        <a class="media-feature-visual" href="just-the-two-of-us.html" aria-label="Explore Fulfill The Series">
+          <img src="assets/images/OomBam-Fan-Illustration.png" alt="OomBam fan illustration inspired by Fulfill" loading="lazy"/>
+        </a>
+        <div class="media-feature-copy">
+          <span class="media-feature-eyebrow">Fulfill</span>
+          <h3>The Series</h3>
+          <p>Return to the story, behind the scenes, special content, and teasers.</p>
+          <a class="media-feature-link" href="just-the-two-of-us.html">Explore Fulfill →</a>
+        </div>
+      </article>
+
+      <article class="media-feature-row media-feature-row--reverse" id="media-interviews">
+        <a class="media-feature-visual" href="https://youtube.com/playlist?list=PL0VVVtBqsoupB9qJQfWYq2dB02T0OXK1P&amp;si=GM_D3Nq5OgahClzT" target="_blank" rel="noopener noreferrer" aria-label="Watch OomBam interviews and videos">
+          <img src="assets/images/moment-03.jpg" alt="Oom and Bam interview feature" loading="lazy"/>
+        </a>
+        <div class="media-feature-copy">
+          <span class="media-feature-eyebrow">Interviews</span>
+          <h3>OomBam Videos</h3>
+          <p>Interviews, official clips, appearances, and conversations worth revisiting.</p>
+          <a class="media-feature-link" href="https://youtube.com/playlist?list=PL0VVVtBqsoupB9qJQfWYq2dB02T0OXK1P&amp;si=GM_D3Nq5OgahClzT" target="_blank" rel="noopener noreferrer">Watch Videos ↗</a>
+        </div>
+      </article>
+
+      <article class="media-feature-row" id="media-blogs">
+        <div class="media-feature-visual media-feature-visual--blog" aria-hidden="true">
+          <img src="assets/images/moment-04.jpg" alt="" loading="lazy"/>
+          <span class="media-blog-mark">Stories &amp; Notes</span>
+        </div>
+        <div class="media-feature-copy">
+          <span class="media-feature-eyebrow">Blogs</span>
+          <h3>Stories &amp; Notes</h3>
+          <p>Editorials, reflections, and little stories from the OomBam journey.</p>
+          <span class="media-feature-link media-feature-link--muted">Coming Soon</span>
+        </div>
+      </article>
+
+      <article class="media-feature-row media-feature-row--reverse" id="media-soundtrack">
+        <div class="media-feature-visual media-feature-player">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/RHnPq3Z0A8c?playlist=CKclkO6HHrY&amp;loop=1&amp;rel=0"
+            title="OomBam Fulfill soundtrack playlist"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="media-feature-copy">
+          <span class="media-feature-eyebrow">Soundtrack</span>
+          <h3>Fulfill OST</h3>
+          <p>The melodies that carried the story of Fulfill.</p>
+          <div class="media-soundtrack-links" aria-label="Fulfill soundtrack links">
+            <a class="media-feature-link" href="https://youtu.be/RHnPq3Z0A8c?si=4wHs9wk1SmEROy8O" target="_blank" rel="noopener noreferrer">Track 01 ↗</a>
+            <a class="media-feature-link" href="https://youtu.be/CKclkO6HHrY?si=Mp3vlasXStTSTknn" target="_blank" rel="noopener noreferrer">Track 02 ↗</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
 </section>
+
 <!-- =================================================
          BLOSSOMS
     ================================================== -->
-<section class="blossoms-home-section" id="blossoms">
-<div class="blossoms-home-inner">
-<p class="section-label">Blossoms</p>
-<h2>Where our little garden grows.</h2>
-<p>A space for fan art, letters, projects, memories, and everything created with LOVE for OomBam.</p>
-<a class="blossoms-home-link" href="community.html">See Our Garden →</a>
-</div>
+<section class="blossoms-home-section blossoms-home-redesign" id="blossoms">
+  <div class="blossoms-home-inner">
+    <div class="blossoms-home-copy">
+      <p class="section-label">Blossoms</p>
+      <h2>Where our little garden grows.</h2>
+      <p>A space for fan art, photos, projects, and heartfelt letters — all created with love for OomBam.</p>
+      <a class="blossoms-home-link" href="community.html">See Our Garden →</a>
+    </div>
+
+    <div class="blossoms-feature-links" aria-label="Explore the Blossoms community">
+      <a class="blossoms-feature-link" href="community.html#community-gallery">
+        <span class="blossoms-feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><rect x="5" y="7" width="22" height="18" rx="3"></rect><circle cx="12" cy="13" r="2"></circle><path d="m8 22 6-6 4 4 3-3 3 5"></path><path d="M24 4v5M21.5 6.5h5"></path></svg>
+        </span>
+        <span><strong>Fan Art &amp; Photos</strong><small>Creative works and favorite captured moments.</small></span>
+      </a>
+
+      <a class="blossoms-feature-link" href="community.html#projects">
+        <span class="blossoms-feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M8 13h16v13H8z"></path><path d="M6 10h20v5H6z"></path><path d="M16 10v16"></path><path d="M16 10c-4 0-6-2-6-4 0-1.7 1.3-3 3-3 2.5 0 3 3 3 7ZM16 10c4 0 6-2 6-4 0-1.7-1.3-3-3-3-2.5 0-3 3-3 7Z"></path></svg>
+        </span>
+        <span><strong>Fan Projects</strong><small>Community projects made with care and support.</small></span>
+      </a>
+
+      <a class="blossoms-feature-link" href="community.html#letters">
+        <span class="blossoms-feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><rect x="5" y="8" width="22" height="16" rx="3"></rect><path d="m7 11 9 7 9-7"></path><path d="M23 5c1.7-2.2 5-1 5 1.7 0 2.5-5 5.3-5 5.3s-5-2.8-5-5.3C18 4 21.3 2.8 23 5Z"></path></svg>
+        </span>
+        <span><strong>Blossoms Fan Letters</strong><small>Heartfelt messages for Oom and Bam.</small></span>
+      </a>
+    </div>
+  </div>
 </section>
 </main>
 <!-- ======================================================
@@ -515,5 +504,5 @@
       currentYear.textContent = new Date().getFullYear();
     }
   </script>
-<script src="js/script.js?v=OB00001.3a"></script></body>
+<script src="js/script.js?v=OB00001.4c"></script></body>
 </html>
