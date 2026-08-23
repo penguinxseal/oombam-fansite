@@ -325,7 +325,16 @@
       themeToggle.setAttribute("aria-pressed", String(dark));
       themeToggle.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
     }
-    if (themeGlyph) themeGlyph.textContent = dark ? "☀" : "☾";
+    if (themeGlyph) {
+      themeGlyph.innerHTML = dark
+        ? `<svg class="ob-theme-svg ob-theme-svg--sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+             <circle cx="12" cy="12" r="4.25"></circle>
+             <path d="M12 2.25v2.1M12 19.65v2.1M2.25 12h2.1M19.65 12h2.1M5.1 5.1l1.48 1.48M17.42 17.42l1.48 1.48M18.9 5.1l-1.48 1.48M6.58 17.42L5.1 18.9"></path>
+           </svg>`
+        : `<svg class="ob-theme-svg ob-theme-svg--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+             <path d="M20.1 15.4A8.2 8.2 0 0 1 8.6 3.9 8.7 8.7 0 1 0 20.1 15.4Z"></path>
+           </svg>`;
+    }
 
     if (persist) {
       try { localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); } catch (_) {}
