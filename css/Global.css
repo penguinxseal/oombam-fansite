@@ -29,7 +29,7 @@
   --ob-line: rgba(45, 48, 53, 0.11);
   --ob-panel: rgba(255, 253, 249, 0.985);
 
-  --ob-dark-bg: #1d1f23;
+  --ob-dark-bg: #1f2024;
   --ob-dark-panel: #25272c;
   --ob-dark-ink: #f5f2ef;
   --ob-dark-muted: rgba(245, 242, 239, 0.68);
@@ -1009,7 +1009,7 @@ html[data-theme="dark"] .ob-search-result {
 }
 
 html[data-theme="dark"] .ob-site-search {
-  background: rgba(29, 31, 35, 0.985);
+  background: rgba(31, 32, 36, 0.985);
   color: var(--ob-dark-ink);
   border-bottom-color: var(--ob-dark-line);
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
@@ -1250,7 +1250,7 @@ html[data-theme="dark"] .ob-theme-svg--sun {
 }
 
 html[data-theme="dark"] .ob-header {
-  background-color: #1d1f23;
+  background-color: #1f2024;
   background-image: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
