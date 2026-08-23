@@ -75,6 +75,13 @@ html[data-theme="dark"] {
 
 body.ob-menu-open {
   overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+body.ob-menu-open .ob-mobile-menu,
+body.ob-menu-open .ob-mobile-menu__panel {
+  touch-action: pan-y;
 }
 
 /* =========================================================
@@ -487,6 +494,8 @@ body.ob-menu-open {
     position: fixed;
     inset: var(--ob-mobile-menu-top, var(--ob-header-height-mobile)) 0 0;
     z-index: 4900;
+    contain: layout paint;
+    transform: translateZ(0);
     display: block;
     pointer-events: none;
   }
