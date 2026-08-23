@@ -713,12 +713,15 @@ body.ob-menu-open {
   }
 
   .ob-mobile-menu__panel {
-    top: calc(var(--ob-header-height-landscape) + 7px);
-    right: 9px;
-    width: min(252px, 44vw);
-    max-height: calc(100dvh - var(--ob-header-height-landscape) - 14px);
+    /* Keep the landscape menu attached to the header just like portrait. */
+    top: var(--ob-header-height-landscape);
+    right: 11px;
+    width: min(318px, calc(100vw - 22px));
+    max-height: calc(100dvh - var(--ob-header-height-landscape) - 8px);
+    margin-top: 0;
     padding: 7px;
     border-radius: 14px;
+    transform-origin: top right;
   }
 
   .ob-mobile-nav__link,
