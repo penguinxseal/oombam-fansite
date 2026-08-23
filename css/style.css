@@ -5087,14 +5087,18 @@ body.dark-theme.page-home .story-copy h2 {
    Match outer page canvas with the inner Oom/Bam-style shell
 ========================================================= */
 
-body.dark-theme,
+html[data-theme="dark"] body.page-home,
 body.dark-theme.page-home {
-  background: #1f2024 !important;
+  /* Match Bam's dark-mode outer canvas. */
+  --ob-dark-bg: #090a0c;
+  --ob-dark-panel: #111214;
+  background: #090a0c !important;
   background-image: none !important;
 }
 
+html[data-theme="dark"] body.page-home .home-shell,
 body.dark-theme.page-home .home-shell {
-  background: #1f2024 !important;
+  background: #090a0c !important;
   border-color: rgba(255, 255, 255, 0.06);
   box-shadow: none;
 }
@@ -5102,21 +5106,24 @@ body.dark-theme.page-home .home-shell {
 /* Keep the dark header visually continuous with the shell. */
 body.dark-theme.page-home .site-header,
 body.dark-theme.page-home .site-header.is-scrolled {
-  background: #1f2024;
+  background: #090a0c;
 }
 
 /* Prevent the root canvas from revealing a lighter shade
    around the rounded desktop shell. */
-html:has(body.dark-theme) {
-  background: #1f2024;
+html[data-theme="dark"],
+html:has(body.dark-theme.page-home) {
+  background: #090a0c;
 }
 
 /* Mobile has no outer shell spacing, but explicitly keep the
    same dark canvas so theme switching stays seamless. */
 @media (max-width: 600px) {
+  html[data-theme="dark"] body.page-home,
+  html[data-theme="dark"] body.page-home .home-shell,
   body.dark-theme.page-home,
   body.dark-theme.page-home .home-shell {
-    background: #1f2024 !important;
+    background: #090a0c !important;
   }
 }
 
@@ -5234,7 +5241,8 @@ html:has(body.dark-theme) {
 
 body.dark-theme.page-home .media-home-section,
 body.dark-theme.page-home .blossoms-home-section {
-  background: #1f2024;
+  /* Bam-style elevated dark surface over the #090a0c canvas. */
+  background: #111214;
   border-color: rgba(255, 255, 255, 0.07);
 }
 
@@ -5339,7 +5347,7 @@ body.dark-theme.page-home .blossoms-home-link {
 body.dark-theme.page-home .site-footer {
   color: rgba(255, 255, 255, 0.74);
 
-  background: #1f2024;
+  background: #090a0c;
 
   border-top-color:
     rgba(255, 255, 255, 0.07);
@@ -5537,7 +5545,7 @@ body.dark-theme.page-home
 body.dark-theme.page-home .upcoming-panel {
   color: #f6f2f3;
 
-  background: #1f2024;
+  background: #111214;
 
   border-left-color:
     rgba(255, 255, 255, 0.07);
@@ -7159,3 +7167,12 @@ body.dark-theme.page-home .blossoms-feature-icon {
     overflow-wrap: anywhere;
   }
 }
+
+
+/* =========================================================
+   V14.0 — RESET BASELINE
+   - Homepage light palette intentionally unchanged.
+   - Dark outer canvas follows Bam: #090a0c.
+   - Elevated homepage dark surfaces use Bam's #111214 family.
+   - Mobile-menu anchoring is owned by Global.css + script.js.
+========================================================= */
