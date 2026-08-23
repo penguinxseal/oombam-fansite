@@ -1,7 +1,7 @@
 /* =========================================================
-   OOM EISAYA PROFILE POLISH v22.5
+   OOM EISAYA PROFILE POLISH v24.0
    Golden Yellow + Sky Blue Editorial Identity
-   Unified desktop / portrait / landscape typography system
+   Homepage-standard global shell + unified profile typography
 ========================================================= */
 
 :root {
@@ -51,10 +51,9 @@ html {
 
 body {
   margin: 0;
-  padding: clamp(18px, 3.5vw, 54px) 18px;
+  padding: 0;
 
-  display: flex;
-  justify-content: center;
+  display: block;
 
   background:
     radial-gradient(circle at 8% 7%, rgba(244, 207, 85, 0.34), transparent 28%),
@@ -89,6 +88,7 @@ input {
 
 .profile-shell {
   width: min(1480px, 96vw);
+  margin: clamp(18px, 2.8vw, 40px) auto 42px;
 
   overflow: hidden;
 
@@ -1201,7 +1201,9 @@ html[data-theme="dark"] .footer-bottom {
 @media (max-width: 1100px) {
 
   .profile-shell {
-    width: min(1000px, 96vw);
+    width: calc(100% - 28px);
+    max-width: none;
+    margin: 14px auto 28px;
   }
 
   .menu-toggle {
@@ -1323,6 +1325,7 @@ html[data-theme="dark"] .footer-bottom {
   .profile-shell {
     width: 100%;
     min-height: 100vh;
+    margin: 0;
 
     padding:
       16px
@@ -1538,22 +1541,23 @@ html[data-theme="dark"] .footer-bottom {
   and (orientation: landscape) {
 
   body {
-    padding: 8px;
+    padding: 0;
   }
 
   .profile-shell {
     width: 100%;
     max-width: 100%;
+    margin: 0;
 
     padding:
       10px
       18px
       22px;
 
-    border-radius: 16px;
+    border-radius: 0;
   }
 
-  /* Header */
+  /* Legacy header rules below are dormant; the active header is Global.css */
   .top-nav {
     grid-template-columns:
       auto
@@ -1947,4 +1951,23 @@ html[data-theme="dark"] .footer-bottom {
 
     gap: 10px;
   }
+}
+
+
+/* =========================================================
+   v24.0 — GLOBAL NAVIGATION INTEGRATION
+   ---------------------------------------------------------
+   The live header, search, theme control and mobile menu are
+   owned by css/Global.css + js/script.js. The older .top-nav,
+   .nav-links, .site-search and .menu-toggle rules above remain
+   dormant for rollback safety and do not style the `ob-*` UI.
+========================================================= */
+
+body.page-oom > .ob-header,
+body.page-oom > .ob-site-search {
+  flex: none;
+}
+
+body.page-oom > .profile-shell {
+  position: relative;
 }
