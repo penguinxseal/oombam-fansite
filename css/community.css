@@ -4532,3 +4532,58 @@ body.page-community > .ob-site-search {
   }
 }
 
+
+/* =========================================================
+   COMMUNITY BLOSSOMS v12.3
+   STICKY GLOBAL HEADER RESTORATION
+   ---------------------------------------------------------
+   Community previously overrode Global.css with:
+       position: relative;
+   which disabled the standard sticky navigation.
+
+   Restore the canonical Home / Oom / Bam behavior:
+   - header remains visible while scrolling
+   - desktop/tablet shell geometry is preserved
+   - mobile menu behavior remains owned by Global.css/script.js
+========================================================= */
+
+body.page-community > .ob-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 5000 !important;
+}
+
+/* Keep the opened search panel in normal document flow directly
+   beneath the header. It should not become independently sticky. */
+body.page-community > .ob-site-search {
+  position: relative !important;
+  z-index: 20 !important;
+}
+
+/* Maintain the completed-page shell curvature. */
+@media (min-width: 1101px) {
+  body.page-community > .ob-header {
+    width: min(1480px, 96vw) !important;
+    margin-inline: auto !important;
+    border-radius: 24px 24px 0 0 !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-community > .ob-header {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 22px 22px 0 0 !important;
+  }
+}
+
+/* Established mobile standard remains edge-to-edge. */
+@media (max-width: 760px),
+       (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-community > .ob-header {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+  }
+}
+
