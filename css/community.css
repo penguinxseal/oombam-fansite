@@ -4013,3 +4013,371 @@ button {
   }
 }
 
+
+/* =========================================================
+   COMMUNITY BLOSSOMS v12.0
+   GLOBAL STANDARDIZATION — HOME / OOM / BAM / FULFILL BASELINE
+   ---------------------------------------------------------
+   Canonical system:
+   - shared Global.css navigation/search/theme/mobile menu
+   - 1480px / 96vw master desktop shell
+   - 24px desktop curves
+   - 22px tablet curves
+   - edge-to-edge mobile
+   - #090a0c dark canvas
+   - #111214 elevated dark surfaces
+   - #141518 dark cards
+   - fixed + scroll-locked landscape navigation via shared script
+========================================================= */
+
+/* ---------- Master canvas ---------- */
+body.page-community {
+  min-height: 100vh;
+  display: block;
+  padding: clamp(24px, 4vw, 62px) 20px;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(circle at 10% 8%, rgba(169,206,229,.34), transparent 31%),
+    radial-gradient(circle at 92% 12%, rgba(248,232,236,.62), transparent 33%),
+    linear-gradient(135deg, #dcecf6 0%, #f5f7f8 48%, #f3e3e8 100%);
+}
+
+/* Header is the top cap; page shell continues below it. */
+body.page-community > .ob-header {
+  position: relative;
+  z-index: 30;
+  width: min(1480px, 96vw);
+  margin-inline: auto;
+}
+
+body.page-community > .ob-site-search {
+  position: relative !important;
+  z-index: 20;
+  width: min(1480px, 96vw);
+  margin: 0 auto !important;
+}
+
+body.page-community > .site-shell {
+  position: relative;
+  width: min(1480px, 96vw);
+  margin: 0 auto;
+
+  overflow: hidden;
+
+  background: var(--ivory);
+  border: 1px solid rgba(72,66,69,.08);
+  border-top: 0;
+  border-radius: 0 0 24px 24px;
+
+  box-shadow: 0 22px 60px rgba(60,70,78,.10);
+}
+
+/* Keep inner editorial content aligned with the standardized shell. */
+body.page-community .community-container {
+  width: min(1360px, calc(100% - 64px));
+}
+
+body.page-community .hero-overlay {
+  width: min(1360px, calc(100% - 72px));
+}
+
+/* ---------- Hero integration ---------- */
+body.page-community .community-hero {
+  overflow: hidden;
+  border-radius: 0 0 24px 24px;
+}
+
+body.page-community .community-hero,
+body.page-community .community-hero-image,
+body.page-community .community-hero-shade {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+/* ---------- Footer uses the same bottom shell ---------- */
+body.page-community .site-footer {
+  background: var(--ivory);
+}
+
+/* ---------- Canonical dark mode ---------- */
+html[data-theme="dark"] body.page-community,
+body.dark-theme.page-community {
+  --ob-dark-bg: #090a0c;
+  --ob-dark-panel: #111214;
+  --ob-dark-card: #141518;
+
+  color: #f2edef;
+  background: #090a0c !important;
+  background-image: none !important;
+}
+
+html[data-theme="dark"] body.page-community > .ob-header,
+body.dark-theme.page-community > .ob-header {
+  background: #090a0c !important;
+  background-image: none !important;
+  border-bottom-color: rgba(255,255,255,.07) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.page-community > .site-shell,
+body.dark-theme.page-community > .site-shell {
+  background: #090a0c !important;
+  border-color: rgba(255,255,255,.06) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.page-community main,
+body.dark-theme.page-community main,
+html[data-theme="dark"] body.page-community .community-hero,
+body.dark-theme.page-community .community-hero,
+html[data-theme="dark"] body.page-community .site-footer,
+body.dark-theme.page-community .site-footer {
+  background-color: #090a0c !important;
+}
+
+html[data-theme="dark"] body.page-community .panel,
+body.dark-theme.page-community .panel,
+html[data-theme="dark"] body.page-community .letters-section .community-container,
+body.dark-theme.page-community .letters-section .community-container,
+html[data-theme="dark"] body.page-community .guidelines-card,
+body.dark-theme.page-community .guidelines-card,
+html[data-theme="dark"] body.page-community .submission-inner,
+body.dark-theme.page-community .submission-inner,
+html[data-theme="dark"] body.page-community .community-gallery-panel,
+body.dark-theme.page-community .community-gallery-panel {
+  color: rgba(255,255,255,.84);
+  background: #111214 !important;
+  border-color: rgba(255,255,255,.07) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.page-community .letter-card,
+body.dark-theme.page-community .letter-card,
+html[data-theme="dark"] body.page-community .message-card,
+body.dark-theme.page-community .message-card,
+html[data-theme="dark"] body.page-community .community-card,
+body.dark-theme.page-community .community-card,
+html[data-theme="dark"] body.page-community .project-card,
+body.dark-theme.page-community .project-card,
+html[data-theme="dark"] body.page-community .chat-window,
+body.dark-theme.page-community .chat-window,
+html[data-theme="dark"] body.page-community .guideline-links a,
+body.dark-theme.page-community .guideline-links a,
+html[data-theme="dark"] body.page-community .text-button,
+body.dark-theme.page-community .text-button,
+html[data-theme="dark"] body.page-community .chat-input input,
+body.dark-theme.page-community .chat-input input {
+  color: rgba(255,255,255,.82);
+  background: #141518 !important;
+  border-color: rgba(255,255,255,.08) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body.page-community .oom-letter,
+html[data-theme="dark"] body.page-community .bam-letter,
+html[data-theme="dark"] body.page-community .oombam-letter,
+html[data-theme="dark"] body.page-community .current-project,
+html[data-theme="dark"] body.page-community .upcoming-project,
+html[data-theme="dark"] body.page-community .completed-project,
+body.dark-theme.page-community .oom-letter,
+body.dark-theme.page-community .bam-letter,
+body.dark-theme.page-community .oombam-letter,
+body.dark-theme.page-community .current-project,
+body.dark-theme.page-community .upcoming-project,
+body.dark-theme.page-community .completed-project {
+  background: #141518 !important;
+}
+
+html[data-theme="dark"] body.page-community .guidelines-art,
+body.dark-theme.page-community .guidelines-art {
+  background:
+    radial-gradient(circle, rgba(239,120,155,.10), #111214) !important;
+}
+
+html[data-theme="dark"] body.page-community .community-word,
+html[data-theme="dark"] body.page-community .hero-lead,
+html[data-theme="dark"] body.page-community .panel-header h2,
+html[data-theme="dark"] body.page-community .section-heading h2,
+html[data-theme="dark"] body.page-community .guidelines-card h2,
+html[data-theme="dark"] body.page-community .letter-content h3,
+html[data-theme="dark"] body.page-community .community-card-content h3,
+html[data-theme="dark"] body.page-community .project-card h3,
+html[data-theme="dark"] body.page-community .submission-inner h2,
+body.dark-theme.page-community .community-word,
+body.dark-theme.page-community .hero-lead,
+body.dark-theme.page-community .panel-header h2,
+body.dark-theme.page-community .section-heading h2,
+body.dark-theme.page-community .guidelines-card h2,
+body.dark-theme.page-community .letter-content h3,
+body.dark-theme.page-community .community-card-content h3,
+body.dark-theme.page-community .project-card h3,
+body.dark-theme.page-community .submission-inner h2 {
+  color: #f2eef0 !important;
+}
+
+html[data-theme="dark"] body.page-community .hero-description,
+html[data-theme="dark"] body.page-community .garden-copy p,
+html[data-theme="dark"] body.page-community .panel-header p,
+html[data-theme="dark"] body.page-community .section-heading p,
+html[data-theme="dark"] body.page-community .letter-content p,
+html[data-theme="dark"] body.page-community .moderation-note,
+html[data-theme="dark"] body.page-community .message-card p,
+html[data-theme="dark"] body.page-community .community-card-content p,
+html[data-theme="dark"] body.page-community .project-card > p,
+html[data-theme="dark"] body.page-community .guidelines-copy p,
+html[data-theme="dark"] body.page-community .submission-inner p:not(.eyebrow),
+html[data-theme="dark"] body.page-community .chat-coming-soon,
+html[data-theme="dark"] body.page-community .chat-rules,
+body.dark-theme.page-community .hero-description,
+body.dark-theme.page-community .garden-copy p,
+body.dark-theme.page-community .panel-header p,
+body.dark-theme.page-community .section-heading p,
+body.dark-theme.page-community .letter-content p,
+body.dark-theme.page-community .moderation-note,
+body.dark-theme.page-community .message-card p,
+body.dark-theme.page-community .community-card-content p,
+body.dark-theme.page-community .project-card > p,
+body.dark-theme.page-community .guidelines-copy p,
+body.dark-theme.page-community .submission-inner p:not(.eyebrow),
+body.dark-theme.page-community .chat-coming-soon,
+body.dark-theme.page-community .chat-rules {
+  color: rgba(255,255,255,.62) !important;
+}
+
+html[data-theme="dark"] body.page-community .site-footer,
+body.dark-theme.page-community .site-footer {
+  border-color: rgba(255,255,255,.07) !important;
+}
+
+html[data-theme="dark"] body.page-community .footer-main,
+body.dark-theme.page-community .footer-main {
+  color: rgba(255,255,255,.70) !important;
+}
+
+html[data-theme="dark"] body.page-community .footer-message,
+body.dark-theme.page-community .footer-message {
+  color: #a9cee5 !important;
+}
+
+html[data-theme="dark"] body.page-community .footer-copyline,
+body.dark-theme.page-community .footer-copyline {
+  color: rgba(255,255,255,.48) !important;
+  border-top-color: rgba(255,255,255,.06) !important;
+}
+
+/* ---------- Desktop shell curvature ---------- */
+@media (min-width: 1101px) {
+  body.page-community > .ob-header {
+    border-radius: 24px 24px 0 0;
+  }
+
+  body.page-community > .ob-site-search:not([hidden]) {
+    width: min(1480px, 96vw) !important;
+    margin-inline: auto !important;
+    border-radius: 0 !important;
+  }
+
+  body.page-community > .site-shell {
+    border-radius: 0 0 24px 24px;
+  }
+
+  body.page-community .community-hero {
+    border-radius: 0 0 24px 24px;
+  }
+}
+
+/* ---------- Tablet ---------- */
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-community {
+    padding: 22px 14px;
+  }
+
+  body.page-community > .ob-header {
+    width: 100%;
+    border-radius: 22px 22px 0 0;
+  }
+
+  body.page-community > .ob-site-search,
+  body.page-community > .site-shell {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  body.page-community > .ob-site-search:not([hidden]) {
+    margin-inline: auto !important;
+    border-radius: 0 !important;
+  }
+
+  body.page-community > .site-shell,
+  body.page-community .community-hero {
+    border-radius: 0 0 22px 22px;
+  }
+
+  body.page-community .community-container {
+    width: min(100% - 44px, 980px);
+  }
+
+  body.page-community .hero-overlay {
+    width: min(100% - 44px, 980px);
+  }
+}
+
+/* ---------- Mobile portrait ---------- */
+@media (max-width: 760px) and (orientation: portrait) {
+  body.page-community {
+    padding: 0 !important;
+  }
+
+  body.page-community > .ob-header,
+  body.page-community > .ob-site-search,
+  body.page-community > .site-shell,
+  body.page-community .community-hero {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  body.page-community > .site-shell {
+    border: 0;
+    box-shadow: none;
+  }
+
+  body.page-community .community-container,
+  body.page-community .hero-overlay {
+    width: calc(100% - 36px);
+  }
+}
+
+/* ---------- Mobile / tablet landscape ---------- */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  html,
+  body.page-community {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body.page-community {
+    padding: 8px 8px 14px !important;
+  }
+
+  body.page-community > .ob-header,
+  body.page-community > .ob-site-search,
+  body.page-community > .site-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body.page-community > .ob-header,
+  body.page-community > .site-shell,
+  body.page-community .community-hero {
+    border-radius: 0 !important;
+  }
+
+  body.page-community > .site-shell {
+    border-left: 0;
+    border-right: 0;
+    box-shadow: none;
+  }
+}
+
