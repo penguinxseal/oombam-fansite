@@ -77,25 +77,46 @@
 
   desktopGroups.forEach((group) => {
     const toggle = group.querySelector(".ob-nav__submenu-toggle");
-    if (!toggle) return;
+    const submenu = group.querySelector(".ob-submenu");
+    if (!toggle || !submenu) return;
+
+    let closeTimer = null;
+
+    const cancelClose = () => {
+      if (closeTimer) {
+        window.clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+    };
 
     const setOpen = (open) => {
+      cancelClose();
       if (open) closeDesktopSubmenus(group);
       group.classList.toggle("is-open", open);
       toggle.setAttribute("aria-expanded", String(open));
     };
 
+    const scheduleClose = () => {
+      cancelClose();
+      closeTimer = window.setTimeout(() => setOpen(false), 140);
+    };
+
+    /* Desktop: hovering the parent immediately reveals its submenu. */
+    group.addEventListener("pointerenter", () => setOpen(true));
+    group.addEventListener("pointerleave", scheduleClose);
+    submenu.addEventListener("pointerenter", cancelClose);
+    submenu.addEventListener("pointerleave", scheduleClose);
+
+    /* Chevron remains a click target for keyboard/touch-capable desktops. */
     toggle.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();
       setOpen(!group.classList.contains("is-open"));
     });
 
-    group.addEventListener("pointerenter", () => setOpen(true));
-    group.addEventListener("pointerleave", () => setOpen(false));
     group.addEventListener("focusin", () => setOpen(true));
     group.addEventListener("focusout", (event) => {
-      if (!group.contains(event.relatedTarget)) setOpen(false);
+      if (!group.contains(event.relatedTarget)) scheduleClose();
     });
     group.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
@@ -290,6 +311,7 @@
     { title: "Media", category: "Home", href: "index.html#media", keywords: "media videos soundtrack interviews" },
     { title: "Fulfill The Series", category: "Media", href: "just-the-two-of-us.html", keywords: "fulfill series archive video episodes" },
     { title: "Interviews", category: "Media", href: "index.html#media-interviews", keywords: "interviews official clips appearances videos" },
+    { title: "Blogs", category: "Media", href: "index.html#media-blogs", keywords: "blogs stories notes editorials reflections oombam" },
     { title: "Soundtrack", category: "Media", href: "index.html#media-soundtrack", keywords: "soundtrack music songs fulfill ost" },
     { title: "Community Blossoms", category: "Blossoms", href: "community.html", keywords: "community blossoms letters projects fan art" },
     { title: "Fan Letters", category: "Blossoms", href: "community.html#letters", keywords: "fan letters write oom bam oombam" },
