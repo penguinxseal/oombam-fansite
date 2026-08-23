@@ -2317,3 +2317,44 @@ body.page-oom .editorial-photo {
   }
 }
 
+/* =========================================================
+   v24.8 — COMPLETE DESKTOP / TABLET SHELL CURVATURE
+   ---------------------------------------------------------
+   Oom's lower shell already finishes with rounded footer-side
+   corners. Restore matching curvature to the top of the shared
+   header so the complete page reads as one editorial card.
+========================================================= */
+
+@media (min-width: 1101px) {
+  body.page-oom > .ob-header {
+    width: min(1480px, 96vw);
+    margin-inline: auto;
+    border-radius: 24px 24px 0 0;
+  }
+
+  body.page-oom > .profile-shell {
+    width: min(1480px, 96vw);
+    margin-inline: auto;
+    border-radius: 0 0 24px 24px !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-oom > .ob-header {
+    width: 100%;
+    border-radius: 22px 22px 0 0;
+  }
+
+  body.page-oom > .profile-shell {
+    border-radius: 0 0 22px 22px !important;
+  }
+}
+
+/* Phones remain edge-to-edge, matching the homepage mobile shell. */
+@media (max-width: 760px) {
+  body.page-oom > .ob-header,
+  body.page-oom > .profile-shell {
+    border-radius: 0 !important;
+  }
+}
+
