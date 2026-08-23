@@ -1,6 +1,6 @@
 /* =========================================================
    OOMBAM FANSITE — GLOBAL SITE HEADER / NAVIGATION
-   OB_00001.5 — consolidated header, right-aligned navigation, smooth submenus
+   OB_00001.7 — live mobile-menu anchoring + consolidated navigation
 
    IMPORTANT
    ---------
@@ -479,8 +479,13 @@ body.ob-menu-open {
   }
 
   .ob-mobile-menu {
+    /*
+      Start the overlay at the *rendered* bottom edge of the sticky header.
+      script.js keeps --ob-mobile-menu-top synced with the live viewport,
+      which prevents iOS/Chrome landscape browser chrome from creating a gap.
+    */
     position: fixed;
-    inset: 0;
+    inset: var(--ob-mobile-menu-top, var(--ob-header-height-mobile)) 0 0;
     z-index: 4900;
     display: block;
     pointer-events: none;
@@ -498,10 +503,10 @@ body.ob-menu-open {
 
   .ob-mobile-menu__panel {
     position: absolute;
-    top: calc(var(--ob-header-height-mobile) + 9px);
+    top: 9px;
     right: clamp(11px, 3vw, 25px);
     width: min(318px, calc(100vw - 22px));
-    max-height: calc(100dvh - var(--ob-header-height-mobile) - 22px);
+    max-height: calc(100% - 18px);
     overflow-y: auto;
     overscroll-behavior: contain;
     padding: 10px;
@@ -679,6 +684,10 @@ body.ob-menu-open {
 
 /* Explicit mobile landscape behavior */
 @media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  .ob-mobile-menu {
+    inset: var(--ob-mobile-menu-top, var(--ob-header-height-landscape)) 0 0;
+  }
+
   .ob-header,
   .ob-header__inner {
     min-height: var(--ob-header-height-landscape);
@@ -713,11 +722,11 @@ body.ob-menu-open {
   }
 
   .ob-mobile-menu__panel {
-    /* Keep the landscape menu attached to the header just like portrait. */
-    top: var(--ob-header-height-landscape);
+    /* Same relationship as portrait: a small, fixed gap below the live header edge. */
+    top: 7px;
     right: 11px;
     width: min(318px, calc(100vw - 22px));
-    max-height: calc(100dvh - var(--ob-header-height-landscape) - 8px);
+    max-height: calc(100% - 14px);
     margin-top: 0;
     padding: 7px;
     border-radius: 14px;
@@ -1250,7 +1259,7 @@ html[data-theme="dark"] .ob-theme-svg--sun {
 }
 
 html[data-theme="dark"] .ob-header {
-  background-color: #1f2024;
+  background-color: var(--ob-dark-bg);
   background-image: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
