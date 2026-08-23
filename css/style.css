@@ -7252,3 +7252,225 @@ body.dark-theme.page-home .blossoms-feature-icon {
   }
 }
 
+
+/* =========================================================
+   HOMEPAGE v14.1 — COMPACT MOMENTS + MEDIA
+   ---------------------------------------------------------
+   Goal:
+   - Reduce homepage vertical footprint
+   - Keep all 4 Moments and all 4 Media categories visible
+   - Desktop: 4 cards in one row
+   - Tablet: 2 × 2
+   - Mobile portrait: 1 per row
+   - Mobile landscape: 2 per row
+========================================================= */
+
+/* ---------- Shared section width / spacing ---------- */
+.page-home .moments-editorial .moments-inner,
+.page-home .media-editorial .media-home-inner {
+  width: min(1120px, calc(100% - 64px));
+  margin-inline: auto;
+}
+
+.page-home .moments-editorial,
+.page-home .media-editorial {
+  padding-top: clamp(52px, 5vw, 76px);
+  padding-bottom: clamp(52px, 5vw, 76px);
+}
+
+.page-home .moments-compact-grid,
+.page-home .media-compact-grid {
+  margin-top: clamp(24px, 2.6vw, 34px);
+}
+
+/* =========================================================
+   MOMENTS — 4-CARD EDITORIAL STRIP
+========================================================= */
+.page-home .moments-compact-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+}
+
+.page-home .moment-compact-card {
+  border-radius: 18px !important;
+}
+
+.page-home .moment-compact-media {
+  aspect-ratio: 3 / 2 !important;
+  min-height: 0 !important;
+}
+
+.page-home .moment-compact-copy {
+  padding: 15px 16px 17px !important;
+}
+
+.page-home .moment-compact-number {
+  margin-bottom: 6px !important;
+  font-size: .60rem !important;
+}
+
+.page-home .moment-compact-copy h3 {
+  margin-bottom: 5px !important;
+  font-size: clamp(1.22rem, 1.45vw, 1.52rem) !important;
+  line-height: 1.04 !important;
+}
+
+.page-home .moment-compact-copy p {
+  font-size: .74rem !important;
+  line-height: 1.48 !important;
+}
+
+/* =========================================================
+   MEDIA — 4-CARD VERTICAL EDITORIAL STRIP
+========================================================= */
+.page-home .media-compact-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+}
+
+.page-home .media-compact-card {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  border-radius: 18px !important;
+}
+
+.page-home .media-compact-visual {
+  width: 100% !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 10 !important;
+  flex: 0 0 auto !important;
+}
+
+.page-home .media-compact-visual img,
+.page-home .media-compact-player iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  aspect-ratio: auto !important;
+  object-fit: cover !important;
+}
+
+.page-home .media-compact-copy {
+  flex: 1 1 auto !important;
+  justify-content: flex-start !important;
+  padding: 15px 16px 17px !important;
+}
+
+.page-home .media-compact-eyebrow {
+  margin-bottom: 6px !important;
+  font-size: .60rem !important;
+}
+
+.page-home .media-compact-copy h3 {
+  margin-bottom: 5px !important;
+  font-size: clamp(1.22rem, 1.45vw, 1.52rem) !important;
+  line-height: 1.04 !important;
+}
+
+.page-home .media-compact-copy p {
+  font-size: .74rem !important;
+  line-height: 1.48 !important;
+}
+
+.page-home .media-compact-link {
+  margin-top: auto !important;
+  padding-top: 12px !important;
+  font-size: .60rem !important;
+}
+
+.page-home .media-soundtrack-links {
+  margin-top: auto !important;
+  padding-top: 12px !important;
+  gap: 9px !important;
+}
+
+.page-home .media-blog-mark {
+  left: 13px !important;
+  bottom: 11px !important;
+  font-size: clamp(1.1rem, 1.25vw, 1.35rem) !important;
+}
+
+/* Keep YouTube visually identical to the other media thumbnails. */
+.page-home .media-compact-player {
+  background: #111 !important;
+}
+
+/* =========================================================
+   TABLET — 2 × 2
+========================================================= */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .page-home .moments-editorial .moments-inner,
+  .page-home .media-editorial .media-home-inner {
+    width: min(920px, calc(100% - 44px));
+  }
+
+  .page-home .moments-compact-grid,
+  .page-home .media-compact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+  }
+
+  .page-home .moment-compact-media {
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  .page-home .media-compact-visual {
+    aspect-ratio: 16 / 9 !important;
+  }
+}
+
+/* =========================================================
+   MOBILE PORTRAIT — compact single column
+========================================================= */
+@media (max-width: 760px) and (orientation: portrait) {
+  .page-home .moments-editorial .moments-inner,
+  .page-home .media-editorial .media-home-inner {
+    width: calc(100% - 32px) !important;
+  }
+
+  .page-home .moments-compact-grid,
+  .page-home .media-compact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .page-home .moment-compact-media,
+  .page-home .media-compact-visual {
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .page-home .moment-compact-copy,
+  .page-home .media-compact-copy {
+    padding: 14px 15px 16px !important;
+  }
+}
+
+/* =========================================================
+   MOBILE / TABLET LANDSCAPE — 2 across
+========================================================= */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  .page-home .moments-editorial .moments-inner,
+  .page-home .media-editorial .media-home-inner {
+    width: calc(100% - 36px) !important;
+  }
+
+  .page-home .moments-compact-grid,
+  .page-home .media-compact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+
+  .page-home .moment-compact-media,
+  .page-home .media-compact-visual {
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .page-home .moment-compact-copy,
+  .page-home .media-compact-copy {
+    padding: 12px 14px 14px !important;
+  }
+}
+
