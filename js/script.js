@@ -275,6 +275,41 @@
   syncMobileMenuAnchor();
 
   let menuWasFocusedBy = null;
+  let lockedScrollY = 0;
+  let menuScrollLocked = false;
+
+  function lockPageForMobileMenu() {
+    if (menuScrollLocked) return;
+
+    lockedScrollY = window.scrollY || window.pageYOffset || 0;
+    menuScrollLocked = true;
+
+    /*
+      iOS Safari/Chrome can continue moving the visual viewport even when
+      overflow:hidden is applied to body. Freezing the document itself keeps
+      the landscape navigation panel physically stationary on screen.
+    */
+    body.style.position = "fixed";
+    body.style.top = `-${lockedScrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+  }
+
+  function unlockPageForMobileMenu() {
+    if (!menuScrollLocked) return;
+
+    body.style.position = "";
+    body.style.top = "";
+    body.style.left = "";
+    body.style.right = "";
+    body.style.width = "";
+    body.style.overflow = "";
+
+    menuScrollLocked = false;
+    window.scrollTo(0, lockedScrollY);
+  }
 
   function closeMenu({ restoreFocus = false } = {}) {
     if (!mobileMenu || !menuToggle) return;
@@ -284,6 +319,7 @@
     menuToggle.setAttribute("aria-expanded", "false");
     menuToggle.setAttribute("aria-label", "Open navigation menu");
     body.classList.remove("ob-menu-open");
+    unlockPageForMobileMenu();
     closeMobileSubmenus();
     if (restoreFocus && menuWasFocusedBy) menuWasFocusedBy.focus();
   }
@@ -292,6 +328,7 @@
     if (!mobileMenu || !menuToggle) return;
     syncMobileMenuAnchor();
     closeSearch();
+    lockPageForMobileMenu();
     menuWasFocusedBy = document.activeElement;
     mobileMenu.classList.add("is-open");
     menuToggle.classList.add("is-active");
@@ -336,9 +373,9 @@
 
   if (window.visualViewport) {
     window.visualViewport.addEventListener("resize", syncMobileMenuAnchor, { passive: true });
-    window.visualViewport.addEventListener("scroll", () => {
-      if (mobileMenu?.classList.contains("is-open")) syncMobileMenuAnchor();
-    }, { passive: true });
+    /* Do not reposition the open menu on visualViewport scroll.
+       The page is scroll-locked while the menu is open, so moving the
+       panel here would recreate the landscape drift we are preventing. */
   }
 
   /* -----------------------------------------------------
