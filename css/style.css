@@ -6792,3 +6792,26 @@ body.dark-theme.page-home .blossoms-feature-icon {
   }
 }
 
+
+/* ==========================================================
+   HOMEPAGE 13.9.1 — SHELL / HERO EDGE CORRECTION
+   - Remove the rounded clipping at the top of the hero canvas.
+   - Keep rounding only at the bottom of the homepage shell.
+   ========================================================== */
+.page-home .home-shell {
+  border-top: 0;
+  border-radius: 0 0 22px 22px;
+}
+
+.page-home .hero,
+.page-home .hero-background,
+.page-home .hero-overlay {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+@media (max-width: 760px) {
+  .page-home .home-shell {
+    border-radius: 0;
+  }
+}
