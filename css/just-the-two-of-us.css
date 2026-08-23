@@ -2725,3 +2725,233 @@ body.dark-theme {
     grid-template-columns: repeat(2, minmax(0,1fr));
   }
 }
+
+/* =========================================================
+   v22.0 — GLOBAL SHELL / NAVIGATION STANDARDIZATION
+   ---------------------------------------------------------
+   Fulfill The Series now follows the same structural system as
+   Home, Oom, and Bam:
+   - 1480px / 96vw master canvas
+   - shared OB global header/search/mobile navigation
+   - 24px desktop shell curvature / 22px tablet / 0 mobile
+   - near-black #090a0c dark canvas
+   - fixed + scroll-locked landscape hamburger via shared script
+   - page-specific blush/powder-blue editorial identity retained
+========================================================= */
+
+/* ---------- Master page canvas ---------- */
+body.page-fulfill {
+  min-height: 100vh;
+  padding: clamp(24px, 4vw, 62px) 20px;
+  display: block;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 10% 8%, rgba(169, 206, 229, .34), transparent 31%),
+    radial-gradient(circle at 92% 12%, rgba(248, 232, 236, .62), transparent 33%),
+    linear-gradient(135deg, #dcecf6 0%, #f5f7f8 48%, #f3e3e8 100%);
+}
+
+body.page-fulfill > .site-shell {
+  position: relative;
+  width: min(1480px, 96vw);
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--ivory);
+  border: 1px solid rgba(72, 66, 69, .08);
+  border-top: 0;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 22px 60px rgba(60, 70, 78, .10);
+}
+
+/* Shared header is the top cap of the same editorial canvas. */
+@media (min-width: 1101px) {
+  body.page-fulfill > .ob-header {
+    width: min(1480px, 96vw);
+    margin-inline: auto;
+    border-radius: 24px 24px 0 0;
+  }
+
+  body.page-fulfill > .site-shell {
+    width: min(1480px, 96vw);
+    border-radius: 0 0 24px 24px;
+  }
+
+  /* Same treatment as the Homepage hero: flush top seam,
+     premium rounded finish at the bottom of the banner. */
+  body.page-fulfill .fulfill-hero,
+  body.page-fulfill .hero-art,
+  body.page-fulfill .hero-wash {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  body.page-fulfill .fulfill-hero {
+    border-radius: 0 0 24px 24px;
+  }
+}
+
+/* ---------- Shared search flow ---------- */
+body.page-fulfill > .ob-site-search {
+  width: min(1480px, 96vw);
+  margin-inline: auto;
+}
+
+/* ---------- Hero: shared header now owns navigation height ---------- */
+body.page-fulfill .fulfill-hero {
+  padding-top: 0 !important;
+  overflow: hidden;
+}
+
+body.page-fulfill .hero-art {
+  top: 0 !important;
+}
+
+body.page-fulfill .hero-wash {
+  inset: 0 !important;
+}
+
+/* ---------- Dark-mode hierarchy: same baseline as Home/Oom/Bam ---------- */
+html[data-theme="dark"] body.page-fulfill,
+body.dark-theme.page-fulfill {
+  --ob-dark-bg: #090a0c;
+  --ob-dark-panel: #111214;
+  color: #f2edef;
+  background: #090a0c !important;
+  background-image: none !important;
+}
+
+html[data-theme="dark"] body.page-fulfill > .ob-header,
+body.dark-theme.page-fulfill > .ob-header {
+  background: #090a0c !important;
+  background-image: none !important;
+  border-bottom-color: rgba(255,255,255,.07) !important;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] body.page-fulfill > .site-shell,
+body.dark-theme.page-fulfill > .site-shell {
+  background: #090a0c !important;
+  border-color: rgba(255,255,255,.06) !important;
+  box-shadow: none !important;
+}
+
+body.dark-theme.page-fulfill .fulfill-hero,
+html[data-theme="dark"] body.page-fulfill .fulfill-hero,
+body.dark-theme.page-fulfill .watch-section,
+html[data-theme="dark"] body.page-fulfill .watch-section {
+  background: #090a0c !important;
+}
+
+body.dark-theme.page-fulfill .hero-wash,
+html[data-theme="dark"] body.page-fulfill .hero-wash {
+  background:
+    linear-gradient(90deg,#090a0c 0%,rgba(9,10,12,.98) 34%,rgba(9,10,12,.76) 48%,rgba(9,10,12,.05) 70%) !important;
+}
+
+body.dark-theme.page-fulfill .soft-section,
+html[data-theme="dark"] body.page-fulfill .soft-section {
+  background: #111214 !important;
+}
+
+body.dark-theme.page-fulfill .story-player-card,
+body.dark-theme.page-fulfill .playlist-card,
+html[data-theme="dark"] body.page-fulfill .story-player-card,
+html[data-theme="dark"] body.page-fulfill .playlist-card {
+  background: #141518 !important;
+  border-color: rgba(255,255,255,.07) !important;
+}
+
+body.dark-theme.page-fulfill .playlist-card.featured-memory,
+html[data-theme="dark"] body.page-fulfill .playlist-card.featured-memory {
+  background: linear-gradient(135deg,#141518,#1b171a) !important;
+}
+
+body.dark-theme.page-fulfill .site-footer,
+html[data-theme="dark"] body.page-fulfill .site-footer {
+  background: #090a0c !important;
+  border-color: rgba(255,255,255,.07) !important;
+}
+
+/* ---------- Tablet: same shell geometry ---------- */
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-fulfill {
+    padding: 22px 14px;
+  }
+
+  body.page-fulfill > .ob-header {
+    width: 100%;
+    border-radius: 22px 22px 0 0;
+  }
+
+  body.page-fulfill > .ob-site-search,
+  body.page-fulfill > .site-shell {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  body.page-fulfill > .site-shell {
+    border-radius: 0 0 22px 22px;
+  }
+
+  body.page-fulfill .fulfill-hero {
+    border-radius: 0 0 22px 22px;
+  }
+}
+
+/* ---------- Mobile portrait: established edge-to-edge standard ---------- */
+@media (max-width: 760px) and (orientation: portrait) {
+  body.page-fulfill {
+    padding: 0 !important;
+  }
+
+  body.page-fulfill > .ob-header,
+  body.page-fulfill > .ob-site-search,
+  body.page-fulfill > .site-shell,
+  body.page-fulfill .fulfill-hero,
+  body.page-fulfill .hero-art,
+  body.page-fulfill .hero-wash {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  body.page-fulfill > .site-shell {
+    border: 0;
+    box-shadow: none;
+  }
+}
+
+/* ---------- Short landscape: exactly the shared Home/Oom/Bam canvas ---------- */
+@media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  html,
+  body.page-fulfill {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body.page-fulfill {
+    padding: 8px 8px 14px !important;
+  }
+
+  body.page-fulfill > .ob-header,
+  body.page-fulfill > .ob-site-search,
+  body.page-fulfill > .site-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body.page-fulfill > .ob-header,
+  body.page-fulfill > .site-shell,
+  body.page-fulfill .fulfill-hero,
+  body.page-fulfill .hero-art,
+  body.page-fulfill .hero-wash {
+    border-radius: 0 !important;
+  }
+
+  body.page-fulfill > .site-shell {
+    border-left: 0;
+    border-right: 0;
+    box-shadow: none;
+  }
+}
+
