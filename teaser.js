@@ -31,32 +31,30 @@ document.addEventListener(
     }
 
 
-    /* =====================================================
-       VERY SUBTLE DESKTOP PARALLAX
-       ===================================================== */
+    /*
+      Very subtle parallax.
+      The artwork should feel alive,
+      not like it is following the cursor.
+    */
 
     window.addEventListener(
       "mousemove",
       (event) => {
 
-        const normalizedX =
-          event.clientX /
-          window.innerWidth -
-          0.5;
-
-
-        const normalizedY =
-          event.clientY /
-          window.innerHeight -
-          0.5;
-
-
         const x =
-          normalizedX * 7;
+          (
+            event.clientX /
+            window.innerWidth -
+            0.5
+          ) * 7;
 
 
         const y =
-          normalizedY * 5;
+          (
+            event.clientY /
+            window.innerHeight -
+            0.5
+          ) * 5;
 
 
         teaser.style.setProperty(
