@@ -31,12 +31,6 @@ document.addEventListener(
     }
 
 
-    /*
-      Very subtle parallax.
-      The artwork should feel alive,
-      not like it is following the cursor.
-    */
-
     window.addEventListener(
       "mousemove",
       (event) => {
