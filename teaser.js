@@ -31,6 +31,11 @@ document.addEventListener(
     }
 
 
+    /*
+      Very subtle depth movement after
+      the characters have settled.
+    */
+
     window.addEventListener(
       "mousemove",
       (event) => {
@@ -40,7 +45,7 @@ document.addEventListener(
             event.clientX /
             window.innerWidth -
             0.5
-          ) * 7;
+          ) * 5;
 
 
         const y =
@@ -48,7 +53,7 @@ document.addEventListener(
             event.clientY /
             window.innerHeight -
             0.5
-          ) * 5;
+          ) * 4;
 
 
         teaser.style.setProperty(
