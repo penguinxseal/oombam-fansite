@@ -31,7 +31,6 @@ document.addEventListener(
     }
 
 
-
     /* =====================================================
        VERY SUBTLE DESKTOP PARALLAX
        ===================================================== */
@@ -53,11 +52,11 @@ document.addEventListener(
 
 
         const x =
-          normalizedX * 8;
+          normalizedX * 7;
 
 
         const y =
-          normalizedY * 6;
+          normalizedY * 5;
 
 
         teaser.style.setProperty(
@@ -73,7 +72,6 @@ document.addEventListener(
 
       }
     );
-
 
 
     document.addEventListener(
@@ -96,4 +94,3 @@ document.addEventListener(
 
   }
 );
-
