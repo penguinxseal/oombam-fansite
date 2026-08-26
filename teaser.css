@@ -40,6 +40,9 @@ body {
 /* ---------- MAIN ---------- */
 
 .teaser {
+  --move-x: 0px;
+  --move-y: 0px;
+
   position: relative;
 
   width: 100%;
@@ -71,11 +74,18 @@ body {
 
   border-radius: 50%;
 
-  filter: blur(110px);
+  filter: blur(115px);
 
   pointer-events: none;
 
   opacity: 0;
+
+  transform: translate(
+    var(--move-x, 0),
+    var(--move-y, 0)
+  );
+
+  transition: transform 1.8s ease-out;
 
   animation: glowReveal 5s ease forwards;
 }
@@ -84,16 +94,16 @@ body {
 /* BLUE */
 
 .glow-blue {
-  width: 42vw;
-  height: 42vw;
+  width: 55vw;
+  height: 55vw;
 
-  min-width: 350px;
-  min-height: 350px;
+  min-width: 420px;
+  min-height: 420px;
 
-  background: rgba(124, 204, 235, 0.22);
+  background: rgba(120, 205, 240, 0.3);
 
-  left: -12%;
-  top: 10%;
+  left: -18%;
+  top: 5%;
 
   animation-delay: 0.8s;
 }
@@ -102,16 +112,16 @@ body {
 /* PINK */
 
 .glow-pink {
-  width: 38vw;
-  height: 38vw;
+  width: 48vw;
+  height: 48vw;
 
-  min-width: 320px;
-  min-height: 320px;
+  min-width: 380px;
+  min-height: 380px;
 
-  background: rgba(236, 155, 190, 0.18);
+  background: rgba(239, 168, 198, 0.24);
 
-  right: -10%;
-  bottom: 2%;
+  right: -15%;
+  bottom: -5%;
 
   animation-delay: 1.3s;
 }
@@ -151,36 +161,47 @@ body {
 }
 
 
-/* ---------- PENGUIN × SEAL ---------- */
+/* =========================================================
+   PENGUIN × SEAL
+   ========================================================= */
 
 .symbol {
   display: flex;
   justify-content: center;
   align-items: center;
 
-  gap: 14px;
+  gap: 12px;
 
-  margin-bottom: 35px;
+  margin-bottom: 42px;
 
-  font-size: 26px;
+  font-size: 8px;
+  font-weight: 500;
+
+  letter-spacing: 0.28em;
+
+  color: rgba(255, 255, 255, 0.42);
 }
 
-.symbol .x {
+.symbol-x {
   font-family: var(--serif);
 
-  font-size: 17px;
+  font-size: 15px;
+  font-weight: 400;
 
-  color: rgba(255, 255, 255, 0.48);
+  letter-spacing: 0;
+
+  color: var(--pink);
 }
 
 
-/* ---------- EYEBROW ---------- */
+/* =========================================================
+   EYEBROW
+   ========================================================= */
 
 .eyebrow {
-  margin: 0 0 22px;
+  margin: 0 0 24px;
 
   font-size: 9px;
-
   font-weight: 400;
 
   letter-spacing: 0.34em;
@@ -198,7 +219,7 @@ h1 {
 
   font-family: var(--serif);
 
-  font-size: clamp(3.7rem, 7.6vw, 7.8rem);
+  font-size: clamp(3.5rem, 6.8vw, 7rem);
 
   font-weight: 500;
 
@@ -213,7 +234,6 @@ h1 span {
   margin-top: 7px;
 
   font-style: italic;
-
   font-weight: 500;
 
   color: var(--pink);
@@ -228,7 +248,7 @@ h1 span {
   width: 1px;
   height: 52px;
 
-  margin: 38px auto;
+  margin: 44px auto;
 
   background: linear-gradient(
     to bottom,
@@ -244,23 +264,13 @@ h1 span {
    ========================================================= */
 
 .brand p {
-  margin: 0 0 9px;
+  margin: 0;
 
   font-size: 13px;
 
   font-weight: 500;
 
-  letter-spacing: 0.27em;
-}
-
-.brand span {
-  font-family: var(--serif);
-
-  font-size: 14px;
-
-  font-style: italic;
-
-  color: rgba(255, 255, 255, 0.58);
+  letter-spacing: 0.29em;
 }
 
 
@@ -269,23 +279,34 @@ h1 span {
    ========================================================= */
 
 .coming-soon {
-  display: inline-block;
+  margin-top: 50px;
 
-  margin: 42px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  padding: 10px 18px;
+  gap: 16px;
 
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.48);
+}
 
-  border-radius: 999px;
+.coming-soon span {
+  display: block;
+
+  width: 42px;
+  height: 1px;
+
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.coming-soon p {
+  margin: 0;
 
   font-size: 8px;
 
   font-weight: 500;
 
   letter-spacing: 0.32em;
-
-  color: rgba(255, 255, 255, 0.65);
 }
 
 
@@ -323,7 +344,9 @@ h1 span {
 
   transform: translateY(13px);
 
-  animation: revealElement 1.4s
+  animation:
+    revealElement
+    1.4s
     cubic-bezier(0.22, 1, 0.36, 1)
     forwards;
 }
@@ -379,12 +402,12 @@ h1 span {
 
   from {
     opacity: 0;
-    transform: scale(0.8);
+    scale: 0.8;
   }
 
   to {
     opacity: 1;
-    transform: scale(1);
+    scale: 1;
   }
 
 }
@@ -401,9 +424,15 @@ h1 span {
   }
 
   .symbol {
-    margin-bottom: 29px;
+    margin-bottom: 32px;
 
-    font-size: 23px;
+    font-size: 7px;
+
+    gap: 10px;
+  }
+
+  .symbol-x {
+    font-size: 13px;
   }
 
   .eyebrow {
@@ -415,27 +444,29 @@ h1 span {
   }
 
   h1 {
-    font-size: clamp(3.3rem, 15vw, 5.5rem);
+    font-size: clamp(3rem, 14vw, 5.2rem);
 
-    line-height: 0.93;
+    line-height: 0.94;
   }
 
   .divider {
-    height: 42px;
+    height: 40px;
 
-    margin: 30px auto;
+    margin: 32px auto;
   }
 
   .brand p {
     font-size: 11px;
   }
 
-  .brand span {
-    font-size: 13px;
+  .coming-soon {
+    margin-top: 38px;
+
+    gap: 12px;
   }
 
-  .coming-soon {
-    margin-top: 34px;
+  .coming-soon span {
+    width: 28px;
   }
 
   .teaser-footer {
@@ -450,7 +481,7 @@ h1 span {
 
 
 /* =========================================================
-   SMALL PHONES
+   SMALL PHONES / SHORT SCREENS
    ========================================================= */
 
 @media (max-height: 650px) {
@@ -463,6 +494,10 @@ h1 span {
     margin-bottom: 14px;
   }
 
+  h1 {
+    font-size: clamp(2.7rem, 10vw, 5rem);
+  }
+
   .divider {
     height: 28px;
 
@@ -470,7 +505,7 @@ h1 span {
   }
 
   .coming-soon {
-    margin-top: 22px;
+    margin-top: 26px;
   }
 
 }
