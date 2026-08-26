@@ -1,14 +1,8 @@
-/* =========================================================
-   OOMBAM
-   SINGLE-FRAME CINEMATIC TEASER
-   ========================================================= */
-
 :root {
   --bg: #05070a;
-
   --white: #f7f4ef;
-
   --pink: #efabc7;
+  --blue: #8ddaf4;
 
   --serif:
     "Playfair Display",
@@ -34,23 +28,19 @@ html,
 body {
   width: 100%;
   height: 100%;
-
   margin: 0;
 }
 
 body {
   overflow: hidden;
-
   background: var(--bg);
-
   color: var(--white);
-
   font-family: var(--sans);
 }
 
 
 /* =========================================================
-   MAIN FRAME
+   MAIN
    ========================================================= */
 
 .teaser {
@@ -65,7 +55,13 @@ body {
 
   overflow: hidden;
 
-  background: var(--bg);
+  background:
+    radial-gradient(
+      circle at center,
+      #0d1218 0%,
+      #070a0e 48%,
+      #030405 100%
+    );
 }
 
 
@@ -87,7 +83,7 @@ body {
 
   animation:
     curtainOpen
-    2s
+    2.1s
     ease
     forwards;
 }
@@ -103,26 +99,24 @@ body {
 
   z-index: 1;
 
-  overflow: hidden;
-
   opacity: 0;
+
+  overflow: hidden;
 
   animation:
     artworkReveal
     3s
     cubic-bezier(0.16, 1, 0.3, 1)
-    0.9s
+    0.8s
     forwards;
 }
-
 
 .teaser-artwork {
   width: 100%;
   height: 100%;
 
   object-fit: cover;
-
-  object-position: center center;
+  object-position: center;
 
   transform:
     translate(
@@ -132,56 +126,106 @@ body {
     scale(1.025);
 
   filter:
-    brightness(0.95)
-    contrast(1.02)
+    brightness(0.94)
+    contrast(1.03)
     saturate(0.98);
 
   animation:
     artworkFloat
-    18s
+    19s
     ease-in-out
-    4s
+    4.5s
     infinite alternate;
 }
 
 
 /* =========================================================
-   READABILITY SHADING
+   ENERGY
    ========================================================= */
 
-.top-shade {
+.energy {
   position: absolute;
-  inset: 0;
 
-  z-index: 3;
+  width: 42vw;
+  height: 42vw;
+
+  min-width: 400px;
+  min-height: 400px;
+
+  border-radius: 50%;
+
+  filter: blur(110px);
+
+  opacity: 0;
 
   pointer-events: none;
 
+  z-index: 2;
+}
+
+.energy-blue {
+  left: -12vw;
+  top: 18vh;
+
   background:
-    linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.58) 0%,
-      rgba(0, 0, 0, 0.18) 18%,
-      transparent 36%
-    );
+    rgba(64, 182, 232, 0.34);
+
+  animation:
+    energyBlue
+    3.5s
+    ease
+    1.2s
+    forwards;
+}
+
+.energy-pink {
+  right: -12vw;
+  top: 18vh;
+
+  background:
+    rgba(235, 126, 177, 0.34);
+
+  animation:
+    energyPink
+    3.5s
+    ease
+    1.5s
+    forwards;
 }
 
 
+/* =========================================================
+   READABILITY
+   ========================================================= */
+
+.top-shade,
 .bottom-shade {
   position: absolute;
   inset: 0;
 
-  z-index: 3;
+  z-index: 4;
 
   pointer-events: none;
+}
 
+.top-shade {
   background:
     linear-gradient(
       to bottom,
-      transparent 44%,
-      rgba(0, 0, 0, 0.10) 56%,
-      rgba(0, 0, 0, 0.40) 77%,
-      rgba(0, 0, 0, 0.74) 100%
+      rgba(0,0,0,0.52) 0%,
+      rgba(0,0,0,0.14) 20%,
+      transparent 36%
+    );
+}
+
+.bottom-shade {
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 47%,
+      rgba(0,0,0,0.14) 59%,
+      rgba(0,0,0,0.48) 82%,
+      rgba(0,0,0,0.74) 100%
     );
 }
 
@@ -194,11 +238,11 @@ body {
   position: absolute;
   inset: 0;
 
-  z-index: 20;
+  z-index: 30;
 
   pointer-events: none;
 
-  opacity: 0.028;
+  opacity: 0.026;
 
   background-image:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.8'/%3E%3C/svg%3E");
@@ -206,17 +250,17 @@ body {
 
 
 /* =========================================================
-   GLOBAL INTRO ELEMENTS
+   INTRO BASE
    ========================================================= */
 
-.intro-item {
+.intro {
   position: absolute;
 
-  z-index: 10;
+  z-index: 15;
 
   opacity: 0;
 
-  filter: blur(6px);
+  filter: blur(5px);
 
   animation:
     revealItem
@@ -231,7 +275,7 @@ body {
    ========================================================= */
 
 .top-brand {
-  top: 7vh;
+  top: 6.5vh;
   left: 50%;
 
   transform: translateX(-50%);
@@ -240,23 +284,22 @@ body {
   align-items: center;
   justify-content: center;
 
-  gap: 18px;
+  gap: 17px;
 
   white-space: nowrap;
 
   font-size: 13px;
   font-weight: 500;
 
-  letter-spacing: 0.36em;
+  letter-spacing: 0.35em;
 
   color:
-    rgba(255, 255, 255, 0.86);
+    rgba(255,255,255,0.86);
 
   text-shadow:
     0 2px 12px
-    rgba(0, 0, 0, 0.65);
+    rgba(0,0,0,0.65);
 }
-
 
 .heart {
   display: inline-block;
@@ -276,22 +319,95 @@ body {
 
 
 /* =========================================================
+   CENTER MEETING SPARK
+   ========================================================= */
+
+.meeting-spark {
+  position: absolute;
+
+  left: 50%;
+  top: 42%;
+
+  transform: translate(-50%, -50%);
+
+  width: 70px;
+  height: 70px;
+
+  z-index: 12;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  animation:
+    sparkReveal
+    2.2s
+    ease
+    3s
+    forwards;
+}
+
+.spark-core {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  background: #fff;
+
+  box-shadow:
+    0 0 12px rgba(255,255,255,0.95),
+    0 0 28px rgba(239,171,199,0.75),
+    0 0 42px rgba(141,218,244,0.45);
+}
+
+.spark-ring {
+  position: absolute;
+
+  inset: 0;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.18);
+
+  border-radius: 50%;
+
+  animation:
+    ringPulse
+    2.5s
+    ease-out
+    3s
+    forwards;
+}
+
+
+/* =========================================================
    HEADLINE
    ========================================================= */
 
 .hero-copy {
+  position: absolute;
+
   left: 50%;
   bottom: 24vh;
 
-  transform:
-    translateX(-50%);
+  transform: translateX(-50%);
 
   width:
-    min(650px, 80vw);
+    min(660px, 80vw);
+
+  z-index: 15;
 
   text-align: center;
 }
-
 
 .hero-copy h1 {
   margin: 0;
@@ -307,54 +423,77 @@ body {
 
   font-weight: 500;
 
-  line-height: 0.94;
+  line-height: 0.95;
 
-  letter-spacing:
-    -0.045em;
+  letter-spacing: -0.045em;
 
   text-shadow:
     0 6px 22px
-    rgba(0, 0, 0, 0.48);
+    rgba(0,0,0,0.50);
 }
 
-
-.hero-copy h1 span,
-.hero-copy h1 em {
+.headline-main,
+.headline-pink {
   display: block;
 }
 
-
-.hero-copy h1 em {
+.headline-pink {
   margin-top: 10px;
 
   color: var(--pink);
 
   font-weight: 500;
-
   font-style: italic;
 
-  text-shadow:
-    0 0 30px
-    rgba(239,171,199,0.12);
+  position: relative;
+}
+
+.headline-pink::after {
+  content: "";
+
+  position: absolute;
+
+  left: 12%;
+  right: 12%;
+  bottom: -3px;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      to right,
+      transparent,
+      rgba(239,171,199,0.72),
+      transparent
+    );
+
+  transform: scaleX(0);
+
+  transform-origin: center;
+
+  animation:
+    bloomSweep
+    1.4s
+    ease
+    6.4s
+    forwards;
 }
 
 
 /* =========================================================
-   OOM × BAM
+   IDENTITY
    ========================================================= */
 
 .identity-block {
   left: 50%;
   bottom: 13vh;
 
-  transform:
-    translateX(-50%);
+  transform: translateX(-50%);
 
   text-align: center;
 }
 
-
-.spark {
+.identity-spark {
   position: relative;
 
   width: 1px;
@@ -372,8 +511,7 @@ body {
     );
 }
 
-
-.spark::after {
+.identity-spark::after {
   content: "";
 
   position: absolute;
@@ -393,9 +531,8 @@ body {
 
   box-shadow:
     0 0 9px
-    rgba(239,171,199,0.9);
+    rgba(239,171,199,0.92);
 }
-
 
 .identity {
   margin: 0;
@@ -410,7 +547,6 @@ body {
   color:
     rgba(255,255,255,0.94);
 }
-
 
 .identity span {
   margin: 0 7px;
@@ -429,8 +565,7 @@ body {
   left: 50%;
   bottom: 6.5vh;
 
-  transform:
-    translateX(-50%);
+  transform: translateX(-50%);
 
   display: flex;
   align-items: center;
@@ -439,7 +574,6 @@ body {
   gap: 16px;
 }
 
-
 .coming-soon .line {
   width: 52px;
   height: 1px;
@@ -447,7 +581,6 @@ body {
   background:
     rgba(239,171,199,0.52);
 }
-
 
 .coming-soon p {
   margin: 0;
@@ -464,7 +597,51 @@ body {
 
   text-shadow:
     0 2px 12px
-    rgba(0,0,0,0.62);
+    rgba(0,0,0,0.64);
+}
+
+
+/* =========================================================
+   PETAL
+   ========================================================= */
+
+.petal {
+  position: absolute;
+
+  z-index: 18;
+
+  width: 13px;
+  height: 7px;
+
+  border-radius:
+    70% 30% 70% 30%;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,221,234,0.96),
+      rgba(239,171,199,0.76)
+    );
+
+  box-shadow:
+    0 0 10px
+    rgba(239,171,199,0.30);
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.petal-one {
+  left: 68%;
+  top: 31%;
+
+  animation:
+    petalDrift
+    6s
+    ease-in-out
+    9.5s
+    forwards;
 }
 
 
@@ -497,20 +674,21 @@ body {
   animation-delay: 1.5s;
 }
 
-
 .intro-headline {
-  animation-delay: 4.1s;
+  animation-delay: 5s;
 }
 
+.intro-bloom {
+  animation-delay: 6.1s;
+}
 
 .intro-identity {
-  animation-delay: 6.4s;
+  animation-delay: 7.6s;
 }
-
 
 .intro-coming,
 .intro-footer {
-  animation-delay: 8.2s;
+  animation-delay: 9.2s;
 }
 
 
@@ -540,16 +718,12 @@ body {
 
   from {
     opacity: 0;
-
-    transform:
-      scale(1.05);
+    transform: scale(1.05);
   }
 
   to {
     opacity: 1;
-
-    transform:
-      scale(1);
+    transform: scale(1);
   }
 
 }
@@ -578,17 +752,53 @@ body {
 }
 
 
+@keyframes energyBlue {
+
+  from {
+    opacity: 0;
+    transform:
+      translateX(-30px)
+      scale(0.8);
+  }
+
+  to {
+    opacity: 0.75;
+    transform:
+      translateX(20px)
+      scale(1);
+  }
+
+}
+
+
+@keyframes energyPink {
+
+  from {
+    opacity: 0;
+    transform:
+      translateX(30px)
+      scale(0.8);
+  }
+
+  to {
+    opacity: 0.75;
+    transform:
+      translateX(-20px)
+      scale(1);
+  }
+
+}
+
+
 @keyframes revealItem {
 
   from {
     opacity: 0;
-
-    filter: blur(6px);
+    filter: blur(5px);
   }
 
   to {
     opacity: 1;
-
     filter: blur(0);
   }
 
@@ -600,14 +810,99 @@ body {
   0%,
   100% {
     opacity: 0.65;
-
     transform: scale(0.9);
   }
 
   50% {
     opacity: 1;
-
     transform: scale(1.18);
+  }
+
+}
+
+
+@keyframes sparkReveal {
+
+  0% {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      scale(0.4);
+  }
+
+  45% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.55;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+}
+
+
+@keyframes ringPulse {
+
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  45% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+
+}
+
+
+@keyframes bloomSweep {
+
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+}
+
+
+@keyframes petalDrift {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(0, 0)
+      rotate(0deg);
+  }
+
+  12% {
+    opacity: 0.9;
+  }
+
+  70% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-140px, 110px)
+      rotate(240deg);
   }
 
 }
@@ -623,14 +918,12 @@ body {
     font-size: 11px;
   }
 
-
   .hero-copy {
     bottom: 25vh;
 
     width:
       min(580px, 84vw);
   }
-
 
   .hero-copy h1 {
     font-size:
@@ -641,11 +934,9 @@ body {
       );
   }
 
-
   .identity {
     font-size: 13px;
   }
-
 
   .coming-soon p {
     font-size: 10px;
@@ -661,15 +952,9 @@ body {
 @media (max-width: 700px) {
 
   .teaser-artwork {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
     object-position:
       center top;
   }
-
 
   .top-brand {
     top: 4.5vh;
@@ -681,18 +966,19 @@ body {
     letter-spacing: 0.24em;
   }
 
-
   .heart {
     font-size: 8px;
   }
 
+  .meeting-spark {
+    top: 37%;
+  }
 
   .hero-copy {
     bottom: 27vh;
 
     width: 88vw;
   }
-
 
   .hero-copy h1 {
     font-size:
@@ -701,39 +987,19 @@ body {
         11vw,
         3.9rem
       );
-
-    line-height: 0.95;
   }
-
-
-  .hero-copy h1 em {
-    margin-top: 8px;
-  }
-
 
   .identity-block {
     bottom: 15vh;
   }
 
-
-  .spark {
-    height: 22px;
-
-    margin-bottom: 13px;
-  }
-
-
   .identity {
     font-size: 11px;
   }
 
-
   .identity span {
     font-size: 9px;
-
-    margin: 0 5px;
   }
-
 
   .coming-soon {
     bottom: 8.5vh;
@@ -741,18 +1007,14 @@ body {
     gap: 10px;
   }
 
-
   .coming-soon p {
     font-size: 8px;
-
     letter-spacing: 0.30em;
   }
-
 
   .coming-soon .line {
     width: 30px;
   }
-
 
   .footer {
     left: 16px;
@@ -760,34 +1022,6 @@ body {
     bottom: 14px;
 
     font-size: 5px;
-  }
-
-}
-
-
-/* =========================================================
-   SHORT SCREENS
-   ========================================================= */
-
-@media (max-height: 690px) {
-
-  .top-brand {
-    top: 4vh;
-  }
-
-
-  .hero-copy {
-    bottom: 26vh;
-  }
-
-
-  .identity-block {
-    bottom: 14vh;
-  }
-
-
-  .coming-soon {
-    bottom: 7vh;
   }
 
 }
@@ -803,17 +1037,16 @@ body {
     display: none;
   }
 
-
   .artwork-layer,
-  .intro-item,
+  .intro,
   .teaser-artwork,
+  .energy,
+  .meeting-spark,
+  .petal,
   .heart {
     opacity: 1;
-
     filter: none;
-
     transform: none;
-
     animation: none;
   }
 
