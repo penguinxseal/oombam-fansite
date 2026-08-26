@@ -1,23 +1,11 @@
-/* =========================================================
-   OOMBAM — SINGLE FRAME CINEMATIC TEASER
-   COMPOSITION POLISH
-   ========================================================= */
-
 :root {
   --bg: #05070a;
   --white: #f7f4ef;
   --pink: #efabc7;
-  --blue: #8ddaf4;
+  --blue: #84d9f7;
 
-  --serif:
-    "Playfair Display",
-    Georgia,
-    serif;
-
-  --sans:
-    "DM Sans",
-    Arial,
-    sans-serif;
+  --serif: "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", Arial, sans-serif;
 }
 
 
@@ -58,17 +46,13 @@ body {
   height: 100vh;
   height: 100svh;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   overflow: hidden;
 
   background:
     radial-gradient(
-      circle at center,
-      #10161d 0%,
-      #080b10 45%,
+      circle at 50% 37%,
+      #111823 0%,
+      #080c12 46%,
       #030405 100%
     );
 }
@@ -92,7 +76,7 @@ body {
 
   animation:
     curtainOpen
-    2s
+    1.8s
     ease
     forwards;
 }
@@ -102,138 +86,245 @@ body {
    AMBIENT LIGHT
    ========================================================= */
 
-.ambient-glow {
+.ambient {
   position: absolute;
 
-  width: 58vw;
-  height: 58vw;
+  width: 48vw;
+  height: 48vw;
 
-  min-width: 520px;
-  min-height: 520px;
+  min-width: 480px;
+  min-height: 480px;
 
   border-radius: 50%;
 
-  filter: blur(130px);
+  filter: blur(125px);
 
   opacity: 0;
+
+  z-index: 1;
 
   pointer-events: none;
 }
 
-
-.glow-blue {
-  left: -27vw;
-  top: -12vh;
+.ambient-blue {
+  left: -15vw;
+  top: 8vh;
 
   background:
-    rgba(55, 179, 235, 0.24);
+    rgba(58, 181, 238, 0.30);
 
   animation:
-    blueWake 5s ease 1s forwards,
-    blueFloat 21s ease-in-out 6s infinite alternate;
+    blueWake 4s ease 0.8s forwards,
+    blueDrift 18s ease-in-out 5s infinite alternate;
 }
 
-
-.glow-pink {
-  right: -27vw;
-  bottom: -15vh;
+.ambient-pink {
+  right: -15vw;
+  top: 8vh;
 
   background:
-    rgba(232, 109, 166, 0.23);
+    rgba(238, 119, 175, 0.29);
 
   animation:
-    pinkWake 5s ease 1.25s forwards,
-    pinkFloat 24s ease-in-out 6s infinite alternate;
+    pinkWake 4s ease 1s forwards,
+    pinkDrift 20s ease-in-out 5s infinite alternate;
 }
 
 
 /* =========================================================
-   ARTWORK
+   CHARACTER STAGE
    ========================================================= */
 
-.artwork-wrap {
+.character-stage {
   position: absolute;
-  inset: 0;
 
-  z-index: 3;
+  left: 0;
+  right: 0;
+  top: 8vh;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 48vh;
+
+  min-height: 340px;
+
+  z-index: 5;
 
   pointer-events: none;
+}
+
+
+/* =========================================================
+   CHARACTER SHELLS
+   ========================================================= */
+
+.character-shell {
+  position: absolute;
+
+  top: 50%;
+
+  width: min(43vw, 760px);
+
+  transform: translateY(-50%);
 
   opacity: 0;
 
-  transform: scale(1.03);
+  will-change: transform, opacity;
+}
+
+.character {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 20px 42px
+      rgba(0,0,0,0.35)
+    );
+
+  will-change: transform;
+}
+
+
+/* Penguin starts off-screen left */
+.penguin-shell {
+  left: -45vw;
 
   animation:
-    artworkReveal
-    3.2s
-    cubic-bezier(0.16, 1, 0.3, 1)
-    1.15s
+    penguinArrive
+    4.2s
+    cubic-bezier(0.16,1,0.3,1)
+    1.1s
     forwards;
 }
 
 
-.teaser-artwork {
-  width: 108%;
-  height: 108%;
-
-  object-fit: cover;
-  object-position: center 41%;
-
-  transform:
-    translate(
-      var(--mouse-x),
-      var(--mouse-y)
-    )
-    scale(1.02);
-
-  filter:
-    brightness(0.94)
-    contrast(1.03)
-    saturate(0.97);
+/* Seal starts off-screen right */
+.seal-shell {
+  right: -45vw;
 
   animation:
-    artworkDrift
-    18s
+    sealArrive
+    4.2s
+    cubic-bezier(0.16,1,0.3,1)
+    1.3s
+    forwards;
+}
+
+
+/* Gentle floating AFTER arrival */
+
+.penguin {
+  animation:
+    penguinFloat
+    7s
     ease-in-out
-    4.5s
+    5.5s
+    infinite alternate;
+}
+
+.seal {
+  animation:
+    sealFloat
+    8s
+    ease-in-out
+    5.7s
     infinite alternate;
 }
 
 
 /* =========================================================
-   CENTER SHADOW
-   Darkens LOWER center, not animal faces.
+   MEETING SPARK
    ========================================================= */
 
-.center-shadow {
+.meeting-spark {
+  position: absolute;
+
+  left: 50%;
+  top: 52%;
+
+  width: 90px;
+  height: 90px;
+
+  transform:
+    translate(-50%, -50%);
+
+  opacity: 0;
+
+  animation:
+    sparkAppear
+    2.2s
+    ease
+    4.8s
+    forwards;
+}
+
+
+.spark-core {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  background: white;
+
+  box-shadow:
+    0 0 12px white,
+    0 0 25px rgba(239,171,199,0.88),
+    0 0 40px rgba(132,217,247,0.58);
+}
+
+
+.spark-ring {
+  position: absolute;
+
+  inset: 12px;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.22);
+
+  border-radius: 50%;
+
+  animation:
+    sparkRing
+    2.4s
+    ease-out
+    4.8s
+    forwards;
+}
+
+
+/* =========================================================
+   BOTTOM SHADE
+   ========================================================= */
+
+.bottom-shade {
   position: absolute;
   inset: 0;
 
-  z-index: 6;
+  z-index: 8;
 
   pointer-events: none;
 
   background:
-
-    radial-gradient(
-      ellipse at center 69%,
-      rgba(3, 5, 8, 0.80) 0%,
-      rgba(3, 5, 8, 0.58) 27%,
-      rgba(3, 5, 8, 0.20) 48%,
-      rgba(3, 5, 8, 0.04) 63%,
-      transparent 76%
-    ),
-
     linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.08) 0%,
-      transparent 30%,
-      transparent 62%,
-      rgba(0, 0, 0, 0.35) 100%
+      transparent 0%,
+      transparent 47%,
+      rgba(3,5,8,0.14) 58%,
+      rgba(3,5,8,0.58) 78%,
+      rgba(3,5,8,0.83) 100%
     );
 }
 
@@ -246,11 +337,11 @@ body {
   position: absolute;
   inset: 0;
 
-  z-index: 20;
+  z-index: 30;
 
   pointer-events: none;
 
-  opacity: 0.032;
+  opacity: 0.025;
 
   background-image:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.8'/%3E%3C/svg%3E");
@@ -258,51 +349,70 @@ body {
 
 
 /* =========================================================
-   MAIN CONTENT
+   GENERIC TEXT REVEAL
    ========================================================= */
 
-.content {
-  position: relative;
+.reveal {
+  position: absolute;
 
   z-index: 15;
 
-  width: min(610px, 82vw);
+  opacity: 0;
 
-  text-align: center;
+  filter: blur(6px);
 
-  transform: translateY(18vh);
+  animation:
+    revealText
+    1.4s
+    cubic-bezier(0.16,1,0.3,1)
+    forwards;
 }
 
 
 /* =========================================================
-   TOP LABEL
+   PENGUIN ♥ SEAL
    ========================================================= */
 
-.top-label {
-  position: fixed;
-
-  top: 8.5vh;
+.top-brand {
+  top: 4.8vh;
   left: 50%;
 
   transform: translateX(-50%);
 
-  margin: 0;
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
 
   white-space: nowrap;
 
-  font-size: 8px;
+  font-size: 13px;
+
   font-weight: 500;
 
-  letter-spacing: 0.42em;
+  letter-spacing: 0.34em;
 
   color:
-    rgba(255,255,255,0.64);
+    rgba(255,255,255,0.90);
 }
 
-.top-label span {
-  margin: 0 12px;
-
+.heart {
   color: var(--pink);
+
+  font-size: 11px;
+
+  letter-spacing: 0;
+
+  animation:
+    heartPulse
+    2.6s
+    ease-in-out
+    infinite;
+}
+
+.reveal-brand {
+  animation-delay: 1.4s;
 }
 
 
@@ -310,115 +420,102 @@ body {
    HEADLINE
    ========================================================= */
 
-.headline {
+.headline-block {
+  position: absolute;
+
+  left: 50%;
+  bottom: 19vh;
+
+  transform:
+    translateX(-50%);
+
+  z-index: 15;
+
+  width:
+    min(700px, 82vw);
+
+  text-align: center;
+}
+
+.headline-block h1 {
   margin: 0;
 
   font-family: var(--serif);
 
   font-size:
     clamp(
-      2.8rem,
-      4.7vw,
-      5rem
+      3rem,
+      5vw,
+      5.1rem
     );
 
-  font-weight: 500;
-
-  line-height: 0.91;
+  line-height: 0.94;
 
   letter-spacing: -0.045em;
 
+  font-weight: 500;
+
   text-shadow:
-    0 8px 24px rgba(0,0,0,0.24);
+    0 5px 22px
+    rgba(0,0,0,0.50);
 }
 
+.headline-main,
+.headline-bloom {
+  position: relative;
 
-.headline > span,
-.headline > em {
   display: block;
 }
 
-
-.headline em {
-  margin-top: 9px;
+.headline-bloom {
+  margin-top: 8px;
 
   color: var(--pink);
 
-  font-weight: 500;
   font-style: italic;
 
-  text-shadow:
-    0 0 30px
-    rgba(239,171,199,0.10);
+  font-weight: 500;
+}
+
+.reveal-headline {
+  animation-delay: 6.4s;
+}
+
+.reveal-bloom {
+  animation-delay: 7.3s;
 }
 
 
 /* =========================================================
-   OOM × BAM
+   IDENTITY
    ========================================================= */
 
 .identity {
-  margin-top: 27px;
-}
-
-
-.spark {
-  position: relative;
-
-  width: 1px;
-  height: 29px;
-
-  margin:
-    0 auto 17px;
-
-  background:
-    linear-gradient(
-      to bottom,
-      transparent,
-      rgba(255,255,255,0.38),
-      transparent
-    );
-}
-
-
-.spark::after {
-  content: "";
-
-  position: absolute;
-
   left: 50%;
-  top: 50%;
-
-  width: 4px;
-  height: 4px;
-
-  border-radius: 50%;
+  bottom: 9.2vh;
 
   transform:
-    translate(-50%, -50%);
+    translateX(-50%);
 
-  background: #fff;
+  white-space: nowrap;
 
-  box-shadow:
-    0 0 8px
-    rgba(239,171,199,0.9);
-}
+  font-size: 15px;
 
-
-.identity p {
-  margin: 0;
-
-  font-size: 10px;
   font-weight: 500;
 
-  letter-spacing: 0.37em;
+  letter-spacing: 0.34em;
 }
 
-
-.identity p span {
-  margin: 0 4px;
+.identity span {
+  margin: 0 7px;
 
   color: var(--pink);
+
+  font-size: 12px;
+}
+
+.reveal-identity {
+  animation-delay: 8.7s;
 }
 
 
@@ -427,36 +524,41 @@ body {
    ========================================================= */
 
 .coming {
+  left: 50%;
+  bottom: 4vh;
+
+  transform:
+    translateX(-50%);
+
   display: flex;
 
-  justify-content: center;
   align-items: center;
 
-  gap: 14px;
-
-  margin-top: 26px;
+  gap: 16px;
 }
 
-
 .coming .line {
-  width: 38px;
+  width: 54px;
   height: 1px;
 
   background:
-    rgba(255,255,255,0.20);
+    rgba(239,171,199,0.55);
 }
-
 
 .coming p {
   margin: 0;
 
-  font-size: 7px;
+  white-space: nowrap;
+
+  font-size: 11px;
+
   font-weight: 500;
 
-  letter-spacing: 0.38em;
+  letter-spacing: 0.40em;
+}
 
-  color:
-    rgba(255,255,255,0.60);
+.reveal-coming {
+  animation-delay: 10s;
 }
 
 
@@ -465,13 +567,9 @@ body {
    ========================================================= */
 
 .footer {
-  position: absolute;
-
   left: 28px;
   right: 28px;
-  bottom: 23px;
-
-  z-index: 15;
+  bottom: 17px;
 
   display: flex;
 
@@ -479,47 +577,189 @@ body {
 
   font-size: 7px;
 
-  letter-spacing: 0.25em;
+  letter-spacing: 0.23em;
 
   color:
-    rgba(255,255,255,0.40);
+    rgba(255,255,255,0.42);
+}
+
+.reveal-footer {
+  animation-delay: 10s;
 }
 
 
 /* =========================================================
-   SCENE REVEALS
+   BUBBLES
    ========================================================= */
 
-.scene {
-  opacity: 0;
+.bubble {
+  position: absolute;
 
-  filter: blur(5px);
+  bottom: -40px;
+
+  z-index: 6;
+
+  border-radius: 50%;
+
+  border:
+    1px solid
+    rgba(172,229,255,0.55);
+
+  background:
+    radial-gradient(
+      circle at 30% 28%,
+      rgba(255,255,255,0.78),
+      rgba(119,215,255,0.18) 25%,
+      transparent 67%
+    );
+
+  opacity: 0;
+}
+
+
+.b1 {
+  left: 7%;
+  width: 25px;
+  height: 25px;
 
   animation:
-    sceneReveal
-    1.4s
-    cubic-bezier(0.16,1,0.3,1)
-    forwards;
+    bubbleUp
+    9s linear 3s infinite;
+}
+
+.b2 {
+  left: 15%;
+  width: 12px;
+  height: 12px;
+
+  animation:
+    bubbleUp
+    7.5s linear 4.5s infinite;
+}
+
+.b3 {
+  left: 23%;
+  width: 34px;
+  height: 34px;
+
+  animation:
+    bubbleUp
+    11s linear 5.2s infinite;
+}
+
+.b4 {
+  left: 31%;
+  width: 17px;
+  height: 17px;
+
+  animation:
+    bubbleUp
+    8.5s linear 6.4s infinite;
+}
+
+.b5 {
+  left: 12%;
+  width: 9px;
+  height: 9px;
+
+  animation:
+    bubbleUp
+    6.5s linear 7.6s infinite;
+}
+
+.b6 {
+  left: 36%;
+  width: 13px;
+  height: 13px;
+
+  animation:
+    bubbleUp
+    8s linear 8.1s infinite;
 }
 
 
-.scene-1 {
-  animation-delay: 1.6s;
+/* =========================================================
+   PETALS
+   ========================================================= */
+
+.petal {
+  position: absolute;
+
+  top: -30px;
+
+  z-index: 7;
+
+  width: 17px;
+  height: 10px;
+
+  border-radius:
+    75% 30% 75% 30%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffe2ed,
+      #ee9abb
+    );
+
+  box-shadow:
+    0 0 10px
+    rgba(239,171,199,0.25);
+
+  opacity: 0;
 }
 
 
-.scene-2 {
-  animation-delay: 3s;
+.p1 {
+  right: 8%;
+
+  animation:
+    petalFall
+    9s ease-in-out 4s infinite;
 }
 
+.p2 {
+  right: 17%;
 
-.scene-3 {
-  animation-delay: 5.7s;
+  width: 13px;
+  height: 8px;
+
+  animation:
+    petalFall
+    7.5s ease-in-out 5.5s infinite;
 }
 
+.p3 {
+  right: 26%;
 
-.scene-4 {
-  animation-delay: 7.7s;
+  width: 22px;
+  height: 12px;
+
+  animation:
+    petalFall
+    10.5s ease-in-out 6.2s infinite;
+}
+
+.p4 {
+  right: 33%;
+
+  width: 11px;
+  height: 7px;
+
+  animation:
+    petalFall
+    8.2s ease-in-out 7.2s infinite;
+}
+
+.p5 {
+  right: 12%;
+
+  width: 15px;
+  height: 9px;
+
+  animation:
+    petalFall
+    9.5s ease-in-out 8.5s infinite;
 }
 
 
@@ -534,69 +774,264 @@ body {
   }
 
   45% {
-    opacity: 0.96;
+    opacity: 0.97;
   }
 
   100% {
     opacity: 0;
+
     visibility: hidden;
   }
 
 }
 
 
-@keyframes sceneReveal {
+@keyframes penguinArrive {
 
-  from {
+  0% {
+    left: -45vw;
+
     opacity: 0;
-    filter: blur(5px);
+
+    transform:
+      translateY(-50%)
+      rotate(-5deg)
+      scale(0.84);
   }
 
-  to {
+  25% {
     opacity: 1;
-    filter: blur(0);
   }
 
-}
+  100% {
+    left: 3vw;
 
-
-@keyframes artworkReveal {
-
-  from {
-    opacity: 0;
+    opacity: 1;
 
     transform:
-      scale(1.07);
-  }
-
-  to {
-    opacity: 0.96;
-
-    transform:
+      translateY(-50%)
+      rotate(-1deg)
       scale(1);
   }
 
 }
 
 
-@keyframes artworkDrift {
+@keyframes sealArrive {
+
+  0% {
+    right: -45vw;
+
+    opacity: 0;
+
+    transform:
+      translateY(-50%)
+      rotate(5deg)
+      scale(0.84);
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  100% {
+    right: 3vw;
+
+    opacity: 1;
+
+    transform:
+      translateY(-50%)
+      rotate(1deg)
+      scale(1);
+  }
+
+}
+
+
+@keyframes penguinFloat {
 
   from {
     transform:
       translate(
         calc(var(--mouse-x) - 4px),
-        calc(var(--mouse-y) - 3px)
+        calc(var(--mouse-y) - 5px)
       )
-      scale(1.02);
+      rotate(-1.5deg);
   }
 
   to {
     transform:
       translate(
-        calc(var(--mouse-x) + 5px),
-        calc(var(--mouse-y) + 4px)
+        calc(var(--mouse-x) + 7px),
+        calc(var(--mouse-y) + 7px)
       )
-      scale(1.035);
+      rotate(1deg);
+  }
+
+}
+
+
+@keyframes sealFloat {
+
+  from {
+    transform:
+      translate(
+        calc(var(--mouse-x) * -0.4),
+        calc(var(--mouse-y) - 4px)
+      )
+      rotate(1.3deg);
+  }
+
+  to {
+    transform:
+      translate(
+        calc(var(--mouse-x) * -0.4 - 7px),
+        calc(var(--mouse-y) + 7px)
+      )
+      rotate(-1deg);
+  }
+
+}
+
+
+@keyframes sparkAppear {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.35);
+  }
+
+  45% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.78;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+}
+
+
+@keyframes sparkRing {
+
+  0% {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+
+  35% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+
+}
+
+
+@keyframes revealText {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(11px);
+
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+    filter: blur(0);
+  }
+
+}
+
+
+@keyframes heartPulse {
+
+  0%,
+  100% {
+    opacity: 0.65;
+
+    transform: scale(0.92);
+  }
+
+  50% {
+    opacity: 1;
+
+    transform: scale(1.18);
+  }
+
+}
+
+
+@keyframes bubbleUp {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(0,0)
+      scale(0.8);
+  }
+
+  15% {
+    opacity: 0.82;
+  }
+
+  75% {
+    opacity: 0.65;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(45px,-115vh)
+      scale(1.2);
+  }
+
+}
+
+
+@keyframes petalFall {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(0,0)
+      rotate(0deg);
+  }
+
+  15% {
+    opacity: 0.88;
+  }
+
+  75% {
+    opacity: 0.72;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-145px,110vh)
+      rotate(320deg);
   }
 
 }
@@ -607,17 +1042,13 @@ body {
   from {
     opacity: 0;
 
-    transform:
-      translate(-25px, 8px)
-      scale(0.82);
+    transform: scale(0.8);
   }
 
   to {
-    opacity: 1;
+    opacity: 0.52;
 
-    transform:
-      translate(0, 0)
-      scale(1);
+    transform: scale(1);
   }
 
 }
@@ -628,51 +1059,47 @@ body {
   from {
     opacity: 0;
 
-    transform:
-      translate(25px, 8px)
-      scale(0.82);
+    transform: scale(0.8);
   }
 
   to {
-    opacity: 1;
+    opacity: 0.50;
 
-    transform:
-      translate(0, 0)
-      scale(1);
+    transform: scale(1);
   }
 
 }
 
 
-@keyframes blueFloat {
+@keyframes blueDrift {
 
   from {
     transform:
-      translate(-13px, 0)
+      translate(-15px,0)
       scale(1);
   }
 
   to {
     transform:
-      translate(28px, 13px)
-      scale(1.07);
+      translate(32px,14px)
+      scale(1.08);
   }
 
 }
 
 
-@keyframes pinkFloat {
+@keyframes pinkDrift {
 
   from {
     transform:
-      translate(13px, 0)
+      translate(15px,0)
       scale(1);
   }
 
   to {
     transform:
-      translate(-30px, -12px)
-      scale(1.07);
+      translate(-32px,-12px)
+      scale(1.08);
   }
 
 }
@@ -682,24 +1109,28 @@ body {
    TABLET
    ========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
 
-  .content {
-    width:
-      min(560px, 84vw);
+  .character-stage {
+    top: 10vh;
 
-    transform:
-      translateY(18vh);
+    height: 44vh;
   }
 
+  .character-shell {
+    width: 49vw;
+  }
 
-  .headline {
-    font-size:
-      clamp(
-        2.8rem,
-        7.2vw,
-        4.5rem
-      );
+  .headline-block {
+    bottom: 21vh;
+  }
+
+  .identity {
+    bottom: 10.5vh;
+  }
+
+  .coming {
+    bottom: 4.7vh;
   }
 
 }
@@ -711,144 +1142,159 @@ body {
 
 @media (max-width: 700px) {
 
-  .teaser-artwork {
-    width: 120%;
-    height: 78%;
+  .character-stage {
+    top: 11vh;
 
-    object-fit: cover;
+    height: 42vh;
+  }
 
-    object-position:
-      center top;
-
-    top: 0;
+  .character-shell {
+    width: 69vw;
   }
 
 
-  .artwork-wrap {
-    align-items: flex-start;
+  @keyframes penguinArrive {
+
+    0% {
+      left: -72vw;
+
+      opacity: 0;
+
+      transform:
+        translateY(-50%)
+        rotate(-5deg)
+        scale(0.82);
+    }
+
+    25% {
+      opacity: 1;
+    }
+
+    100% {
+      left: -13vw;
+
+      opacity: 1;
+
+      transform:
+        translateY(-50%)
+        rotate(-1deg)
+        scale(1);
+    }
+
   }
 
 
-  .center-shadow {
-    background:
+  @keyframes sealArrive {
 
-      linear-gradient(
-        to bottom,
-        transparent 0%,
-        transparent 33%,
-        rgba(3,5,8,0.28) 48%,
-        rgba(3,5,8,0.77) 69%,
-        rgba(3,5,8,0.97) 100%
-      );
+    0% {
+      right: -72vw;
+
+      opacity: 0;
+
+      transform:
+        translateY(-50%)
+        rotate(5deg)
+        scale(0.82);
+    }
+
+    25% {
+      opacity: 1;
+    }
+
+    100% {
+      right: -13vw;
+
+      opacity: 1;
+
+      transform:
+        translateY(-50%)
+        rotate(1deg)
+        scale(1);
+    }
+
   }
 
 
-  .top-label {
-    top: 5vh;
+  .meeting-spark {
+    top: 51%;
 
-    font-size: 6.5px;
+    width: 68px;
+    height: 68px;
   }
 
 
-  .content {
-    width: 87vw;
+  .top-brand {
+    top: 4vh;
 
-    transform:
-      translateY(24vh);
+    gap: 9px;
+
+    font-size: 9px;
+
+    letter-spacing: 0.24em;
   }
 
 
-  .headline {
+  .heart {
+    font-size: 8px;
+  }
+
+
+  .headline-block {
+    bottom: 26vh;
+
+    width: 88vw;
+  }
+
+
+  .headline-block h1 {
     font-size:
       clamp(
-        2.65rem,
-        11.5vw,
-        4rem
+        2.45rem,
+        10.5vw,
+        3.7rem
       );
 
-    line-height: 0.91;
-  }
-
-
-  .headline em {
-    margin-top: 8px;
+    line-height: 0.95;
   }
 
 
   .identity {
-    margin-top: 24px;
+    bottom: 14vh;
+
+    font-size: 11px;
   }
 
 
-  .spark {
-    height: 25px;
-
-    margin-bottom: 15px;
-  }
-
-
-  .identity p {
-    font-size: 8.5px;
+  .identity span {
+    font-size: 9px;
   }
 
 
   .coming {
-    margin-top: 24px;
+    bottom: 7.5vh;
+
+    gap: 10px;
+  }
+
+
+  .coming p {
+    font-size: 8px;
+
+    letter-spacing: 0.30em;
   }
 
 
   .coming .line {
-    width: 25px;
+    width: 30px;
   }
 
 
   .footer {
-    left: 17px;
-    right: 17px;
-    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    bottom: 13px;
 
     font-size: 5px;
-  }
-
-}
-
-
-/* =========================================================
-   SHORT SCREENS
-   ========================================================= */
-
-@media (max-height: 690px) {
-
-  .content {
-    transform:
-      translateY(15vh);
-  }
-
-
-  .headline {
-    font-size:
-      clamp(
-        2.6rem,
-        8.5vh,
-        4.2rem
-      );
-  }
-
-
-  .identity {
-    margin-top: 20px;
-  }
-
-
-  .spark {
-    height: 22px;
-
-    margin-bottom: 14px;
-  }
-
-
-  .coming {
-    margin-top: 20px;
   }
 
 }
@@ -864,11 +1310,14 @@ body {
     display: none;
   }
 
-
-  .scene,
-  .artwork-wrap,
-  .ambient-glow,
-  .teaser-artwork {
+  .ambient,
+  .character-shell,
+  .character,
+  .meeting-spark,
+  .bubble,
+  .petal,
+  .reveal,
+  .heart {
     opacity: 1;
 
     transform: none;
