@@ -35,12 +35,8 @@
 
   <main class="teaser">
 
-    <!-- Ambient lights -->
-    <div class="ambient-glow glow-blue" aria-hidden="true"></div>
-    <div class="ambient-glow glow-pink" aria-hidden="true"></div>
-
-    <!-- Main cinematic artwork -->
-    <div class="artwork-wrap" aria-hidden="true">
+    <!-- Main visual -->
+    <div class="artwork-layer" aria-hidden="true">
       <img
         src="assets/images/teaser-penguin-seal.png"
         alt=""
@@ -48,56 +44,64 @@
       />
     </div>
 
-    <!-- Text readability layer -->
-    <div class="center-shadow" aria-hidden="true"></div>
-
-    <!-- Film grain -->
+    <!-- Soft readability overlays -->
+    <div class="top-shade" aria-hidden="true"></div>
+    <div class="bottom-shade" aria-hidden="true"></div>
     <div class="film-grain" aria-hidden="true"></div>
 
-    <!-- Main teaser copy -->
-    <section class="content">
+    <!-- Penguin ♥ Seal -->
+    <div class="top-brand intro-item intro-brand">
+      <span>PENGUIN</span>
 
-      <p class="top-label scene scene-1">
-        PENGUIN
-        <span class="heart">♥</span>
-        SEAL
-      </p>
+      <span class="heart" aria-hidden="true">♥</span>
 
-      <h1 class="headline scene scene-2">
-        <span>Something</span>
-        <span>beautiful</span>
+      <span>SEAL</span>
+    </div>
+
+    <!-- Main headline -->
+    <section class="hero-copy intro-item intro-headline">
+
+      <h1>
+        <span>Something beautiful</span>
         <em>is blooming.</em>
       </h1>
 
-      <div class="identity scene scene-3">
+    </section>
 
-        <div class="spark"></div>
+    <!-- Identity -->
+    <section class="identity-block intro-item intro-identity">
 
-        <p>
-          OOM
-          <span>×</span>
-          BAM
-        </p>
+      <div class="spark" aria-hidden="true"></div>
 
-      </div>
-
-      <div class="coming scene scene-4">
-
-        <span class="line"></span>
-
-        <p>COMING SOON</p>
-
-        <span class="line"></span>
-
-      </div>
+      <p class="identity">
+        OOM
+        <span>×</span>
+        BAM
+      </p>
 
     </section>
 
-    <footer class="footer scene scene-4">
+    <!-- Coming Soon -->
+    <div class="coming-soon intro-item intro-coming">
 
-      <span>OOMBAM OFFICIAL FANSITE</span>
+      <span class="line"></span>
 
-      <span>2026</span>
+      <p>COMING SOON</p>
+
+      <span class="line"></span>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer intro-item intro-footer">
+
+      <span>
+        OOMBAM OFFICIAL FANSITE
+      </span>
+
+      <span>
+        2026
+      </span>
 
     </footer>
 
