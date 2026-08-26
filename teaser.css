@@ -1,72 +1,67 @@
 /* =========================================================
-   OOMBAM — TEASER LANDING PAGE
-   Penguin × Seal
+   CINEMATIC INTRO
    ========================================================= */
 
-:root {
-  --bg: #090b0f;
-  --text: #f8f6f3;
-  --muted: rgba(248, 246, 243, 0.58);
+.teaser::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 30;
 
-  --blue: #a8dff1;
-  --pink: #efb8ce;
+  background: #050608;
 
-  --serif: "Playfair Display", Georgia, serif;
-  --sans: "DM Sans", Arial, sans-serif;
+  pointer-events: none;
+
+  animation: curtainFade 2.2s ease forwards;
 }
 
 
-/* ---------- RESET ---------- */
+/* ---------- DEFAULT REVEAL STATE ---------- */
 
-* {
-  box-sizing: border-box;
-}
+.reveal {
+  opacity: 0;
 
-html,
-body {
-  margin: 0;
-  width: 100%;
-  min-height: 100%;
-}
+  transform: translateY(24px);
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  overflow: hidden;
+  filter: blur(7px);
+
+  animation:
+    cinematicReveal
+    1.8s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
 }
 
 
-/* ---------- MAIN ---------- */
+/* ---------- SEQUENCE ---------- */
 
-.teaser {
-  --move-x: 0px;
-  --move-y: 0px;
+.reveal-1 {
+  animation-delay: 1.2s;
+}
 
-  position: relative;
+.reveal-2 {
+  animation-delay: 1.9s;
+}
 
-  width: 100%;
-  min-height: 100vh;
-  min-height: 100svh;
+.reveal-3 {
+  animation-delay: 2.5s;
+}
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.reveal-4 {
+  animation-delay: 3.7s;
+}
 
-  overflow: hidden;
+.reveal-5 {
+  animation-delay: 4.3s;
+}
 
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      #11151b 0%,
-      #090b0f 52%,
-      #050608 100%
-    );
+.reveal-6 {
+  animation-delay: 5.1s;
 }
 
 
 /* =========================================================
-   BACKGROUND GLOW
+   GLOW INTRO + CONTINUOUS MOVEMENT
    ========================================================= */
 
 .background-glow {
@@ -80,14 +75,14 @@ body {
 
   opacity: 0;
 
-  transform: translate(
-    var(--move-x, 0),
-    var(--move-y, 0)
-  );
+  transform:
+    translate(
+      var(--move-x, 0),
+      var(--move-y, 0)
+    )
+    scale(0.82);
 
   transition: transform 1.8s ease-out;
-
-  animation: glowReveal 5s ease forwards;
 }
 
 
@@ -100,12 +95,14 @@ body {
   min-width: 420px;
   min-height: 420px;
 
-  background: rgba(120, 205, 240, 0.3);
+  background: rgba(120, 205, 240, 0.28);
 
   left: -18%;
-  top: 5%;
+  top: 3%;
 
-  animation-delay: 0.8s;
+  animation:
+    blueWake 4.5s ease 1.6s forwards,
+    blueFloat 22s ease-in-out 6s infinite alternate;
 }
 
 
@@ -123,95 +120,14 @@ body {
   right: -15%;
   bottom: -5%;
 
-  animation-delay: 1.3s;
+  animation:
+    pinkWake 4.8s ease 2s forwards,
+    pinkFloat 25s ease-in-out 6.5s infinite alternate;
 }
 
 
 /* =========================================================
-   FILM GRAIN
-   ========================================================= */
-
-.grain {
-  position: absolute;
-  inset: 0;
-
-  pointer-events: none;
-
-  opacity: 0.035;
-
-  z-index: 5;
-
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.8'/%3E%3C/svg%3E");
-}
-
-
-/* =========================================================
-   CONTENT
-   ========================================================= */
-
-.teaser-content {
-  position: relative;
-
-  z-index: 10;
-
-  width: min(900px, 88vw);
-
-  text-align: center;
-}
-
-
-/* =========================================================
-   PENGUIN × SEAL
-   ========================================================= */
-
-.symbol {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  gap: 12px;
-
-  margin-bottom: 42px;
-
-  font-size: 8px;
-  font-weight: 500;
-
-  letter-spacing: 0.28em;
-
-  color: rgba(255, 255, 255, 0.42);
-}
-
-.symbol-x {
-  font-family: var(--serif);
-
-  font-size: 15px;
-  font-weight: 400;
-
-  letter-spacing: 0;
-
-  color: var(--pink);
-}
-
-
-/* =========================================================
-   EYEBROW
-   ========================================================= */
-
-.eyebrow {
-  margin: 0 0 24px;
-
-  font-size: 9px;
-  font-weight: 400;
-
-  letter-spacing: 0.34em;
-
-  color: var(--muted);
-}
-
-
-/* =========================================================
-   MAIN TITLE
+   HEADLINE REFINEMENT
    ========================================================= */
 
 h1 {
@@ -234,148 +150,51 @@ h1 span {
   margin-top: 7px;
 
   font-style: italic;
-  font-weight: 500;
 
   color: var(--pink);
+
+  text-shadow:
+    0 0 32px rgba(239, 184, 206, 0.08);
 }
 
 
 /* =========================================================
-   DIVIDER
+   OOM × BAM REVEAL
    ========================================================= */
 
-.divider {
-  width: 1px;
-  height: 52px;
-
-  margin: 44px auto;
-
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(255, 255, 255, 0.42),
-    transparent
-  );
+.brand {
+  position: relative;
 }
 
+.brand::before {
+  content: "";
 
-/* =========================================================
-   BRAND
-   ========================================================= */
-
-.brand p {
-  margin: 0;
-
-  font-size: 13px;
-
-  font-weight: 500;
-
-  letter-spacing: 0.29em;
-}
-
-
-/* =========================================================
-   COMING SOON
-   ========================================================= */
-
-.coming-soon {
-  margin-top: 50px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 16px;
-
-  color: rgba(255, 255, 255, 0.48);
-}
-
-.coming-soon span {
-  display: block;
-
-  width: 42px;
-  height: 1px;
-
-  background: rgba(255, 255, 255, 0.18);
-}
-
-.coming-soon p {
-  margin: 0;
-
-  font-size: 8px;
-
-  font-weight: 500;
-
-  letter-spacing: 0.32em;
-}
-
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-.teaser-footer {
   position: absolute;
 
-  z-index: 10;
+  left: 50%;
+  top: 50%;
 
-  bottom: 24px;
-  left: 28px;
-  right: 28px;
+  width: 180px;
+  height: 80px;
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  transform: translate(-50%, -50%);
 
-  font-size: 8px;
+  border-radius: 50%;
 
-  letter-spacing: 0.2em;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.055),
+      transparent 70%
+    );
 
-  color: rgba(255, 255, 255, 0.3);
-}
+  filter: blur(16px);
 
-
-/* =========================================================
-   REVEAL ANIMATION
-   ========================================================= */
-
-.reveal {
   opacity: 0;
 
-  transform: translateY(13px);
+  animation: brandGlow 3s ease 5s forwards;
 
-  animation:
-    revealElement
-    1.4s
-    cubic-bezier(0.22, 1, 0.36, 1)
-    forwards;
-}
-
-
-/* Animation sequence */
-
-.reveal-1 {
-  animation-delay: 0.7s;
-}
-
-.reveal-2 {
-  animation-delay: 1.5s;
-}
-
-.reveal-3 {
-  animation-delay: 2.2s;
-}
-
-.reveal-4 {
-  animation-delay: 3.1s;
-}
-
-.reveal-5 {
-  animation-delay: 3.7s;
-}
-
-.reveal-6 {
-  animation-delay: 4.5s;
+  pointer-events: none;
 }
 
 
@@ -383,145 +202,198 @@ h1 span {
    KEYFRAMES
    ========================================================= */
 
-@keyframes revealElement {
+@keyframes curtainFade {
 
-  from {
-    opacity: 0;
-    transform: translateY(13px);
+  0% {
+    opacity: 1;
   }
 
-  to {
+  55% {
+    opacity: 0.96;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+}
+
+
+@keyframes cinematicReveal {
+
+  0% {
+    opacity: 0;
+
+    transform: translateY(24px);
+
+    filter: blur(7px);
+  }
+
+  60% {
+    opacity: 0.85;
+
+    filter: blur(1px);
+  }
+
+  100% {
     opacity: 1;
+
     transform: translateY(0);
+
+    filter: blur(0);
   }
 
 }
 
 
-@keyframes glowReveal {
+/* ---------- BLUE WAKE ---------- */
 
-  from {
+@keyframes blueWake {
+
+  0% {
     opacity: 0;
-    scale: 0.8;
+
+    transform:
+      translate(
+        var(--move-x, 0),
+        var(--move-y, 0)
+      )
+      scale(0.78);
   }
 
-  to {
+  100% {
     opacity: 1;
-    scale: 1;
+
+    transform:
+      translate(
+        var(--move-x, 0),
+        var(--move-y, 0)
+      )
+      scale(1);
+  }
+
+}
+
+
+/* ---------- PINK WAKE ---------- */
+
+@keyframes pinkWake {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(
+        var(--move-x, 0),
+        var(--move-y, 0)
+      )
+      scale(0.78);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translate(
+        var(--move-x, 0),
+        var(--move-y, 0)
+      )
+      scale(1);
   }
 
 }
 
 
 /* =========================================================
-   MOBILE
+   AMBIENT LOOP
    ========================================================= */
 
-@media (max-width: 700px) {
+@keyframes blueFloat {
 
-  .teaser-content {
-    width: 88vw;
+  0% {
+    transform:
+      translate(
+        calc(var(--move-x, 0px) - 8px),
+        calc(var(--move-y, 0px) + 5px)
+      )
+      scale(1);
   }
 
-  .symbol {
-    margin-bottom: 32px;
-
-    font-size: 7px;
-
-    gap: 10px;
+  100% {
+    transform:
+      translate(
+        calc(var(--move-x, 0px) + 20px),
+        calc(var(--move-y, 0px) - 14px)
+      )
+      scale(1.06);
   }
 
-  .symbol-x {
-    font-size: 13px;
+}
+
+
+@keyframes pinkFloat {
+
+  0% {
+    transform:
+      translate(
+        calc(var(--move-x, 0px) + 7px),
+        calc(var(--move-y, 0px) - 5px)
+      )
+      scale(1);
   }
 
-  .eyebrow {
-    font-size: 7px;
-
-    letter-spacing: 0.27em;
-
-    margin-bottom: 20px;
+  100% {
+    transform:
+      translate(
+        calc(var(--move-x, 0px) - 18px),
+        calc(var(--move-y, 0px) + 12px)
+      )
+      scale(1.07);
   }
 
-  h1 {
-    font-size: clamp(3rem, 14vw, 5.2rem);
+}
 
-    line-height: 0.94;
+
+/* ---------- OOM × BAM SOFT LIGHT ---------- */
+
+@keyframes brandGlow {
+
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
   }
 
-  .divider {
-    height: 40px;
-
-    margin: 32px auto;
+  50% {
+    opacity: 1;
   }
 
-  .brand p {
-    font-size: 11px;
-  }
-
-  .coming-soon {
-    margin-top: 38px;
-
-    gap: 12px;
-  }
-
-  .coming-soon span {
-    width: 28px;
-  }
-
-  .teaser-footer {
-    left: 18px;
-    right: 18px;
-    bottom: 18px;
-
-    font-size: 6px;
+  100% {
+    opacity: 0.35;
+    transform: translate(-50%, -50%) scale(1);
   }
 
 }
 
 
 /* =========================================================
-   SMALL PHONES / SHORT SCREENS
-   ========================================================= */
-
-@media (max-height: 650px) {
-
-  .symbol {
-    margin-bottom: 18px;
-  }
-
-  .eyebrow {
-    margin-bottom: 14px;
-  }
-
-  h1 {
-    font-size: clamp(2.7rem, 10vw, 5rem);
-  }
-
-  .divider {
-    height: 28px;
-
-    margin: 20px auto;
-  }
-
-  .coming-soon {
-    margin-top: 26px;
-  }
-
-}
-
-
-/* =========================================================
-   ACCESSIBILITY
+   REDUCED MOTION
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
+  .teaser::after {
+    display: none;
+  }
+
   .reveal,
-  .background-glow {
+  .background-glow,
+  .brand::before {
     opacity: 1;
 
     transform: none;
+
+    filter: none;
 
     animation: none;
   }
