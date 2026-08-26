@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>OomBam — Coming Soon</title>
 
@@ -12,54 +12,65 @@
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;1,500&display=swap"
     rel="stylesheet"
-  />
+  >
 
-  <link rel="stylesheet" href="teaser.css" />
+  <link rel="stylesheet" href="teaser.css">
 </head>
 
 <body>
 
   <main class="teaser">
 
+    <!-- Cinematic ambient lighting -->
     <div class="background-glow glow-blue"></div>
     <div class="background-glow glow-pink"></div>
 
-    <div class="grain"></div>
+    <!-- Moving OomBam mascots -->
+    <div class="mascot mascot-penguin" aria-hidden="true">
+      🐧
+    </div>
 
+    <div class="mascot mascot-seal" aria-hidden="true">
+      🦭
+    </div>
+
+    <!-- Soft film grain -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Main teaser -->
     <section class="teaser-content">
 
-      <div class="symbol reveal reveal-1" aria-label="Penguin x Seal">
-        <span class="symbol-name">PENGUIN</span>
+      <div class="symbol reveal reveal-1">
+        <span>PENGUIN</span>
         <span class="symbol-x">×</span>
-        <span class="symbol-name">SEAL</span>
+        <span>SEAL</span>
       </div>
 
-      <p class="eyebrow reveal reveal-2">
-        A NEW SPACE IS TAKING SHAPE
-      </p>
-
-      <h1 class="reveal reveal-3">
-        Something beautiful
-        <span>is blooming.</span>
+      <h1 class="reveal reveal-2">
+        Something
+        <span class="white-line">beautiful</span>
+        <span class="pink-line">is blooming.</span>
       </h1>
 
-      <div class="divider reveal reveal-4"></div>
+      <div class="divider reveal reveal-3"></div>
 
-      <div class="brand reveal reveal-5">
-        <p>OOM × BAM</p>
+      <div class="brand reveal reveal-4">
+        OOM <span>×</span> BAM
       </div>
 
-      <div class="coming-soon reveal reveal-6">
-        <span></span>
+      <div class="coming-soon reveal reveal-5">
+        <span class="line"></span>
+
         <p>COMING SOON</p>
-        <span></span>
+
+        <span class="line"></span>
       </div>
 
     </section>
 
-    <footer class="teaser-footer reveal reveal-6">
+    <footer class="teaser-footer reveal reveal-5">
       <span>OOMBAM OFFICIAL FANSITE</span>
-      <span>PENGUIN × SEAL</span>
+      <span>2026</span>
     </footer>
 
   </main>
