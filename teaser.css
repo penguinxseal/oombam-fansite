@@ -1,13 +1,14 @@
 /* =========================================================
-   OOMBAM — SINGLE FRAME CINEMATIC TEASER
-   LABEL + COMPOSITION POLISH
+   OOMBAM
+   SINGLE-FRAME CINEMATIC TEASER
    ========================================================= */
 
 :root {
   --bg: #05070a;
+
   --white: #f7f4ef;
+
   --pink: #efabc7;
-  --blue: #8ddaf4;
 
   --serif:
     "Playfair Display",
@@ -33,6 +34,7 @@ html,
 body {
   width: 100%;
   height: 100%;
+
   margin: 0;
 }
 
@@ -61,19 +63,9 @@ body {
   height: 100vh;
   height: 100svh;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   overflow: hidden;
 
-  background:
-    radial-gradient(
-      circle at center,
-      #10161d 0%,
-      #080b10 45%,
-      #030405 100%
-    );
+  background: var(--bg);
 }
 
 
@@ -102,140 +94,94 @@ body {
 
 
 /* =========================================================
-   AMBIENT LIGHT
-   ========================================================= */
-
-.ambient-glow {
-  position: absolute;
-
-  width: 58vw;
-  height: 58vw;
-
-  min-width: 520px;
-  min-height: 520px;
-
-  border-radius: 50%;
-
-  filter: blur(130px);
-
-  opacity: 0;
-
-  pointer-events: none;
-}
-
-
-.glow-blue {
-  left: -27vw;
-  top: -12vh;
-
-  background:
-    rgba(55, 179, 235, 0.24);
-
-  animation:
-    blueWake 5s ease 1s forwards,
-    blueFloat 21s ease-in-out 6s infinite alternate;
-}
-
-
-.glow-pink {
-  right: -27vw;
-  bottom: -15vh;
-
-  background:
-    rgba(232, 109, 166, 0.23);
-
-  animation:
-    pinkWake 5s ease 1.25s forwards,
-    pinkFloat 24s ease-in-out 6s infinite alternate;
-}
-
-
-/* =========================================================
    ARTWORK
    ========================================================= */
 
-.artwork-wrap {
+.artwork-layer {
   position: absolute;
   inset: 0;
 
-  z-index: 3;
+  z-index: 1;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  pointer-events: none;
+  overflow: hidden;
 
   opacity: 0;
 
-  transform: scale(1.03);
-
   animation:
     artworkReveal
-    3.2s
+    3s
     cubic-bezier(0.16, 1, 0.3, 1)
-    1.15s
+    0.9s
     forwards;
 }
 
 
 .teaser-artwork {
-  width: 108%;
-  height: 108%;
+  width: 100%;
+  height: 100%;
 
   object-fit: cover;
-  object-position: center 41%;
+
+  object-position: center center;
 
   transform:
     translate(
       var(--mouse-x),
       var(--mouse-y)
     )
-    scale(1.02);
+    scale(1.025);
 
   filter:
-    brightness(0.94)
-    contrast(1.03)
-    saturate(0.97);
+    brightness(0.95)
+    contrast(1.02)
+    saturate(0.98);
 
   animation:
-    artworkDrift
+    artworkFloat
     18s
     ease-in-out
-    4.5s
+    4s
     infinite alternate;
 }
 
 
 /* =========================================================
-   CENTER SHADOW
+   READABILITY SHADING
    ========================================================= */
 
-.center-shadow {
+.top-shade {
   position: absolute;
   inset: 0;
 
-  z-index: 6;
+  z-index: 3;
 
   pointer-events: none;
 
   background:
-
-    radial-gradient(
-      ellipse at center 69%,
-      rgba(3, 5, 8, 0.80) 0%,
-      rgba(3, 5, 8, 0.58) 27%,
-      rgba(3, 5, 8, 0.20) 48%,
-      rgba(3, 5, 8, 0.04) 63%,
-      transparent 76%
-    ),
-
     linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.08) 0%,
-      transparent 30%,
-      transparent 62%,
-      rgba(0, 0, 0, 0.35) 100%
+      rgba(0, 0, 0, 0.58) 0%,
+      rgba(0, 0, 0, 0.18) 18%,
+      transparent 36%
+    );
+}
+
+
+.bottom-shade {
+  position: absolute;
+  inset: 0;
+
+  z-index: 3;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 44%,
+      rgba(0, 0, 0, 0.10) 56%,
+      rgba(0, 0, 0, 0.40) 77%,
+      rgba(0, 0, 0, 0.74) 100%
     );
 }
 
@@ -252,7 +198,7 @@ body {
 
   pointer-events: none;
 
-  opacity: 0.032;
+  opacity: 0.028;
 
   background-image:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.8'/%3E%3C/svg%3E");
@@ -260,66 +206,66 @@ body {
 
 
 /* =========================================================
-   MAIN CONTENT
+   GLOBAL INTRO ELEMENTS
    ========================================================= */
 
-.content {
-  position: relative;
+.intro-item {
+  position: absolute;
 
-  z-index: 15;
+  z-index: 10;
 
-  width: min(610px, 82vw);
+  opacity: 0;
 
-  text-align: center;
+  filter: blur(6px);
 
-  transform: translateY(18vh);
+  animation:
+    revealItem
+    1.45s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
 }
 
 
 /* =========================================================
-   PENGUIN ♥ SEAL
+   TOP BRAND
    ========================================================= */
 
-.top-label {
-  position: fixed;
-
-  top: 7.5vh;
+.top-brand {
+  top: 7vh;
   left: 50%;
 
   transform: translateX(-50%);
 
-  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
 
   white-space: nowrap;
 
   font-size: 13px;
   font-weight: 500;
 
-  letter-spacing: 0.38em;
+  letter-spacing: 0.36em;
 
   color:
-    rgba(255,255,255,0.84);
+    rgba(255, 255, 255, 0.86);
 
   text-shadow:
     0 2px 12px
-    rgba(0,0,0,0.68);
+    rgba(0, 0, 0, 0.65);
 }
 
 
-.top-label .heart {
+.heart {
   display: inline-block;
-
-  margin: 0 14px;
 
   color: var(--pink);
 
-  font-size: 10px;
+  font-size: 11px;
 
   letter-spacing: 0;
-
-  text-shadow:
-    0 0 10px
-    rgba(239,171,199,0.46);
 
   animation:
     heartPulse
@@ -333,47 +279,63 @@ body {
    HEADLINE
    ========================================================= */
 
-.headline {
+.hero-copy {
+  left: 50%;
+  bottom: 24vh;
+
+  transform:
+    translateX(-50%);
+
+  width:
+    min(650px, 80vw);
+
+  text-align: center;
+}
+
+
+.hero-copy h1 {
   margin: 0;
 
   font-family: var(--serif);
 
   font-size:
     clamp(
-      2.8rem,
-      4.7vw,
-      5rem
+      3rem,
+      5vw,
+      5.2rem
     );
 
   font-weight: 500;
 
-  line-height: 0.91;
+  line-height: 0.94;
 
-  letter-spacing: -0.045em;
+  letter-spacing:
+    -0.045em;
 
   text-shadow:
-    0 8px 24px
-    rgba(0,0,0,0.24);
+    0 6px 22px
+    rgba(0, 0, 0, 0.48);
 }
 
 
-.headline > span,
-.headline > em {
+.hero-copy h1 span,
+.hero-copy h1 em {
   display: block;
 }
 
 
-.headline em {
-  margin-top: 9px;
+.hero-copy h1 em {
+  margin-top: 10px;
 
   color: var(--pink);
 
   font-weight: 500;
+
   font-style: italic;
 
   text-shadow:
     0 0 30px
-    rgba(239,171,199,0.10);
+    rgba(239,171,199,0.12);
 }
 
 
@@ -381,8 +343,14 @@ body {
    OOM × BAM
    ========================================================= */
 
-.identity {
-  margin-top: 27px;
+.identity-block {
+  left: 50%;
+  bottom: 13vh;
+
+  transform:
+    translateX(-50%);
+
+  text-align: center;
 }
 
 
@@ -390,16 +358,16 @@ body {
   position: relative;
 
   width: 1px;
-  height: 29px;
+  height: 28px;
 
   margin:
-    0 auto 17px;
+    0 auto 16px;
 
   background:
     linear-gradient(
       to bottom,
       transparent,
-      rgba(255,255,255,0.38),
+      rgba(255,255,255,0.42),
       transparent
     );
 }
@@ -424,13 +392,15 @@ body {
   background: #fff;
 
   box-shadow:
-    0 0 8px
+    0 0 9px
     rgba(239,171,199,0.9);
 }
 
 
-.identity p {
+.identity {
   margin: 0;
+
+  white-space: nowrap;
 
   font-size: 15px;
   font-weight: 500;
@@ -439,14 +409,10 @@ body {
 
   color:
     rgba(255,255,255,0.94);
-
-  text-shadow:
-    0 2px 12px
-    rgba(0,0,0,0.70);
 }
 
 
-.identity p span {
+.identity span {
   margin: 0 7px;
 
   color: var(--pink);
@@ -459,29 +425,34 @@ body {
    COMING SOON
    ========================================================= */
 
-.coming {
-  display: flex;
+.coming-soon {
+  left: 50%;
+  bottom: 6.5vh;
 
-  justify-content: center;
+  transform:
+    translateX(-50%);
+
+  display: flex;
   align-items: center;
+  justify-content: center;
 
   gap: 16px;
-
-  margin-top: 28px;
 }
 
 
-.coming .line {
+.coming-soon .line {
   width: 52px;
   height: 1px;
 
   background:
-    rgba(239,171,199,0.48);
+    rgba(239,171,199,0.52);
 }
 
 
-.coming p {
+.coming-soon p {
   margin: 0;
+
+  white-space: nowrap;
 
   font-size: 11px;
   font-weight: 500;
@@ -489,11 +460,11 @@ body {
   letter-spacing: 0.42em;
 
   color:
-    rgba(255,255,255,0.84);
+    rgba(255,255,255,0.86);
 
   text-shadow:
     0 2px 12px
-    rgba(0,0,0,0.65);
+    rgba(0,0,0,0.62);
 }
 
 
@@ -502,61 +473,44 @@ body {
    ========================================================= */
 
 .footer {
-  position: absolute;
-
   left: 28px;
   right: 28px;
-  bottom: 23px;
-
-  z-index: 15;
+  bottom: 20px;
 
   display: flex;
-
   justify-content: space-between;
 
   font-size: 7px;
 
-  letter-spacing: 0.25em;
+  letter-spacing: 0.24em;
 
   color:
-    rgba(255,255,255,0.40);
+    rgba(255,255,255,0.42);
 }
 
 
 /* =========================================================
-   SCENE REVEALS
+   TIMING
    ========================================================= */
 
-.scene {
-  opacity: 0;
-
-  filter: blur(5px);
-
-  animation:
-    sceneReveal
-    1.4s
-    cubic-bezier(0.16,1,0.3,1)
-    forwards;
+.intro-brand {
+  animation-delay: 1.5s;
 }
 
 
-.scene-1 {
-  animation-delay: 1.6s;
+.intro-headline {
+  animation-delay: 4.1s;
 }
 
 
-.scene-2 {
-  animation-delay: 3s;
+.intro-identity {
+  animation-delay: 6.4s;
 }
 
 
-.scene-3 {
-  animation-delay: 5.7s;
-}
-
-
-.scene-4 {
-  animation-delay: 7.7s;
+.intro-coming,
+.intro-footer {
+  animation-delay: 8.2s;
 }
 
 
@@ -570,25 +524,66 @@ body {
     opacity: 1;
   }
 
-  45% {
-    opacity: 0.96;
+  42% {
+    opacity: 0.98;
   }
 
   100% {
     opacity: 0;
-
     visibility: hidden;
   }
 
 }
 
 
-@keyframes sceneReveal {
+@keyframes artworkReveal {
 
   from {
     opacity: 0;
 
-    filter: blur(5px);
+    transform:
+      scale(1.05);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      scale(1);
+  }
+
+}
+
+
+@keyframes artworkFloat {
+
+  from {
+    transform:
+      translate(
+        calc(var(--mouse-x) - 4px),
+        calc(var(--mouse-y) - 2px)
+      )
+      scale(1.025);
+  }
+
+  to {
+    transform:
+      translate(
+        calc(var(--mouse-x) + 5px),
+        calc(var(--mouse-y) + 3px)
+      )
+      scale(1.04);
+  }
+
+}
+
+
+@keyframes revealItem {
+
+  from {
+    opacity: 0;
+
+    filter: blur(6px);
   }
 
   to {
@@ -612,125 +607,7 @@ body {
   50% {
     opacity: 1;
 
-    transform: scale(1.16);
-  }
-
-}
-
-
-@keyframes artworkReveal {
-
-  from {
-    opacity: 0;
-
-    transform:
-      scale(1.07);
-  }
-
-  to {
-    opacity: 0.96;
-
-    transform:
-      scale(1);
-  }
-
-}
-
-
-@keyframes artworkDrift {
-
-  from {
-    transform:
-      translate(
-        calc(var(--mouse-x) - 4px),
-        calc(var(--mouse-y) - 3px)
-      )
-      scale(1.02);
-  }
-
-  to {
-    transform:
-      translate(
-        calc(var(--mouse-x) + 5px),
-        calc(var(--mouse-y) + 4px)
-      )
-      scale(1.035);
-  }
-
-}
-
-
-@keyframes blueWake {
-
-  from {
-    opacity: 0;
-
-    transform:
-      translate(-25px, 8px)
-      scale(0.82);
-  }
-
-  to {
-    opacity: 1;
-
-    transform:
-      translate(0, 0)
-      scale(1);
-  }
-
-}
-
-
-@keyframes pinkWake {
-
-  from {
-    opacity: 0;
-
-    transform:
-      translate(25px, 8px)
-      scale(0.82);
-  }
-
-  to {
-    opacity: 1;
-
-    transform:
-      translate(0, 0)
-      scale(1);
-  }
-
-}
-
-
-@keyframes blueFloat {
-
-  from {
-    transform:
-      translate(-13px, 0)
-      scale(1);
-  }
-
-  to {
-    transform:
-      translate(28px, 13px)
-      scale(1.07);
-  }
-
-}
-
-
-@keyframes pinkFloat {
-
-  from {
-    transform:
-      translate(13px, 0)
-      scale(1);
-  }
-
-  to {
-    transform:
-      translate(-30px, -12px)
-      scale(1.07);
+    transform: scale(1.18);
   }
 
 }
@@ -742,36 +619,35 @@ body {
 
 @media (max-width: 900px) {
 
-  .content {
-    width:
-      min(560px, 84vw);
-
-    transform:
-      translateY(18vh);
-  }
-
-
-  .top-label {
+  .top-brand {
     font-size: 11px;
   }
 
 
-  .headline {
+  .hero-copy {
+    bottom: 25vh;
+
+    width:
+      min(580px, 84vw);
+  }
+
+
+  .hero-copy h1 {
     font-size:
       clamp(
         2.8rem,
-        7.2vw,
+        7vw,
         4.5rem
       );
   }
 
 
-  .identity p {
+  .identity {
     font-size: 13px;
   }
 
 
-  .coming p {
+  .coming-soon p {
     font-size: 10px;
   }
 
@@ -785,8 +661,8 @@ body {
 @media (max-width: 700px) {
 
   .teaser-artwork {
-    width: 120%;
-    height: 78%;
+    width: 100%;
+    height: 100%;
 
     object-fit: cover;
 
@@ -795,113 +671,93 @@ body {
   }
 
 
-  .artwork-wrap {
-    align-items: flex-start;
+  .top-brand {
+    top: 4.5vh;
+
+    gap: 10px;
+
+    font-size: 9px;
+
+    letter-spacing: 0.24em;
   }
 
 
-  .center-shadow {
-    background:
-
-      linear-gradient(
-        to bottom,
-        transparent 0%,
-        transparent 33%,
-        rgba(3,5,8,0.28) 48%,
-        rgba(3,5,8,0.77) 69%,
-        rgba(3,5,8,0.97) 100%
-      );
-  }
-
-
-  .top-label {
-    top: 5vh;
-
-    font-size: 10px;
-
-    letter-spacing: 0.28em;
-  }
-
-
-  .top-label .heart {
-    margin: 0 9px;
-
+  .heart {
     font-size: 8px;
   }
 
 
-  .content {
-    width: 87vw;
+  .hero-copy {
+    bottom: 27vh;
 
-    transform:
-      translateY(24vh);
+    width: 88vw;
   }
 
 
-  .headline {
+  .hero-copy h1 {
     font-size:
       clamp(
-        2.65rem,
-        11.5vw,
-        4rem
+        2.5rem,
+        11vw,
+        3.9rem
       );
 
-    line-height: 0.91;
+    line-height: 0.95;
   }
 
 
-  .headline em {
+  .hero-copy h1 em {
     margin-top: 8px;
   }
 
 
-  .identity {
-    margin-top: 24px;
+  .identity-block {
+    bottom: 15vh;
   }
 
 
   .spark {
-    height: 25px;
+    height: 22px;
 
-    margin-bottom: 15px;
+    margin-bottom: 13px;
   }
 
 
-  .identity p {
-    font-size: 12px;
+  .identity {
+    font-size: 11px;
   }
 
 
-  .identity p span {
-    font-size: 10px;
+  .identity span {
+    font-size: 9px;
 
     margin: 0 5px;
   }
 
 
-  .coming {
-    margin-top: 25px;
+  .coming-soon {
+    bottom: 8.5vh;
 
-    gap: 11px;
+    gap: 10px;
   }
 
 
-  .coming p {
-    font-size: 9px;
+  .coming-soon p {
+    font-size: 8px;
 
-    letter-spacing: 0.32em;
+    letter-spacing: 0.30em;
   }
 
 
-  .coming .line {
-    width: 34px;
+  .coming-soon .line {
+    width: 30px;
   }
 
 
   .footer {
-    left: 17px;
-    right: 17px;
-    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    bottom: 14px;
 
     font-size: 5px;
   }
@@ -915,36 +771,23 @@ body {
 
 @media (max-height: 690px) {
 
-  .content {
-    transform:
-      translateY(15vh);
+  .top-brand {
+    top: 4vh;
   }
 
 
-  .headline {
-    font-size:
-      clamp(
-        2.6rem,
-        8.5vh,
-        4.2rem
-      );
+  .hero-copy {
+    bottom: 26vh;
   }
 
 
-  .identity {
-    margin-top: 20px;
+  .identity-block {
+    bottom: 14vh;
   }
 
 
-  .spark {
-    height: 22px;
-
-    margin-bottom: 14px;
-  }
-
-
-  .coming {
-    margin-top: 20px;
+  .coming-soon {
+    bottom: 7vh;
   }
 
 }
@@ -961,16 +804,15 @@ body {
   }
 
 
-  .scene,
-  .artwork-wrap,
-  .ambient-glow,
+  .artwork-layer,
+  .intro-item,
   .teaser-artwork,
-  .top-label .heart {
+  .heart {
     opacity: 1;
 
-    transform: none;
-
     filter: none;
+
+    transform: none;
 
     animation: none;
   }
