@@ -2,15 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>OomBam — Coming Soon</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#06080c"
+  >
+
+  <title>OomBam — Something Beautiful Is Blooming</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;1,500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap"
     rel="stylesheet"
   >
 
@@ -19,61 +31,556 @@
 
 <body>
 
+  <!-- =====================================================
+       GLOBAL AMBIENT BACKGROUND
+       ===================================================== -->
+
+  <div class="ambient" aria-hidden="true">
+
+    <div class="ambient-light ambient-blue"></div>
+
+    <div class="ambient-light ambient-pink"></div>
+
+    <div class="ambient-vignette"></div>
+
+    <div class="film-grain"></div>
+
+  </div>
+
+
+
   <main class="teaser">
 
-    <!-- Cinematic ambient lighting -->
-    <div class="background-glow glow-blue"></div>
-    <div class="background-glow glow-pink"></div>
+    <!-- ===================================================
+         SCENE 01
+         THE HINT
+         =================================================== -->
 
-    <!-- Moving OomBam mascots -->
-    <div class="mascot mascot-penguin" aria-hidden="true">
-      🐧
-    </div>
+    <section
+      class="scene scene-intro"
+      data-scene="intro"
+    >
 
-    <div class="mascot mascot-seal" aria-hidden="true">
-      🦭
-    </div>
+      <div class="scene-inner intro-inner">
 
-    <!-- Soft film grain -->
-    <div class="grain" aria-hidden="true"></div>
+        <p class="micro-label reveal">
+          PENGUIN
+          <span>×</span>
+          SEAL
+        </p>
 
-    <!-- Main teaser -->
-    <section class="teaser-content">
 
-      <div class="symbol reveal reveal-1">
-        <span>PENGUIN</span>
-        <span class="symbol-x">×</span>
-        <span>SEAL</span>
+        <h1 class="hero-title">
+
+          <span class="title-line reveal">
+            Something
+          </span>
+
+          <span class="title-line reveal">
+            beautiful
+          </span>
+
+          <span class="title-line title-pink reveal">
+            is blooming.
+          </span>
+
+        </h1>
+
+
+        <div class="intro-spacer"></div>
+
+
+        <div class="scroll-prompt reveal">
+
+          <span>
+            SCROLL TO DISCOVER
+          </span>
+
+          <span class="scroll-arrow">
+            ↓
+          </span>
+
+        </div>
+
       </div>
 
-      <h1 class="reveal reveal-2">
-        Something
-        <span class="white-line">beautiful</span>
-        <span class="pink-line">is blooming.</span>
-      </h1>
 
-      <div class="divider reveal reveal-3"></div>
-
-      <div class="brand reveal reveal-4">
-        OOM <span>×</span> BAM
-      </div>
-
-      <div class="coming-soon reveal reveal-5">
-        <span class="line"></span>
-
-        <p>COMING SOON</p>
-
-        <span class="line"></span>
+      <div class="scene-number">
+        01
       </div>
 
     </section>
 
-    <footer class="teaser-footer reveal reveal-5">
-      <span>OOMBAM OFFICIAL FANSITE</span>
-      <span>2026</span>
-    </footer>
+
+
+    <!-- ===================================================
+         SCENE 02
+         THE ENCOUNTER
+         =================================================== -->
+
+    <section
+      class="scene scene-encounter"
+      data-scene="encounter"
+    >
+
+      <div class="encounter-stage">
+
+
+        <!-- PENGUIN -->
+
+        <div
+          class="character character-penguin"
+          aria-hidden="true"
+        >
+
+          <div class="character-glow"></div>
+
+          <svg
+            class="character-art penguin-art"
+            viewBox="0 0 260 320"
+            role="presentation"
+          >
+
+            <!-- body -->
+            <ellipse
+              cx="130"
+              cy="177"
+              rx="73"
+              ry="108"
+              class="animal-dark"
+            />
+
+            <!-- white chest -->
+            <ellipse
+              cx="133"
+              cy="191"
+              rx="50"
+              ry="82"
+              class="animal-light"
+            />
+
+            <!-- head -->
+            <circle
+              cx="131"
+              cy="92"
+              r="59"
+              class="animal-dark"
+            />
+
+            <!-- face -->
+            <ellipse
+              cx="141"
+              cy="104"
+              rx="39"
+              ry="43"
+              class="animal-light"
+            />
+
+            <!-- eye -->
+            <circle
+              cx="156"
+              cy="89"
+              r="5"
+              class="animal-eye"
+            />
+
+            <!-- beak -->
+            <path
+              d="M176 103 L220 116 L177 128 Z"
+              class="animal-accent"
+            />
+
+            <!-- left flipper -->
+            <ellipse
+              cx="70"
+              cy="181"
+              rx="21"
+              ry="68"
+              transform="rotate(28 70 181)"
+              class="animal-dark"
+            />
+
+            <!-- right flipper -->
+            <ellipse
+              cx="190"
+              cy="179"
+              rx="19"
+              ry="63"
+              transform="rotate(-25 190 179)"
+              class="animal-dark"
+            />
+
+            <!-- feet -->
+            <ellipse
+              cx="102"
+              cy="287"
+              rx="28"
+              ry="11"
+              transform="rotate(-8 102 287)"
+              class="animal-accent"
+            />
+
+            <ellipse
+              cx="158"
+              cy="287"
+              rx="28"
+              ry="11"
+              transform="rotate(8 158 287)"
+              class="animal-accent"
+            />
+
+          </svg>
+
+        </div>
+
+
+
+        <!-- CONNECTION -->
+
+        <div
+          class="encounter-center"
+          aria-hidden="true"
+        >
+
+          <span class="connection-line"></span>
+
+          <span class="connection-mark">
+            ×
+          </span>
+
+          <span class="connection-line"></span>
+
+        </div>
+
+
+
+        <!-- SEAL -->
+
+        <div
+          class="character character-seal"
+          aria-hidden="true"
+        >
+
+          <div class="character-glow"></div>
+
+          <svg
+            class="character-art seal-art"
+            viewBox="0 0 340 260"
+            role="presentation"
+          >
+
+            <!-- body -->
+            <ellipse
+              cx="184"
+              cy="145"
+              rx="117"
+              ry="69"
+              transform="rotate(-8 184 145)"
+              class="seal-body"
+            />
+
+            <!-- head -->
+            <circle
+              cx="87"
+              cy="113"
+              r="61"
+              class="seal-body"
+            />
+
+            <!-- muzzle -->
+            <ellipse
+              cx="66"
+              cy="130"
+              rx="31"
+              ry="21"
+              class="seal-muzzle"
+            />
+
+            <!-- eye -->
+            <circle
+              cx="83"
+              cy="95"
+              r="5"
+              class="animal-eye"
+            />
+
+            <!-- nose -->
+            <circle
+              cx="43"
+              cy="126"
+              r="6"
+              class="animal-eye"
+            />
+
+            <!-- rear flipper -->
+            <ellipse
+              cx="294"
+              cy="145"
+              rx="52"
+              ry="20"
+              transform="rotate(-25 294 145)"
+              class="seal-body"
+            />
+
+            <!-- front flipper -->
+            <ellipse
+              cx="159"
+              cy="190"
+              rx="44"
+              ry="17"
+              transform="rotate(28 159 190)"
+              class="seal-body-dark"
+            />
+
+            <!-- whiskers -->
+            <path
+              d="M48 135 L12 128
+                 M50 142 L14 145
+                 M52 149 L19 161"
+              class="seal-whisker"
+            />
+
+          </svg>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="encounter-copy">
+
+        <p class="section-kicker reveal">
+          SOME THINGS FIND EACH OTHER.
+        </p>
+
+        <p class="encounter-word reveal">
+          Somewhere between
+          <span>hello</span>
+          and
+          <span>always.</span>
+        </p>
+
+      </div>
+
+
+      <div class="scene-number">
+        02
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCENE 03
+         THE STORY
+         =================================================== -->
+
+    <section
+      class="scene scene-story"
+      data-scene="story"
+    >
+
+      <div class="story-content">
+
+
+        <div class="story-line reveal">
+
+          <span class="story-index">
+            01
+          </span>
+
+          <h2>
+            Two stories.
+          </h2>
+
+        </div>
+
+
+        <div class="story-line reveal">
+
+          <span class="story-index">
+            02
+          </span>
+
+          <h2>
+            Countless moments.
+          </h2>
+
+        </div>
+
+
+        <div class="story-line reveal">
+
+          <span class="story-index">
+            03
+          </span>
+
+          <h2>
+            One place
+            <em>
+              to keep them.
+            </em>
+          </h2>
+
+        </div>
+
+
+      </div>
+
+
+      <p class="story-caption reveal">
+
+        A little archive for the memories,
+        milestones and moments worth returning to.
+
+      </p>
+
+
+      <div class="scene-number">
+        03
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCENE 04
+         THE REVEAL
+         =================================================== -->
+
+    <section
+      class="scene scene-reveal"
+      data-scene="reveal"
+    >
+
+      <div class="reveal-stage">
+
+
+        <div
+          class="reveal-word reveal-word-oom"
+          aria-label="Oom"
+        >
+          OOM
+        </div>
+
+
+        <div class="reveal-cross">
+          ×
+        </div>
+
+
+        <div
+          class="reveal-word reveal-word-bam"
+          aria-label="Bam"
+        >
+          BAM
+        </div>
+
+
+      </div>
+
+
+      <div class="reveal-subcopy reveal">
+
+        <span class="tiny-line"></span>
+
+        <p>
+          THE STORY CONTINUES
+        </p>
+
+        <span class="tiny-line"></span>
+
+      </div>
+
+
+      <div class="scene-number">
+        04
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCENE 05
+         COMING SOON
+         =================================================== -->
+
+    <section
+      class="scene scene-final"
+      data-scene="final"
+    >
+
+      <div class="final-content">
+
+
+        <p class="final-eyebrow reveal">
+          OOMBAM
+        </p>
+
+
+        <h2 class="final-title reveal">
+
+          Something
+          <em>
+            beautiful
+          </em>
+
+          is coming.
+
+        </h2>
+
+
+        <div class="final-mark reveal">
+
+          <span></span>
+
+          <p>
+            OFFICIAL FANSITE
+          </p>
+
+          <span></span>
+
+        </div>
+
+
+        <p class="final-coming reveal">
+          COMING SOON
+        </p>
+
+
+        <p class="final-signature reveal">
+          PENGUIN × SEAL
+        </p>
+
+
+      </div>
+
+
+      <footer class="final-footer">
+
+        <span>
+          OOMBAM OFFICIAL FANSITE
+        </span>
+
+        <span>
+          2026
+        </span>
+
+      </footer>
+
+
+      <div class="scene-number">
+        05
+      </div>
+
+    </section>
 
   </main>
+
 
   <script src="teaser.js"></script>
 
