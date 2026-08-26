@@ -1,67 +1,95 @@
 /* =========================================================
-   CINEMATIC INTRO
+   OOMBAM — CINEMATIC TEASER
    ========================================================= */
 
-.teaser::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 30;
+:root {
+  --bg: #07090d;
+  --white: #f8f6f3;
+  --pink: #efb3cb;
+  --blue: #9fdcf2;
 
-  background: #050608;
-
-  pointer-events: none;
-
-  animation: curtainFade 2.2s ease forwards;
-}
-
-
-/* ---------- DEFAULT REVEAL STATE ---------- */
-
-.reveal {
-  opacity: 0;
-
-  transform: translateY(24px);
-
-  filter: blur(7px);
-
-  animation:
-    cinematicReveal
-    1.8s
-    cubic-bezier(0.16, 1, 0.3, 1)
-    forwards;
-}
-
-
-/* ---------- SEQUENCE ---------- */
-
-.reveal-1 {
-  animation-delay: 1.2s;
-}
-
-.reveal-2 {
-  animation-delay: 1.9s;
-}
-
-.reveal-3 {
-  animation-delay: 2.5s;
-}
-
-.reveal-4 {
-  animation-delay: 3.7s;
-}
-
-.reveal-5 {
-  animation-delay: 4.3s;
-}
-
-.reveal-6 {
-  animation-delay: 5.1s;
+  --serif: "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", Arial, sans-serif;
 }
 
 
 /* =========================================================
-   GLOW INTRO + CONTINUOUS MOVEMENT
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+
+  font-family: var(--sans);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   MAIN SCREEN
+   ========================================================= */
+
+.teaser {
+  --mouse-x: 0px;
+  --mouse-y: 0px;
+
+  position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      #11151b 0%,
+      #090c11 48%,
+      #05070a 100%
+    );
+}
+
+
+/* =========================================================
+   OPENING CURTAIN
+   ========================================================= */
+
+.teaser::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: 100;
+
+  background: #030405;
+
+  pointer-events: none;
+
+  animation: curtainReveal 2.2s ease forwards;
+}
+
+
+/* =========================================================
+   AMBIENT LIGHT
    ========================================================= */
 
 .background-glow {
@@ -69,65 +97,169 @@
 
   border-radius: 50%;
 
-  filter: blur(115px);
-
   pointer-events: none;
 
+  filter: blur(120px);
+
   opacity: 0;
-
-  transform:
-    translate(
-      var(--move-x, 0),
-      var(--move-y, 0)
-    )
-    scale(0.82);
-
-  transition: transform 1.8s ease-out;
 }
 
 
-/* BLUE */
+/* BLUE — PENGUIN SIDE */
 
 .glow-blue {
-  width: 55vw;
-  height: 55vw;
+  width: 58vw;
+  height: 58vw;
 
-  min-width: 420px;
-  min-height: 420px;
+  min-width: 500px;
+  min-height: 500px;
 
-  background: rgba(120, 205, 240, 0.28);
+  left: -20%;
+  top: 0;
 
-  left: -18%;
-  top: 3%;
+  background: rgba(92, 190, 235, 0.28);
 
   animation:
-    blueWake 4.5s ease 1.6s forwards,
-    blueFloat 22s ease-in-out 6s infinite alternate;
+    blueWake 5s ease 1.4s forwards,
+    blueBreathe 22s ease-in-out 6s infinite alternate;
 }
 
 
-/* PINK */
+/* PINK — SEAL SIDE */
 
 .glow-pink {
-  width: 48vw;
-  height: 48vw;
+  width: 52vw;
+  height: 52vw;
 
-  min-width: 380px;
-  min-height: 380px;
+  min-width: 450px;
+  min-height: 450px;
 
-  background: rgba(239, 168, 198, 0.24);
+  right: -18%;
+  bottom: -10%;
 
-  right: -15%;
-  bottom: -5%;
+  background: rgba(238, 142, 184, 0.26);
 
   animation:
-    pinkWake 4.8s ease 2s forwards,
-    pinkFloat 25s ease-in-out 6.5s infinite alternate;
+    pinkWake 5s ease 1.8s forwards,
+    pinkBreathe 25s ease-in-out 6.5s infinite alternate;
 }
 
 
 /* =========================================================
-   HEADLINE REFINEMENT
+   MOVING PENGUIN + SEAL
+   ========================================================= */
+
+.mascot {
+  position: absolute;
+
+  z-index: 2;
+
+  font-size: clamp(24px, 2.4vw, 38px);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  filter:
+    grayscale(0.25)
+    drop-shadow(0 0 18px rgba(255,255,255,0.08));
+}
+
+
+/* Penguin enters from blue side */
+
+.mascot-penguin {
+  left: 9%;
+  top: 29%;
+
+  animation:
+    penguinEnter 3s ease 2.8s forwards,
+    penguinFloat 8s ease-in-out 6s infinite alternate;
+}
+
+
+/* Seal enters from pink side */
+
+.mascot-seal {
+  right: 9%;
+  top: 29%;
+
+  animation:
+    sealEnter 3s ease 3s forwards,
+    sealFloat 9s ease-in-out 6.2s infinite alternate;
+}
+
+
+/* =========================================================
+   FILM GRAIN
+   ========================================================= */
+
+.grain {
+  position: absolute;
+  inset: 0;
+
+  z-index: 15;
+
+  pointer-events: none;
+
+  opacity: 0.035;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.8'/%3E%3C/svg%3E");
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.teaser-content {
+  position: relative;
+
+  z-index: 20;
+
+  width: min(900px, 90vw);
+
+  text-align: center;
+
+  transform: translateY(-2vh);
+}
+
+
+/* =========================================================
+   PENGUIN × SEAL LABEL
+   ========================================================= */
+
+.symbol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 42px;
+
+  font-size: 8px;
+  font-weight: 500;
+
+  letter-spacing: 0.32em;
+
+  color: rgba(255,255,255,0.45);
+}
+
+.symbol-x {
+  font-family: var(--serif);
+
+  font-size: 15px;
+
+  letter-spacing: 0;
+
+  color: var(--pink);
+}
+
+
+/* =========================================================
+   HERO TEXT
    ========================================================= */
 
 h1 {
@@ -135,81 +267,184 @@ h1 {
 
   font-family: var(--serif);
 
-  font-size: clamp(3.5rem, 6.8vw, 7rem);
+  font-size: clamp(4rem, 7.4vw, 7.5rem);
 
   font-weight: 500;
 
-  line-height: 0.95;
+  line-height: 0.84;
 
-  letter-spacing: -0.045em;
+  letter-spacing: -0.055em;
 }
 
-h1 span {
+h1 > span {
   display: block;
+}
 
-  margin-top: 7px;
+.white-line {
+  color: var(--white);
+}
 
-  font-style: italic;
+.pink-line {
+  margin-top: 16px;
 
   color: var(--pink);
 
+  font-style: italic;
+
+  font-weight: 500;
+
   text-shadow:
-    0 0 32px rgba(239, 184, 206, 0.08);
+    0 0 40px rgba(239,179,203,0.08);
 }
 
 
 /* =========================================================
-   OOM × BAM REVEAL
+   CENTER DIVIDER
+   ========================================================= */
+
+.divider {
+  width: 1px;
+  height: 48px;
+
+  margin: 46px auto 38px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255,255,255,0.42),
+      transparent
+    );
+}
+
+
+/* =========================================================
+   OOM × BAM
    ========================================================= */
 
 .brand {
-  position: relative;
+  font-size: 12px;
+  font-weight: 500;
+
+  letter-spacing: 0.34em;
 }
 
-.brand::before {
-  content: "";
+.brand span {
+  margin: 0 3px;
 
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  width: 180px;
-  height: 80px;
-
-  transform: translate(-50%, -50%);
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.055),
-      transparent 70%
-    );
-
-  filter: blur(16px);
-
-  opacity: 0;
-
-  animation: brandGlow 3s ease 5s forwards;
-
-  pointer-events: none;
+  color: var(--pink);
 }
 
 
 /* =========================================================
-   KEYFRAMES
+   COMING SOON
    ========================================================= */
 
-@keyframes curtainFade {
+.coming-soon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 16px;
+
+  margin-top: 45px;
+
+  color: rgba(255,255,255,0.42);
+}
+
+.coming-soon p {
+  margin: 0;
+
+  font-size: 7px;
+  font-weight: 500;
+
+  letter-spacing: 0.35em;
+}
+
+.coming-soon .line {
+  width: 40px;
+  height: 1px;
+
+  background: rgba(255,255,255,0.18);
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.teaser-footer {
+  position: absolute;
+
+  z-index: 20;
+
+  left: 28px;
+  right: 28px;
+  bottom: 24px;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 7px;
+
+  letter-spacing: 0.23em;
+
+  color: rgba(255,255,255,0.27);
+}
+
+
+/* =========================================================
+   CINEMATIC REVEAL
+   ========================================================= */
+
+.reveal {
+  opacity: 0;
+
+  transform: translateY(22px);
+
+  filter: blur(6px);
+
+  animation:
+    reveal
+    1.7s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+}
+
+
+.reveal-1 {
+  animation-delay: 1.2s;
+}
+
+.reveal-2 {
+  animation-delay: 2.2s;
+}
+
+.reveal-3 {
+  animation-delay: 3.7s;
+}
+
+.reveal-4 {
+  animation-delay: 4.3s;
+}
+
+.reveal-5 {
+  animation-delay: 5.1s;
+}
+
+
+/* =========================================================
+   ANIMATION KEYFRAMES
+   ========================================================= */
+
+@keyframes curtainReveal {
 
   0% {
     opacity: 1;
   }
 
-  55% {
-    opacity: 0.96;
+  35% {
+    opacity: 1;
   }
 
   100% {
@@ -220,23 +455,17 @@ h1 span {
 }
 
 
-@keyframes cinematicReveal {
+@keyframes reveal {
 
-  0% {
+  from {
     opacity: 0;
 
-    transform: translateY(24px);
+    transform: translateY(22px);
 
-    filter: blur(7px);
+    filter: blur(6px);
   }
 
-  60% {
-    opacity: 0.85;
-
-    filter: blur(1px);
-  }
-
-  100% {
+  to {
     opacity: 1;
 
     transform: translateY(0);
@@ -247,58 +476,46 @@ h1 span {
 }
 
 
-/* ---------- BLUE WAKE ---------- */
+/* =========================================================
+   LIGHT WAKE
+   ========================================================= */
 
 @keyframes blueWake {
 
-  0% {
+  from {
     opacity: 0;
 
     transform:
-      translate(
-        var(--move-x, 0),
-        var(--move-y, 0)
-      )
-      scale(0.78);
+      translate(-35px, 20px)
+      scale(0.82);
   }
 
-  100% {
+  to {
     opacity: 1;
 
     transform:
-      translate(
-        var(--move-x, 0),
-        var(--move-y, 0)
-      )
+      translate(0, 0)
       scale(1);
   }
 
 }
 
 
-/* ---------- PINK WAKE ---------- */
-
 @keyframes pinkWake {
 
-  0% {
+  from {
     opacity: 0;
 
     transform:
-      translate(
-        var(--move-x, 0),
-        var(--move-y, 0)
-      )
-      scale(0.78);
+      translate(35px, 20px)
+      scale(0.82);
   }
 
-  100% {
+  to {
     opacity: 1;
 
     transform:
-      translate(
-        var(--move-x, 0),
-        var(--move-y, 0)
-      )
+      translate(0, 0)
       scale(1);
   }
 
@@ -306,48 +523,25 @@ h1 span {
 
 
 /* =========================================================
-   AMBIENT LOOP
+   AMBIENT LIGHT MOTION
    ========================================================= */
 
-@keyframes blueFloat {
+@keyframes blueBreathe {
 
-  0% {
+  from {
     transform:
       translate(
-        calc(var(--move-x, 0px) - 8px),
-        calc(var(--move-y, 0px) + 5px)
+        calc(var(--mouse-x) - 12px),
+        calc(var(--mouse-y) + 5px)
       )
       scale(1);
   }
 
-  100% {
+  to {
     transform:
       translate(
-        calc(var(--move-x, 0px) + 20px),
-        calc(var(--move-y, 0px) - 14px)
-      )
-      scale(1.06);
-  }
-
-}
-
-
-@keyframes pinkFloat {
-
-  0% {
-    transform:
-      translate(
-        calc(var(--move-x, 0px) + 7px),
-        calc(var(--move-y, 0px) - 5px)
-      )
-      scale(1);
-  }
-
-  100% {
-    transform:
-      translate(
-        calc(var(--move-x, 0px) - 18px),
-        calc(var(--move-y, 0px) + 12px)
+        calc(var(--mouse-x) + 22px),
+        calc(var(--mouse-y) - 12px)
       )
       scale(1.07);
   }
@@ -355,29 +549,215 @@ h1 span {
 }
 
 
-/* ---------- OOM × BAM SOFT LIGHT ---------- */
+@keyframes pinkBreathe {
 
-@keyframes brandGlow {
-
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.7);
+  from {
+    transform:
+      translate(
+        calc(var(--mouse-x) + 10px),
+        calc(var(--mouse-y) - 5px)
+      )
+      scale(1);
   }
 
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0.35;
-    transform: translate(-50%, -50%) scale(1);
+  to {
+    transform:
+      translate(
+        calc(var(--mouse-x) - 22px),
+        calc(var(--mouse-y) + 15px)
+      )
+      scale(1.08);
   }
 
 }
 
 
 /* =========================================================
-   REDUCED MOTION
+   PENGUIN MOTION
+   ========================================================= */
+
+@keyframes penguinEnter {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(-70px)
+      translateY(12px)
+      rotate(-8deg);
+  }
+
+  to {
+    opacity: 0.42;
+
+    transform:
+      translateX(0)
+      translateY(0)
+      rotate(-2deg);
+  }
+
+}
+
+
+@keyframes penguinFloat {
+
+  from {
+    transform:
+      translate(-4px, -3px)
+      rotate(-2deg);
+  }
+
+  to {
+    transform:
+      translate(10px, 9px)
+      rotate(3deg);
+  }
+
+}
+
+
+/* =========================================================
+   SEAL MOTION
+   ========================================================= */
+
+@keyframes sealEnter {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(70px)
+      translateY(15px)
+      rotate(8deg);
+  }
+
+  to {
+    opacity: 0.42;
+
+    transform:
+      translateX(0)
+      translateY(0)
+      rotate(2deg);
+  }
+
+}
+
+
+@keyframes sealFloat {
+
+  from {
+    transform:
+      translate(4px, -2px)
+      rotate(2deg);
+  }
+
+  to {
+    transform:
+      translate(-11px, 10px)
+      rotate(-3deg);
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .teaser-content {
+    width: 90vw;
+
+    transform: translateY(-1vh);
+  }
+
+  .symbol {
+    margin-bottom: 34px;
+
+    font-size: 7px;
+  }
+
+  h1 {
+    font-size: clamp(3.3rem, 14.5vw, 5.5rem);
+
+    line-height: 0.88;
+  }
+
+  .pink-line {
+    margin-top: 12px;
+  }
+
+  .divider {
+    height: 36px;
+
+    margin: 34px auto 30px;
+  }
+
+  .brand {
+    font-size: 10px;
+  }
+
+  .coming-soon {
+    margin-top: 36px;
+  }
+
+  .mascot {
+    font-size: 22px;
+
+    opacity: 0;
+  }
+
+  .mascot-penguin {
+    left: 7%;
+    top: 23%;
+  }
+
+  .mascot-seal {
+    right: 7%;
+    top: 23%;
+  }
+
+  .teaser-footer {
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+
+    font-size: 6px;
+  }
+
+}
+
+
+/* =========================================================
+   SHORT SCREENS
+   ========================================================= */
+
+@media (max-height: 680px) {
+
+  .symbol {
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 10vh, 5.5rem);
+  }
+
+  .divider {
+    height: 28px;
+
+    margin: 25px auto;
+  }
+
+  .coming-soon {
+    margin-top: 28px;
+  }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -388,7 +768,7 @@ h1 span {
 
   .reveal,
   .background-glow,
-  .brand::before {
+  .mascot {
     opacity: 1;
 
     transform: none;
