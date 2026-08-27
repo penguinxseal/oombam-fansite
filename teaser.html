@@ -4,131 +4,79 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#05070a" />
-
   <title>OomBam — Coming Soon</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet" />
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap"
-    rel="stylesheet"
-  />
-
-  <!-- Cache-busted stylesheet -->
-  <link rel="stylesheet" href="teaser.css?v=20260828-2" />
+  <link rel="stylesheet" href="teaser.css?v=20260828-3" />
 </head>
-
 <body>
-
-  <main class="teaser">
-
-    <!-- Ambient color -->
+  <main class="teaser" id="teaser">
     <div class="ambient ambient-blue" aria-hidden="true"></div>
     <div class="ambient ambient-pink" aria-hidden="true"></div>
 
-    <!-- Decorative moving particles -->
-    <div class="particles bubbles" aria-hidden="true">
-      <span class="bubble b1"></span>
-      <span class="bubble b2"></span>
-      <span class="bubble b3"></span>
-      <span class="bubble b4"></span>
-      <span class="bubble b5"></span>
-      <span class="bubble b6"></span>
+    <div class="particles" aria-hidden="true">
+      <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+      <span class="dot d4"></span><span class="dot d5"></span><span class="dot d6"></span>
+      <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+      <span class="petal p4"></span><span class="petal p5"></span>
     </div>
 
-    <div class="particles petals" aria-hidden="true">
-      <span class="petal p1"></span>
-      <span class="petal p2"></span>
-      <span class="petal p3"></span>
-      <span class="petal p4"></span>
-      <span class="petal p5"></span>
+    <div class="top-brand" aria-label="Penguin and Seal">
+      <span>PENGUIN</span><span class="heart">♥</span><span>SEAL</span>
     </div>
 
-    <!-- Independent character assets -->
-    <div class="character-stage" aria-hidden="true">
-
-      <div class="character-shell penguin-shell">
-        <img
-          src="assets/images/teaser-penguin.png?v=20260828-2"
-          alt=""
-          class="character penguin"
-          decoding="async"
-          fetchpriority="high"
-        />
+    <section class="mascot-stage" aria-label="Animated penguin and seal mascots">
+      <div class="mascot-zone mascot-zone-penguin">
+        <div class="mascot-orbit mascot-orbit-penguin">
+          <img
+            src="assets/images/teaser-penguin.png?v=20260828-3"
+            class="mascot mascot-penguin"
+            alt="Penguin mascot"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </div>
       </div>
 
-      <div class="character-shell seal-shell">
-        <img
-          src="assets/images/teaser-seal.png?v=20260828-2"
-          alt=""
-          class="character seal"
-          decoding="async"
-          fetchpriority="high"
-        />
+      <div class="meeting-glow" aria-hidden="true">
+        <span class="meeting-core"></span>
+        <span class="meeting-ring"></span>
       </div>
 
-      <!-- Meeting spark -->
-      <div class="meeting-spark">
-        <span class="spark-core"></span>
-        <span class="spark-ring"></span>
+      <div class="mascot-zone mascot-zone-seal">
+        <div class="mascot-orbit mascot-orbit-seal">
+          <img
+            src="assets/images/teaser-seal.png?v=20260828-3"
+            class="mascot mascot-seal"
+            alt="Seal mascot"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </div>
       </div>
-
-    </div>
-
-    <!-- Soft bottom readability -->
-    <div class="bottom-shade" aria-hidden="true"></div>
-    <div class="film-grain" aria-hidden="true"></div>
-
-    <!-- Top label -->
-    <div class="top-brand reveal reveal-brand">
-      <span>PENGUIN</span>
-      <span class="heart">♥</span>
-      <span>SEAL</span>
-    </div>
-
-    <!-- Headline -->
-    <section class="headline-block">
-
-      <h1>
-        <span class="headline-main reveal reveal-headline">
-          Something beautiful
-        </span>
-
-        <em class="headline-bloom reveal reveal-bloom">
-          is blooming.
-        </em>
-      </h1>
-
     </section>
 
-    <!-- OOM × BAM -->
-    <div class="identity reveal reveal-identity">
-      OOM
-      <span>×</span>
-      BAM
-    </div>
+    <section class="teaser-copy" aria-labelledby="teaser-title">
+      <p class="eyebrow">OOMBAM OFFICIAL FANSITE</p>
+      <h1 id="teaser-title">
+        <span>Something beautiful</span>
+        <em>is blooming.</em>
+      </h1>
+      <p class="identity">OOM <span>×</span> BAM</p>
+      <div class="coming-soon" aria-label="Coming soon">
+        <span class="line"></span><span>COMING SOON</span><span class="line"></span>
+      </div>
+    </section>
 
-    <!-- Coming soon -->
-    <div class="coming reveal reveal-coming">
-      <span class="line"></span>
-      <p>COMING SOON</p>
-      <span class="line"></span>
-    </div>
-
-    <footer class="footer reveal reveal-footer">
-      <span>OOMBAM OFFICIAL FANSITE</span>
+    <footer class="teaser-footer">
+      <span>DESIGNED WITH LOVE FOR OOMBAM</span>
       <span>2026</span>
     </footer>
-
   </main>
 
-  <!-- Cache-busted script -->
-  <script src="teaser.js?v=20260828-2"></script>
-
+  <script src="teaser.js?v=20260828-3"></script>
 </body>
 </html>
