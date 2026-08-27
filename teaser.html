@@ -4,125 +4,119 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#05070a" />
-
   <title>OomBam — Coming Soon</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
     rel="stylesheet"
   />
 
   <link rel="stylesheet" href="teaser.css" />
 </head>
-
 <body>
-
-  <main class="teaser">
-
-    <!-- Ambient color -->
+  <main class="teaser" id="teaserScene">
     <div class="ambient ambient-blue" aria-hidden="true"></div>
     <div class="ambient ambient-pink" aria-hidden="true"></div>
+    <div class="ambient ambient-soft" aria-hidden="true"></div>
 
-    <!-- Decorative moving particles -->
-    <div class="particles bubbles" aria-hidden="true">
-      <span class="bubble b1"></span>
-      <span class="bubble b2"></span>
-      <span class="bubble b3"></span>
-      <span class="bubble b4"></span>
-      <span class="bubble b5"></span>
-      <span class="bubble b6"></span>
+    <div class="particle-field" aria-hidden="true">
+      <span class="dot d1"></span>
+      <span class="dot d2"></span>
+      <span class="dot d3"></span>
+      <span class="dot d4"></span>
+      <span class="dot d5"></span>
+      <span class="dot d6"></span>
+      <span class="dot d7"></span>
+      <span class="dot d8"></span>
     </div>
 
-    <div class="particles petals" aria-hidden="true">
-      <span class="petal p1"></span>
-      <span class="petal p2"></span>
-      <span class="petal p3"></span>
-      <span class="petal p4"></span>
-      <span class="petal p5"></span>
-    </div>
-
-    <!-- Independent character assets -->
-    <div class="character-stage" aria-hidden="true">
-
-      <div class="character-shell penguin-shell">
-        <img
-          src="assets/images/teaser-penguin.png"
-          alt=""
-          class="character penguin"
-        />
-      </div>
-
-      <div class="character-shell seal-shell">
-        <img
-          src="assets/images/teaser-seal.png"
-          alt=""
-          class="character seal"
-        />
-      </div>
-
-      <!-- Meeting spark -->
-      <div class="meeting-spark">
-        <span class="spark-core"></span>
-        <span class="spark-ring"></span>
-      </div>
-
-    </div>
-
-    <!-- Soft bottom readability -->
-    <div class="bottom-shade" aria-hidden="true"></div>
-    <div class="film-grain" aria-hidden="true"></div>
-
-    <!-- Top label -->
-    <div class="top-brand reveal reveal-brand">
+    <header class="top-brand reveal">
       <span>PENGUIN</span>
       <span class="heart">♥</span>
       <span>SEAL</span>
-    </div>
+    </header>
 
-    <!-- Headline -->
-    <section class="headline-block">
+    <section class="duo-stage" aria-hidden="true">
+      <div class="stage-glow"></div>
+      <div class="stage-line"></div>
 
-      <h1>
-        <span class="headline-main reveal reveal-headline">
-          Something beautiful
-        </span>
+      <!-- Penguin -->
+      <div class="mascot mascot-penguin">
+        <div class="shadow"></div>
+        <div class="character-wrap">
+          <div class="body penguin-body">
+            <span class="wing wing-left"></span>
+            <span class="wing wing-right wave"></span>
+            <span class="belly"></span>
+            <span class="eye eye-left"></span>
+            <span class="eye eye-right"></span>
+            <span class="beak"></span>
+            <span class="blush blush-left"></span>
+            <span class="blush blush-right"></span>
+            <span class="foot foot-left"></span>
+            <span class="foot foot-right"></span>
+            <span class="flower flower-green"></span>
+          </div>
+        </div>
+      </div>
 
-        <em class="headline-bloom reveal reveal-bloom">
-          is blooming.
-        </em>
-      </h1>
+      <!-- Floating hearts -->
+      <div class="meeting-hearts">
+        <span class="mini-heart h1">♥</span>
+        <span class="mini-heart h2">♥</span>
+        <span class="mini-heart h3">♥</span>
+      </div>
 
+      <!-- Seal -->
+      <div class="mascot mascot-seal">
+        <div class="shadow"></div>
+        <div class="character-wrap">
+          <div class="body seal-body">
+            <span class="back-flipper"></span>
+            <span class="tail tail-left"></span>
+            <span class="tail tail-right"></span>
+            <span class="belly"></span>
+            <span class="front-flipper front-left"></span>
+            <span class="front-flipper front-right wave"></span>
+            <span class="eye eye-left"></span>
+            <span class="eye eye-right"></span>
+            <span class="nose"></span>
+            <span class="mouth"></span>
+            <span class="blush blush-left"></span>
+            <span class="blush blush-right"></span>
+            <span class="flower flower-pink"></span>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- OOM × BAM -->
-    <div class="identity reveal reveal-identity">
-      OOM
-      <span>×</span>
-      BAM
-    </div>
+    <section class="content">
+      <p class="eyebrow reveal">OOMBAM OFFICIAL FANSITE</p>
 
-    <!-- Coming soon -->
-    <div class="coming reveal reveal-coming">
-      <span class="line"></span>
-      <p>COMING SOON</p>
-      <span class="line"></span>
-    </div>
+      <h1 class="headline reveal">
+        <span class="headline-main">Something beautiful</span>
+        <em class="headline-bloom">is blooming.</em>
+      </h1>
 
-    <footer class="footer reveal reveal-footer">
-      <span>OOMBAM OFFICIAL FANSITE</span>
+      <div class="identity reveal">
+        OOM <span>×</span> BAM
+      </div>
+
+      <div class="coming reveal">
+        <span class="line"></span>
+        <p>COMING SOON</p>
+        <span class="line"></span>
+      </div>
+    </section>
+
+    <footer class="footer reveal">
+      <span>Designed with love for OomBam</span>
       <span>2026</span>
     </footer>
-
   </main>
 
   <script src="teaser.js"></script>
-
 </body>
 </html>
