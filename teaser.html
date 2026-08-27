@@ -1,82 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#05070a" />
-  <title>OomBam — Coming Soon</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="teaser.css?v=20260828-3" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>OomBam | Something Beautiful Is Blooming</title>
+  <link rel="stylesheet" href="teaser.css?v=4" />
 </head>
 <body>
-  <main class="teaser" id="teaser">
+  <main class="teaser-page">
     <div class="ambient ambient-blue" aria-hidden="true"></div>
     <div class="ambient ambient-pink" aria-hidden="true"></div>
 
-    <div class="particles" aria-hidden="true">
-      <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
-      <span class="dot d4"></span><span class="dot d5"></span><span class="dot d6"></span>
-      <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
-      <span class="petal p4"></span><span class="petal p5"></span>
-    </div>
+    <section class="teaser-shell" aria-labelledby="teaser-title">
+      <p class="top-mark">PENGUIN <span>♥</span> SEAL</p>
 
-    <div class="top-brand" aria-label="Penguin and Seal">
-      <span>PENGUIN</span><span class="heart">♥</span><span>SEAL</span>
-    </div>
+      <div class="mascot-stage" aria-hidden="true">
+        <div class="mascot mascot-penguin">
+          <img src="assets/images/teaser-penguin.png" alt="" />
+        </div>
 
-    <section class="mascot-stage" aria-label="Animated penguin and seal mascots">
-      <div class="mascot-zone mascot-zone-penguin">
-        <div class="mascot-orbit mascot-orbit-penguin">
-          <img
-            src="assets/images/teaser-penguin.png?v=20260828-3"
-            class="mascot mascot-penguin"
-            alt="Penguin mascot"
-            decoding="async"
-            fetchpriority="high"
-          />
+        <div class="meeting-glow"></div>
+
+        <div class="mascot mascot-seal">
+          <img src="assets/images/teaser-seal.png" alt="" />
         </div>
       </div>
 
-      <div class="meeting-glow" aria-hidden="true">
-        <span class="meeting-core"></span>
-        <span class="meeting-ring"></span>
+      <div class="copy-block">
+        <p class="eyebrow">OOMBAM OFFICIAL FANSITE</p>
+        <h1 id="teaser-title">Something beautiful<br><em>is blooming.</em></h1>
+        <p class="pair-name">OOM <span>×</span> BAM</p>
+        <p class="coming"><span></span> COMING SOON <span></span></p>
       </div>
 
-      <div class="mascot-zone mascot-zone-seal">
-        <div class="mascot-orbit mascot-orbit-seal">
-          <img
-            src="assets/images/teaser-seal.png?v=20260828-3"
-            class="mascot mascot-seal"
-            alt="Seal mascot"
-            decoding="async"
-            fetchpriority="high"
-          />
-        </div>
-      </div>
+      <footer class="teaser-footer">
+        <span>DESIGNED WITH LOVE FOR OOMBAM</span>
+        <span>2026</span>
+      </footer>
     </section>
-
-    <section class="teaser-copy" aria-labelledby="teaser-title">
-      <p class="eyebrow">OOMBAM OFFICIAL FANSITE</p>
-      <h1 id="teaser-title">
-        <span>Something beautiful</span>
-        <em>is blooming.</em>
-      </h1>
-      <p class="identity">OOM <span>×</span> BAM</p>
-      <div class="coming-soon" aria-label="Coming soon">
-        <span class="line"></span><span>COMING SOON</span><span class="line"></span>
-      </div>
-    </section>
-
-    <footer class="teaser-footer">
-      <span>DESIGNED WITH LOVE FOR OOMBAM</span>
-      <span>2026</span>
-    </footer>
   </main>
 
-  <script src="teaser.js?v=20260828-3"></script>
+  <script src="teaser.js?v=4" defer></script>
 </body>
 </html>
