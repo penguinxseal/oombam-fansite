@@ -1,45 +1,127 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>OomBam | Something Beautiful Is Blooming</title>
-  <link rel="stylesheet" href="teaser.css?v=5" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="OomBam Official Fansite — Something beautiful is blooming.">
+  <title>OomBam Official Fansite — Coming Soon</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="teaser.css?v=6">
 </head>
 <body>
-  <main class="teaser-page" id="teaser">
-    <div class="ambient ambient-blue" aria-hidden="true"></div>
-    <div class="ambient ambient-pink" aria-hidden="true"></div>
 
-    <section class="teaser-shell" aria-labelledby="teaser-title">
-      <p class="top-mark">PENGUIN <span>♥</span> SEAL</p>
+  <main class="teaser" id="teaser">
 
-      <div class="mascot-stage" aria-hidden="true">
-        <div class="mascot mascot-penguin">
-          <img src="assets/images/teaser-penguin.png" alt="" />
-        </div>
+    <div class="scene-bg" aria-hidden="true">
+      <div class="scene-bg__blue"></div>
+      <div class="scene-bg__pink"></div>
+      <div class="scene-bg__center"></div>
+      <div class="scene-bg__vignette"></div>
+      <div class="scene-bg__noise"></div>
+    </div>
 
-        <div class="meeting-glow"></div>
+    <header class="teaser-brand">
+      <span>PENGUIN</span>
+      <span class="brand-heart">♥</span>
+      <span>SEAL</span>
+    </header>
 
-        <div class="mascot mascot-seal">
-          <img src="assets/images/teaser-seal.png" alt="" />
-        </div>
+    <div class="particle-zone particle-zone--water" id="waterParticles" aria-hidden="true"></div>
+    <div class="particle-zone particle-zone--petals" id="petalParticles" aria-hidden="true"></div>
+
+    <div class="character character--penguin" id="penguinCharacter" aria-hidden="true">
+      <div class="trail trail--blue">
+        <span class="trail-line trail-line--1"></span>
+        <span class="trail-line trail-line--2"></span>
+        <span class="trail-line trail-line--3"></span>
       </div>
 
-      <div class="copy-block">
-        <p class="eyebrow">OOMBAM OFFICIAL FANSITE</p>
-        <h1 id="teaser-title">Something beautiful<br><em>is blooming.</em></h1>
-        <p class="pair-name">OOM <span>×</span> BAM</p>
-        <p class="coming"><span></span> COMING SOON <span></span></p>
+      <div class="character-glow character-glow--blue"></div>
+
+      <div class="character-inner character-inner--penguin">
+        <img src="images/teaser-penguin.png" class="character-img character-img--penguin" alt="" draggable="false">
+
+        <div class="clover-mark" aria-hidden="true">
+          <span class="clover-leaf clover-leaf--1"></span>
+          <span class="clover-leaf clover-leaf--2"></span>
+          <span class="clover-leaf clover-leaf--3"></span>
+          <span class="clover-leaf clover-leaf--4"></span>
+          <span class="clover-center"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="character character--seal" id="sealCharacter" aria-hidden="true">
+      <div class="trail trail--pink">
+        <span class="trail-line trail-line--1"></span>
+        <span class="trail-line trail-line--2"></span>
+        <span class="trail-line trail-line--3"></span>
       </div>
 
-      <footer class="teaser-footer">
-        <span>DESIGNED WITH LOVE FOR OOMBAM</span>
-        <span>2026</span>
-      </footer>
+      <div class="character-glow character-glow--pink"></div>
+
+      <div class="character-inner character-inner--seal">
+        <img src="images/teaser-seal.png" class="character-img character-img--seal" alt="" draggable="false">
+
+        <div class="sakura-mark" aria-hidden="true">
+          <span class="sakura-petal sakura-petal--1"></span>
+          <span class="sakura-petal sakura-petal--2"></span>
+          <span class="sakura-petal sakura-petal--3"></span>
+          <span class="sakura-petal sakura-petal--4"></span>
+          <span class="sakura-petal sakura-petal--5"></span>
+          <span class="sakura-center"></span>
+        </div>
+
+        <div class="seal-flipper-effect"></div>
+      </div>
+    </div>
+
+    <div class="meeting-effect" aria-hidden="true">
+      <div class="meeting-glow"></div>
+      <div class="meeting-heart"><span>♥</span></div>
+
+      <div class="meeting-spark meeting-spark--1"></div>
+      <div class="meeting-spark meeting-spark--2"></div>
+      <div class="meeting-spark meeting-spark--3"></div>
+      <div class="meeting-spark meeting-spark--4"></div>
+    </div>
+
+    <section class="hero-copy">
+      <p class="hero-eyebrow">OOMBAM OFFICIAL FANSITE</p>
+
+      <h1 class="hero-title">
+        <span class="hero-title__white">
+          <span class="title-word title-word--something">Something</span>
+          <span class="title-word title-word--beautiful">beautiful</span>
+        </span>
+
+        <span class="hero-title__pink">is blooming.</span>
+      </h1>
+
+      <div class="pair-name">
+        <span class="pair-name__oom">OOM</span>
+        <span class="pair-name__x">×</span>
+        <span class="pair-name__bam">BAM</span>
+      </div>
+
+      <div class="coming-soon">
+        <span class="coming-line coming-line--left"></span>
+        <span class="coming-text">COMING SOON</span>
+        <span class="coming-line coming-line--right"></span>
+      </div>
     </section>
+
+    <footer class="teaser-footer">
+      <span>DESIGNED WITH LOVE FOR OOMBAM</span>
+      <span>2026</span>
+    </footer>
+
   </main>
 
-  <script src="teaser.js?v=5" defer></script>
+  <script src="teaser.js?v=6" defer></script>
 </body>
 </html>
