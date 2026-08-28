@@ -5911,3 +5911,309 @@ body.page-community .hero-overlay { padding:14px 24px 18px !important; }
 @media (min-width:761px) and (max-width:1100px){ body.page-community #communityHeroTitle.hero-lead{font-size:clamp(1.9rem,4.2vw,2.55rem) !important;} body.page-community .hero-overlay{padding:12px 20px 16px !important;} }
 @media (max-width:760px){ body.page-community #communityHeroTitle.hero-lead{font-size:clamp(1.5rem,6.2vw,1.95rem) !important;white-space:nowrap !important;} body.page-community .hero-overlay{padding:11px 14px 15px !important;} body.page-community .hero-description,body.page-community .garden-copy p{font-size:.82rem !important;line-height:1.4 !important;} }
 @media (max-width:899px) and (orientation:landscape){ body.page-community #communityHeroTitle.hero-lead{font-size:clamp(1.7rem,4.4vw,2.2rem) !important;} }
+
+
+/* =========================================================
+   COMMUNITY FUNCTIONAL LAYER — v19
+   Forms, modals, live states and accessible interaction.
+   This intentionally preserves the existing visual layout.
+========================================================= */
+
+[data-community-action],
+#communityChatForm button {
+  cursor: pointer;
+}
+
+.community-runtime-note {
+  margin: 10px 0 0;
+  color: var(--text-soft);
+  font-size: .72rem;
+}
+
+.live-indicator.is-preview {
+  color: #9b7a36;
+}
+
+.live-indicator.is-preview .live-dot {
+  background: #d3a84d;
+}
+
+.live-indicator.is-live {
+  color: #e94d78;
+}
+
+.live-indicator.is-live .live-dot {
+  background: #e94d78;
+  box-shadow: 0 0 0 4px rgba(233,77,120,.10);
+}
+
+.live-indicator.is-error {
+  color: #9b5c5c;
+}
+
+.live-indicator.is-error .live-dot {
+  background: #b77a7a;
+}
+
+.chat-input input:disabled,
+.chat-input button:disabled {
+  cursor: not-allowed;
+  opacity: .58;
+}
+
+.community-modal[hidden] {
+  display: none !important;
+}
+
+.community-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+}
+
+.community-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(31, 42, 49, .46);
+  backdrop-filter: blur(7px);
+}
+
+.community-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(620px, 100%);
+  max-height: min(780px, calc(100vh - 44px));
+  overflow: auto;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: rgba(255, 253, 249, .98);
+  box-shadow: 0 24px 80px rgba(34, 45, 51, .22);
+}
+
+.community-modal__dialog--wide {
+  width: min(920px, 100%);
+}
+
+.community-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.82);
+  color: var(--text);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.community-modal__eyebrow {
+  margin-bottom: 5px;
+  color: var(--pink);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.community-modal__title {
+  margin: 0 44px 8px 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.community-modal__intro {
+  margin-bottom: 20px;
+  color: var(--text-soft);
+  font-size: .86rem;
+}
+
+.community-form {
+  display: grid;
+  gap: 15px;
+}
+
+.community-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.community-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--text);
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+.community-form input,
+.community-form select,
+.community-form textarea {
+  width: 100%;
+  border: 1px solid rgba(116, 83, 76, .18);
+  border-radius: 11px;
+  background: #fff;
+  color: var(--text);
+  padding: 11px 12px;
+  font: inherit;
+  font-size: .86rem;
+  outline: none;
+}
+
+.community-form textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.community-form input:focus,
+.community-form select:focus,
+.community-form textarea:focus {
+  border-color: rgba(85, 155, 209, .70);
+  box-shadow: 0 0 0 3px rgba(85, 155, 209, .10);
+}
+
+.community-form__help {
+  margin-top: -8px;
+  color: var(--text-soft);
+  font-size: .69rem;
+}
+
+.community-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.community-form__secondary,
+.community-form__primary {
+  min-height: 42px;
+  padding: 9px 16px;
+  border-radius: 9px;
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+.community-form__secondary {
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+}
+
+.community-form__primary {
+  border: 0;
+  background: linear-gradient(135deg, var(--pink), #e96c91);
+  color: #fff;
+}
+
+.community-form__status {
+  min-height: 20px;
+  color: var(--text-soft);
+  font-size: .74rem;
+}
+
+.community-form__status.is-success {
+  color: #587961;
+}
+
+.community-form__status.is-error {
+  color: #a44d62;
+}
+
+.community-choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.community-choice {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: linear-gradient(160deg, rgba(255,255,255,.96), rgba(255,248,250,.90));
+  text-align: left;
+}
+
+.community-choice strong {
+  display: block;
+  margin-bottom: 4px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.35rem;
+}
+
+.community-choice span {
+  color: var(--text-soft);
+  font-size: .76rem;
+}
+
+.community-wall-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.community-wall-list .message-card {
+  min-height: 180px;
+}
+
+body.community-modal-open {
+  overflow: hidden;
+}
+
+html[data-theme="dark"] .community-modal__dialog,
+body.dark-theme .community-modal__dialog {
+  background: rgba(28, 34, 39, .98);
+}
+
+html[data-theme="dark"] .community-form input,
+html[data-theme="dark"] .community-form select,
+html[data-theme="dark"] .community-form textarea,
+html[data-theme="dark"] .community-form__secondary,
+html[data-theme="dark"] .community-choice,
+body.dark-theme .community-form input,
+body.dark-theme .community-form select,
+body.dark-theme .community-form textarea,
+body.dark-theme .community-form__secondary,
+body.dark-theme .community-choice {
+  background: rgba(255,255,255,.06);
+  color: inherit;
+  border-color: rgba(255,255,255,.12);
+}
+
+@media (max-width: 700px) {
+  .community-modal {
+    padding: 10px;
+    align-items: end;
+  }
+
+  .community-modal__dialog,
+  .community-modal__dialog--wide {
+    width: 100%;
+    max-height: min(86vh, 760px);
+    padding: 22px 18px;
+    border-radius: 20px 20px 14px 14px;
+  }
+
+  .community-form__row,
+  .community-choice-grid,
+  .community-wall-list {
+    grid-template-columns: 1fr;
+  }
+
+  .community-form__actions {
+    flex-direction: column-reverse;
+  }
+
+  .community-form__secondary,
+  .community-form__primary {
+    width: 100%;
+  }
+}
