@@ -5275,615 +5275,329 @@ body.page-community.dark-theme .garden-link {
 }
 
 
+
 /* =========================================================
-   COMMUNITY BLOSSOMS v13.0 — FINAL BANNER POLISH
-   New asset: assets/images/Community-Banner-v2.png
-   Responsive hero tuned for desktop, tablet portrait/landscape,
-   mobile portrait and mobile landscape.
+   COMMUNITY BLOSSOMS v13.0
+   RESPONSIVE HERO POLISH — DESKTOP / TABLET / MOBILE
+   ---------------------------------------------------------
+   Goals:
+   - Keep banner artwork visually clean and prominent.
+   - Move all narrative copy off the artwork for readability.
+   - Give tablet and mobile a larger banner presence.
+   - Prevent clipping/crowding in portrait and short landscape.
+   - Preserve light/dark theme contrast.
 ========================================================= */
 
+/* Shared hero architecture: artwork first, narrative beneath. */
 body.page-community .community-hero {
-  width: min(1440px, calc(100% - 48px)) !important;
+  display: block !important;
   height: auto !important;
   min-height: 0 !important;
-  aspect-ratio: 16 / 5.15 !important;
-  margin: 24px auto 0 !important;
+  max-height: none !important;
   overflow: hidden !important;
-  border-radius: 22px !important;
-  background: #f8faf5 !important;
-  box-shadow: 0 18px 42px rgba(57, 77, 61, .08) !important;
+  background: #edf4ef !important;
 }
 
-body.page-community .community-hero-media,
-body.page-community .community-hero-image,
-body.page-community .community-hero-shade {
-  position: absolute !important;
-  inset: 0 !important;
+body.page-community .community-hero-media {
+  position: relative !important;
+  inset: auto !important;
+  z-index: 0 !important;
   width: 100% !important;
-  height: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
 }
 
 body.page-community .community-hero-image {
-  object-fit: cover !important;
+  position: relative !important;
+  inset: auto !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
   object-position: center center !important;
 }
 
-/* Keep the new floral artwork bright while protecting copy at the edges. */
+/* No readability overlay is needed because copy is no longer on artwork. */
 body.page-community .community-hero-shade {
-  z-index: 1 !important;
-  background:
-    linear-gradient(90deg,
-      rgba(250,252,247,.72) 0%,
-      rgba(250,252,247,.22) 28%,
-      rgba(250,252,247,0) 44%,
-      rgba(250,252,247,0) 58%,
-      rgba(250,252,247,.18) 76%,
-      rgba(250,252,247,.68) 100%),
-    linear-gradient(180deg,
-      rgba(255,255,255,0) 50%,
-      rgba(247,250,245,.10) 100%) !important;
+  display: none !important;
 }
 
-body.page-community .hero-overlay.hero-text-only {
+body.page-community .hero-overlay {
   position: relative !important;
+  inset: auto !important;
   z-index: 2 !important;
+  transform: none !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+
   display: grid !important;
-  grid-template-columns: minmax(320px, 460px) minmax(240px, 320px) !important;
-  align-items: end !important;
-  justify-content: space-between !important;
-  gap: clamp(30px, 5vw, 72px) !important;
-  width: calc(100% - 72px) !important;
-  height: 100% !important;
-  min-height: 100% !important;
-  margin: 0 auto !important;
-  padding: 0 0 28px !important;
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr) !important;
+  align-items: center !important;
+  gap: clamp(34px, 5vw, 72px) !important;
+
+  padding: clamp(28px, 3vw, 42px) clamp(30px, 5vw, 72px) !important;
+  background: linear-gradient(135deg, #f4f8f4 0%, #fffdf9 100%) !important;
+  border-top: 1px solid rgba(72, 105, 84, .12) !important;
 }
 
 body.page-community .hero-copy,
 body.page-community .garden-copy {
+  display: block !important;
   width: 100% !important;
+  max-width: none !important;
   margin: 0 !important;
-  padding: 18px 20px !important;
-  border: 1px solid rgba(100, 126, 101, .14) !important;
-  border-radius: 16px !important;
-  background: rgba(255, 253, 248, .78) !important;
-  box-shadow: 0 12px 28px rgba(62, 79, 63, .08) !important;
-  backdrop-filter: blur(10px) saturate(1.04) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(1.04) !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   text-shadow: none !important;
 }
 
 body.page-community .hero-copy {
-  justify-self: start !important;
-  text-align: left !important;
+  justify-self: stretch !important;
 }
 
 body.page-community .garden-copy {
-  justify-self: end !important;
+  justify-self: stretch !important;
   text-align: left !important;
 }
 
 body.page-community .hero-lead {
-  margin: 0 0 8px !important;
-  color: #24372c !important;
-  font-family: "Cormorant Garamond", serif !important;
-  font-size: clamp(1.55rem, 2vw, 2.12rem) !important;
-  font-weight: 600 !important;
-  line-height: 1.03 !important;
+  margin: 0 0 12px !important;
+  font-size: clamp(2rem, 3vw, 3.1rem) !important;
+  line-height: .98 !important;
+  letter-spacing: -.025em !important;
+  color: #20352a !important;
   text-shadow: none !important;
 }
 
 body.page-community .hero-description,
 body.page-community .garden-copy p {
-  color: #53645a !important;
-  font-size: .79rem !important;
-  line-height: 1.55 !important;
+  margin: 0 !important;
+  max-width: 40rem !important;
+  font-size: clamp(.93rem, 1.15vw, 1.08rem) !important;
+  line-height: 1.6 !important;
+  color: #53665a !important;
   text-shadow: none !important;
 }
 
-body.page-community .hero-description {
-  max-width: 410px !important;
-  margin: 0 !important;
-}
-
-body.page-community .garden-copy p {
-  max-width: 280px !important;
-  margin: 0 !important;
-}
-
 body.page-community .garden-flower {
-  margin: 0 0 6px !important;
+  margin: 0 0 10px !important;
   font-size: 1.1rem !important;
 }
 
 body.page-community .garden-link {
-  margin-top: 10px !important;
-  color: #587b61 !important;
-  font-size: .78rem !important;
+  display: inline-block !important;
+  margin-top: 15px !important;
+  padding-bottom: 4px !important;
+  font-size: .94rem !important;
   font-weight: 700 !important;
+  color: #5f836b !important;
+  border-bottom: 1px solid rgba(95,131,107,.38) !important;
   text-shadow: none !important;
-  border-bottom-color: rgba(88,123,97,.38) !important;
 }
 
-/* Dark mode: preserve artwork, darken only the copy glass panels. */
-html[data-theme="dark"] body.page-community .community-hero-shade,
-body.page-community.dark-theme .community-hero-shade {
-  background:
-    linear-gradient(90deg,
-      rgba(12,17,14,.48) 0%,
-      rgba(12,17,14,.08) 28%,
-      rgba(12,17,14,0) 45%,
-      rgba(12,17,14,0) 58%,
-      rgba(12,17,14,.10) 76%,
-      rgba(12,17,14,.46) 100%) !important;
+/* Desktop: generous wide banner, full artwork visible. */
+@media (min-width: 1101px) {
+  body.page-community .community-hero {
+    width: min(1440px, calc(100% - 64px)) !important;
+    margin: 28px auto 0 !important;
+    border-radius: 24px !important;
+  }
+
+  body.page-community .community-hero-media {
+    aspect-ratio: 16 / 5.15 !important;
+  }
+
+  body.page-community .community-hero-image {
+    object-fit: cover !important;
+  }
 }
 
-html[data-theme="dark"] body.page-community .hero-copy,
-html[data-theme="dark"] body.page-community .garden-copy,
-body.page-community.dark-theme .hero-copy,
-body.page-community.dark-theme .garden-copy {
-  background: rgba(15, 20, 17, .78) !important;
-  border-color: rgba(219, 230, 220, .14) !important;
-  box-shadow: 0 16px 36px rgba(0,0,0,.20) !important;
+/* Tablet landscape: larger banner and readable copy strip below. */
+@media (min-width: 900px) and (max-width: 1100px) {
+  body.page-community .community-hero {
+    width: calc(100% - 36px) !important;
+    margin: 20px auto 0 !important;
+    border-radius: 20px !important;
+  }
+
+  body.page-community .community-hero-media {
+    aspect-ratio: 16 / 6.4 !important;
+  }
+
+  body.page-community .community-hero-image {
+    object-fit: cover !important;
+  }
+
+  body.page-community .hero-overlay {
+    grid-template-columns: minmax(0, 1.05fr) minmax(260px, .95fr) !important;
+    gap: 34px !important;
+    padding: 28px 34px 30px !important;
+  }
+
+  body.page-community .hero-lead {
+    font-size: clamp(1.9rem, 3.3vw, 2.55rem) !important;
+  }
+}
+
+/* Tablet portrait: artwork gets more vertical room; copy stacks cleanly. */
+@media (min-width: 761px) and (max-width: 899px) {
+  body.page-community .community-hero {
+    width: calc(100% - 32px) !important;
+    margin: 18px auto 0 !important;
+    border-radius: 20px !important;
+  }
+
+  body.page-community .community-hero-media {
+    height: clamp(390px, 54vw, 500px) !important;
+  }
+
+  body.page-community .community-hero-image {
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+
+  body.page-community .hero-overlay {
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+    padding: 30px 34px 34px !important;
+  }
+
+  body.page-community .garden-copy {
+    padding-top: 22px !important;
+    border-top: 1px solid rgba(95,131,107,.18) !important;
+  }
+
+  body.page-community .hero-lead {
+    font-size: clamp(2rem, 5vw, 2.7rem) !important;
+  }
+}
+
+/* Mobile portrait: significantly larger banner, no text over artwork. */
+@media (max-width: 760px) and (orientation: portrait) {
+  body.page-community .community-hero {
+    width: calc(100% - 24px) !important;
+    margin: 12px auto 0 !important;
+    border-radius: 18px !important;
+  }
+
+  body.page-community .community-hero-media {
+    height: clamp(320px, 88vw, 430px) !important;
+    border-radius: 18px 18px 0 0 !important;
+  }
+
+  body.page-community .community-hero-image {
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+
+  body.page-community .hero-overlay {
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+    padding: 27px 24px 30px !important;
+  }
+
+  body.page-community .garden-copy {
+    padding-top: 22px !important;
+    border-top: 1px solid rgba(95,131,107,.18) !important;
+  }
+
+  body.page-community .hero-lead {
+    margin-bottom: 11px !important;
+    font-size: clamp(2rem, 9vw, 2.65rem) !important;
+    line-height: 1 !important;
+  }
+
+  body.page-community .hero-description,
+  body.page-community .garden-copy p {
+    font-size: clamp(.94rem, 4vw, 1.04rem) !important;
+    line-height: 1.62 !important;
+  }
+
+  body.page-community .garden-link {
+    margin-top: 16px !important;
+    font-size: .96rem !important;
+  }
+}
+
+/* Mobile / tablet short landscape: banner still gets real height, copy below. */
+@media (max-width: 899px) and (orientation: landscape) {
+  body.page-community .community-hero {
+    width: calc(100% - 24px) !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 10px auto 0 !important;
+    border-radius: 16px !important;
+  }
+
+  body.page-community .community-hero-media {
+    height: clamp(260px, 46vw, 360px) !important;
+  }
+
+  body.page-community .community-hero-image {
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+
+  body.page-community .hero-overlay {
+    grid-template-columns: minmax(0, 1fr) minmax(230px, .9fr) !important;
+    gap: 26px !important;
+    padding: 24px 28px 26px !important;
+  }
+
+  body.page-community .hero-lead {
+    font-size: clamp(1.65rem, 4vw, 2.2rem) !important;
+  }
+
+  body.page-community .hero-description,
+  body.page-community .garden-copy p {
+    font-size: .9rem !important;
+    line-height: 1.55 !important;
+  }
+}
+
+/* Dark theme: high-contrast narrative strip matching the rest of the page. */
+html[data-theme="dark"] body.page-community .community-hero,
+body.page-community.dark-theme .community-hero {
+  background: #111315 !important;
+}
+
+html[data-theme="dark"] body.page-community .hero-overlay,
+body.page-community.dark-theme .hero-overlay {
+  background: linear-gradient(135deg, #101214 0%, #131715 100%) !important;
+  border-top-color: rgba(255,255,255,.08) !important;
 }
 
 html[data-theme="dark"] body.page-community .hero-lead,
 body.page-community.dark-theme .hero-lead {
-  color: #f4f6f2 !important;
+  color: #f4f5f2 !important;
+  text-shadow: none !important;
 }
 
 html[data-theme="dark"] body.page-community .hero-description,
 html[data-theme="dark"] body.page-community .garden-copy p,
 body.page-community.dark-theme .hero-description,
 body.page-community.dark-theme .garden-copy p {
-  color: rgba(244,247,244,.82) !important;
+  color: rgba(255,255,255,.74) !important;
+  text-shadow: none !important;
 }
 
 html[data-theme="dark"] body.page-community .garden-link,
 body.page-community.dark-theme .garden-link {
-  color: #c6dfcc !important;
-  border-bottom-color: rgba(198,223,204,.42) !important;
+  color: #bed8c4 !important;
+  border-bottom-color: rgba(190,216,196,.38) !important;
+  text-shadow: none !important;
 }
 
-/* ---------- Large desktop ---------- */
-@media (min-width: 1366px) {
-  body.page-community .community-hero {
-    width: min(1460px, calc(100% - 56px)) !important;
-  }
-
-  body.page-community .hero-overlay.hero-text-only {
-    width: calc(100% - 84px) !important;
-    padding-bottom: 30px !important;
-  }
-}
-
-/* ---------- Tablet landscape / compact desktop ---------- */
-@media (min-width: 901px) and (max-width: 1365px) {
-  body.page-community .community-hero {
-    width: calc(100% - 36px) !important;
-    aspect-ratio: 16 / 5.45 !important;
-    margin-top: 18px !important;
-    border-radius: 18px !important;
-  }
-
-  body.page-community .hero-overlay.hero-text-only {
-    width: calc(100% - 48px) !important;
-    grid-template-columns: minmax(280px, 410px) minmax(220px, 285px) !important;
-    gap: 26px !important;
-    padding-bottom: 20px !important;
-  }
-
-  body.page-community .hero-copy,
-  body.page-community .garden-copy {
-    padding: 14px 16px !important;
-    border-radius: 14px !important;
-  }
-
-  body.page-community .hero-lead {
-    font-size: clamp(1.35rem, 2.4vw, 1.72rem) !important;
-  }
-
-  body.page-community .hero-description,
-  body.page-community .garden-copy p {
-    font-size: .70rem !important;
-    line-height: 1.45 !important;
-  }
-}
-
-/* ---------- Tablet portrait ---------- */
-@media (min-width: 761px) and (max-width: 900px) and (orientation: portrait) {
-  body.page-community .community-hero {
-    width: calc(100% - 30px) !important;
-    aspect-ratio: auto !important;
-    min-height: 560px !important;
-    margin-top: 16px !important;
-    border-radius: 18px !important;
-  }
-
-  body.page-community .community-hero-image {
-    object-fit: cover !important;
-    object-position: center top !important;
-  }
-
-  body.page-community .hero-overlay.hero-text-only {
-    grid-template-columns: 1fr 1fr !important;
-    align-items: end !important;
-    gap: 18px !important;
-    width: calc(100% - 34px) !important;
-    padding-bottom: 18px !important;
-  }
-
-  body.page-community .hero-copy,
-  body.page-community .garden-copy {
-    padding: 16px !important;
-  }
-
-  body.page-community .hero-lead {
-    font-size: 1.55rem !important;
-  }
-}
-
-/* ---------- Mobile portrait ---------- */
-@media (max-width: 760px) and (orientation: portrait) {
-  body.page-community .community-hero {
-    width: calc(100% - 22px) !important;
-    aspect-ratio: auto !important;
-    height: auto !important;
-    margin: 12px auto 0 !important;
-    border-radius: 16px !important;
-    background: #f8faf5 !important;
-  }
-
-  body.page-community .community-hero-media {
-    position: relative !important;
-    inset: auto !important;
-    height: auto !important;
-    aspect-ratio: 16 / 5.15 !important;
-    border-radius: 16px 16px 0 0 !important;
-    overflow: hidden !important;
-  }
-
-  body.page-community .community-hero-image {
-    position: absolute !important;
-    object-fit: cover !important;
-    object-position: center center !important;
-  }
-
-  body.page-community .community-hero-shade {
-    background: linear-gradient(180deg, rgba(255,255,255,0), rgba(247,250,245,.12)) !important;
-  }
-
-  body.page-community .hero-overlay.hero-text-only {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    padding: 14px !important;
-    background: linear-gradient(135deg, #f8faf5, #fffdf9) !important;
-  }
-
-  body.page-community .hero-copy,
-  body.page-community .garden-copy {
-    padding: 15px 16px !important;
-    background: rgba(255,255,255,.72) !important;
-    border-radius: 13px !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  body.page-community .garden-copy {
-    border-top: 1px solid rgba(100,126,101,.14) !important;
-  }
-
-  body.page-community .hero-lead {
-    font-size: clamp(1.45rem, 7vw, 1.85rem) !important;
-  }
-
-  body.page-community .hero-description,
-  body.page-community .garden-copy p {
-    font-size: .76rem !important;
-    line-height: 1.5 !important;
-  }
-
-  html[data-theme="dark"] body.page-community .hero-overlay.hero-text-only,
-  body.page-community.dark-theme .hero-overlay.hero-text-only {
-    background: linear-gradient(135deg, #111512, #171b18) !important;
-  }
-}
-
-/* ---------- Mobile landscape ---------- */
-@media (max-width: 900px) and (max-height: 560px) and (orientation: landscape) {
-  body.page-community .community-hero {
-    width: calc(100% - 22px) !important;
-    height: calc(100svh - 86px) !important;
-    min-height: 280px !important;
-    max-height: 420px !important;
-    aspect-ratio: auto !important;
-    margin-top: 10px !important;
-    border-radius: 14px !important;
-  }
-
-  body.page-community .community-hero-image {
-    object-fit: cover !important;
-    object-position: center center !important;
-  }
-
-  body.page-community .hero-overlay.hero-text-only {
-    width: calc(100% - 28px) !important;
-    grid-template-columns: minmax(235px, 1fr) minmax(190px, .72fr) !important;
-    gap: 16px !important;
-    padding-bottom: 12px !important;
-  }
-
-  body.page-community .hero-copy,
-  body.page-community .garden-copy {
-    padding: 10px 12px !important;
-    border-radius: 11px !important;
-  }
-
-  body.page-community .hero-lead {
-    margin-bottom: 5px !important;
-    font-size: 1.18rem !important;
-  }
-
-  body.page-community .hero-description,
-  body.page-community .garden-copy p {
-    font-size: .62rem !important;
-    line-height: 1.36 !important;
-  }
-
-  body.page-community .garden-link {
-    margin-top: 6px !important;
-    font-size: .64rem !important;
-  }
-
-  body.page-community .garden-flower {
-    display: none !important;
-  }
-}
-
-
-/* =========================================================
-   COMMUNITY BLOSSOMS v13.1 — HERO OVERLAY SPACING FIX
-   Keep the banner artwork fully visible by reserving the center
-   for the baked-in Blossom Community title / mascot artwork.
-========================================================= */
-
-/* Desktop / default: left copy | protected artwork | right copy */
-body.page-community .hero-overlay.hero-text-only {
-  grid-template-columns: minmax(280px, 380px) minmax(360px, 1fr) minmax(220px, 300px) !important;
-  column-gap: clamp(22px, 3vw, 44px) !important;
-  align-items: center !important;
-  padding: 30px 0 !important;
-}
-
-body.page-community .hero-copy {
-  grid-column: 1 !important;
-  justify-self: start !important;
-  max-width: 380px !important;
-}
-
-body.page-community .garden-copy {
-  grid-column: 3 !important;
-  justify-self: end !important;
-  max-width: 300px !important;
-}
-
-/* Remove tile / card treatment completely. */
-body.page-community .hero-copy,
-body.page-community .garden-copy,
-html[data-theme="dark"] body.page-community .hero-copy,
 html[data-theme="dark"] body.page-community .garden-copy,
-body.page-community.dark-theme .hero-copy,
 body.page-community.dark-theme .garden-copy {
-  padding: 0 !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-/* Keep copy readable without turning it into a tile. */
-body.page-community .hero-copy,
-body.page-community .garden-copy {
-  text-shadow:
-    0 1px 0 rgba(255,255,255,.92),
-    0 2px 16px rgba(255,255,255,.78),
-    0 0 28px rgba(255,255,255,.54) !important;
-}
-
-body.page-community .hero-lead {
-  max-width: 360px !important;
-}
-
-body.page-community .hero-description {
-  max-width: 355px !important;
-}
-
-body.page-community .garden-copy p {
-  max-width: 285px !important;
-  margin: 0 0 10px !important;
-}
-
-body.page-community .garden-flower {
-  margin: 0 0 6px !important;
-}
-
-/* The banner is already very light. Avoid a broad tint over its title. */
-body.page-community .community-hero-shade {
-  background:
-    linear-gradient(90deg,
-      rgba(255,255,255,.34) 0%,
-      rgba(255,255,255,.08) 25%,
-      rgba(255,255,255,0) 38%,
-      rgba(255,255,255,0) 64%,
-      rgba(255,255,255,.06) 78%,
-      rgba(255,255,255,.30) 100%) !important;
-}
-
-/* Compact desktop / tablet landscape: preserve a smaller protected center. */
-@media (min-width: 901px) and (max-width: 1365px) {
-  body.page-community .hero-overlay.hero-text-only {
-    grid-template-columns: minmax(245px, 330px) minmax(280px, 1fr) minmax(195px, 255px) !important;
-    column-gap: 20px !important;
-    width: calc(100% - 42px) !important;
-    padding: 22px 0 !important;
-  }
-
-  body.page-community .hero-copy {
-    max-width: 330px !important;
-  }
-
-  body.page-community .garden-copy {
-    max-width: 255px !important;
-  }
-
-  body.page-community .hero-lead {
-    font-size: clamp(1.3rem, 2vw, 1.62rem) !important;
-  }
-}
-
-/* Tablet portrait: keep title art protected, copy below the visual center. */
-@media (min-width: 761px) and (max-width: 900px) and (orientation: portrait) {
-  body.page-community .community-hero {
-    min-height: 600px !important;
-  }
-
-  body.page-community .hero-overlay.hero-text-only {
-    grid-template-columns: minmax(0,1fr) minmax(190px, .72fr) !important;
-    grid-template-rows: 1fr auto !important;
-    align-items: end !important;
-    gap: 22px !important;
-    width: calc(100% - 42px) !important;
-    padding: 0 0 24px !important;
-  }
-
-  body.page-community .hero-copy {
-    grid-column: 1 !important;
-    grid-row: 2 !important;
-    max-width: 390px !important;
-  }
-
-  body.page-community .garden-copy {
-    grid-column: 2 !important;
-    grid-row: 2 !important;
-    max-width: 235px !important;
-  }
-}
-
-/* Mobile portrait: banner stays visual-only; copy stacks below with no tiles. */
-@media (max-width: 760px) and (orientation: portrait) {
-  body.page-community .hero-overlay.hero-text-only {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: auto auto !important;
-    gap: 18px !important;
-    padding: 18px 18px 20px !important;
-  }
-
-  body.page-community .hero-copy,
-  body.page-community .garden-copy {
-    grid-column: 1 !important;
-    max-width: none !important;
-    text-align: left !important;
-    text-shadow: none !important;
-  }
-
-  body.page-community .garden-copy {
-    padding-top: 16px !important;
-    border-top: 1px solid rgba(88,123,97,.16) !important;
-  }
-}
-
-/* Mobile landscape: force a clear three-zone layout around the banner title. */
-@media (max-width: 900px) and (max-height: 560px) and (orientation: landscape) {
-  body.page-community .hero-overlay.hero-text-only {
-    grid-template-columns: minmax(210px, 29vw) minmax(180px, 1fr) minmax(170px, 24vw) !important;
-    gap: 12px !important;
-    width: calc(100% - 28px) !important;
-    padding: 12px 0 !important;
-    align-items: end !important;
-  }
-
-  body.page-community .hero-copy {
-    grid-column: 1 !important;
-    max-width: 260px !important;
-  }
-
-  body.page-community .garden-copy {
-    grid-column: 3 !important;
-    max-width: 220px !important;
-  }
-
-  body.page-community .hero-lead {
-    font-size: 1.05rem !important;
-  }
-
-  body.page-community .hero-description,
-  body.page-community .garden-copy p {
-    font-size: .58rem !important;
-    line-height: 1.34 !important;
-  }
-}
-
-
-/* =========================================================
-   HERO COPY REFINEMENT v13.2
-   Shorter narrative + larger protected center zone so the
-   baked-in Blossom Community title remains unobstructed.
-========================================================= */
-
-@media (min-width: 1366px) {
-  body.page-community .hero-overlay.hero-text-only {
-    grid-template-columns:
-      minmax(250px, 330px)
-      minmax(620px, 1fr)
-      minmax(210px, 250px) !important;
-    column-gap: clamp(26px, 3vw, 46px) !important;
-  }
-
-  body.page-community .hero-copy {
-    max-width: 330px !important;
-  }
-
-  body.page-community .garden-copy {
-    max-width: 250px !important;
-  }
-}
-
-@media (min-width: 901px) and (max-width: 1365px) {
-  body.page-community .hero-overlay.hero-text-only {
-    grid-template-columns:
-      minmax(220px, 290px)
-      minmax(440px, 1fr)
-      minmax(190px, 225px) !important;
-    column-gap: 18px !important;
-  }
-
-  body.page-community .hero-copy {
-    max-width: 290px !important;
-  }
-
-  body.page-community .garden-copy {
-    max-width: 225px !important;
-  }
-}
-
-body.page-community .hero-lead {
-  line-height: 1.04 !important;
-  margin-bottom: 14px !important;
-}
-
-body.page-community .hero-description,
-body.page-community .garden-copy p {
-  text-wrap: pretty;
-}
-
-@media (max-width: 900px) and (orientation: portrait) {
-  body.page-community .hero-description {
-    max-width: 32rem !important;
-  }
+  border-top-color: rgba(255,255,255,.10) !important;
 }
