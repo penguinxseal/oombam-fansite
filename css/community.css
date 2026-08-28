@@ -5882,3 +5882,21 @@ body.page-community .hero-lead {
     font-size: clamp(3rem, 7vw, 4.2rem) !important;
   }
 }
+
+
+/* =========================================================
+   COMMUNITY BLOSSOMS v17.0 — NO-CROP RESPONSIVE BANNER
+========================================================= */
+body.page-community .community-hero-media { height:auto !important; min-height:0 !important; aspect-ratio:auto !important; overflow:visible !important; background:#fff !important; }
+body.page-community .community-hero-image { position:relative !important; inset:auto !important; display:block !important; width:100% !important; height:auto !important; max-width:100% !important; object-fit:contain !important; object-position:center center !important; }
+body.page-community .community-hero-shade { display:none !important; }
+body.page-community .hero-overlay { display:flex !important; flex-direction:column !important; align-items:center !important; gap:0 !important; padding:18px 24px 22px !important; }
+body.page-community #communityHeroTitle.hero-lead { font-family:"Great Vibes",cursive !important; font-size:clamp(2.55rem,4.15vw,4rem) !important; line-height:1 !important; white-space:nowrap !important; text-align:center !important; }
+body.page-community .hero-kicker { margin:0 0 6px !important; }
+body.page-community .hero-description { margin:7px auto 0 !important; }
+body.page-community .garden-copy { margin-top:10px !important; padding-top:10px !important; }
+body.page-community .garden-copy::before { width:34px !important; }
+body.page-community .garden-link { margin-top:10px !important; }
+@media (min-width:761px) and (max-width:1100px){ body.page-community .community-hero{width:calc(100% - 24px) !important;margin-top:14px !important;} body.page-community .hero-overlay{padding:16px 22px 20px !important;} body.page-community #communityHeroTitle.hero-lead{font-size:clamp(2.35rem,5.1vw,3.45rem) !important;} }
+@media (max-width:760px){ body.page-community .community-hero{width:calc(100% - 12px) !important;margin-top:8px !important;border-radius:14px !important;} body.page-community .community-hero-media{border-radius:14px 14px 0 0 !important;} body.page-community .hero-overlay{padding:14px 15px 18px !important;} body.page-community .hero-kicker{font-size:.58rem !important;margin-bottom:4px !important;} body.page-community #communityHeroTitle.hero-lead{font-size:clamp(1.95rem,9.1vw,2.55rem) !important;white-space:nowrap !important;} body.page-community .hero-description,body.page-community .garden-copy p{font-size:.88rem !important;line-height:1.45 !important;} body.page-community .garden-copy{margin-top:8px !important;padding-top:9px !important;} body.page-community .garden-link{margin-top:9px !important;min-height:36px !important;padding:8px 14px !important;} }
+@media (max-width:899px) and (orientation:landscape){ body.page-community .community-hero{width:calc(100% - 16px) !important;} body.page-community .hero-overlay{padding:12px 18px 16px !important;} body.page-community #communityHeroTitle.hero-lead{font-size:clamp(2rem,5.2vw,2.8rem) !important;white-space:nowrap !important;} }
