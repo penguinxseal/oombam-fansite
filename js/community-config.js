@@ -14,5 +14,9 @@
 
 window.OOMBAM_COMMUNITY_CONFIG = {
   supabaseUrl: "",
-  supabaseAnonKey: ""
+  supabaseAnonKey: "",
+
+  // Preview phase only: signup UI is available, but participation is NOT restricted yet.
+  // We will switch this to true later when Supabase Auth and access controls are ready.
+  requireAuthForParticipation: false
 };
