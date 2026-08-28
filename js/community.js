@@ -30,8 +30,11 @@
     chat: "oombam-community-preview-chat",
     profile: "oombam-community-preview-profile",
     lastSubmit: "oombam-community-last-submit",
-    lastChat: "oombam-community-last-chat"
+    lastChat: "oombam-community-last-chat",
+    authPreview: "oombam-community-auth-preview"
   };
+
+  const AUTH_REQUIRED = config.requireAuthForParticipation === true;
 
   const safeText = (value = "", max = 5000) =>
     String(value).replace(/\s+/g, " ").trim().slice(0, max);
@@ -61,6 +64,8 @@
   const chatForm = document.getElementById("communityChatForm");
   const chatInput = document.getElementById("communityChatInput");
   const messageGrid = document.getElementById("blossomMessageGrid");
+  const authSummary = document.getElementById("communityAuthSummary");
+  const authButton = document.getElementById("communityAuthButton");
 
   const setChatState = (state, note = "") => {
     if (chatStatus) {
@@ -74,6 +79,168 @@
         state === "error" ? "OFFLINE" : "CONNECTING";
     }
     if (chatNote) chatNote.textContent = note;
+  };
+
+
+  const authPreviewNotice =
+    "Preview only — Supabase is not connected yet. No verification email will be sent and nothing is saved online.";
+
+  const getAuthPreview = () => storage.get(KEYS.authPreview, null);
+
+  const clearAuthPreview = () => {
+    try { localStorage.removeItem(KEYS.authPreview); } catch (_) {}
+    updateAuthUI();
+  };
+
+  const setAuthPreview = (session) => {
+    storage.set(KEYS.authPreview, session);
+    updateAuthUI();
+  };
+
+  const isSignedIn = () => {
+    if (!AUTH_REQUIRED) return true;
+    const preview = getAuthPreview();
+    return Boolean(preview?.email && preview?.displayName);
+  };
+
+  const updateAuthUI = () => {
+    if (!authSummary || !authButton) return;
+    const member = getAuthPreview();
+
+    if (member?.email && member?.displayName) {
+      authSummary.textContent = hasSupabaseConfig
+        ? `Signed in as ${member.displayName}.`
+        : `Preview member: ${member.displayName}.`;
+      authButton.textContent = "Account";
+      authButton.classList.add("is-signed-in");
+    } else {
+      authSummary.textContent = hasSupabaseConfig
+        ? "Preview the future Blossom member signup."
+        : "Preview the future Blossom member signup. Participation is still open for now.";
+      authButton.textContent = "Preview Sign Up";
+      authButton.classList.remove("is-signed-in");
+    }
+  };
+
+  const renderAuthAccount = () => {
+    const member = getAuthPreview();
+    if (!member) {
+      renderAuthGate();
+      return;
+    }
+
+    const wrapper = document.createElement("div");
+    const title = document.createElement("h2");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM ACCOUNT</p>
+      <h2 class="community-modal__title" id="communityModalTitle"></h2>
+      <p class="community-modal__intro">${hasSupabaseConfig
+        ? "Your Blossom Community account is active."
+        : authPreviewNotice}</p>
+      <div class="community-account-card">
+        <span>Email</span><strong class="community-account-email"></strong>
+        <span>Display name</span><strong class="community-account-name"></strong>
+      </div>
+      <div class="community-form__actions">
+        <button class="community-form__secondary" type="button" data-community-close>Close</button>
+        <button class="community-form__primary community-signout" type="button">Sign Out</button>
+      </div>`;
+
+    wrapper.querySelector("#communityModalTitle").textContent = `Hi, ${safeText(member.displayName, 30)} 🌸`;
+    wrapper.querySelector(".community-account-email").textContent = safeText(member.email, 120);
+    wrapper.querySelector(".community-account-name").textContent = safeText(member.displayName, 30);
+
+    wrapper.querySelector(".community-signout")?.addEventListener("click", () => {
+      clearAuthPreview();
+      closeModal();
+    });
+
+    openModal(wrapper);
+  };
+
+  const renderAuthGate = (onSuccess) => {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM COMMUNITY</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Join with your email 🌸</h2>
+      <p class="community-modal__intro">
+        This is a preview of the future Blossom member signup experience.
+        Community participation is still open while we finish polishing the site.
+      </p>
+      ${hasSupabaseConfig ? "" : `<div class="community-preview-banner">${authPreviewNotice}</div>`}
+      <form class="community-form" id="communityAuthForm">
+        <label>Email address
+          <input name="email" type="email" inputmode="email" autocomplete="email"
+                 maxlength="120" required placeholder="you@example.com">
+        </label>
+        <label>Display name
+          <input name="displayName" maxlength="30" autocomplete="nickname"
+                 required placeholder="e.g. Blossom PH">
+        </label>
+        <p class="community-form__help">
+          Your email will never be displayed publicly. Community posts use only your display name.
+        </p>
+        <p class="community-form__status" aria-live="polite"></p>
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
+          <button class="community-form__primary" type="submit">
+            ${hasSupabaseConfig ? "Continue with Email" : "Create Preview Profile"}
+          </button>
+        </div>
+      </form>`;
+
+    const form = wrapper.querySelector("form");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const email = safeText(data.get("email"), 120).toLowerCase();
+      const displayName = safeText(data.get("displayName"), 30);
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showFormStatus(form, "Please enter a valid email address.", "error");
+        return;
+      }
+      if (!displayName) {
+        showFormStatus(form, "Please choose a display name.", "error");
+        return;
+      }
+
+      if (hasSupabaseConfig) {
+        showFormStatus(
+          form,
+          "Supabase is connected, but Auth has not been enabled in this preview build yet.",
+          "error"
+        );
+        return;
+      }
+
+      setAuthPreview({
+        email,
+        displayName,
+        preview: true,
+        signedInAt: new Date().toISOString()
+      });
+
+      // Keep Chat profile aligned with the membership display name.
+      storage.set(KEYS.profile, {
+        displayName,
+        avatar: getProfile()?.avatar || "🌸"
+      });
+
+      closeModal();
+      onSuccess?.();
+    });
+
+    openModal(wrapper);
+  };
+
+  const requireParticipationAuth = (onSuccess) => {
+    if (!AUTH_REQUIRED || isSignedIn()) {
+      onSuccess?.();
+      return true;
+    }
+    renderAuthGate(onSuccess);
+    return false;
   };
 
   const createModalShell = () => {
@@ -99,6 +266,28 @@
     return modal;
   };
 
+  let modalScrollY = 0;
+
+  const lockModalScroll = () => {
+    modalScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${modalScrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    document.body.classList.add("community-modal-open");
+  };
+
+  const unlockModalScroll = () => {
+    document.body.classList.remove("community-modal-open");
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    window.scrollTo(0, modalScrollY);
+  };
+
   const openModal = (content, { wide = false } = {}) => {
     const modal = createModalShell();
     const dialog = modal.querySelector(".community-modal__dialog");
@@ -107,18 +296,25 @@
     body.replaceChildren();
     if (typeof content === "string") body.innerHTML = content;
     else body.append(content);
+
+    lockModalScroll();
     modal.hidden = false;
-    document.body.classList.add("community-modal-open");
-    requestAnimationFrame(() => {
-      modal.querySelector("input, textarea, select, button:not(.community-modal__close)")?.focus();
-    });
+
+    // Desktop can receive keyboard focus immediately.
+    // On iPhone/iPad, auto-focusing an input can trigger Safari viewport zoom/shift.
+    const touchLike = window.matchMedia?.("(hover: none), (pointer: coarse)")?.matches;
+    if (!touchLike) {
+      requestAnimationFrame(() => {
+        modal.querySelector("input, textarea, select, button:not(.community-modal__close)")?.focus({ preventScroll: true });
+      });
+    }
   };
 
   const closeModal = () => {
     const modal = document.getElementById("communityModal");
     if (!modal || modal.hidden) return;
     modal.hidden = true;
-    document.body.classList.remove("community-modal-open");
+    unlockModalScroll();
   };
 
   document.addEventListener("keydown", (event) => {
@@ -634,6 +830,7 @@
 
   async function handleChatSubmit(event) {
     event.preventDefault();
+
     const message = safeMultiline(chatInput?.value || "", 280);
     if (!message) return;
 
@@ -682,12 +879,29 @@
   });
 
   chatInput?.addEventListener("focus", () => {
-    if (!getProfile()?.displayName) renderProfileForm();
+    if (!getProfile()?.displayName) {
+      chatInput.blur();
+      renderProfileForm();
+    }
   });
 
   chatForm?.addEventListener("submit", handleChatSubmit);
 
   async function init() {
+    updateAuthUI();
+
+    const member = getAuthPreview();
+    if (member?.displayName && !getProfile()?.displayName) {
+      storage.set(KEYS.profile, {
+        displayName: member.displayName,
+        avatar: "🌸"
+      });
+    }
+
+    authButton?.addEventListener("click", () => {
+      getAuthPreview()?.email ? renderAuthAccount() : renderAuthGate();
+    });
+
     if (hasSupabaseConfig) {
       db = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
         auth: { persistSession: false, autoRefreshToken: false }
