@@ -466,3 +466,193 @@ body{overflow:hidden;color:var(--white);font-family:var(--sans);-webkit-font-smo
   .coming{margin-top:3px;font-size:4.5px;}
   .footer{bottom:3px;font-size:4px;}
 }
+
+/* =====================================================================
+   v18 HYBRID RESPONSIVE COMPOSITION
+   Portrait = complete 16:9 hero + blended continuation.
+   Landscape = full-bleed hero + viewport-safe lower-third copy.
+   ===================================================================== */
+
+@keyframes openingScenePortrait{
+  0%,8%{opacity:1}
+  12%{opacity:.96}
+  18%{opacity:.82}
+  24%,74%{opacity:.62}
+  80%{opacity:.72}
+  87%{opacity:.90}
+  92%,100%{opacity:1}
+}
+
+/* ---------- PORTRAIT PHONES ---------- */
+@media (max-width:760px) and (orientation:portrait){
+  .opening-bg{animation:openingScenePortrait var(--cycle) ease-in-out infinite}
+
+  .hero-reveal{
+    inset:0 0 auto 0;
+    height:calc(56.25vw + 72px);
+    min-height:0;
+    overflow:hidden;
+  }
+  .hero-image{
+    inset:0 0 auto 0;
+    height:56.25vw;
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    background-position:center top;
+    -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 78%,rgba(0,0,0,.92) 86%,rgba(0,0,0,.55) 94%,transparent 100%);
+    mask-image:linear-gradient(to bottom,#000 0%,#000 78%,rgba(0,0,0,.92) 86%,rgba(0,0,0,.55) 94%,transparent 100%);
+  }
+  .center-bloom{top:28vw}
+
+  .top-brand{
+    top:max(18px,env(safe-area-inset-top));
+    font-size:8px;
+    gap:9px;
+    letter-spacing:.30em;
+  }
+
+  .hero-copy{
+    top:calc(56.25vw + 54px);
+    bottom:auto;
+    width:94vw;
+    transform:translateX(-50%);
+    padding:0 16px;
+  }
+  .hero-copy::before{
+    width:108vw;
+    height:145%;
+    opacity:.84;
+    background:radial-gradient(ellipse at center,rgba(2,6,15,.48) 0%,rgba(2,6,15,.22) 48%,transparent 76%);
+  }
+  .eyebrow{
+    margin-bottom:9px;
+    padding:5px 9px 4px;
+    font-size:7.5px;
+    letter-spacing:.22em;
+  }
+  .headline-main{
+    font-size:clamp(34px,9.8vw,48px);
+    line-height:.92;
+  }
+  .headline-bloom{
+    margin-top:0;
+    font-size:clamp(42px,12vw,60px);
+    line-height:.78;
+  }
+  .identity{
+    margin-top:20px;
+    gap:20px;
+    font-size:9px;
+    letter-spacing:.34em;
+  }
+  .coming{
+    margin-top:11px;
+    gap:9px;
+    font-size:6.5px;
+    letter-spacing:.31em;
+  }
+  .coming .line{width:25px}
+  .footer{
+    left:14px;right:14px;
+    bottom:max(10px,env(safe-area-inset-bottom));
+    font-size:5.5px;
+    letter-spacing:.11em;
+  }
+}
+
+/* Taller portrait phones: only a little more breathing room, not a huge gap. */
+@media (max-width:760px) and (orientation:portrait) and (min-height:780px){
+  .hero-copy{top:calc(56.25vw + 66px)}
+}
+
+/* ---------- TABLET PORTRAIT ---------- */
+@media (min-width:761px) and (max-width:1100px) and (orientation:portrait){
+  .opening-bg{animation:openingScenePortrait var(--cycle) ease-in-out infinite}
+
+  .hero-reveal{
+    inset:0 0 auto 0;
+    height:calc(56.25vw + 105px);
+    min-height:0;
+    overflow:hidden;
+  }
+  .hero-image{
+    inset:0 0 auto 0;
+    height:56.25vw;
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    background-position:center top;
+    -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 80%,rgba(0,0,0,.9) 87%,rgba(0,0,0,.48) 95%,transparent 100%);
+    mask-image:linear-gradient(to bottom,#000 0%,#000 80%,rgba(0,0,0,.9) 87%,rgba(0,0,0,.48) 95%,transparent 100%);
+  }
+  .center-bloom{top:27vw}
+  .top-brand{top:max(25px,env(safe-area-inset-top));font-size:9px}
+
+  .hero-copy{
+    top:calc(56.25vw + 78px);
+    bottom:auto;
+    width:min(90vw,760px);
+    transform:translateX(-50%);
+    padding:0 24px;
+  }
+  .hero-copy::before{width:100vw;height:145%;opacity:.84}
+  .eyebrow{margin-bottom:10px;font-size:8.5px}
+  .headline-main{font-size:clamp(46px,7vw,68px)}
+  .headline-bloom{font-size:clamp(56px,8.3vw,82px)}
+  .identity{margin-top:25px}
+  .coming{margin-top:13px}
+}
+
+/* ---------- LANDSCAPE PHONES / TABLETS ---------- */
+@media (orientation:landscape) and (max-height:700px){
+  .hero-reveal{inset:0;height:auto;overflow:hidden}
+  .hero-image{
+    inset:0;
+    height:auto;
+    background-size:cover;
+    background-position:center 45%;
+    -webkit-mask-image:none;
+    mask-image:none;
+  }
+  .top-brand{
+    top:clamp(10px,2.8vh,18px);
+    font-size:clamp(6.5px,.78vw,9px);
+    gap:9px;
+  }
+  .hero-copy{
+    top:67%;
+    bottom:auto;
+    width:min(80vw,720px);
+    transform:translate(-50%,-50%);
+  }
+  .hero-copy::before{width:min(90vw,840px);height:148%;opacity:.82}
+  .eyebrow{margin-bottom:5px;padding:3px 8px 2px;font-size:clamp(5.5px,.62vw,8px)}
+  .headline-main{font-size:clamp(26px,4.1vw,48px);line-height:.90}
+  .headline-bloom{font-size:clamp(31px,4.8vw,56px);line-height:.72}
+  .identity{margin-top:clamp(9px,2vh,15px);gap:18px;font-size:clamp(6.5px,.72vw,9px)}
+  .coming{margin-top:clamp(5px,1.1vh,9px);gap:9px;font-size:clamp(5px,.56vw,7px)}
+  .coming .line{width:28px}
+  .footer{left:16px;right:16px;bottom:max(5px,env(safe-area-inset-bottom));font-size:4.5px}
+}
+
+/* Extra-short landscape browser viewport. */
+@media (orientation:landscape) and (max-height:520px){
+  .hero-copy{top:64%}
+  .headline-main{font-size:clamp(24px,3.8vw,40px)}
+  .headline-bloom{font-size:clamp(28px,4.4vw,47px)}
+  .identity{margin-top:7px}
+  .coming{margin-top:4px}
+}
+
+/* ---------- DESKTOP / LARGE LANDSCAPE ---------- */
+@media (min-width:1101px) and (orientation:landscape) and (min-height:701px){
+  .hero-reveal{inset:0;height:auto;overflow:hidden}
+  .hero-image{
+    inset:0;
+    height:auto;
+    background-size:cover;
+    background-position:center 44%;
+    -webkit-mask-image:none;
+    mask-image:none;
+  }
+  .hero-copy{top:72%;width:min(86vw,980px)}
+}
