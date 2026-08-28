@@ -9,23 +9,8 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=DM+Sans:wght@400;500;600&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/Global.css?v=OB00001.7" rel="stylesheet"/><link href="css/community.css?v=17.0" rel="stylesheet"/><style id="community-hero-v16-failsafe">
-  /* Surgical cache-safe hero headline fix */
-  body.page-community #communityHeroTitle.hero-lead {
-    font-family: "Great Vibes", cursive !important;
-    font-weight: 400 !important;
-    letter-spacing: 0 !important;
-    line-height: 1 !important;
-  }
-  @media (max-width: 760px) {
-    body.page-community #communityHeroTitle.hero-lead {
-      font-size: clamp(2.8rem, 12vw, 3.9rem) !important;
-    }
-  }
-</style>
-
-<style id="community-hero-v17-responsive-failsafe">
-/* V17: preserve the COMPLETE approved banner on every breakpoint. */
+<link href="css/Global.css?v=OB00001.7" rel="stylesheet"/><link href="css/community.css?v=18.0" rel="stylesheet"/><style id="community-hero-v18-failsafe">
+/* V18: final hero typography + no-crop banner */
 body.page-community .community-hero-media {
   height: auto !important;
   min-height: 0 !important;
@@ -44,68 +29,52 @@ body.page-community .community-hero-image {
   object-position: center center !important;
 }
 body.page-community .community-hero-shade { display: none !important; }
-
-/* Compact editorial copy — no second oversized panel. */
+body.page-community .hero-kicker { display: none !important; }
 body.page-community .hero-overlay {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   gap: 0 !important;
-  padding: 18px 24px 22px !important;
+  padding: 14px 24px 18px !important;
 }
 body.page-community #communityHeroTitle.hero-lead {
   font-family: "Great Vibes", cursive !important;
-  font-size: clamp(2.55rem, 4.15vw, 4rem) !important;
+  font-weight: 400 !important;
+  font-size: clamp(2.05rem, 3.2vw, 3rem) !important;
   line-height: 1 !important;
+  letter-spacing: 0 !important;
   white-space: nowrap !important;
   text-align: center !important;
 }
-body.page-community .hero-kicker { margin: 0 0 6px !important; }
-body.page-community .hero-description { margin: 7px auto 0 !important; }
-body.page-community .garden-copy { margin-top: 10px !important; padding-top: 10px !important; }
-body.page-community .garden-copy::before { width: 34px !important; }
-body.page-community .garden-link { margin-top: 10px !important; }
+body.page-community .hero-description { margin: 6px auto 0 !important; }
+body.page-community .garden-copy { margin-top: 8px !important; padding-top: 8px !important; }
+body.page-community .garden-copy::before { width: 30px !important; }
+body.page-community .garden-link { margin-top: 8px !important; }
 
 @media (min-width: 761px) and (max-width: 1100px) {
-  body.page-community .community-hero {
-    width: calc(100% - 24px) !important;
-    margin-top: 14px !important;
-  }
-  body.page-community .hero-overlay { padding: 16px 22px 20px !important; }
-  body.page-community #communityHeroTitle.hero-lead {
-    font-size: clamp(2.35rem, 5.1vw, 3.45rem) !important;
-  }
+  body.page-community .community-hero { width: calc(100% - 24px) !important; margin-top: 14px !important; }
+  body.page-community .hero-overlay { padding: 12px 20px 16px !important; }
+  body.page-community #communityHeroTitle.hero-lead { font-size: clamp(1.9rem, 4.2vw, 2.55rem) !important; }
 }
 
 @media (max-width: 760px) {
-  body.page-community .community-hero {
-    width: calc(100% - 12px) !important;
-    margin-top: 8px !important;
-    border-radius: 14px !important;
-  }
+  body.page-community .community-hero { width: calc(100% - 12px) !important; margin-top: 8px !important; border-radius: 14px !important; }
   body.page-community .community-hero-media { border-radius: 14px 14px 0 0 !important; }
-  body.page-community .hero-overlay { padding: 14px 15px 18px !important; }
-  body.page-community .hero-kicker { font-size: .58rem !important; margin-bottom: 4px !important; }
+  body.page-community .hero-overlay { padding: 11px 14px 15px !important; }
   body.page-community #communityHeroTitle.hero-lead {
-    font-size: clamp(1.95rem, 9.1vw, 2.55rem) !important;
+    font-size: clamp(1.5rem, 6.2vw, 1.95rem) !important;
     white-space: nowrap !important;
   }
   body.page-community .hero-description,
-  body.page-community .garden-copy p {
-    font-size: .88rem !important;
-    line-height: 1.45 !important;
-  }
-  body.page-community .garden-copy { margin-top: 8px !important; padding-top: 9px !important; }
-  body.page-community .garden-link { margin-top: 9px !important; min-height: 36px !important; padding: 8px 14px !important; }
+  body.page-community .garden-copy p { font-size: .82rem !important; line-height: 1.4 !important; }
+  body.page-community .garden-copy { margin-top: 7px !important; padding-top: 7px !important; }
+  body.page-community .garden-link { margin-top: 8px !important; min-height: 34px !important; padding: 7px 13px !important; font-size: .78rem !important; }
 }
 
 @media (max-width: 899px) and (orientation: landscape) {
   body.page-community .community-hero { width: calc(100% - 16px) !important; }
-  body.page-community .hero-overlay { padding: 12px 18px 16px !important; }
-  body.page-community #communityHeroTitle.hero-lead {
-    font-size: clamp(2rem, 5.2vw, 2.8rem) !important;
-    white-space: nowrap !important;
-  }
+  body.page-community .hero-overlay { padding: 10px 16px 14px !important; }
+  body.page-community #communityHeroTitle.hero-lead { font-size: clamp(1.7rem, 4.4vw, 2.2rem) !important; white-space: nowrap !important; }
 }
 </style>
 
@@ -216,8 +185,7 @@ body.page-community .garden-link { margin-top: 10px !important; }
 <div class="community-hero-media"><img alt="" aria-hidden="true" class="community-hero-image" src="assets/images/Community-Banner-v2.png"/><div aria-hidden="true" class="community-hero-shade"></div></div><div class="community-container hero-overlay hero-text-only">
 <div class="hero-copy">
 
-<p class="hero-kicker">BLOSSOM COMMUNITY</p>
-<h1 class="hero-lead" id="communityHeroTitle" style="font-family: 'Great Vibes', cursive !important; font-weight: 400 !important; font-size: clamp(3.4rem, 5.2vw, 5.6rem) !important; line-height: 1 !important; letter-spacing: 0 !important; margin: 0 !important;">
+<h1 class="hero-lead" id="communityHeroTitle" style="font-family: 'Great Vibes', cursive !important; font-weight: 400 !important; line-height: 1 !important; letter-spacing: 0 !important; margin: 0 !important;">
             Where love grows together
           </h1>
 <p class="hero-description">
