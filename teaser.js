@@ -1,5 +1,5 @@
-// OomBam teaser v11
-// The 17-second sequence is intentionally CSS-driven so it loops smoothly
+// OomBam teaser v12
+// The 18-second sequence is intentionally CSS-driven so it loops smoothly
 // without timers drifting out of sync. JS only adds a tiny pointer parallax.
 
 document.addEventListener("DOMContentLoaded", () => {
