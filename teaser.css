@@ -13,7 +13,7 @@ html,body{margin:0;width:100%;height:100%;background:#020610}
 body{overflow:hidden;color:var(--white);font-family:var(--sans);-webkit-font-smoothing:antialiased}
 
 .teaser{
-  position:relative;width:100%;height:100vh;height:100svh;min-height:560px;
+  position:relative;width:100%;height:100vh;height:100svh;height:100dvh;
   overflow:hidden;isolation:isolate;background:#020610;
 }
 
@@ -115,8 +115,354 @@ body{overflow:hidden;color:var(--white);font-family:var(--sans);-webkit-font-smo
 @keyframes cloverDrift{0%{transform:translate3d(-7px,5px,0) rotate(-12deg) scale(.9);opacity:.38}50%{opacity:.63}100%{transform:translate3d(14px,-13px,0) rotate(22deg) scale(1.05);opacity:.48}}
 @keyframes sakuraFall{0%{transform:translate3d(0,-8vh,0) rotate(0deg);opacity:0}9%{opacity:.62}48%{transform:translate3d(-48px,50vh,0) rotate(180deg);opacity:.56}90%{opacity:.38}100%{transform:translate3d(-92px,112vh,0) rotate(380deg);opacity:0}}
 
-@media(max-width:760px){
-  .teaser{min-height:520px}.hero-image{background-position:center}.top-brand{top:22px;gap:10px;letter-spacing:.31em}.hero-copy{top:70.5%;width:94vw;padding:0 14px}.eyebrow{letter-spacing:.25em}.headline-main{font-size:clamp(37px,10.8vw,55px)}.headline-bloom{font-size:clamp(50px,14.2vw,72px)}.identity{margin-top:27px;gap:22px;letter-spacing:.35em}.coming{letter-spacing:.34em;gap:11px}.coming .line{width:30px}.footer{left:15px;right:15px;bottom:max(12px,env(safe-area-inset-bottom));letter-spacing:.14em}.clover{opacity:.40}
+/* Responsive layouts -------------------------------------------------- */
+
+/* Desktop / laptop landscape: keep the artwork dominant and place the
+   full copy in the darker lower-third safe area. */
+@media (min-width:1280px) and (min-height:701px){
+  .hero-image{background-size:cover;background-position:center 43%}
+  .top-brand{top:clamp(28px,4.2vh,48px)}
+  .hero-copy{top:73%;width:min(88vw,980px)}
+  .hero-copy::before{width:min(96vw,1160px);height:138%}
+  .eyebrow{margin-bottom:clamp(10px,1.25vh,16px);font-size:clamp(9px,.70vw,11px)}
+  .headline-main{font-size:clamp(54px,4.7vw,82px);line-height:.92}
+  .headline-bloom{font-size:clamp(62px,5.5vw,96px);line-height:.75}
+  .identity{margin-top:clamp(24px,3vh,36px)}
+  .coming{margin-top:clamp(13px,1.6vh,19px)}
 }
-@media(max-height:680px) and (min-width:761px){.hero-copy{top:70%}.headline-main{font-size:clamp(42px,5.2vw,72px)}.headline-bloom{font-size:clamp(50px,6vw,84px)}.identity{margin-top:22px}}
-@media(prefers-reduced-motion:reduce){.opening-bg,.hero-reveal,.center-bloom,.ambient-motion,.droplet,.clover,.petal,.sequence{animation:none!important}.hero-reveal,.sequence{opacity:1!important;transform:none!important}.hero-reveal{filter:none!important}.top-brand{transform:translateX(-50%)!important}}
+
+/* Tablet landscape: scale the text as a unit so it never competes with the
+   mascots or drops below the visible viewport. */
+@media (min-width:761px) and (max-width:1279px) and (orientation:landscape) and (min-height:701px){
+  .hero-image{background-size:cover;background-position:center 42%}
+  .top-brand{top:clamp(22px,3.8vh,34px);font-size:clamp(8px,.82vw,10px);gap:12px}
+  .hero-copy{top:72%;width:min(88vw,820px);padding:0 18px}
+  .hero-copy::before{width:min(98vw,940px);height:142%}
+  .eyebrow{margin-bottom:10px;font-size:clamp(8px,.75vw,10px);letter-spacing:.31em}
+  .headline-main{font-size:clamp(44px,5vw,66px);line-height:.92}
+  .headline-bloom{font-size:clamp(52px,6vw,78px);line-height:.76}
+  .identity{margin-top:22px;gap:28px;font-size:clamp(9px,.85vw,12px)}
+  .coming{margin-top:12px;font-size:clamp(7px,.65vw,9px)}
+  .coming .line{width:44px}
+  .footer{font-size:6px;left:24px;right:24px}
+}
+
+/* Tablet portrait: treat the 16:9 artwork as a large cinematic panel rather
+   than cropping it like a desktop background. The copy gets a dedicated
+   lower safe area. */
+@media (min-width:761px) and (max-width:1100px) and (orientation:portrait){
+  .hero-image{
+    background-size:128% auto;
+    background-repeat:no-repeat;
+    background-position:center 13%;
+  }
+  .center-bloom{top:35%}
+  .top-brand{top:max(28px,env(safe-area-inset-top));font-size:10px;gap:13px;letter-spacing:.36em}
+  .hero-copy{top:70.5%;width:min(90vw,760px);padding:0 24px}
+  .hero-copy::before{width:100vw;height:146%}
+  .eyebrow{margin-bottom:12px;font-size:9px;letter-spacing:.31em}
+  .headline-main{font-size:clamp(48px,7.4vw,70px);line-height:.92}
+  .headline-bloom{font-size:clamp(58px,8.7vw,84px);line-height:.76}
+  .identity{margin-top:27px;gap:30px;font-size:11px;letter-spacing:.40em}
+  .coming{margin-top:14px;gap:14px;font-size:8px;letter-spacing:.38em}
+  .coming .line{width:42px}
+  .footer{left:24px;right:24px;bottom:max(16px,env(safe-area-inset-bottom));font-size:6px;letter-spacing:.17em}
+}
+
+/* Portrait phones: preserve the full visual story and reserve the lower
+   portion for typography. */
+@media (max-width:760px) and (orientation:portrait){
+  .teaser{height:100svh;height:100dvh;min-height:0}
+  .hero-image{
+    inset:0;
+    background-size:145% auto;
+    background-repeat:no-repeat;
+    background-position:center 15%;
+  }
+  .center-bloom{top:34%}
+  .top-brand{
+    top:max(22px,env(safe-area-inset-top));
+    gap:10px;
+    font-size:9px;
+    letter-spacing:.31em;
+  }
+  .hero-copy{
+    top:68%;
+    width:94vw;
+    padding:0 18px;
+  }
+  .hero-copy::before{height:145%;width:108vw;opacity:.92}
+  .eyebrow{
+    margin-bottom:12px;
+    padding:6px 10px 5px;
+    font-size:8px;
+    letter-spacing:.23em;
+  }
+  .headline-main{
+    font-size:clamp(38px,10.6vw,54px);
+    line-height:.91;
+  }
+  .headline-bloom{
+    margin-top:2px;
+    font-size:clamp(48px,13.2vw,68px);
+    line-height:.78;
+  }
+  .identity{
+    margin-top:25px;
+    gap:22px;
+    font-size:10px;
+    letter-spacing:.34em;
+  }
+  .coming{
+    margin-top:14px;
+    gap:10px;
+    font-size:7px;
+    letter-spacing:.32em;
+  }
+  .coming .line{width:28px}
+  .footer{
+    left:16px;right:16px;
+    bottom:max(12px,env(safe-area-inset-bottom));
+    font-size:6px;
+    letter-spacing:.13em;
+  }
+  .clover{opacity:.40}
+}
+
+/* Short landscape viewports (phones and compact tablets): fit the full text
+   stack above browser chrome and avoid off-screen content. */
+@media (orientation:landscape) and (max-height:700px){
+  .teaser{height:100svh;height:100dvh;min-height:0}
+  .hero-image{background-size:cover;background-position:center 42%}
+  .top-brand{
+    top:clamp(12px,3.5vh,24px);
+    font-size:clamp(7px,1.05vw,10px);
+    gap:10px;
+    letter-spacing:.32em;
+  }
+  .hero-copy{top:69%;width:min(86vw,760px)}
+  .hero-copy::before{height:150%;width:min(96vw,900px)}
+  .eyebrow{
+    margin-bottom:7px;
+    padding:4px 9px 3px;
+    font-size:clamp(6px,.85vw,9px);
+    letter-spacing:.27em;
+  }
+  .headline-main{font-size:clamp(28px,4.5vw,54px);line-height:.90}
+  .headline-bloom{margin-top:-1px;font-size:clamp(34px,5.4vw,64px);line-height:.72}
+  .identity{margin-top:clamp(13px,2.6vh,20px);gap:clamp(15px,2vw,26px);font-size:clamp(7px,.9vw,10px);letter-spacing:.34em}
+  .coming{margin-top:clamp(8px,1.5vh,12px);gap:10px;font-size:clamp(5px,.68vw,8px);letter-spacing:.33em}
+  .coming .line{width:32px}
+  .footer{left:18px;right:18px;bottom:max(7px,env(safe-area-inset-bottom));font-size:5px;letter-spacing:.13em}
+}
+
+/* Extra-short landscape Safari / in-app browser viewport. */
+@media (orientation:landscape) and (max-height:520px){
+  .top-brand{top:10px}
+  .hero-copy{top:66%}
+  .eyebrow{margin-bottom:5px}
+  .headline-main{font-size:clamp(25px,4vw,44px)}
+  .headline-bloom{font-size:clamp(30px,4.8vw,52px)}
+  .identity{margin-top:9px}
+  .coming{margin-top:5px}
+  .footer{bottom:5px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .opening-bg,.hero-reveal,.center-bloom,.ambient-motion,.droplet,.clover,.petal,.sequence{animation:none!important}
+  .hero-reveal,.sequence{opacity:1!important;transform:none!important}
+  .hero-reveal{filter:none!important}
+  .top-brand{transform:translateX(-50%)!important}
+}
+
+/* =====================================================================
+   v17 RESPONSIVE COMPOSITION FIX
+   The 16:9 artwork is no longer forced to fill every viewport.
+   Portrait and short-landscape layouts preserve the complete hero image,
+   while the typography is kept in a guaranteed safe area.
+   ===================================================================== */
+
+/* Portrait phones: full-width 16:9 hero panel, never crop the artwork. */
+@media (max-width:760px) and (orientation:portrait){
+  .hero-reveal{
+    inset:0 0 auto 0;
+    height:55dvh;
+    min-height:0;
+    overflow:visible;
+  }
+  .hero-image{
+    inset:0;
+    background-size:100% auto;
+    background-repeat:no-repeat;
+    background-position:center top;
+  }
+  .center-bloom{top:29%;}
+
+  .top-brand{
+    top:max(20px,env(safe-area-inset-top));
+    font-size:8px;
+    letter-spacing:.30em;
+  }
+
+  .hero-copy{
+    top:auto;
+    bottom:clamp(94px,12dvh,128px);
+    width:94vw;
+    transform:translateX(-50%);
+    padding:0 18px;
+  }
+  .hero-copy::before{
+    width:110vw;
+    height:138%;
+    opacity:.96;
+  }
+  .eyebrow{
+    margin-bottom:10px;
+    font-size:7.5px;
+    letter-spacing:.22em;
+    padding:5px 9px 4px;
+  }
+  .headline-main{
+    font-size:clamp(34px,9.6vw,48px);
+    line-height:.92;
+  }
+  .headline-bloom{
+    margin-top:0;
+    font-size:clamp(43px,11.8vw,61px);
+    line-height:.77;
+  }
+  .identity{
+    margin-top:21px;
+    gap:20px;
+    font-size:9px;
+  }
+  .coming{
+    margin-top:11px;
+    font-size:6.5px;
+    gap:9px;
+  }
+  .coming .line{width:25px;}
+  .footer{
+    left:14px;
+    right:14px;
+    bottom:max(10px,env(safe-area-inset-bottom));
+    font-size:5.5px;
+    letter-spacing:.11em;
+  }
+}
+
+/* Taller portrait phones can give the hero a little more visual room. */
+@media (max-width:760px) and (orientation:portrait) and (min-height:780px){
+  .hero-reveal{height:58dvh;}
+  .hero-copy{bottom:clamp(100px,11dvh,132px);}
+}
+
+/* Tablet portrait: preserve the complete artwork as a large 16:9 panel. */
+@media (min-width:761px) and (max-width:1100px) and (orientation:portrait){
+  .hero-reveal{
+    inset:0 0 auto 0;
+    height:58dvh;
+    overflow:visible;
+  }
+  .hero-image{
+    inset:0;
+    background-size:100% auto;
+    background-repeat:no-repeat;
+    background-position:center top;
+  }
+  .center-bloom{top:30%;}
+  .hero-copy{
+    top:auto;
+    bottom:clamp(92px,10dvh,138px);
+    width:min(90vw,760px);
+    transform:translateX(-50%);
+  }
+  .headline-main{font-size:clamp(46px,6.7vw,66px);}
+  .headline-bloom{font-size:clamp(56px,8vw,78px);}
+  .identity{margin-top:24px;}
+}
+
+/* Short landscape phones/tablets: show the COMPLETE 16:9 artwork with
+   letterboxing instead of cover-cropping, then keep the entire text stack
+   compact inside the viewport. */
+@media (orientation:landscape) and (max-height:700px){
+  .hero-reveal{inset:0;}
+  .hero-image{
+    inset:0;
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center center;
+  }
+  .opening-bg{
+    background:
+      radial-gradient(circle at 18% 42%,rgba(35,142,208,.30),transparent 35%),
+      radial-gradient(circle at 84% 40%,rgba(205,66,132,.30),transparent 37%),
+      linear-gradient(112deg,#03111f 0%,#050813 46%,#1a0916 100%);
+  }
+  .center-bloom{top:42%;}
+  .top-brand{
+    top:max(9px,env(safe-area-inset-top));
+    font-size:7px;
+    gap:9px;
+    letter-spacing:.30em;
+  }
+  .hero-copy{
+    top:auto;
+    bottom:clamp(34px,6dvh,54px);
+    width:min(76vw,700px);
+    transform:translateX(-50%);
+    padding:0 12px;
+  }
+  .hero-copy::before{
+    width:min(88vw,820px);
+    height:132%;
+    filter:blur(11px);
+  }
+  .eyebrow{
+    margin-bottom:4px;
+    padding:3px 8px 3px;
+    font-size:6px;
+    letter-spacing:.24em;
+  }
+  .headline-main{
+    font-size:min(7.0dvh,4.2vw);
+    line-height:.91;
+  }
+  .headline-bloom{
+    margin-top:-1px;
+    font-size:min(8.2dvh,5vw);
+    line-height:.72;
+  }
+  .identity{
+    margin-top:min(2.2dvh,12px);
+    gap:18px;
+    font-size:min(1.55dvh,8px);
+    letter-spacing:.31em;
+  }
+  .coming{
+    margin-top:min(1.4dvh,7px);
+    gap:8px;
+    font-size:min(1.15dvh,6px);
+    letter-spacing:.29em;
+  }
+  .coming .line{width:26px;}
+  .footer{
+    left:16px;
+    right:16px;
+    bottom:max(5px,env(safe-area-inset-bottom));
+    font-size:4.5px;
+    letter-spacing:.11em;
+  }
+}
+
+/* Extra-short landscape browser viewports: prioritize fitting all copy. */
+@media (orientation:landscape) and (max-height:520px){
+  .top-brand{top:max(6px,env(safe-area-inset-top));font-size:6px;}
+  .hero-copy{bottom:25px;width:min(72vw,620px);}
+  .eyebrow{font-size:5px;margin-bottom:3px;}
+  .headline-main{font-size:min(6.4dvh,3.7vw);}
+  .headline-bloom{font-size:min(7.4dvh,4.4vw);}
+  .identity{margin-top:6px;font-size:5.5px;}
+  .coming{margin-top:3px;font-size:4.5px;}
+  .footer{bottom:3px;font-size:4px;}
+}
