@@ -1,79 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="OomBam Official Fansite — Something beautiful is blooming.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#030711" />
+  <meta name="description" content="OomBam Official Fansite — Something beautiful is blooming." />
   <title>OomBam Official Fansite — Coming Soon</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="teaser.css?v=9">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&family=Italianno&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="teaser.css?v=20260828-11" />
 </head>
 <body>
   <main class="teaser" id="teaser">
+    <!-- STAGE 1: existing teaser-style ambient background -->
+    <div class="opening-bg" aria-hidden="true"></div>
+    <div class="opening-particles opening-bubbles" aria-hidden="true">
+      <span class="bubble b1"></span><span class="bubble b2"></span><span class="bubble b3"></span>
+      <span class="bubble b4"></span><span class="bubble b5"></span><span class="bubble b6"></span>
+      <span class="bubble b7"></span><span class="bubble b8"></span>
+    </div>
+    <div class="opening-particles opening-petals" aria-hidden="true">
+      <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+      <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
+      <span class="petal p7"></span><span class="petal p8"></span>
+    </div>
 
-    <div class="ambient ambient-blue" aria-hidden="true"></div>
-    <div class="ambient ambient-pink" aria-hidden="true"></div>
-    <div class="vignette" aria-hidden="true"></div>
+    <!-- STAGE 2: artwork reveal -->
+    <div class="hero-reveal" aria-hidden="true">
+      <div class="hero-image"></div>
+      <div class="hero-glow"></div>
+    </div>
 
-    <header class="brand">
+    <!-- STAGE 3: live text overlay -->
+    <header class="top-brand sequence sequence-brand" aria-label="Penguin and Seal">
       <span>PENGUIN</span>
-      <span class="brand-heart">♥</span>
+      <span class="heart">♥</span>
       <span>SEAL</span>
     </header>
 
-    <!-- Uses the hero image already uploaded to:
-         /assets/images/teaser-hero.png
-         The same source image is cropped independently for each character. -->
-    <div class="character character-penguin" aria-hidden="true">
-      <div class="character-source character-source-penguin"></div>
-      <div class="character-glow glow-blue"></div>
-    </div>
+    <section class="hero-copy" aria-labelledby="teaser-title">
+      <p class="eyebrow sequence sequence-eyebrow">OOMBAM OFFICIAL FANSITE</p>
 
-    <div class="character character-seal" aria-hidden="true">
-      <div class="character-source character-source-seal"></div>
-      <div class="character-glow glow-pink"></div>
-    </div>
-
-    <div class="water-layer" id="waterLayer" aria-hidden="true"></div>
-    <div class="petal-layer" id="petalLayer" aria-hidden="true"></div>
-
-    <div class="heart-live" aria-hidden="true">♥</div>
-
-    <section class="copy">
-      <p class="eyebrow">OOMBAM OFFICIAL FANSITE</p>
-
-      <h1 class="title">
-        <span class="title-main">
-          <span class="word word-1">Something</span>
-          <span class="word word-2">beautiful</span>
-        </span>
-
-        <span class="title-script">is blooming.</span>
+      <h1 id="teaser-title" class="hero-title">
+        <span class="headline-main sequence sequence-headline">Something beautiful</span>
+        <span class="headline-bloom sequence sequence-bloom">is blooming.</span>
       </h1>
 
-      <div class="pair">
-        <span class="oom">OOM</span>
-        <span class="x">×</span>
-        <span class="bam">BAM</span>
-      </div>
+      <p class="identity sequence sequence-identity">
+        <span>OOM</span><span class="pair-x">×</span><span>BAM</span>
+      </p>
 
-      <div class="coming">
+      <div class="coming sequence sequence-coming" aria-label="Coming soon">
         <span class="line"></span>
         <span>COMING SOON</span>
         <span class="line"></span>
       </div>
     </section>
 
-    <footer class="footer">
+    <footer class="footer sequence sequence-footer">
       <span>DESIGNED WITH LOVE FOR OOMBAM</span>
       <span>2026</span>
     </footer>
+
+    <div class="loop-vignette" aria-hidden="true"></div>
   </main>
 
-  <script src="teaser.js?v=9" defer></script>
+  <script src="teaser.js?v=20260828-11" defer></script>
 </body>
 </html>
