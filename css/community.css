@@ -5828,3 +5828,62 @@ body.page-community .community-hero-shade {
     line-height: 1.34 !important;
   }
 }
+
+
+/* =========================================================
+   HERO COPY REFINEMENT v13.2
+   Shorter narrative + larger protected center zone so the
+   baked-in Blossom Community title remains unobstructed.
+========================================================= */
+
+@media (min-width: 1366px) {
+  body.page-community .hero-overlay.hero-text-only {
+    grid-template-columns:
+      minmax(250px, 330px)
+      minmax(620px, 1fr)
+      minmax(210px, 250px) !important;
+    column-gap: clamp(26px, 3vw, 46px) !important;
+  }
+
+  body.page-community .hero-copy {
+    max-width: 330px !important;
+  }
+
+  body.page-community .garden-copy {
+    max-width: 250px !important;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1365px) {
+  body.page-community .hero-overlay.hero-text-only {
+    grid-template-columns:
+      minmax(220px, 290px)
+      minmax(440px, 1fr)
+      minmax(190px, 225px) !important;
+    column-gap: 18px !important;
+  }
+
+  body.page-community .hero-copy {
+    max-width: 290px !important;
+  }
+
+  body.page-community .garden-copy {
+    max-width: 225px !important;
+  }
+}
+
+body.page-community .hero-lead {
+  line-height: 1.04 !important;
+  margin-bottom: 14px !important;
+}
+
+body.page-community .hero-description,
+body.page-community .garden-copy p {
+  text-wrap: pretty;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  body.page-community .hero-description {
+    max-width: 32rem !important;
+  }
+}
