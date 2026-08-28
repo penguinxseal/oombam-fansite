@@ -5601,3 +5601,246 @@ html[data-theme="dark"] body.page-community .garden-copy,
 body.page-community.dark-theme .garden-copy {
   border-top-color: rgba(255,255,255,.10) !important;
 }
+
+
+/* =========================================================
+   COMMUNITY BLOSSOMS v14.0
+   EDITORIAL NARRATIVE REFINEMENT
+   ---------------------------------------------------------
+   Professional hierarchy for the intro beneath the banner:
+   - one intentional centered composition
+   - no oversized left/right split
+   - no floating emoji ornament
+   - no headline punctuation
+   - compact readable measure on every breakpoint
+========================================================= */
+
+body.page-community .hero-overlay {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0 !important;
+  padding: clamp(34px, 4.4vw, 58px) clamp(24px, 6vw, 84px) clamp(38px, 4.8vw, 64px) !important;
+  text-align: center !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(184, 211, 194, .14), transparent 42%),
+    linear-gradient(180deg, #fbfcf9 0%, #f7faf6 100%) !important;
+  border-top: 1px solid rgba(72, 105, 84, .10) !important;
+}
+
+body.page-community .hero-copy,
+body.page-community .garden-copy {
+  width: min(100%, 760px) !important;
+  max-width: 760px !important;
+  text-align: center !important;
+}
+
+body.page-community .hero-kicker {
+  margin: 0 0 12px !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: .72rem !important;
+  line-height: 1 !important;
+  font-weight: 600 !important;
+  letter-spacing: .22em !important;
+  color: #789080 !important;
+}
+
+body.page-community .hero-lead {
+  margin: 0 !important;
+  font-family: "Cormorant Garamond", serif !important;
+  font-size: clamp(2.5rem, 4.25vw, 4.4rem) !important;
+  line-height: .98 !important;
+  font-weight: 600 !important;
+  letter-spacing: -.035em !important;
+  color: #24382d !important;
+  text-wrap: balance !important;
+}
+
+body.page-community .hero-description {
+  margin: 18px auto 0 !important;
+  max-width: 560px !important;
+  font-size: clamp(.98rem, 1.2vw, 1.08rem) !important;
+  line-height: 1.65 !important;
+  color: #65766c !important;
+  text-wrap: balance !important;
+}
+
+body.page-community .garden-copy {
+  position: relative !important;
+  margin-top: 27px !important;
+  padding-top: 28px !important;
+  border-top: 0 !important;
+}
+
+body.page-community .garden-copy::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 50% !important;
+  width: 52px !important;
+  height: 1px !important;
+  transform: translateX(-50%) !important;
+  background: rgba(95, 131, 107, .35) !important;
+}
+
+body.page-community .garden-flower {
+  display: none !important;
+}
+
+body.page-community .garden-copy p {
+  margin: 0 auto !important;
+  max-width: 560px !important;
+  font-size: clamp(.95rem, 1.15vw, 1.04rem) !important;
+  line-height: 1.65 !important;
+  color: #65766c !important;
+  text-wrap: balance !important;
+}
+
+body.page-community .garden-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  margin-top: 20px !important;
+  min-height: 42px !important;
+  padding: 10px 18px !important;
+  border: 1px solid rgba(95, 131, 107, .28) !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,.56) !important;
+  color: #557761 !important;
+  font-size: .9rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  box-shadow: 0 7px 20px rgba(50, 82, 62, .06) !important;
+  transition: transform .2s ease, background-color .2s ease, border-color .2s ease !important;
+}
+
+body.page-community .garden-link:hover {
+  transform: translateY(-1px) !important;
+  background: rgba(255,255,255,.9) !important;
+  border-color: rgba(95, 131, 107, .46) !important;
+}
+
+/* Tablet portrait + compact tablet: keep the composition centered and tighter. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-community .hero-overlay {
+    padding: 38px 38px 44px !important;
+  }
+
+  body.page-community .hero-copy,
+  body.page-community .garden-copy {
+    width: min(100%, 680px) !important;
+    max-width: 680px !important;
+  }
+
+  body.page-community .hero-lead {
+    font-size: clamp(2.7rem, 6vw, 3.8rem) !important;
+  }
+}
+
+/* Phones: still editorial, but use comfortable margins and avoid giant type. */
+@media (max-width: 760px) {
+  body.page-community .hero-overlay {
+    padding: 30px 22px 34px !important;
+  }
+
+  body.page-community .hero-kicker {
+    margin-bottom: 10px !important;
+    font-size: .64rem !important;
+    letter-spacing: .18em !important;
+  }
+
+  body.page-community .hero-lead {
+    font-size: clamp(2.25rem, 10.5vw, 3rem) !important;
+    line-height: 1 !important;
+  }
+
+  body.page-community .hero-description {
+    margin-top: 14px !important;
+    font-size: .96rem !important;
+    line-height: 1.6 !important;
+  }
+
+  body.page-community .garden-copy {
+    margin-top: 23px !important;
+    padding-top: 24px !important;
+  }
+
+  body.page-community .garden-copy p {
+    font-size: .94rem !important;
+    line-height: 1.6 !important;
+  }
+
+  body.page-community .garden-link {
+    margin-top: 18px !important;
+    min-height: 40px !important;
+    padding: 9px 16px !important;
+    font-size: .88rem !important;
+  }
+}
+
+/* Short landscape phones/tablets: use a compact vertical rhythm. */
+@media (max-width: 899px) and (orientation: landscape) {
+  body.page-community .hero-overlay {
+    display: flex !important;
+    padding: 24px 28px 28px !important;
+  }
+
+  body.page-community .hero-lead {
+    font-size: clamp(2.1rem, 5vw, 2.8rem) !important;
+  }
+
+  body.page-community .hero-description {
+    margin-top: 12px !important;
+  }
+
+  body.page-community .garden-copy {
+    margin-top: 20px !important;
+    padding-top: 20px !important;
+  }
+
+  body.page-community .garden-link {
+    margin-top: 15px !important;
+  }
+}
+
+/* Dark mode equivalent. */
+html[data-theme="dark"] body.page-community .hero-overlay,
+body.page-community.dark-theme .hero-overlay {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(142, 175, 151, .10), transparent 42%),
+    linear-gradient(180deg, #101312 0%, #111513 100%) !important;
+  border-top-color: rgba(255,255,255,.07) !important;
+}
+
+html[data-theme="dark"] body.page-community .hero-kicker,
+body.page-community.dark-theme .hero-kicker {
+  color: #98ae9d !important;
+}
+
+html[data-theme="dark"] body.page-community .hero-lead,
+body.page-community.dark-theme .hero-lead {
+  color: #f4f6f3 !important;
+}
+
+html[data-theme="dark"] body.page-community .hero-description,
+html[data-theme="dark"] body.page-community .garden-copy p,
+body.page-community.dark-theme .hero-description,
+body.page-community.dark-theme .garden-copy p {
+  color: rgba(255,255,255,.68) !important;
+}
+
+html[data-theme="dark"] body.page-community .garden-copy::before,
+body.page-community.dark-theme .garden-copy::before {
+  background: rgba(190,216,196,.24) !important;
+}
+
+html[data-theme="dark"] body.page-community .garden-link,
+body.page-community.dark-theme .garden-link {
+  background: rgba(255,255,255,.035) !important;
+  color: #bed8c4 !important;
+  border-color: rgba(190,216,196,.22) !important;
+  box-shadow: none !important;
+}
