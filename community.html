@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=DM+Sans:wght@400;500;600&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/Global.css?v=OB00001.7" rel="stylesheet"/><link href="css/community.css?v=18.0" rel="stylesheet"/><style id="community-hero-v18-failsafe">
+<link href="css/Global.css?v=OB00001.7" rel="stylesheet"/><link href="css/community.css?v=19.0" rel="stylesheet"/><style id="community-hero-v18-failsafe">
 /* V18: final hero typography + no-crop banner */
 body.page-community .community-hero-media {
   height: auto !important;
@@ -233,7 +233,7 @@ body.page-community .garden-link { margin-top: 8px !important; }
                 Write your letter<br/>
                 to Oom.
               </p>
-<a class="letter-btn blue-btn" href="#submit-letter">
+<a class="letter-btn blue-btn" data-community-action="letter" data-recipient="Oom" href="#submit-letter">
                 Write a Letter →
               </a>
 </div>
@@ -253,7 +253,7 @@ body.page-community .garden-link { margin-top: 8px !important; }
                 Write your letter<br/>
                 to Bam.
               </p>
-<a class="letter-btn pink-btn" href="#submit-letter">
+<a class="letter-btn pink-btn" data-community-action="letter" data-recipient="Bam" href="#submit-letter">
                 Write a Letter →
               </a>
 </div>
@@ -273,7 +273,7 @@ body.page-community .garden-link { margin-top: 8px !important; }
                 Write a letter to Oom
                 and Bam together.
               </p>
-<a class="letter-btn cream-btn" href="#submit-letter">
+<a class="letter-btn cream-btn" data-community-action="letter" data-recipient="OomBam" href="#submit-letter">
                 Write a Letter →
               </a>
 </div>
@@ -298,9 +298,9 @@ body.page-community .garden-link { margin-top: 8px !important; }
                 Little messages from Blossoms around the world.
               </p>
 </div>
-<button class="text-button">View All</button>
+<button class="text-button" data-community-action="view-wall" type="button">View All</button>
 </div>
-<div class="message-grid">
+<div class="message-grid" id="blossomMessageGrid">
 <article class="message-card">
 <span class="quote-mark">“</span>
 <p>
@@ -333,7 +333,7 @@ body.page-community .garden-link { margin-top: 8px !important; }
 </article>
 </div>
 <div class="panel-footer-center">
-<a class="outline-btn" href="#submit-message">
+<a class="outline-btn" data-community-action="message" href="#submit-message">
               Leave a Message 🌸
             </a>
 </div>
@@ -345,12 +345,12 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <h2>💬 Blossom Chat</h2>
 <p>A cozy corner for Blossoms to hang out.</p>
 </div>
-<span class="live-indicator">
+<span class="live-indicator" id="communityChatStatus" title="Community connection status">
 <span class="live-dot"></span>
-              LIVE
+              <span id="communityChatStatusText">CONNECTING</span>
             </span>
 </div>
-<div class="chat-window">
+<div class="chat-window" id="communityChatWindow">
 <div class="chat-message">
 <span class="avatar">🌸</span>
 <div>
@@ -380,14 +380,12 @@ body.page-community .garden-link { margin-top: 8px !important; }
 </div>
 </div>
 </div>
-<div class="chat-input">
-<input disabled="" placeholder="Join the conversation..." type="text"/>
-<button aria-label="Send message" disabled="" type="button">
-              ➤
-            </button>
-</div>
-<p class="chat-coming-soon">
-            Live community chat coming soon.
+<form class="chat-input" id="communityChatForm">
+<input aria-label="Chat message" id="communityChatInput" maxlength="280" placeholder="Join the conversation..." type="text"/>
+<button aria-label="Send message" id="communityChatSend" type="submit">➤</button>
+</form>
+<p aria-live="polite" class="chat-coming-soon" id="communityChatNote">
+            Connecting to the Blossom community…
           </p>
 <div class="chat-rules">
 <a href="community-guidelines.html">Community Guidelines</a>
@@ -590,7 +588,7 @@ body.page-community .garden-link { margin-top: 8px !important; }
               community projects are always welcome.
             </p>
 </div>
-<a class="primary-btn" href="#">
+<a class="primary-btn" data-community-action="submit-menu" href="#submit-letter">
             Submit to Community →
           </a>
 </div>
@@ -619,5 +617,8 @@ body.page-community .garden-link { margin-top: 8px !important; }
 </div>
 </footer>
 </div>
-<script src="js/script.js?v=OB00001.7"></script></body>
+<script src="js/script.js?v=OB00001.7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/community-config.js?v=1.0"></script>
+<script src="js/community.js?v=1.0"></script></body>
 </html>
