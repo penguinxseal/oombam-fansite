@@ -6217,3 +6217,109 @@ body.dark-theme .community-choice {
     width: 100%;
   }
 }
+
+
+/* =========================================================
+   COMMUNITY FUNCTIONAL PATCH — v19.1
+   Fixes anchor jumps, iOS form zoom and dark-mode contrast.
+========================================================= */
+
+/* Action controls are buttons in v19.1; preserve the original visual treatment. */
+button.letter-btn,
+button.outline-btn,
+button.primary-btn {
+  border: 0;
+  font: inherit;
+}
+
+button.outline-btn {
+  border: 1px solid var(--pink);
+  background: transparent;
+}
+
+.community-modal__dialog,
+.community-modal__dialog label,
+.community-modal__title {
+  color: var(--text);
+}
+
+.community-modal__intro,
+.community-form__help,
+.community-form__status {
+  color: var(--text-soft);
+}
+
+html[data-theme="dark"] .community-modal__dialog,
+body.dark-theme .community-modal__dialog {
+  color: #f1f4f5;
+  background: #1b2226;
+  border-color: rgba(255,255,255,.14);
+}
+
+html[data-theme="dark"] .community-modal__title,
+html[data-theme="dark"] .community-modal__dialog label,
+body.dark-theme .community-modal__title,
+body.dark-theme .community-modal__dialog label {
+  color: #f4f6f7;
+}
+
+html[data-theme="dark"] .community-modal__intro,
+html[data-theme="dark"] .community-form__help,
+html[data-theme="dark"] .community-form__status,
+body.dark-theme .community-modal__intro,
+body.dark-theme .community-form__help,
+body.dark-theme .community-form__status {
+  color: #b9c2c8;
+}
+
+html[data-theme="dark"] .community-modal__eyebrow,
+body.dark-theme .community-modal__eyebrow {
+  color: #ff8fb1;
+}
+
+html[data-theme="dark"] .community-form input,
+html[data-theme="dark"] .community-form select,
+html[data-theme="dark"] .community-form textarea,
+body.dark-theme .community-form input,
+body.dark-theme .community-form select,
+body.dark-theme .community-form textarea {
+  color: #f4f6f7;
+  background: #252e33;
+  border-color: rgba(255,255,255,.18);
+  caret-color: #fff;
+}
+
+html[data-theme="dark"] .community-form input::placeholder,
+html[data-theme="dark"] .community-form textarea::placeholder,
+body.dark-theme .community-form input::placeholder,
+body.dark-theme .community-form textarea::placeholder {
+  color: #aeb7bd;
+  opacity: 1;
+}
+
+html[data-theme="dark"] .community-form select option,
+body.dark-theme .community-form select option {
+  color: #111;
+  background: #fff;
+}
+
+html[data-theme="dark"] .community-modal__close,
+body.dark-theme .community-modal__close {
+  color: #172027;
+  background: #eef1f2;
+}
+
+/* iOS Safari zooms focused form controls when computed font-size is < 16px. */
+@media (max-width: 900px) {
+  .community-form input,
+  .community-form select,
+  .community-form textarea,
+  #communityChatInput {
+    font-size: 16px !important;
+  }
+
+  .community-modal__dialog {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
