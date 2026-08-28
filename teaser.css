@@ -5,6 +5,10 @@
   --pink: #ff91c7;
   --white: #fffaf4;
   --cycle: 14s;
+
+  /* IMPORTANT:
+     This points to the image already in your repository. */
+  --hero-image: url("/assets/images/teaser-hero.png");
 }
 
 *,
@@ -59,7 +63,7 @@ body {
 
 .vignette {
   z-index: 9;
-  background: radial-gradient(ellipse at center, transparent 38%, rgba(0,0,0,.08) 67%, rgba(0,0,0,.45) 100%);
+  background: radial-gradient(ellipse at center, transparent 37%, rgba(0,0,0,.10) 67%, rgba(0,0,0,.50) 100%);
 }
 
 .brand {
@@ -86,75 +90,67 @@ body {
 }
 
 /* =========================================================
-   LIVE CHARACTER CROPS
-   Both characters come from:
-   assets/images/teaser-hero.png
-
-   Using an actual <img> fixes the GitHub Pages path issue.
+   CHARACTER CROPS FROM /assets/images/teaser-hero.png
+   No separate penguin or seal file is needed.
 ========================================================= */
 
 .character {
   position: absolute;
   z-index: 4;
   top: 8%;
-  width: min(43vw, 720px);
-  height: min(34vw, 535px);
+  width: min(44vw, 740px);
+  height: min(43vw, 620px);
   pointer-events: none;
+  overflow: visible;
   will-change: transform, opacity;
 }
 
+.character-source {
+  position: absolute;
+  inset: 0;
+  background-image: var(--hero-image);
+  background-repeat: no-repeat;
+  background-size: 190% auto;
+
+  /* Feather the rectangular crop so it blends into the page. */
+  -webkit-mask-image:
+    radial-gradient(ellipse at center,
+      #000 0 48%,
+      rgba(0,0,0,.96) 61%,
+      rgba(0,0,0,.60) 76%,
+      rgba(0,0,0,.15) 89%,
+      transparent 100%);
+  mask-image:
+    radial-gradient(ellipse at center,
+      #000 0 48%,
+      rgba(0,0,0,.96) 61%,
+      rgba(0,0,0,.60) 76%,
+      rgba(0,0,0,.15) 89%,
+      transparent 100%);
+
+  filter: drop-shadow(0 22px 42px rgba(0,0,0,.34));
+}
+
+/* Left side of the uploaded hero image */
+.character-source-penguin {
+  background-position: 2% 13%;
+  animation: penguinMicroMotion 3.8s ease-in-out infinite;
+}
+
+/* Right side of the uploaded hero image */
+.character-source-seal {
+  background-position: 98% 12%;
+  animation: sealMicroMotion 4.3s ease-in-out infinite;
+}
+
 .character-penguin {
-  left: -1.5%;
+  left: -4%;
   animation: penguinJourney var(--cycle) cubic-bezier(.45,.05,.25,1) infinite;
 }
 
 .character-seal {
-  right: -1%;
+  right: -3%;
   animation: sealJourney var(--cycle) cubic-bezier(.45,.05,.25,1) infinite;
-}
-
-.character-window {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-
-  -webkit-mask-image:
-    radial-gradient(ellipse at center,
-      #000 0 52%,
-      rgba(0,0,0,.95) 64%,
-      rgba(0,0,0,.55) 78%,
-      rgba(0,0,0,.15) 90%,
-      transparent 100%);
-  mask-image:
-    radial-gradient(ellipse at center,
-      #000 0 52%,
-      rgba(0,0,0,.95) 64%,
-      rgba(0,0,0,.55) 78%,
-      rgba(0,0,0,.15) 90%,
-      transparent 100%);
-}
-
-.character-art {
-  position: absolute;
-  top: -8%;
-  width: 190%;
-  max-width: none;
-  height: auto;
-  user-select: none;
-  pointer-events: none;
-  filter: drop-shadow(0 22px 42px rgba(0,0,0,.32));
-}
-
-/* Hero's left half: penguin */
-.character-art-penguin {
-  left: -1%;
-  animation: penguinMicroMotion 3.8s ease-in-out infinite;
-}
-
-/* Hero's right half: seal */
-.character-art-seal {
-  right: -1%;
-  animation: sealMicroMotion 4.3s ease-in-out infinite;
 }
 
 .character-glow {
@@ -209,7 +205,7 @@ body {
 .heart-live {
   position: absolute;
   z-index: 11;
-  top: 30.5%;
+  top: 31.5%;
   left: 50%;
   transform: translate(-50%,-50%) scale(.35);
   color: #ff97c7;
@@ -345,9 +341,9 @@ body {
   12% { opacity: 0; }
   20% { opacity: 1; }
   38% { transform: translate3d(3vw,0,0) rotate(-1deg) scale(1); }
-  43%,72% { opacity: 1; transform: translate3d(6vw,1vh,0) rotate(.4deg) scale(1.02); }
+  43%,72% { opacity: 1; transform: translate3d(7vw,1vh,0) rotate(.4deg) scale(1.02); }
   88% { opacity: .94; }
-  100% { opacity: 0; transform: translate3d(8vw,0,0) rotate(1deg) scale(1); }
+  100% { opacity: 0; transform: translate3d(9vw,0,0) rotate(1deg) scale(1); }
 }
 
 @keyframes sealJourney {
@@ -355,19 +351,19 @@ body {
   13% { opacity: 0; }
   21% { opacity: 1; }
   39% { transform: translate3d(-3vw,.5vh,0) rotate(1deg) scale(1); }
-  43%,72% { opacity: 1; transform: translate3d(-6vw,1vh,0) rotate(-.4deg) scale(1.02); }
+  43%,72% { opacity: 1; transform: translate3d(-7vw,1vh,0) rotate(-.4deg) scale(1.02); }
   88% { opacity: .94; }
-  100% { opacity: 0; transform: translate3d(-8vw,0,0) rotate(-1deg) scale(1); }
+  100% { opacity: 0; transform: translate3d(-9vw,0,0) rotate(-1deg) scale(1); }
 }
 
 @keyframes penguinMicroMotion {
-  0%,100% { transform: translateY(0) rotate(-.25deg) scale(1); }
-  50% { transform: translateY(-8px) rotate(.55deg) scale(1.008); }
+  0%,100% { transform: translateY(0) rotate(-.4deg) scale(1); }
+  50% { transform: translateY(-10px) rotate(.8deg) scale(1.012); }
 }
 
 @keyframes sealMicroMotion {
-  0%,100% { transform: translateY(0) rotate(.25deg) scale(1); }
-  50% { transform: translateY(-9px) rotate(-.55deg) scale(1.008); }
+  0%,100% { transform: translateY(0) rotate(.4deg) scale(1); }
+  50% { transform: translateY(-11px) rotate(-.8deg) scale(1.012); }
 }
 
 @keyframes glowBreath {
@@ -503,11 +499,11 @@ body {
   .character {
     top: 11%;
     width: 50vw;
-    height: 40vw;
+    height: 48vw;
   }
 
-  .character-penguin { left: -8%; }
-  .character-seal { right: -7%; }
+  .character-penguin { left: -11%; }
+  .character-seal { right: -10%; }
 
   .copy {
     top: 58%;
@@ -524,18 +520,17 @@ body {
   }
 
   .character {
-    top: 14%;
-    width: 72vw;
-    height: 58vw;
+    top: 13%;
+    width: 74vw;
+    height: 67vw;
   }
 
-  .character-art {
-    width: 205%;
-    top: -5%;
+  .character-source {
+    background-size: 205% auto;
   }
 
-  .character-penguin { left: -24%; }
-  .character-seal { right: -23%; }
+  .character-penguin { left: -31%; }
+  .character-seal { right: -30%; }
 
   .heart-live {
     top: 30%;
