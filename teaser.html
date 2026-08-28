@@ -8,19 +8,39 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="teaser.css?v=7">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="teaser.css?v=8">
 </head>
 <body>
+
   <main class="teaser" id="teaser">
-    <div class="hero-art" aria-hidden="true"></div>
-    <div class="hero-shade" aria-hidden="true"></div>
+
+    <!-- Use a real IMG instead of a CSS background so GitHub Pages
+         reliably loads the hero and the penguin/seal never disappear. -->
+    <img
+      class="hero-art"
+      id="heroArt"
+      src="./teaser-hero.png"
+      alt=""
+      aria-hidden="true"
+      draggable="false"
+    >
+
+    <div class="hero-vignette" aria-hidden="true"></div>
+
+    <!-- Softly conceal the baked-in text in the artwork so the
+         live HTML text can animate cleanly on top. -->
+    <div class="art-cleanup art-cleanup--top" aria-hidden="true"></div>
+    <div class="art-cleanup art-cleanup--center" aria-hidden="true"></div>
+    <div class="art-cleanup art-cleanup--footer-left" aria-hidden="true"></div>
+    <div class="art-cleanup art-cleanup--footer-right" aria-hidden="true"></div>
 
     <div class="water-layer" id="waterLayer" aria-hidden="true"></div>
     <div class="petal-layer" id="petalLayer" aria-hidden="true"></div>
 
-    <div class="heart-live" aria-hidden="true">♥</div>
+    <div class="meeting-heart" aria-hidden="true">♥</div>
 
     <header class="brand">
       <span>PENGUIN</span>
@@ -33,22 +53,23 @@
 
       <h1 class="title">
         <span class="title-main">
-          <span class="word word-1">Something</span>
-          <span class="word word-2">beautiful</span>
+          <span class="word word--something">Something</span>
+          <span class="word word--beautiful">beautiful</span>
         </span>
-        <span class="title-pink">is blooming.</span>
+
+        <span class="title-script">is blooming.</span>
       </h1>
 
       <div class="pair">
-        <span class="oom">OOM</span>
-        <span class="x">×</span>
-        <span class="bam">BAM</span>
+        <span class="pair-oom">OOM</span>
+        <span class="pair-x">×</span>
+        <span class="pair-bam">BAM</span>
       </div>
 
       <div class="coming">
-        <span class="line"></span>
-        <span>COMING SOON</span>
-        <span class="line"></span>
+        <span class="coming-line"></span>
+        <span class="coming-text">COMING SOON</span>
+        <span class="coming-line"></span>
       </div>
     </section>
 
@@ -56,8 +77,9 @@
       <span>DESIGNED WITH LOVE FOR OOMBAM</span>
       <span>2026</span>
     </footer>
+
   </main>
 
-  <script src="teaser.js?v=7" defer></script>
+  <script src="teaser.js?v=8" defer></script>
 </body>
 </html>
