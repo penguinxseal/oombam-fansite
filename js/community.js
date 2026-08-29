@@ -49,7 +49,8 @@
   };
 
   const flagFromCountry = (country) => {
-    const code = safeText(country, 2).toUpperCase();
+    const code = safeText(country, 8).toUpperCase();
+    if (code === "OTHER") return "🌍";
     if (!/^[A-Z]{2}$/.test(code)) return "";
     return String.fromCodePoint(...[...code].map(c => 127397 + c.charCodeAt()));
   };
@@ -395,19 +396,41 @@
           <label>Country
             <select name="countryCode">
               <option value="">Prefer not to say</option>
-              <option value="PH">Philippines 🇵🇭</option>
-              <option value="TH">Thailand 🇹🇭</option>
-              <option value="US">United States 🇺🇸</option>
-              <option value="SG">Singapore 🇸🇬</option>
-              <option value="MY">Malaysia 🇲🇾</option>
-              <option value="ID">Indonesia 🇮🇩</option>
-              <option value="VN">Vietnam 🇻🇳</option>
-              <option value="JP">Japan 🇯🇵</option>
-              <option value="KR">South Korea 🇰🇷</option>
-              <option value="CN">China 🇨🇳</option>
-              <option value="TW">Taiwan 🇹🇼</option>
-              <option value="HK">Hong Kong 🇭🇰</option>
-              <option value="OTHER">Other</option>
+              <optgroup label="Asia">
+                <option value="PH">Philippines 🇵🇭</option>
+                <option value="TH">Thailand 🇹🇭</option>
+                <option value="SG">Singapore 🇸🇬</option>
+                <option value="MY">Malaysia 🇲🇾</option>
+                <option value="ID">Indonesia 🇮🇩</option>
+                <option value="VN">Vietnam 🇻🇳</option>
+                <option value="JP">Japan 🇯🇵</option>
+                <option value="KR">South Korea 🇰🇷</option>
+                <option value="CN">China 🇨🇳</option>
+                <option value="TW">Taiwan 🇹🇼</option>
+                <option value="HK">Hong Kong 🇭🇰</option>
+              </optgroup>
+              <optgroup label="North America">
+                <option value="US">United States 🇺🇸</option>
+                <option value="CA">Canada 🇨🇦</option>
+                <option value="MX">Mexico 🇲🇽</option>
+              </optgroup>
+              <optgroup label="Latin America">
+                <option value="BR">Brazil 🇧🇷</option>
+                <option value="CL">Chile 🇨🇱</option>
+                <option value="AR">Argentina 🇦🇷</option>
+                <option value="PE">Peru 🇵🇪</option>
+                <option value="CO">Colombia 🇨🇴</option>
+              </optgroup>
+              <optgroup label="Europe">
+                <option value="GB">United Kingdom 🇬🇧</option>
+                <option value="ES">Spain 🇪🇸</option>
+                <option value="FR">France 🇫🇷</option>
+                <option value="DE">Germany 🇩🇪</option>
+                <option value="IT">Italy 🇮🇹</option>
+                <option value="PT">Portugal 🇵🇹</option>
+                <option value="NL">Netherlands 🇳🇱</option>
+              </optgroup>
+              <option value="OTHER">Other 🌍</option>
             </select>
           </label>
         </div>
@@ -484,16 +507,41 @@
           <label>Country
             <select name="countryCode">
               <option value="">Prefer not to say</option>
-              <option value="PH">Philippines 🇵🇭</option>
-              <option value="TH">Thailand 🇹🇭</option>
-              <option value="US">United States 🇺🇸</option>
-              <option value="SG">Singapore 🇸🇬</option>
-              <option value="MY">Malaysia 🇲🇾</option>
-              <option value="ID">Indonesia 🇮🇩</option>
-              <option value="VN">Vietnam 🇻🇳</option>
-              <option value="JP">Japan 🇯🇵</option>
-              <option value="KR">South Korea 🇰🇷</option>
-              <option value="OTHER">Other</option>
+              <optgroup label="Asia">
+                <option value="PH">Philippines 🇵🇭</option>
+                <option value="TH">Thailand 🇹🇭</option>
+                <option value="SG">Singapore 🇸🇬</option>
+                <option value="MY">Malaysia 🇲🇾</option>
+                <option value="ID">Indonesia 🇮🇩</option>
+                <option value="VN">Vietnam 🇻🇳</option>
+                <option value="JP">Japan 🇯🇵</option>
+                <option value="KR">South Korea 🇰🇷</option>
+                <option value="CN">China 🇨🇳</option>
+                <option value="TW">Taiwan 🇹🇼</option>
+                <option value="HK">Hong Kong 🇭🇰</option>
+              </optgroup>
+              <optgroup label="North America">
+                <option value="US">United States 🇺🇸</option>
+                <option value="CA">Canada 🇨🇦</option>
+                <option value="MX">Mexico 🇲🇽</option>
+              </optgroup>
+              <optgroup label="Latin America">
+                <option value="BR">Brazil 🇧🇷</option>
+                <option value="CL">Chile 🇨🇱</option>
+                <option value="AR">Argentina 🇦🇷</option>
+                <option value="PE">Peru 🇵🇪</option>
+                <option value="CO">Colombia 🇨🇴</option>
+              </optgroup>
+              <optgroup label="Europe">
+                <option value="GB">United Kingdom 🇬🇧</option>
+                <option value="ES">Spain 🇪🇸</option>
+                <option value="FR">France 🇫🇷</option>
+                <option value="DE">Germany 🇩🇪</option>
+                <option value="IT">Italy 🇮🇹</option>
+                <option value="PT">Portugal 🇵🇹</option>
+                <option value="NL">Netherlands 🇳🇱</option>
+              </optgroup>
+              <option value="OTHER">Other 🌍</option>
             </select>
           </label>
         </div>
@@ -888,21 +936,185 @@
   chatForm?.addEventListener("submit", handleChatSubmit);
 
 
+
+  /* -----------------------------------------------------
+     FAN PROJECT PROPOSALS
+     Preview workflow now; backend/admin queue comes later.
+  ----------------------------------------------------- */
+  const PROJECT_PROPOSAL_KEY = "oombam-community-preview-project-proposals";
+
+  const renderProjectProposalHub = () => {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">FAN PROJECTS</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Propose an Upcoming Project 🌱</h2>
+      <p class="community-modal__intro">
+        Blossoms may suggest future fan projects here. Every proposal will be reviewed by the
+        fansite admins before it can be approved or considered for the official Projects section.
+      </p>
+      <div class="community-proposal-notice">
+        <strong>How it works</strong>
+        <span>Submit idea → Admin review → Approved proposal → Project planning</span>
+      </div>
+      <form class="community-form" id="communityProjectProposalForm">
+        <div class="community-form__row">
+          <label>Display name
+            <input name="displayName" maxlength="40" autocomplete="nickname" required
+                   placeholder="e.g. Blossom PH">
+          </label>
+          <label>Country
+            <select name="countryCode">
+              <option value="">Prefer not to say</option>
+              <optgroup label="Asia">
+                <option value="PH">Philippines 🇵🇭</option>
+                <option value="TH">Thailand 🇹🇭</option>
+                <option value="SG">Singapore 🇸🇬</option>
+                <option value="MY">Malaysia 🇲🇾</option>
+                <option value="ID">Indonesia 🇮🇩</option>
+                <option value="VN">Vietnam 🇻🇳</option>
+                <option value="JP">Japan 🇯🇵</option>
+                <option value="KR">South Korea 🇰🇷</option>
+                <option value="CN">China 🇨🇳</option>
+                <option value="TW">Taiwan 🇹🇼</option>
+                <option value="HK">Hong Kong 🇭🇰</option>
+              </optgroup>
+              <optgroup label="North America">
+                <option value="US">United States 🇺🇸</option>
+                <option value="CA">Canada 🇨🇦</option>
+                <option value="MX">Mexico 🇲🇽</option>
+              </optgroup>
+              <optgroup label="Latin America">
+                <option value="BR">Brazil 🇧🇷</option>
+                <option value="CL">Chile 🇨🇱</option>
+                <option value="AR">Argentina 🇦🇷</option>
+                <option value="PE">Peru 🇵🇪</option>
+                <option value="CO">Colombia 🇨🇴</option>
+              </optgroup>
+              <optgroup label="Europe">
+                <option value="GB">United Kingdom 🇬🇧</option>
+                <option value="ES">Spain 🇪🇸</option>
+                <option value="FR">France 🇫🇷</option>
+                <option value="DE">Germany 🇩🇪</option>
+                <option value="IT">Italy 🇮🇹</option>
+                <option value="PT">Portugal 🇵🇹</option>
+                <option value="NL">Netherlands 🇳🇱</option>
+              </optgroup>
+              <option value="OTHER">Other 🌍</option>
+            </select>
+          </label>
+        </div>
+
+        <label>Project title
+          <input name="title" maxlength="80" required
+                 placeholder="e.g. Birthday food support project">
+        </label>
+
+        <label>Project idea
+          <textarea name="description" maxlength="1200" required
+                    placeholder="Describe the project, purpose, and what you hope the community can do together."></textarea>
+        </label>
+
+        <div class="community-form__row">
+          <label>Suggested timing
+            <input name="timing" maxlength="80"
+                   placeholder="e.g. October 2026 / Bam's birthday">
+          </label>
+          <label>Estimated budget / scale
+            <input name="budget" maxlength="80"
+                   placeholder="Optional">
+          </label>
+        </div>
+
+        <label>Additional notes
+          <textarea name="notes" maxlength="600"
+                    placeholder="Optional: vendor ideas, location, coordination notes, links, etc."></textarea>
+        </label>
+
+        <p class="community-form__help">
+          Submitting a proposal does not mean the project is approved. Fansite admins will review
+          feasibility, timing, safety, permissions, and coordination requirements first.
+        </p>
+
+        <p class="community-form__status" aria-live="polite"></p>
+
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
+          <button class="community-form__primary" type="submit">Submit Proposal for Review 🌱</button>
+        </div>
+      </form>`;
+
+    const form = wrapper.querySelector("form");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const data = new FormData(form);
+      const proposal = {
+        id: crypto.randomUUID?.() || `${Date.now()}`,
+        displayName: safeText(data.get("displayName"), 40),
+        countryCode: safeText(data.get("countryCode"), 8),
+        title: safeText(data.get("title"), 80),
+        description: safeMultiline(data.get("description"), 1200),
+        timing: safeText(data.get("timing"), 80),
+        budget: safeText(data.get("budget"), 80),
+        notes: safeMultiline(data.get("notes"), 600),
+        status: "pending",
+        created_at: new Date().toISOString()
+      };
+
+      if (!proposal.displayName || !proposal.title || proposal.description.length < 10) {
+        showFormStatus(form, "Please add your display name, project title, and a little more detail.", "error");
+        return;
+      }
+
+      if (hasSupabaseConfig) {
+        showFormStatus(
+          form,
+          "Project proposal backend approval will be connected during the Supabase access-control phase.",
+          "error"
+        );
+        return;
+      }
+
+      const existing = storage.get(PROJECT_PROPOSAL_KEY, []);
+      existing.unshift(proposal);
+      storage.set(PROJECT_PROPOSAL_KEY, existing.slice(0, 30));
+
+      form.reset();
+      showFormStatus(
+        form,
+        "Proposal saved in Preview mode 🌱 Admin review will become active when the backend is connected.",
+        "success"
+      );
+    });
+
+    openModal(wrapper);
+  };
+
+  document.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-project-proposal-open]");
+    if (!trigger) return;
+    event.preventDefault();
+    renderProjectProposalHub();
+  });
+
+
   /* -----------------------------------------------------
      FROM THE COMMUNITY — reusable in-page archive
   ----------------------------------------------------- */
   const COMMUNITY_GALLERY = {
     art: {
-      label: "Fan Art",
+      label: "Fan Arts",
       icon: "🎨",
       intro: "Illustrations, sketches, edits, and creative work inspired by OomBam.",
       layout: "visual",
       items: [
         {
           type: "preview",
-          title: "Fan Art Collection",
-          description: "Approved Fan Art submissions will appear here.",
-          image: "assets/images/Fan-art.png"
+          title: "Fan Arts Collection",
+          description: "Approved Fan Arts submissions will appear here.",
+          image: "assets/images/Fan-art.png",
+          status: "approved"
         }
       ]
     },
@@ -916,21 +1128,8 @@
           type: "preview",
           title: "Fan Photos Collection",
           description: "Approved Fan Photo submissions will appear here.",
-          image: "assets/images/Fan-photos.png"
-        }
-      ]
-    },
-    projects: {
-      label: "Fan Projects",
-      icon: "🌱",
-      intro: "A curated archive of completed Blossom fan projects.",
-      layout: "visual",
-      items: [
-        {
-          type: "preview",
-          title: "Completed Fan Projects",
-          description: "Completed community projects will be archived here.",
-          image: "assets/images/Fan-project.png"
+          image: "assets/images/Fan-photos.png",
+          status: "approved"
         }
       ]
     },
@@ -952,11 +1151,47 @@
 
   const GALLERY_TABS = [
     ["all", "All"],
-    ["art", "Fan Art"],
+    ["art", "Fan Arts"],
     ["photos", "Fan Photos"],
-    ["projects", "Fan Projects"],
     ["journal", "Blossom Journal"]
   ];
+
+  const MODERATION_STATUS = {
+    pending: {
+      label: "Pending",
+      description: "Waiting for fansite admin review."
+    },
+    approved: {
+      label: "Approved",
+      description: "Approved and ready for publication."
+    },
+    rejected: {
+      label: "Rejected",
+      description: "Not approved for publication."
+    }
+  };
+
+  const makeModerationStatusBar = () => {
+    const bar = document.createElement("div");
+    bar.className = "community-moderation-status";
+    bar.setAttribute("aria-label", "Submission moderation statuses");
+
+    ["pending", "approved", "rejected"].forEach((status) => {
+      const config = MODERATION_STATUS[status];
+      const item = document.createElement("div");
+      item.className = `community-moderation-status__item is-${status}`;
+      item.innerHTML = `
+        <span class="community-moderation-status__dot" aria-hidden="true"></span>
+        <div>
+          <strong>${config.label}</strong>
+          <small>${config.description}</small>
+        </div>`;
+      bar.append(item);
+    });
+
+    return bar;
+  };
+
 
   const makeGalleryItem = (item, categoryKey) => {
     const article = document.createElement(item.href ? "a" : "article");
@@ -996,6 +1231,14 @@
       body.append(desc);
     }
 
+    if (item.status) {
+      const status = MODERATION_STATUS[item.status];
+      const badge = document.createElement("span");
+      badge.className = `community-archive-item__status is-${item.status}`;
+      badge.textContent = status?.label || item.status;
+      body.append(badge);
+    }
+
     if (item.type === "preview") {
       const note = document.createElement("span");
       note.className = "community-archive-item__preview";
@@ -1009,7 +1252,7 @@
 
   const galleryItemsFor = (filter) => {
     const keys = filter === "all"
-      ? ["art", "photos", "projects", "journal"]
+      ? ["art", "photos", "journal"]
       : [filter];
 
     return keys.flatMap((key) =>
@@ -1024,7 +1267,7 @@
       <p class="community-modal__eyebrow">FROM THE COMMUNITY</p>
       <h2 class="community-modal__title" id="communityModalTitle">Community Gallery</h2>
       <p class="community-modal__intro community-archive__intro">
-        Browse Fan Art, Fan Photos, Fan Projects, and the Blossom Journal without leaving this page.
+        Browse Fan Arts, Fan Photos, and the Blossom Journal without leaving this page.
       </p>
       <div class="community-archive__tabs" role="tablist" aria-label="Community gallery categories"></div>
       <div class="community-archive__heading">
@@ -1063,12 +1306,20 @@
         categoryIcon.textContent = "🌸";
         categoryTitle.textContent = "All Community Collections";
         categoryDescription.textContent =
-          "A curated view across Fan Art, Fan Photos, completed Fan Projects, and the Blossom Journal.";
+          "A curated view across Fan Arts, Fan Photos, and the Blossom Journal.";
       } else {
         const category = COMMUNITY_GALLERY[active];
         categoryIcon.textContent = category.icon;
         categoryTitle.textContent = category.label;
         categoryDescription.textContent = category.intro;
+      }
+
+      const existingStatus = wrapper.querySelector(".community-moderation-status");
+      if (existingStatus) existingStatus.remove();
+
+      if (active === "art" || active === "photos") {
+        const statusBar = makeModerationStatusBar();
+        grid.before(statusBar);
       }
 
       const items = galleryItemsFor(active);
