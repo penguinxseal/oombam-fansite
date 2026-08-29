@@ -618,6 +618,289 @@
     navigateOrScroll(href);
   });
 
+
+
+  /* -----------------------------------------------------
+     Homepage Interviews Archive — in-page modal
+  ----------------------------------------------------- */
+  const INTERVIEW_ITEMS = [
+  {
+    "title": "Character introduction: Pafun",
+    "category": "quick",
+    "platform": "TikTok",
+    "url": "https://www.tiktok.com/@oombam_ch3/video/7629251593849933077"
+  },
+  {
+    "title": "Character introduction: Aioon",
+    "category": "quick",
+    "platform": "TikTok",
+    "url": "https://www.tiktok.com/@oombam_ch3/video/7629411087493909768"
+  },
+  {
+    "title": "Save the Date 𝒜𝒾𝑜𝑜𝓃 🩵 𝒫𝒶𝒻𝓊𝓃",
+    "category": "features",
+    "platform": "TikTok",
+    "url": "https://www.tiktok.com/@oombam_ch3/video/7630385428822084882"
+  },
+  {
+    "title": "🐧🦭 Behind the Scenes at the Fulfill Series Blessing Ceremony ✨🩵",
+    "category": "features",
+    "platform": "TikTok",
+    "url": "https://www.tiktok.com/@oombam_ch3/video/7631181076773326101"
+  },
+  {
+    "title": "My Ambulove EP.43 — Oom & Bam | GoyNattyDream",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=PfPtNgyRIiw&t=96s"
+  },
+  {
+    "title": "Uncut — OomBam on Preaw Pak EP.20 | Sam Roasters x BeneBene.bkk",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=I-XsZuycpI0"
+  },
+  {
+    "title": "OomBam Interview: I’m so glad it’s you | SERIES SOCIETY",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=eFhgj2ZJ7I4"
+  },
+  {
+    "title": "A Feel-Good English Chat with Sapphic Pair Oom–Bam | Kham Nee Dee Feat. EP.195",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=8LDF9li9Y-c"
+  },
+  {
+    "title": "If You Can’t Take It Anymore, Just Cry — Oom & Bam Open Up About Life and Learning to Love Themselves | Dear Myself EP.38",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=fUY-qq8x1y8&t=911s"
+  },
+  {
+    "title": "Fulfill — Oom Eisaya & Bam Saralee | Time to Talk EP.64",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=5CY1PWgf_po"
+  },
+  {
+    "title": "Fun Interview & Games with OomBam x Doo Yuri Pai Wan Wan | Fun Talk with #OomBam",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=vYDWOW3RETo&t=56s"
+  },
+  {
+    "title": "ELLE Ask Me Anything: OomBam",
+    "category": "quick",
+    "platform": "X",
+    "url": "https://x.com/ELLEThailand/status/2063173680902152663/video/1"
+  },
+  {
+    "title": "OomBam’s 2nd DaraLive Interview | Fulfill [ENG SUB]",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=JCSxcdHJvDw"
+  },
+  {
+    "title": "ARMCHAIR: Casual Talk, Serious Conversations — Oom Eisaya & Bam Saralee | EP.31",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=fCBLvksldCQ"
+  },
+  {
+    "title": "LIVE: Oom Eisaya Celebrates Her Birthday at ‘OOM Eisaya Birthday Charity 2026’",
+    "category": "features",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=98y6aPkV33A"
+  },
+  {
+    "title": "PODKAZZ EP.14 — Oom–Bam: Friendship, Dreams & a Message to Their Fans",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=9sCz53r9yWA"
+  },
+  {
+    "title": "You Know Me EP.27 — OomBam: Every Step of Growth Has a Story and Enriches Our Lives | Khaosod",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=eLleedcKO0Y"
+  },
+  {
+    "title": "OomBam x Blooming with You Interview 11.07.2026 | BLOOMING DAY WITH OOMBAM #OomBam1stFansign",
+    "category": "features",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=0O0tUDjoHak"
+  },
+  {
+    "title": "Oom–Bam on Finding Comfort in Having a Partner, Choosing Opposing Teams for #GirlCup, and Watching Their Rivalry Turn Adorable",
+    "category": "features",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=BenfzXARvqo"
+  }
+];
+
+  const interviewsModal = document.getElementById("interviewsModal");
+  const interviewsGrid = document.getElementById("interviewsGrid");
+  const interviewsView = document.getElementById("interviewsView");
+  const interviewPlayerView = document.getElementById("interviewPlayerView");
+  const interviewPlayerShell = document.getElementById("interviewPlayerShell");
+  const interviewPlayerTitle = document.getElementById("interviewPlayerTitle");
+  const interviewPlayerPlatform = document.getElementById("interviewPlayerPlatform");
+  const interviewPlayerOriginal = document.getElementById("interviewPlayerOriginal");
+  const interviewTabs = [...document.querySelectorAll("[data-interview-filter]")];
+  const interviewOpeners = [...document.querySelectorAll("[data-interviews-open]")];
+  const interviewClosers = [...document.querySelectorAll("[data-interviews-close]")];
+  let interviewsLastFocus = null;
+  let interviewsScrollY = 0;
+
+  const youtubeIdFromUrl = (url) => {
+    try {
+      const parsed = new URL(url);
+      if (parsed.hostname.includes("youtu.be")) return parsed.pathname.slice(1);
+      return parsed.searchParams.get("v");
+    } catch (_) {
+      return "";
+    }
+  };
+
+  const tiktokIdFromUrl = (url) => {
+    const match = String(url).match(/\/video\/(\d+)/);
+    return match ? match[1] : "";
+  };
+
+  const interviewCategoryLabel = (category) => ({
+    long: "Long-form",
+    quick: "Quick Interview",
+    features: "Feature"
+  }[category] || "Interview");
+
+  function buildInterviewCard(item) {
+    const card = document.createElement("article");
+    card.className = "interview-card";
+    card.dataset.category = item.category;
+
+    const top = document.createElement("div");
+    top.className = "interview-card__top";
+
+    const platform = document.createElement("span");
+    platform.className = `interview-platform interview-platform--${item.platform.toLowerCase()}`;
+    platform.textContent = item.platform;
+
+    const category = document.createElement("span");
+    category.className = "interview-card__category";
+    category.textContent = interviewCategoryLabel(item.category);
+
+    top.append(platform, category);
+
+    const title = document.createElement("h3");
+    title.textContent = item.title;
+
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "interview-card__action";
+    action.textContent = item.platform === "X" ? "Open on X ↗" : "Watch →";
+
+    if (item.platform === "X") {
+      action.addEventListener("click", () => window.open(item.url, "_blank", "noopener,noreferrer"));
+    } else {
+      action.addEventListener("click", () => openInterviewPlayer(item));
+    }
+
+    card.append(top, title, action);
+    return card;
+  }
+
+  function renderInterviews(filter = "all") {
+    if (!interviewsGrid) return;
+    const visible = filter === "all"
+      ? INTERVIEW_ITEMS
+      : INTERVIEW_ITEMS.filter((item) => item.category === filter);
+    interviewsGrid.replaceChildren(...visible.map(buildInterviewCard));
+  }
+
+  function setInterviewFilter(filter) {
+    interviewTabs.forEach((tab) => {
+      const active = tab.dataset.interviewFilter === filter;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-selected", String(active));
+    });
+    renderInterviews(filter);
+  }
+
+  function resetInterviewPlayer() {
+    if (interviewPlayerShell) interviewPlayerShell.replaceChildren();
+    if (interviewPlayerView) interviewPlayerView.hidden = true;
+    if (interviewsView) interviewsView.hidden = false;
+  }
+
+  function openInterviewPlayer(item) {
+    if (!interviewPlayerShell || !interviewPlayerView || !interviewsView) return;
+    interviewPlayerShell.replaceChildren();
+
+    const iframe = document.createElement("iframe");
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.allowFullscreen = true;
+    iframe.loading = "lazy";
+    iframe.title = item.title;
+
+    if (item.platform === "YouTube") {
+      const id = youtubeIdFromUrl(item.url);
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
+      iframe.className = "interview-player-frame interview-player-frame--youtube";
+    } else if (item.platform === "TikTok") {
+      const id = tiktokIdFromUrl(item.url);
+      iframe.src = `https://www.tiktok.com/player/v1/${id}?autoplay=0&loop=0`;
+      iframe.className = "interview-player-frame interview-player-frame--tiktok";
+    }
+
+    interviewPlayerShell.append(iframe);
+    interviewPlayerTitle.textContent = item.title;
+    interviewPlayerPlatform.textContent = `${item.platform} • ${interviewCategoryLabel(item.category)}`;
+    interviewPlayerOriginal.href = item.url;
+    interviewPlayerOriginal.textContent = `Open on ${item.platform} ↗`;
+
+    interviewsView.hidden = true;
+    interviewPlayerView.hidden = false;
+    interviewPlayerView.scrollIntoView({ block: "start" });
+  }
+
+  function openInterviewsModal() {
+    if (!interviewsModal) return;
+    interviewsLastFocus = document.activeElement;
+    interviewsScrollY = window.scrollY || 0;
+    resetInterviewPlayer();
+    setInterviewFilter("all");
+    interviewsModal.classList.add("is-open");
+    interviewsModal.setAttribute("aria-hidden", "false");
+    body.classList.add("interviews-open");
+    requestAnimationFrame(() => interviewsModal.querySelector(".interviews-modal__close")?.focus({ preventScroll: true }));
+  }
+
+  function closeInterviewsModal() {
+    if (!interviewsModal) return;
+    interviewsModal.classList.remove("is-open");
+    interviewsModal.setAttribute("aria-hidden", "true");
+    body.classList.remove("interviews-open");
+    resetInterviewPlayer();
+    window.scrollTo(0, interviewsScrollY);
+    interviewsLastFocus?.focus?.({ preventScroll: true });
+  }
+
+  interviewOpeners.forEach((button) => button.addEventListener("click", openInterviewsModal));
+  interviewClosers.forEach((button) => button.addEventListener("click", closeInterviewsModal));
+  interviewTabs.forEach((tab) => tab.addEventListener("click", () => setInterviewFilter(tab.dataset.interviewFilter)));
+  document.querySelector("[data-interview-back]")?.addEventListener("click", resetInterviewPlayer);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && interviewsModal?.classList.contains("is-open")) {
+      closeInterviewsModal();
+    }
+  });
+
+  renderInterviews("all");
+
   /* Dynamic footer year */
   const currentYear = document.getElementById("currentYear");
   if (currentYear) currentYear.textContent = new Date().getFullYear();
