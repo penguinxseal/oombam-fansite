@@ -3183,3 +3183,44 @@ body.page-fulfill > .ob-site-search {
   }
 }
 
+/* =========================================================
+   FULFILL v22.5 — STICKY GLOBAL HEADER RESTORATION
+   Keep the shared navigation visible while scrolling, matching
+   Home / Oom / Bam / Community behavior.
+========================================================= */
+
+body.page-fulfill > .ob-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 5000 !important;
+}
+
+body.page-fulfill > .ob-site-search {
+  position: relative !important;
+  z-index: 20 !important;
+}
+
+@media (min-width: 1101px) {
+  body.page-fulfill > .ob-header {
+    width: min(1480px, 96vw) !important;
+    margin-inline: auto !important;
+    border-radius: 24px 24px 0 0 !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-fulfill > .ob-header {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 22px 22px 0 0 !important;
+  }
+}
+
+@media (max-width: 760px),
+       (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+  body.page-fulfill > .ob-header {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+  }
+}
