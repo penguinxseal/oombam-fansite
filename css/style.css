@@ -8534,3 +8534,47 @@ body.dark-theme .vlog-player-back {
     object-position: 50% 24% !important;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 14.6.1 — VLOGS MOBILE THUMBNAIL FACE FIT
+   ---------------------------------------------------------
+   On mobile, the Vlogs portrait source was still rendering
+   in the generic card image flow, so the focal point stayed
+   too low and cropped Oom's forehead. Give the mobile card
+   its own definite 16:10 frame and bias the crop upward.
+========================================================= */
+
+@media (max-width: 760px) {
+  .page-home .media-vlogs-visual {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 10 !important;
+    overflow: hidden !important;
+  }
+
+  .page-home .media-vlogs-image-button {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .page-home .media-vlogs-image-button img {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    object-fit: cover !important;
+    object-position: 50% 8% !important;
+  }
+}
