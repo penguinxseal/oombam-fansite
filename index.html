@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- Homepage restored after teaser test 2 -->
 
 <html lang="en">
 <head>
@@ -10,7 +9,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/style.css?v=14.3" rel="stylesheet"/>
+<link href="css/style.css?v=14.1" rel="stylesheet"/>
 <link href="css/Global.css?v=OB00001.7a" rel="stylesheet"/></head>
 <body class="ob-global page-home ob-shell-v2" data-active-nav="welcome" data-page-title="Home"><header class="ob-header" id="siteHeader">
 <div class="ob-header__inner">
@@ -383,15 +382,15 @@
         </div>
       </article>
 
-      <article class="media-compact-card" id="media-interviews">
-        <a class="media-compact-visual" href="https://youtube.com/playlist?list=PL0VVVtBqsoupB9qJQfWYq2dB02T0OXK1P&amp;si=GM_D3Nq5OgahClzT" target="_blank" rel="noopener noreferrer" aria-label="Watch OomBam interviews and videos">
-          <img src="assets/images/moment-03.jpg" alt="Oom and Bam interview feature" loading="lazy"/>
-        </a>
+      <article class="media-compact-card media-interviews-card" id="media-interviews">
+        <button class="media-compact-visual media-interviews-trigger" type="button" data-interviews-open aria-label="Explore OomBam interviews">
+          <img src="assets/images/OomBam_interview.png" alt="Oom and Bam seated together during an interview" loading="lazy"/>
+        </button>
         <div class="media-compact-copy">
           <span class="media-compact-eyebrow">Interviews</span>
-          <h3>OomBam Videos</h3>
-          <p>Interviews, official clips, appearances, and conversations worth revisiting.</p>
-          <a class="media-compact-link" href="https://youtube.com/playlist?list=PL0VVVtBqsoupB9qJQfWYq2dB02T0OXK1P&amp;si=GM_D3Nq5OgahClzT" target="_blank" rel="noopener noreferrer">Watch Videos ↗</a>
+          <h3>Conversations with OomBam</h3>
+          <p>Long-form talks, quick interviews, and special media features — all in one archive.</p>
+          <button class="media-compact-link media-compact-button" type="button" data-interviews-open>Explore Interviews →</button>
         </div>
       </article>
 
@@ -424,8 +423,8 @@
           <h3>Fulfill OST</h3>
           <p>The melodies that carried the story of Fulfill.</p>
           <div class="media-soundtrack-links" aria-label="Fulfill soundtrack links">
-            <a class="media-compact-link" href="https://youtu.be/RHnPq3Z0A8c?si=4wHs9wk1SmEROy8O" target="_blank" rel="noopener noreferrer">Oom Eisaya ↗</a>
-            <a class="media-compact-link" href="https://youtu.be/CKclkO6HHrY?si=Mp3vlasXStTSTknn" target="_blank" rel="noopener noreferrer">Bam Saralee ↗</a>
+            <a class="media-compact-link" href="https://youtu.be/RHnPq3Z0A8c?si=4wHs9wk1SmEROy8O" target="_blank" rel="noopener noreferrer">Track 01 ↗</a>
+            <a class="media-compact-link" href="https://youtu.be/CKclkO6HHrY?si=Mp3vlasXStTSTknn" target="_blank" rel="noopener noreferrer">Track 02 ↗</a>
           </div>
         </div>
       </article>
@@ -505,5 +504,44 @@
       currentYear.textContent = new Date().getFullYear();
     }
   </script>
-<script src="js/script.js?v=OB00001.7a"></script></body>
+<script src="js/script.js?v=OB00001.7a"></script>
+<!-- =================================================
+     INTERVIEWS — IN-PAGE MEDIA ARCHIVE MODAL
+================================================== -->
+<div class="interviews-modal" id="interviewsModal" aria-hidden="true">
+  <div class="interviews-modal__backdrop" data-interviews-close></div>
+  <section class="interviews-modal__panel" role="dialog" aria-modal="true" aria-labelledby="interviewsModalTitle">
+    <button class="interviews-modal__close" type="button" data-interviews-close aria-label="Close Interviews archive">×</button>
+
+    <div class="interviews-modal__header">
+      <p class="interviews-modal__eyebrow">MEDIA ARCHIVE</p>
+      <h2 id="interviewsModalTitle">Interviews</h2>
+      <p>Conversations, stories, and little moments with Oom &amp; Bam.</p>
+    </div>
+
+    <div class="interviews-tabs" role="tablist" aria-label="Interview categories">
+      <button class="interviews-tab is-active" type="button" role="tab" aria-selected="true" data-interview-filter="all">All</button>
+      <button class="interviews-tab" type="button" role="tab" aria-selected="false" data-interview-filter="long">Long-form</button>
+      <button class="interviews-tab" type="button" role="tab" aria-selected="false" data-interview-filter="quick">Quick Interviews</button>
+      <button class="interviews-tab" type="button" role="tab" aria-selected="false" data-interview-filter="features">Features</button>
+    </div>
+
+    <div class="interviews-view" id="interviewsView">
+      <div class="interviews-grid" id="interviewsGrid" aria-live="polite"></div>
+    </div>
+
+    <div class="interview-player-view" id="interviewPlayerView" hidden>
+      <button class="interview-player-back" type="button" data-interview-back>← Back to Interviews</button>
+      <div class="interview-player-shell" id="interviewPlayerShell"></div>
+      <div class="interview-player-copy">
+        <span class="interview-player-platform" id="interviewPlayerPlatform"></span>
+        <h3 id="interviewPlayerTitle"></h3>
+        <p id="interviewPlayerNote">Watch from the official source.</p>
+        <a id="interviewPlayerOriginal" class="interview-player-original" target="_blank" rel="noopener noreferrer">Open Original ↗</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+</body>
 </html>
