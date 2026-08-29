@@ -923,29 +923,14 @@
     projects: {
       label: "Fan Projects",
       icon: "🌱",
-      intro: "Community projects created to support and celebrate Oom and Bam.",
-      layout: "projects",
+      intro: "A curated archive of completed Blossom fan projects.",
+      layout: "visual",
       items: [
         {
-          type: "project",
-          title: "OomBam 1st Fanmeeting Support Project",
-          meta: "Current Project",
-          description: "An ongoing Blossom support project.",
-          href: "#projects"
-        },
-        {
-          type: "project",
-          title: "Bam's Birthday Support Project",
-          meta: "Upcoming Project",
-          description: "More details to be announced.",
-          href: "#projects"
-        },
-        {
-          type: "project",
-          title: "Food Support Project for OomBam",
-          meta: "Completed Project",
-          description: "A completed community support project.",
-          href: "#projects"
+          type: "preview",
+          title: "Completed Fan Projects",
+          description: "Completed community projects will be archived here.",
+          image: "assets/images/Fan-project.png"
         }
       ]
     },
@@ -1078,7 +1063,7 @@
         categoryIcon.textContent = "🌸";
         categoryTitle.textContent = "All Community Collections";
         categoryDescription.textContent =
-          "A curated view across Fan Art, Fan Photos, Fan Projects, and the Blossom Journal.";
+          "A curated view across Fan Art, Fan Photos, completed Fan Projects, and the Blossom Journal.";
       } else {
         const category = COMMUNITY_GALLERY[active];
         categoryIcon.textContent = category.icon;
