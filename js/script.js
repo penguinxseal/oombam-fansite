@@ -1053,6 +1053,60 @@
 
   renderVlogs();
 
+
+
+  /* -----------------------------------------------------
+     Media submenu navigation
+     Desktop + mobile:
+     - Interviews opens Interviews modal
+     - Vlogs opens Vlogs modal
+     - Soundtrack scrolls to soundtrack thumbnail
+  ----------------------------------------------------- */
+  function scrollToMediaCard(selector) {
+    const target = document.querySelector(selector);
+    if (!target) return;
+
+    closeDesktopSubmenus();
+    closeMenu();
+
+    const offset = siteHeader?.offsetHeight || 0;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset - 18;
+
+    window.scrollTo({
+      top: Math.max(0, top),
+      behavior: "smooth"
+    });
+
+    target.classList.add("media-nav-target");
+    window.setTimeout(() => target.classList.remove("media-nav-target"), 1200);
+  }
+
+  document.querySelectorAll("[data-open-interviews-nav]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      closeDesktopSubmenus();
+      closeMenu();
+      openInterviewsModal();
+    });
+  });
+
+  document.querySelectorAll("[data-open-vlogs-nav]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      closeDesktopSubmenus();
+      closeMenu();
+      openVlogsModal();
+    });
+  });
+
+  document.querySelectorAll("[data-scroll-soundtrack-nav]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      scrollToMediaCard("#media-soundtrack");
+    });
+  });
+
+
   /* Dynamic footer year */
   const currentYear = document.getElementById("currentYear");
   if (currentYear) currentYear.textContent = new Date().getFullYear();
