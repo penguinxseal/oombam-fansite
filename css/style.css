@@ -8513,7 +8513,7 @@ body.dark-theme .vlog-player-back {
 }
 
 .page-home .media-vlogs-image-button img {
-  object-position: center 20%;
+  object-position: center 8%;
 }
 
 /* Keep both cards visually aligned in the media row */
@@ -8532,6 +8532,6 @@ body.dark-theme .vlog-player-back {
 /* Slightly higher focal point on mobile so both faces stay visible */
 @media (max-width: 760px) {
   .page-home .media-vlogs-image-button img {
-    object-position: center 18%;
+    object-position: center 10%;
   }
 }
