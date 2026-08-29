@@ -8485,3 +8485,53 @@ body.dark-theme .vlog-player-back {
     animation: none;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 14.5.1 — VLOGS THUMBNAIL DIMENSION SYNC
+   ---------------------------------------------------------
+   Goal:
+   - keep Vlogs thumbnail on the same image frame system as Interviews
+   - preserve the visible faces of Oom and Bam more cleanly
+   - normalize thumbnail proportions across desktop/tablet/mobile
+========================================================= */
+
+/* Use the same visual canvas for Interviews + Vlogs */
+.page-home .media-interviews-visual,
+.page-home .media-interviews-image-button,
+.page-home .media-interviews-image-button img,
+.page-home .media-vlogs-visual,
+.page-home .media-vlogs-image-button,
+.page-home .media-vlogs-image-button img {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+}
+
+/* Fine-tune image cropping */
+.page-home .media-interviews-image-button img {
+  object-position: center 46%;
+}
+
+.page-home .media-vlogs-image-button img {
+  object-position: center 20%;
+}
+
+/* Keep both cards visually aligned in the media row */
+@media (min-width: 1051px) {
+  .page-home .media-interviews-card,
+  .page-home .media-vlogs-card {
+    height: 100%;
+  }
+
+  .page-home .media-interviews-visual,
+  .page-home .media-vlogs-visual {
+    min-height: 0;
+  }
+}
+
+/* Slightly higher focal point on mobile so both faces stay visible */
+@media (max-width: 760px) {
+  .page-home .media-vlogs-image-button img {
+    object-position: center 18%;
+  }
+}
