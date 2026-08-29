@@ -8571,3 +8571,26 @@ body.dark-theme .vlog-player-back {
     object-position: 50% 2% !important;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 14.5.4 — VLOGS PURPOSE-BUILT LANDSCAPE THUMBNAIL
+   ---------------------------------------------------------
+   The original Vlogs source is portrait, so CSS object-position
+   could not reproduce the Fulfill-style landscape framing.
+   Use a real 16:10 crop instead.
+========================================================= */
+
+.page-home .media-vlogs-visual,
+.page-home .media-vlogs-image-button,
+.page-home .media-vlogs-image-button img {
+  aspect-ratio: 16 / 10 !important;
+  min-height: 0 !important;
+}
+
+.page-home .media-vlogs-image-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+  object-position: center !important;
+}
