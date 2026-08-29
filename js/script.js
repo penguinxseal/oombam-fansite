@@ -620,6 +620,14 @@
 
 
 
+
+  /* -----------------------------------------------------
+     Interviews archive runtime verification
+  ----------------------------------------------------- */
+  if (document.querySelector("[data-interviews-open]") && !document.getElementById("interviewsModal")) {
+    console.warn("[OomBam] Interviews trigger found but Interviews modal markup is missing.");
+  }
+
   /* -----------------------------------------------------
      Homepage Interviews Archive — in-page modal
   ----------------------------------------------------- */
