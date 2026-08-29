@@ -6584,12 +6584,9 @@ button.community-card {
   grid-template-columns: repeat(2, minmax(0,1fr));
 }
 
-.community-archive__grid--projects {
-  grid-template-columns: repeat(3, minmax(0,1fr));
-}
-
+.community-archive__grid--projects,
 .community-archive__grid--journal {
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0,1fr));
 }
 
 .community-archive-item {
@@ -6764,5 +6761,37 @@ body.dark-theme .community-archive-item__meta {
 
   .community-archive__footer .community-form__primary {
     width: 100%;
+  }
+}
+
+
+/* =========================================================
+   COMMUNITY ARCHIVE SIZE NORMALIZATION — v19.4.1
+   Keep Journal and completed Fan Projects the same visual
+   footprint as Fan Art and Fan Photos.
+========================================================= */
+
+.community-archive-item--preview {
+  width: 100%;
+}
+
+.community-archive-item--preview .community-archive-item__media {
+  aspect-ratio: 16 / 10;
+}
+
+.community-archive__grid--journal,
+.community-archive__grid--projects {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.community-archive__grid--journal .community-archive-item,
+.community-archive__grid--projects .community-archive-item {
+  max-width: none;
+}
+
+@media (max-width: 620px) {
+  .community-archive__grid--journal,
+  .community-archive__grid--projects {
+    grid-template-columns: 1fr;
   }
 }
