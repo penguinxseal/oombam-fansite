@@ -8619,3 +8619,28 @@ body.dark-theme .vlog-player-back {
   object-fit: cover !important;
   object-position: 50% 8% !important;
 }
+
+
+/* =========================================================
+   HOMEPAGE 14.5.6 — VLOGS THUMBNAIL FACE FIT
+   ---------------------------------------------------------
+   Keep the existing repository asset and shift the portrait
+   crop higher so Oom and Bam's faces sit comfortably inside
+   the thumbnail frame.
+========================================================= */
+
+.page-home .media-vlogs-visual,
+.page-home .media-vlogs-image-button {
+  overflow: hidden;
+}
+
+.page-home .media-vlogs-image-button img {
+  object-fit: cover !important;
+  object-position: 50% 0% !important;
+}
+
+@media (max-width: 760px) {
+  .page-home .media-vlogs-image-button img {
+    object-position: 50% 1% !important;
+  }
+}
