@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/style.css?v=14.2" rel="stylesheet"/>
+<link href="css/style.css?v=14.4" rel="stylesheet"/>
 <link href="css/Global.css?v=OB00001.7a" rel="stylesheet"/></head>
 <body class="ob-global page-home ob-shell-v2" data-active-nav="welcome" data-page-title="Home"><header class="ob-header" id="siteHeader">
 <div class="ob-header__inner">
@@ -399,16 +399,20 @@
         </div>
       </article>
 
-      <article class="media-compact-card" id="media-blogs">
-        <div class="media-compact-visual media-compact-visual--blog" aria-hidden="true">
-          <img src="assets/images/moment-04.jpg" alt="" loading="lazy"/>
-          <span class="media-blog-mark">Stories &amp; Notes</span>
+      <article class="media-compact-card media-vlogs-card" id="media-vlogs">
+        <div class="media-compact-visual media-vlogs-visual">
+          <button class="media-vlogs-trigger media-vlogs-image-button" type="button" data-vlogs-open aria-label="Explore OomBam vlogs">
+            <img src="assets/images/oomBam_Vlogs.png" alt="OomBam vlog feature" loading="lazy"/>
+          </button>
+          <a class="media-photo-credit media-photo-credit--vlogs" href="https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" aria-label="Photo credit: @jzornphotoholic on Instagram">
+            Photo: @jzornphotoholic
+          </a>
         </div>
         <div class="media-compact-copy">
-          <span class="media-compact-eyebrow">Blogs</span>
-          <h3>Stories &amp; Notes</h3>
-          <p>Editorials, reflections, and little stories from the OomBam journey.</p>
-          <span class="media-compact-link media-compact-link--muted">Coming Soon</span>
+          <span class="media-compact-eyebrow">Vlogs</span>
+          <h3>OomBam Vlogs</h3>
+          <p>Trips, activities, casual days, and little memories shared along the way.</p>
+          <button class="media-compact-link media-compact-button" type="button" data-vlogs-open>Explore Vlogs →</button>
         </div>
       </article>
 
@@ -547,7 +551,40 @@
   </section>
 </div>
 
-<script src="js/script.js?v=OB00001.10"></script>
+
+<!-- =================================================
+     VLOGS — IN-PAGE MEDIA ARCHIVE MODAL
+================================================== -->
+<div class="vlogs-modal" id="vlogsModal" aria-hidden="true">
+  <div class="vlogs-modal__backdrop" data-vlogs-close></div>
+  <section class="vlogs-modal__panel" role="dialog" aria-modal="true" aria-labelledby="vlogsModalTitle">
+    <button class="vlogs-modal__close" type="button" data-vlogs-close aria-label="Close Vlogs archive">×</button>
+
+    <div class="vlogs-modal__header">
+      <p class="vlogs-modal__eyebrow">MEDIA ARCHIVE</p>
+      <h2 id="vlogsModalTitle">Vlogs</h2>
+      <p>Trips, activities, behind-the-scenes days, and little memories with Oom &amp; Bam.</p>
+    </div>
+
+    <div class="vlogs-view" id="vlogsView">
+      <div class="vlogs-grid" id="vlogsGrid" aria-live="polite"></div>
+    </div>
+
+    <div class="vlog-player-view" id="vlogPlayerView" hidden>
+      <button class="vlog-player-back" type="button" data-vlog-back>← Back to Vlogs</button>
+      <div class="vlog-player-shell" id="vlogPlayerShell"></div>
+      <div class="vlog-player-copy">
+        <span class="vlog-player-platform" id="vlogPlayerPlatform"></span>
+        <h3 id="vlogPlayerTitle"></h3>
+        <p>Watch from the official source.</p>
+        <a id="vlogPlayerOriginal" class="vlog-player-original" target="_blank" rel="noopener noreferrer">Open Original ↗</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<script src="js/script.js?v=OB00001.12"></script>
 
 
 </body>
