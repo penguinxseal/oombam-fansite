@@ -887,6 +887,240 @@
 
   chatForm?.addEventListener("submit", handleChatSubmit);
 
+
+  /* -----------------------------------------------------
+     FROM THE COMMUNITY — reusable in-page archive
+  ----------------------------------------------------- */
+  const COMMUNITY_GALLERY = {
+    art: {
+      label: "Fan Art",
+      icon: "🎨",
+      intro: "Illustrations, sketches, edits, and creative work inspired by OomBam.",
+      layout: "visual",
+      items: [
+        {
+          type: "preview",
+          title: "Fan Art Collection",
+          description: "Approved Fan Art submissions will appear here.",
+          image: "assets/images/Fan-art.png"
+        }
+      ]
+    },
+    photos: {
+      label: "Fan Photos",
+      icon: "📷",
+      intro: "Fan-captured moments and memories shared by Blossoms.",
+      layout: "visual",
+      items: [
+        {
+          type: "preview",
+          title: "Fan Photos Collection",
+          description: "Approved Fan Photo submissions will appear here.",
+          image: "assets/images/Fan-photos.png"
+        }
+      ]
+    },
+    projects: {
+      label: "Fan Projects",
+      icon: "🌱",
+      intro: "Community projects created to support and celebrate Oom and Bam.",
+      layout: "projects",
+      items: [
+        {
+          type: "project",
+          title: "OomBam 1st Fanmeeting Support Project",
+          meta: "Current Project",
+          description: "An ongoing Blossom support project.",
+          href: "#projects"
+        },
+        {
+          type: "project",
+          title: "Bam's Birthday Support Project",
+          meta: "Upcoming Project",
+          description: "More details to be announced.",
+          href: "#projects"
+        },
+        {
+          type: "project",
+          title: "Food Support Project for OomBam",
+          meta: "Completed Project",
+          description: "A completed community support project.",
+          href: "#projects"
+        }
+      ]
+    },
+    journal: {
+      label: "Blossom Journal",
+      icon: "📖",
+      intro: "A quiet archive for stories, reflections, edits, and little thoughts from Blossoms.",
+      layout: "journal",
+      items: [
+        {
+          type: "preview",
+          title: "Blossom Journal",
+          description: "Approved journal entries and reflections will appear here.",
+          image: "assets/images/Journal-photo.png"
+        }
+      ]
+    }
+  };
+
+  const GALLERY_TABS = [
+    ["all", "All"],
+    ["art", "Fan Art"],
+    ["photos", "Fan Photos"],
+    ["projects", "Fan Projects"],
+    ["journal", "Blossom Journal"]
+  ];
+
+  const makeGalleryItem = (item, categoryKey) => {
+    const article = document.createElement(item.href ? "a" : "article");
+    article.className = `community-archive-item community-archive-item--${item.type || "visual"}`;
+    if (item.href) {
+      article.href = item.href;
+      article.addEventListener("click", () => closeModal());
+    }
+
+    if (item.image) {
+      const media = document.createElement("div");
+      media.className = "community-archive-item__media";
+      const img = document.createElement("img");
+      img.src = item.image;
+      img.alt = item.title || COMMUNITY_GALLERY[categoryKey]?.label || "Community submission";
+      media.append(img);
+      article.append(media);
+    }
+
+    const body = document.createElement("div");
+    body.className = "community-archive-item__body";
+
+    if (item.meta) {
+      const meta = document.createElement("span");
+      meta.className = "community-archive-item__meta";
+      meta.textContent = item.meta;
+      body.append(meta);
+    }
+
+    const title = document.createElement("h3");
+    title.textContent = item.title || "Community submission";
+    body.append(title);
+
+    if (item.description) {
+      const desc = document.createElement("p");
+      desc.textContent = item.description;
+      body.append(desc);
+    }
+
+    if (item.type === "preview") {
+      const note = document.createElement("span");
+      note.className = "community-archive-item__preview";
+      note.textContent = "Collection ready for approved submissions";
+      body.append(note);
+    }
+
+    article.append(body);
+    return article;
+  };
+
+  const galleryItemsFor = (filter) => {
+    const keys = filter === "all"
+      ? ["art", "photos", "projects", "journal"]
+      : [filter];
+
+    return keys.flatMap((key) =>
+      (COMMUNITY_GALLERY[key]?.items || []).map((item) => ({ key, item }))
+    );
+  };
+
+  const renderCommunityArchive = (initialFilter = "all") => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "community-archive";
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">FROM THE COMMUNITY</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Community Gallery</h2>
+      <p class="community-modal__intro community-archive__intro">
+        Browse Fan Art, Fan Photos, Fan Projects, and the Blossom Journal without leaving this page.
+      </p>
+      <div class="community-archive__tabs" role="tablist" aria-label="Community gallery categories"></div>
+      <div class="community-archive__heading">
+        <div>
+          <span class="community-archive__icon" aria-hidden="true"></span>
+          <h3 class="community-archive__category"></h3>
+        </div>
+        <p class="community-archive__description"></p>
+      </div>
+      <div class="community-archive__grid" id="communityArchiveGrid"></div>
+      <div class="community-archive__footer">
+        <p>Community content shown here is curated and approved before publication.</p>
+        <button class="community-form__primary" data-community-action="submit-menu" type="button">
+          Submit to Community →
+        </button>
+      </div>`;
+
+    const tabs = wrapper.querySelector(".community-archive__tabs");
+    const grid = wrapper.querySelector("#communityArchiveGrid");
+    const categoryTitle = wrapper.querySelector(".community-archive__category");
+    const categoryIcon = wrapper.querySelector(".community-archive__icon");
+    const categoryDescription = wrapper.querySelector(".community-archive__description");
+
+    const setFilter = (filter) => {
+      const valid = filter === "all" || COMMUNITY_GALLERY[filter];
+      const active = valid ? filter : "all";
+
+      tabs.querySelectorAll("[data-gallery-filter]").forEach((button) => {
+        const selected = button.dataset.galleryFilter === active;
+        button.classList.toggle("is-active", selected);
+        button.setAttribute("aria-selected", String(selected));
+        button.tabIndex = selected ? 0 : -1;
+      });
+
+      if (active === "all") {
+        categoryIcon.textContent = "🌸";
+        categoryTitle.textContent = "All Community Collections";
+        categoryDescription.textContent =
+          "A curated view across Fan Art, Fan Photos, Fan Projects, and the Blossom Journal.";
+      } else {
+        const category = COMMUNITY_GALLERY[active];
+        categoryIcon.textContent = category.icon;
+        categoryTitle.textContent = category.label;
+        categoryDescription.textContent = category.intro;
+      }
+
+      const items = galleryItemsFor(active);
+      grid.className = `community-archive__grid community-archive__grid--${active}`;
+      grid.replaceChildren(...items.map(({ key, item }) => makeGalleryItem(item, key)));
+    };
+
+    GALLERY_TABS.forEach(([key, label]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "community-archive__tab";
+      button.dataset.galleryFilter = key;
+      button.setAttribute("role", "tab");
+      button.textContent = label;
+      button.addEventListener("click", () => setFilter(key));
+      tabs.append(button);
+    });
+
+    wrapper.addEventListener("click", (event) => {
+      const submit = event.target.closest('[data-community-action="submit-menu"]');
+      if (!submit) return;
+      event.preventDefault();
+      renderSubmitMenu();
+    });
+
+    setFilter(initialFilter);
+    openModal(wrapper, { wide: true });
+  };
+
+  document.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-gallery-open]");
+    if (!trigger) return;
+    event.preventDefault();
+    renderCommunityArchive(trigger.dataset.galleryOpen || "all");
+  });
+
+
   async function init() {
     updateAuthUI();
 
