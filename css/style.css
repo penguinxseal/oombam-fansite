@@ -7939,3 +7939,56 @@ body.dark-theme .interview-player-back {
     min-height: 640px;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 13.10.1 — INTERVIEWS THUMBNAIL PHOTO CREDIT
+========================================================= */
+
+.page-home .media-interviews-trigger {
+  position: relative;
+}
+
+.page-home .media-photo-credit--interviews {
+  position: absolute;
+  right: 10px;
+  bottom: 9px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  max-width: calc(100% - 20px);
+  padding: 5px 8px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px;
+  background: rgba(18,20,24,.48);
+  color: rgba(255,255,255,.92);
+  font: 600 .54rem/1 "DM Sans", sans-serif;
+  letter-spacing: .02em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0,0,0,.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.page-home .media-photo-credit--interviews:hover,
+.page-home .media-photo-credit--interviews:focus-visible {
+  color: #fff;
+  background: rgba(18,20,24,.62);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.page-home .media-photo-credit--interviews:focus-visible {
+  outline: 2px solid rgba(255,255,255,.9);
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .page-home .media-photo-credit--interviews {
+    right: 8px;
+    bottom: 8px;
+    padding: 4px 7px;
+    font-size: .5rem;
+  }
+}
