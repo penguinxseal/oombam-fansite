@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=DM+Sans:wght@400;500;600&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/Global.css?v=OB00001.7" rel="stylesheet"/><link href="css/community.css?v=19.3" rel="stylesheet"/><style id="community-hero-v18-failsafe">
+<link href="css/Global.css?v=OB00001.7" rel="stylesheet"/><link href="css/community.css?v=19.4" rel="stylesheet"/><style id="community-hero-v18-failsafe">
 /* V18: final hero typography + no-crop banner */
 body.page-community .community-hero-media {
   height: auto !important;
@@ -426,57 +426,61 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <h2>📷 From the Community</h2>
 <p>Made with love by Blossoms.</p>
 </div>
-<button class="text-button">View All</button>
+<button class="text-button" data-gallery-open="all" type="button">View All</button>
 </div>
 <div class="community-card-grid">
 <!-- FAN ART -->
-<a class="community-card" href="#">
+<button aria-label="Explore Fan Art" class="community-card" data-gallery-open="art" type="button">
 <div class="community-thumbnail">
 <img alt="OomBam fan art" src="assets/images/Fan-art.png"/>
 </div>
 <div class="community-card-content">
+<div>
 <h3>Fan Art</h3>
-<p>
-                  Beautiful creations inspired by OomBam.
-                </p>
+<p>Beautiful creations inspired by OomBam.</p>
 </div>
-</a>
+<span aria-hidden="true" class="community-card-explore">Explore →</span>
+</div>
+</button>
 <!-- FAN PHOTOS -->
-<a class="community-card" href="#">
+<button aria-label="Explore Fan Photos" class="community-card" data-gallery-open="photos" type="button">
 <div class="community-thumbnail">
 <img alt="OomBam fan photos" src="assets/images/Fan-photos.png"/>
 </div>
 <div class="community-card-content">
+<div>
 <h3>Fan Photos</h3>
-<p>
-                  Moments captured, memories shared.
-                </p>
+<p>Moments captured, memories shared.</p>
 </div>
-</a>
+<span aria-hidden="true" class="community-card-explore">Explore →</span>
+</div>
+</button>
 <!-- FAN PROJECTS -->
-<a class="community-card" href="#projects">
+<button aria-label="Explore Fan Projects" class="community-card" data-gallery-open="projects" type="button">
 <div class="community-thumbnail">
 <img alt="OomBam fan projects" src="assets/images/Fan-project.png"/>
 </div>
 <div class="community-card-content">
+<div>
 <h3>Fan Projects</h3>
-<p>
-                  Amazing projects by Blossoms.
-                </p>
+<p>Amazing projects by Blossoms.</p>
 </div>
-</a>
+<span aria-hidden="true" class="community-card-explore">Explore →</span>
+</div>
+</button>
 <!-- JOURNAL -->
-<a class="community-card" href="#">
+<button aria-label="Explore Blossom Journal" class="community-card" data-gallery-open="journal" type="button">
 <div class="community-thumbnail">
 <img alt="Blossom Journal" src="assets/images/Journal-photo.png"/>
 </div>
 <div class="community-card-content">
+<div>
 <h3>Blossom Journal</h3>
-<p>
-                  Stories, edits, and little thoughts.
-                </p>
+<p>Stories, edits, and little thoughts.</p>
 </div>
-</a>
+<span aria-hidden="true" class="community-card-explore">Explore →</span>
+</div>
+</button>
 </div>
 </div>
 </div>
@@ -638,5 +642,5 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <script src="js/script.js?v=OB00001.7"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/community-config.js?v=1.0"></script>
-<script src="js/community.js?v=1.3"></script></body>
+<script src="js/community.js?v=1.4"></script></body>
 </html>
