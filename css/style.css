@@ -8488,159 +8488,49 @@ body.dark-theme .vlog-player-back {
 
 
 /* =========================================================
-   HOMEPAGE 14.5.1 — VLOGS THUMBNAIL DIMENSION SYNC
+   HOMEPAGE 14.6.0 — VLOGS DESKTOP THUMBNAIL FRAME FIX
    ---------------------------------------------------------
-   Goal:
-   - keep Vlogs thumbnail on the same image frame system as Interviews
-   - preserve the visible faces of Oom and Bam more cleanly
-   - normalize thumbnail proportions across desktop/tablet/mobile
+   The desktop 4-card Media layout forces .media-compact-visual
+   to a 16:10 canvas. The Vlogs button/image previously relied
+   on height:100% against an auto-height parent, so changing
+   object-position did not reliably move the visible crop.
+
+   Give the Vlogs button + image a definite 16:10 positioning
+   box on desktop, then move the portrait focal point upward.
 ========================================================= */
 
-/* Use the same visual canvas for Interviews + Vlogs */
-.page-home .media-interviews-visual,
-.page-home .media-interviews-image-button,
-.page-home .media-interviews-image-button img,
-.page-home .media-vlogs-visual,
-.page-home .media-vlogs-image-button,
-.page-home .media-vlogs-image-button img {
-  min-height: 0;
-  aspect-ratio: 16 / 9;
-}
-
-/* Fine-tune image cropping */
-.page-home .media-interviews-image-button img {
-  object-position: center 46%;
-}
-
-.page-home .media-vlogs-image-button img {
-  object-position: center 8%;
-}
-
-/* Keep both cards visually aligned in the media row */
-@media (min-width: 1051px) {
-  .page-home .media-interviews-card,
-  .page-home .media-vlogs-card {
-    height: 100%;
-  }
-
-  .page-home .media-interviews-visual,
+@media (min-width: 1101px) {
   .page-home .media-vlogs-visual {
-    min-height: 0;
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 10 !important;
+    overflow: hidden !important;
   }
-}
 
-/* Slightly higher focal point on mobile so both faces stay visible */
-@media (max-width: 760px) {
-  .page-home .media-vlogs-image-button img {
-    object-position: center 10%;
+  .page-home .media-vlogs-image-button {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
-}
 
-
-/* =========================================================
-   HOMEPAGE 14.5.3 — VLOGS THUMBNAIL FRAMING MATCH
-   ---------------------------------------------------------
-   Align the Vlogs thumbnail framing more closely to the
-   Fulfill thumbnail:
-   - same visual canvas behavior
-   - tighter top-aligned crop
-   - both faces kept fully readable
-========================================================= */
-
-.page-home .media-vlogs-visual,
-.page-home .media-vlogs-image-button,
-.page-home .media-vlogs-image-button img {
-  min-height: 0 !important;
-  aspect-ratio: 16 / 9 !important;
-}
-
-.page-home .media-vlogs-visual {
-  overflow: hidden;
-}
-
-.page-home .media-vlogs-image-button img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 0% !important;
-}
-
-/* Slight device-specific refinement */
-@media (max-width: 760px) {
   .page-home .media-vlogs-image-button img {
-    object-position: 50% 2% !important;
-  }
-}
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    object-fit: cover !important;
 
-
-/* =========================================================
-   HOMEPAGE 14.5.4 — VLOGS PURPOSE-BUILT LANDSCAPE THUMBNAIL
-   ---------------------------------------------------------
-   The original Vlogs source is portrait, so CSS object-position
-   could not reproduce the Fulfill-style landscape framing.
-   Use a real 16:10 crop instead.
-========================================================= */
-
-.page-home .media-vlogs-visual,
-.page-home .media-vlogs-image-button,
-.page-home .media-vlogs-image-button img {
-  aspect-ratio: 16 / 10 !important;
-  min-height: 0 !important;
-}
-
-.page-home .media-vlogs-image-button img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover !important;
-  object-position: center !important;
-}
-
-
-/* =========================================================
-   HOMEPAGE 14.5.5 — VLOGS SOURCE PATH RESTORE
-   ---------------------------------------------------------
-   Use the actual repository asset:
-   assets/images/oomBam_Vlogs.png
-   Keep the existing media-card frame and bias the portrait
-   crop upward so both faces stay visible.
-========================================================= */
-
-.page-home .media-vlogs-visual,
-.page-home .media-vlogs-image-button {
-  aspect-ratio: 16 / 10 !important;
-  min-height: 0 !important;
-  overflow: hidden;
-}
-
-.page-home .media-vlogs-image-button img {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: auto !important;
-  object-fit: cover !important;
-  object-position: 50% 8% !important;
-}
-
-
-/* =========================================================
-   HOMEPAGE 14.5.6 — VLOGS THUMBNAIL FACE FIT
-   ---------------------------------------------------------
-   Keep the existing repository asset and shift the portrait
-   crop higher so Oom and Bam's faces sit comfortably inside
-   the thumbnail frame.
-========================================================= */
-
-.page-home .media-vlogs-visual,
-.page-home .media-vlogs-image-button {
-  overflow: hidden;
-}
-
-.page-home .media-vlogs-image-button img {
-  object-fit: cover !important;
-  object-position: 50% 0% !important;
-}
-
-@media (max-width: 760px) {
-  .page-home .media-vlogs-image-button img {
-    object-position: 50% 1% !important;
+    /* Portrait source: move visible crop upward to keep both faces in frame. */
+    object-position: 50% 24% !important;
   }
 }
