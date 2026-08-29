@@ -431,7 +431,7 @@
     { title: "Media", category: "Home", href: "index.html#media", keywords: "media videos soundtrack interviews" },
     { title: "Fulfill The Series", category: "Media", href: "just-the-two-of-us.html", keywords: "fulfill series archive video episodes" },
     { title: "Interviews", category: "Media", href: "index.html#media-interviews", keywords: "interviews official clips appearances videos" },
-    { title: "Blogs", category: "Media", href: "index.html#media-blogs", keywords: "blogs stories notes editorials reflections oombam" },
+    { title: "Vlogs", category: "Media", href: "index.html#media-vlogs", keywords: "vlogs trips activities behind the scenes casual moments oombam" },
     { title: "Soundtrack", category: "Media", href: "index.html#media-soundtrack", keywords: "soundtrack music songs fulfill ost" },
     { title: "Community Blossoms", category: "Blossoms", href: "community.html", keywords: "community blossoms letters projects fan art" },
     { title: "Fan Letters", category: "Blossoms", href: "community.html#letters", keywords: "fan letters write oom bam oombam" },
@@ -908,6 +908,150 @@
   });
 
   renderInterviews("all");
+
+
+
+  /* -----------------------------------------------------
+     Homepage Vlogs Archive — in-page modal
+  ----------------------------------------------------- */
+  const VLOG_ITEMS = [
+  {
+    "title": "OomBam Vlog: Practicing for Their Honeymoon in Hong Kong",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=uld1-ODX768"
+  },
+  {
+    "title": "Mini Vlog: A Merit-Making Trip That Feels More Like a Date?!",
+    "platform": "X",
+    "url": "https://x.com/OomBam_CH3/status/2063893796656427286/video/1"
+  },
+  {
+    "title": "Ending the Year on a Warm Note with the ‘New Year Pajama Party’",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=5waayw1E2yA"
+  },
+  {
+    "title": "OomBam: Horseback Riding Is Just an Excuse, But… I Want You in Every Universe",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=9gYJCDoVlqE"
+  },
+  {
+    "title": "OomBam: Step Dance (Love)",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=epGazWVi2hk"
+  }
+];
+
+  const vlogsModal = document.getElementById("vlogsModal");
+  const vlogsGrid = document.getElementById("vlogsGrid");
+  const vlogsView = document.getElementById("vlogsView");
+  const vlogPlayerView = document.getElementById("vlogPlayerView");
+  const vlogPlayerShell = document.getElementById("vlogPlayerShell");
+  const vlogPlayerTitle = document.getElementById("vlogPlayerTitle");
+  const vlogPlayerPlatform = document.getElementById("vlogPlayerPlatform");
+  const vlogPlayerOriginal = document.getElementById("vlogPlayerOriginal");
+  const vlogOpeners = [...document.querySelectorAll("[data-vlogs-open]")];
+  const vlogClosers = [...document.querySelectorAll("[data-vlogs-close]")];
+  let vlogsLastFocus = null;
+  let vlogsScrollY = 0;
+
+  function buildVlogCard(item) {
+    const card = document.createElement("article");
+    card.className = "vlog-card";
+
+    const platform = document.createElement("span");
+    platform.className = `vlog-platform vlog-platform--${item.platform.toLowerCase()}`;
+    platform.textContent = item.platform;
+
+    const title = document.createElement("h3");
+    title.textContent = item.title;
+
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "vlog-card__action";
+    action.textContent = item.platform === "X" ? "Open on X ↗" : "Watch →";
+
+    if (item.platform === "X") {
+      action.addEventListener("click", () => window.open(item.url, "_blank", "noopener,noreferrer"));
+    } else {
+      action.addEventListener("click", () => openVlogPlayer(item));
+    }
+
+    card.append(platform, title, action);
+    return card;
+  }
+
+  function renderVlogs() {
+    if (!vlogsGrid) return;
+    vlogsGrid.replaceChildren(...VLOG_ITEMS.map(buildVlogCard));
+  }
+
+  function resetVlogPlayer() {
+    if (vlogPlayerShell) vlogPlayerShell.replaceChildren();
+    if (vlogPlayerView) vlogPlayerView.hidden = true;
+    if (vlogsView) vlogsView.hidden = false;
+  }
+
+  function openVlogPlayer(item) {
+    if (!vlogPlayerShell || !vlogPlayerView || !vlogsView) return;
+
+    vlogPlayerShell.replaceChildren();
+
+    const iframe = document.createElement("iframe");
+    iframe.className = "vlog-player-frame vlog-player-frame--youtube";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.allowFullscreen = true;
+    iframe.loading = "lazy";
+    iframe.title = item.title;
+
+    const id = youtubeIdFromUrl(item.url);
+    iframe.src = `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
+
+    vlogPlayerShell.append(iframe);
+    vlogPlayerTitle.textContent = item.title;
+    vlogPlayerPlatform.textContent = item.platform;
+    vlogPlayerOriginal.href = item.url;
+    vlogPlayerOriginal.textContent = `Open on ${item.platform} ↗`;
+
+    vlogsView.hidden = true;
+    vlogPlayerView.hidden = false;
+    vlogPlayerView.scrollIntoView({ block: "start" });
+  }
+
+  function openVlogsModal() {
+    if (!vlogsModal) return;
+    vlogsLastFocus = document.activeElement;
+    vlogsScrollY = window.scrollY || 0;
+    resetVlogPlayer();
+    renderVlogs();
+    vlogsModal.classList.add("is-open");
+    vlogsModal.setAttribute("aria-hidden", "false");
+    body.classList.add("vlogs-open");
+    requestAnimationFrame(() => vlogsModal.querySelector(".vlogs-modal__close")?.focus({ preventScroll: true }));
+  }
+
+  function closeVlogsModal() {
+    if (!vlogsModal) return;
+    vlogsModal.classList.remove("is-open");
+    vlogsModal.setAttribute("aria-hidden", "true");
+    body.classList.remove("vlogs-open");
+    resetVlogPlayer();
+    window.scrollTo(0, vlogsScrollY);
+    vlogsLastFocus?.focus?.({ preventScroll: true });
+  }
+
+  vlogOpeners.forEach((button) => button.addEventListener("click", openVlogsModal));
+  vlogClosers.forEach((button) => button.addEventListener("click", closeVlogsModal));
+  document.querySelector("[data-vlog-back]")?.addEventListener("click", resetVlogPlayer);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && vlogsModal?.classList.contains("is-open")) {
+      closeVlogsModal();
+    }
+  });
+
+  renderVlogs();
 
   /* Dynamic footer year */
   const currentYear = document.getElementById("currentYear");
