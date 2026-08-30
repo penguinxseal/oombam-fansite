@@ -6954,3 +6954,39 @@ body.dark-theme .community-archive-item__status.is-approved {
 .community-card[data-gallery-open="journal"]:focus-visible .community-thumbnail img {
   transform: scale(1.085);
 }
+
+
+/* =========================================================
+   COMMUNITY 19.4.6 — BLOSSOM JOURNAL TRUE EDGE-TO-EDGE FIX
+   ---------------------------------------------------------
+   The visible top gap is part of the Journal artwork itself,
+   not spacing from the card. Fill the thumbnail viewport with
+   an oversized image and pull it upward so the artwork reaches
+   the same top edge as the other Community thumbnails.
+========================================================= */
+
+.community-card[data-gallery-open="journal"] .community-thumbnail {
+  position: relative !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.community-card[data-gallery-open="journal"] .community-thumbnail img {
+  position: absolute !important;
+  left: -2.5% !important;
+  top: -5.5% !important;
+  width: 105% !important;
+  height: 111% !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transform: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Keep hover stable — no extra jump or exposed gap. */
+.community-card[data-gallery-open="journal"]:hover .community-thumbnail img,
+.community-card[data-gallery-open="journal"]:focus-visible .community-thumbnail img {
+  transform: scale(1.015) !important;
+}
