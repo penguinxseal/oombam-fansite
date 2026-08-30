@@ -1231,14 +1231,6 @@
       body.append(desc);
     }
 
-    if (item.status) {
-      const status = MODERATION_STATUS[item.status];
-      const badge = document.createElement("span");
-      badge.className = `community-archive-item__status is-${item.status}`;
-      badge.textContent = status?.label || item.status;
-      body.append(badge);
-    }
-
     if (item.type === "preview") {
       const note = document.createElement("span");
       note.className = "community-archive-item__preview";
