@@ -7020,3 +7020,64 @@ button.community-card > .community-card-content {
     max-height: 220px !important;
   }
 }
+
+
+/* =========================================================
+   COMMUNITY 19.5.3 — CARD TEXT ALIGNMENT NORMALIZATION
+   ---------------------------------------------------------
+   Keep the content block of every Community card aligned
+   to the exact same top, left, and vertical rhythm.
+========================================================= */
+
+button.community-card > .community-card-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+
+  width: 100% !important;
+  min-height: 118px !important;
+
+  margin: 0 !important;
+  padding: 18px 18px 16px !important;
+
+  text-align: left !important;
+  box-sizing: border-box !important;
+}
+
+button.community-card > .community-card-content h3 {
+  margin: 0 0 8px !important;
+  padding: 0 !important;
+  min-height: 24px !important;
+  line-height: 1.15 !important;
+}
+
+button.community-card > .community-card-content p {
+  margin: 0 !important;
+  padding: 0 72px 0 0 !important;
+  line-height: 1.5 !important;
+}
+
+/* Keep CTA on the same baseline across all cards. */
+button.community-card > .community-card-content .community-card-action,
+button.community-card > .community-card-content .community-card-link,
+button.community-card > .community-card-content > span:last-child {
+  margin-top: auto !important;
+}
+
+/* Journal should not receive any special vertical offset. */
+button.community-card[data-gallery-open="journal"] > .community-card-content {
+  margin-top: 0 !important;
+  padding-top: 18px !important;
+}
+
+@media (max-width: 700px) {
+  button.community-card > .community-card-content {
+    min-height: 0 !important;
+    padding: 16px !important;
+  }
+
+  button.community-card > .community-card-content p {
+    padding-right: 0 !important;
+  }
+}
