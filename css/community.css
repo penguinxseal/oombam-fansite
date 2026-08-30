@@ -6934,3 +6934,89 @@ body.dark-theme .community-archive-item__status.is-approved {
 .community-archive-item__status {
   display: none !important;
 }
+
+
+/* =========================================================
+   COMMUNITY 19.5.2 — CARD / THUMBNAIL ALIGNMENT HARD RESET
+   ---------------------------------------------------------
+   Normalize the actual button cards and images rather than
+   treating Blossom Journal as a special case.
+========================================================= */
+
+.community-card-grid {
+  align-items: stretch !important;
+}
+
+button.community-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-self: stretch !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  box-sizing: border-box !important;
+  vertical-align: top !important;
+}
+
+/* Exact same image viewport for Fan Arts, Photos, Projects and Journal. */
+button.community-card > .community-thumbnail {
+  display: block !important;
+  flex: 0 0 190px !important;
+  width: 100% !important;
+  height: 190px !important;
+  min-height: 190px !important;
+  max-height: 190px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  line-height: 0 !important;
+}
+
+/* Remove inline-image baseline behavior completely. */
+button.community-card > .community-thumbnail > img {
+  display: block !important;
+  width: 100% !important;
+  height: 190px !important;
+  min-height: 190px !important;
+  max-height: 190px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  box-sizing: border-box !important;
+}
+
+/* Content begins at exactly the same Y position on every card. */
+button.community-card > .community-card-content {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Keep the public moderation workflow hidden. */
+.community-moderation-status,
+.community-archive-item__status {
+  display: none !important;
+}
+
+@media (max-width: 600px) {
+  button.community-card > .community-thumbnail {
+    flex-basis: 220px !important;
+    height: 220px !important;
+    min-height: 220px !important;
+    max-height: 220px !important;
+  }
+
+  button.community-card > .community-thumbnail > img {
+    height: 220px !important;
+    min-height: 220px !important;
+    max-height: 220px !important;
+  }
+}
