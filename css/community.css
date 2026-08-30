@@ -6928,149 +6928,43 @@ body.dark-theme .community-archive-item__status.is-approved {
 
 
 /* =========================================================
-   COMMUNITY 19.4.5 — BLOSSOM JOURNAL THUMBNAIL SYNC
-   ---------------------------------------------------------
-   Journal-photo.png contains a little more edge breathing
-   room than the other category artwork. Slightly enlarge it
-   inside the same fixed thumbnail viewport so the artwork
-   reaches the card edges consistently.
+   COMMUNITY 19.4.9 — GALLERY CLEANUP + JOURNAL LEVEL FIX
 ========================================================= */
 
-.community-card[data-gallery-open="journal"] .community-thumbnail {
-  background: transparent;
-}
-
-.community-card[data-gallery-open="journal"] .community-thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transform: scale(1.055);
-  transform-origin: center;
-}
-
-/* Preserve the same hover feel without exposing the source-image edge. */
-.community-card[data-gallery-open="journal"]:hover .community-thumbnail img,
-.community-card[data-gallery-open="journal"]:focus-visible .community-thumbnail img {
-  transform: scale(1.085);
-}
-
-
-/* =========================================================
-   COMMUNITY 19.4.6 — BLOSSOM JOURNAL TRUE EDGE-TO-EDGE FIX
-   ---------------------------------------------------------
-   The visible top gap is part of the Journal artwork itself,
-   not spacing from the card. Fill the thumbnail viewport with
-   an oversized image and pull it upward so the artwork reaches
-   the same top edge as the other Community thumbnails.
-========================================================= */
-
-.community-card[data-gallery-open="journal"] .community-thumbnail {
-  position: relative !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-}
-
-.community-card[data-gallery-open="journal"] .community-thumbnail img {
-  position: absolute !important;
-  left: -2.5% !important;
-  top: -5.5% !important;
-  width: 105% !important;
-  height: 111% !important;
-  max-width: none !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  transform: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Keep hover stable — no extra jump or exposed gap. */
-.community-card[data-gallery-open="journal"]:hover .community-thumbnail img,
-.community-card[data-gallery-open="journal"]:focus-visible .community-thumbnail img {
-  transform: scale(1.015) !important;
-}
-
-
-/* =========================================================
-   COMMUNITY 19.4.7 — PUBLIC GALLERY CLEANUP + JOURNAL FRAME
-========================================================= */
-
-/* Public gallery should not expose admin moderation workflow. */
+/* Keep moderation workflow hidden from public gallery visitors. */
 .community-moderation-status,
 .community-archive-item__status {
   display: none !important;
 }
 
-/* Journal thumbnail: force true edge-to-edge coverage in the same 190px frame. */
-.community-thumbnail--journal {
-  position: relative !important;
-  height: 190px !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  line-height: 0 !important;
-  background: transparent !important;
-}
-
-.community-thumbnail--journal img {
-  position: absolute !important;
-  inset: -8px -10px -8px -10px !important;
-  width: calc(100% + 20px) !important;
-  height: calc(100% + 16px) !important;
-  max-width: none !important;
-  display: block !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  transform: none !important;
-}
-
-/* Preserve card hover without revealing any edge gap. */
-.community-card--journal:hover .community-thumbnail--journal img,
-.community-card--journal:focus-visible .community-thumbnail--journal img {
-  transform: scale(1.02) !important;
-}
-
-/* Make sure the image and content meet cleanly with no inline-image baseline gap. */
-.community-card--journal .community-card-content {
-  position: relative;
-  margin-top: 0 !important;
-  border-top: 0 !important;
-}
-
-
-/* =========================================================
-   COMMUNITY 19.4.8 — JOURNAL CARD TOP-GAP HARD FIX
-   ---------------------------------------------------------
-   The remaining strip is above the thumbnail viewport itself,
-   so scaling/repositioning the image inside that viewport
-   cannot remove it. Pull the whole Journal thumbnail upward
-   into the card's top edge, then compensate its height.
-========================================================= */
-
+/*
+  All four Community thumbnails use the exact same 190px viewport.
+  The Journal artwork is cropped INSIDE that viewport instead of
+  moving/resizing the viewport itself, so its bottom edge stays
+  perfectly level with Fan Arts, Fan Photos, and Fan Projects.
+*/
 .community-card--journal {
-  position: relative !important;
   padding-top: 0 !important;
 }
 
 .community-card--journal .community-thumbnail--journal {
   position: relative !important;
-  top: -9px !important;
-  width: calc(100% + 2px) !important;
-  height: 199px !important;
-  margin: 0 -1px -9px !important;
+  top: auto !important;
+  width: 100% !important;
+  height: 190px !important;
+  margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;
+  line-height: 0 !important;
   background: transparent !important;
 }
 
 .community-card--journal .community-thumbnail--journal img {
   position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
+  left: -7px !important;
+  top: -7px !important;
+  width: calc(100% + 14px) !important;
+  height: calc(100% + 14px) !important;
   max-width: none !important;
   display: block !important;
   object-fit: cover !important;
@@ -7082,5 +6976,5 @@ body.dark-theme .community-archive-item__status.is-approved {
 
 .community-card--journal:hover .community-thumbnail--journal img,
 .community-card--journal:focus-visible .community-thumbnail--journal img {
-  transform: scale(1.02) !important;
+  transform: scale(1.015) !important;
 }
