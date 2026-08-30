@@ -6990,3 +6990,52 @@ body.dark-theme .community-archive-item__status.is-approved {
 .community-card[data-gallery-open="journal"]:focus-visible .community-thumbnail img {
   transform: scale(1.015) !important;
 }
+
+
+/* =========================================================
+   COMMUNITY 19.4.7 — PUBLIC GALLERY CLEANUP + JOURNAL FRAME
+========================================================= */
+
+/* Public gallery should not expose admin moderation workflow. */
+.community-moderation-status,
+.community-archive-item__status {
+  display: none !important;
+}
+
+/* Journal thumbnail: force true edge-to-edge coverage in the same 190px frame. */
+.community-thumbnail--journal {
+  position: relative !important;
+  height: 190px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 0 !important;
+  background: transparent !important;
+}
+
+.community-thumbnail--journal img {
+  position: absolute !important;
+  inset: -8px -10px -8px -10px !important;
+  width: calc(100% + 20px) !important;
+  height: calc(100% + 16px) !important;
+  max-width: none !important;
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+}
+
+/* Preserve card hover without revealing any edge gap. */
+.community-card--journal:hover .community-thumbnail--journal img,
+.community-card--journal:focus-visible .community-thumbnail--journal img {
+  transform: scale(1.02) !important;
+}
+
+/* Make sure the image and content meet cleanly with no inline-image baseline gap. */
+.community-card--journal .community-card-content {
+  position: relative;
+  margin-top: 0 !important;
+  border-top: 0 !important;
+}
