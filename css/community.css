@@ -6926,79 +6926,11 @@ body.dark-theme .community-archive-item__status.is-approved {
   }
 }
 
-
 /* =========================================================
-   COMMUNITY 19.5.0 — COMMUNITY CARD ALIGNMENT RESET
-   ---------------------------------------------------------
-   One consistent thumbnail viewport for all four cards.
-   Journal artwork is cropped INSIDE the same viewport only.
+   COMMUNITY 19.5.1 — PUBLIC GALLERY CLEAN RESET
 ========================================================= */
 
 .community-moderation-status,
 .community-archive-item__status {
   display: none !important;
-}
-
-/* Normalize every card in the row. */
-.community-card-grid {
-  align-items: stretch !important;
-}
-
-.community-card-grid > .community-card {
-  align-self: stretch !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  vertical-align: top !important;
-}
-
-/* One shared thumbnail box for all four cards. */
-.community-card-grid > .community-card > .community-thumbnail {
-  position: relative !important;
-  top: 0 !important;
-  width: 100% !important;
-  height: 190px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  line-height: 0 !important;
-}
-
-/* Standard image behavior. */
-.community-card-grid > .community-card > .community-thumbnail > img {
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  object-fit: cover !important;
-}
-
-/*
-  Journal-photo.png has visible breathing room inside the artwork.
-  Keep the 190px viewport fixed and crop only the image itself.
-*/
-.community-card--journal .community-thumbnail--journal > img {
-  width: 116% !important;
-  height: 116% !important;
-  max-width: none !important;
-  position: absolute !important;
-  left: 50% !important;
-  top: 50% !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  transform: translate(-50%, -51%) !important;
-  transform-origin: center !important;
-}
-
-/* No layout movement on hover. */
-.community-card--journal:hover .community-thumbnail--journal > img,
-.community-card--journal:focus-visible .community-thumbnail--journal > img {
-  transform: translate(-50%, -51%) scale(1.015) !important;
-}
-
-/* Mobile uses the existing 220px community thumbnail height. */
-@media (max-width: 700px) {
-  .community-card-grid > .community-card > .community-thumbnail {
-    height: 220px !important;
-  }
 }
