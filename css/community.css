@@ -7039,3 +7039,48 @@ body.dark-theme .community-archive-item__status.is-approved {
   margin-top: 0 !important;
   border-top: 0 !important;
 }
+
+
+/* =========================================================
+   COMMUNITY 19.4.8 — JOURNAL CARD TOP-GAP HARD FIX
+   ---------------------------------------------------------
+   The remaining strip is above the thumbnail viewport itself,
+   so scaling/repositioning the image inside that viewport
+   cannot remove it. Pull the whole Journal thumbnail upward
+   into the card's top edge, then compensate its height.
+========================================================= */
+
+.community-card--journal {
+  position: relative !important;
+  padding-top: 0 !important;
+}
+
+.community-card--journal .community-thumbnail--journal {
+  position: relative !important;
+  top: -9px !important;
+  width: calc(100% + 2px) !important;
+  height: 199px !important;
+  margin: 0 -1px -9px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: transparent !important;
+}
+
+.community-card--journal .community-thumbnail--journal img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+}
+
+.community-card--journal:hover .community-thumbnail--journal img,
+.community-card--journal:focus-visible .community-thumbnail--journal img {
+  transform: scale(1.02) !important;
+}
