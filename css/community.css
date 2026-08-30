@@ -6928,53 +6928,77 @@ body.dark-theme .community-archive-item__status.is-approved {
 
 
 /* =========================================================
-   COMMUNITY 19.4.9 — GALLERY CLEANUP + JOURNAL LEVEL FIX
+   COMMUNITY 19.5.0 — COMMUNITY CARD ALIGNMENT RESET
+   ---------------------------------------------------------
+   One consistent thumbnail viewport for all four cards.
+   Journal artwork is cropped INSIDE the same viewport only.
 ========================================================= */
 
-/* Keep moderation workflow hidden from public gallery visitors. */
 .community-moderation-status,
 .community-archive-item__status {
   display: none !important;
 }
 
-/*
-  All four Community thumbnails use the exact same 190px viewport.
-  The Journal artwork is cropped INSIDE that viewport instead of
-  moving/resizing the viewport itself, so its bottom edge stays
-  perfectly level with Fan Arts, Fan Photos, and Fan Projects.
-*/
-.community-card--journal {
-  padding-top: 0 !important;
+/* Normalize every card in the row. */
+.community-card-grid {
+  align-items: stretch !important;
 }
 
-.community-card--journal .community-thumbnail--journal {
+.community-card-grid > .community-card {
+  align-self: stretch !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  vertical-align: top !important;
+}
+
+/* One shared thumbnail box for all four cards. */
+.community-card-grid > .community-card > .community-thumbnail {
   position: relative !important;
-  top: auto !important;
+  top: 0 !important;
   width: 100% !important;
   height: 190px !important;
   margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;
   line-height: 0 !important;
-  background: transparent !important;
 }
 
-.community-card--journal .community-thumbnail--journal img {
-  position: absolute !important;
-  left: -7px !important;
-  top: -7px !important;
-  width: calc(100% + 14px) !important;
-  height: calc(100% + 14px) !important;
-  max-width: none !important;
+/* Standard image behavior. */
+.community-card-grid > .community-card > .community-thumbnail > img {
   display: block !important;
-  object-fit: cover !important;
-  object-position: center !important;
+  width: 100% !important;
+  height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
-  transform: none !important;
+  object-fit: cover !important;
 }
 
-.community-card--journal:hover .community-thumbnail--journal img,
-.community-card--journal:focus-visible .community-thumbnail--journal img {
-  transform: scale(1.015) !important;
+/*
+  Journal-photo.png has visible breathing room inside the artwork.
+  Keep the 190px viewport fixed and crop only the image itself.
+*/
+.community-card--journal .community-thumbnail--journal > img {
+  width: 116% !important;
+  height: 116% !important;
+  max-width: none !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transform: translate(-50%, -51%) !important;
+  transform-origin: center !important;
+}
+
+/* No layout movement on hover. */
+.community-card--journal:hover .community-thumbnail--journal > img,
+.community-card--journal:focus-visible .community-thumbnail--journal > img {
+  transform: translate(-50%, -51%) scale(1.015) !important;
+}
+
+/* Mobile uses the existing 220px community thumbnail height. */
+@media (max-width: 700px) {
+  .community-card-grid > .community-card > .community-thumbnail {
+    height: 220px !important;
+  }
 }
