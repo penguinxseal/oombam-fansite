@@ -6925,3 +6925,32 @@ body.dark-theme .community-archive-item__status.is-approved {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================================================
+   COMMUNITY 19.4.5 — BLOSSOM JOURNAL THUMBNAIL SYNC
+   ---------------------------------------------------------
+   Journal-photo.png contains a little more edge breathing
+   room than the other category artwork. Slightly enlarge it
+   inside the same fixed thumbnail viewport so the artwork
+   reaches the card edges consistently.
+========================================================= */
+
+.community-card[data-gallery-open="journal"] .community-thumbnail {
+  background: transparent;
+}
+
+.community-card[data-gallery-open="journal"] .community-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.055);
+  transform-origin: center;
+}
+
+/* Preserve the same hover feel without exposing the source-image edge. */
+.community-card[data-gallery-open="journal"]:hover .community-thumbnail img,
+.community-card[data-gallery-open="journal"]:focus-visible .community-thumbnail img {
+  transform: scale(1.085);
+}
