@@ -1357,7 +1357,7 @@
         },
         {
           date: "15 Aug",
-          title: "OomBam 1st Fansign in Shanghai",
+          title: "1st Fansign in Shanghai",
           summary: "An important fan-facing overseas event that deepened their connection with international supporters."
         }
       ]
@@ -1439,43 +1439,18 @@
   const buildEvents = (month) => {
     if (!modalEvents) return;
     modalEvents.replaceChildren();
-    month.events.forEach((event, index) => {
-      const article = document.createElement("article");
-      article.className = `moments-modal__event${index === 0 ? " is-lead" : ""}${event.detail ? " is-clickable" : ""}`;
-      if (event.detail) {
-        article.tabIndex = 0;
-        article.setAttribute("role", "button");
-        article.setAttribute("aria-label", `Open ${event.title} photo story`);
-        article.dataset.eventIndex = String(index);
-      }
-
-      const thumb = document.createElement("div");
-      thumb.className = "moments-modal__event-thumb";
-      const img = document.createElement("img");
-      img.src = event.image || month.image;
-      img.alt = event.imageAlt || `${event.title} — ${month.eyebrow}`;
-      img.loading = "lazy";
-      if (event.imagePosition) img.style.objectPosition = event.imagePosition;
-      thumb.append(img);
-
-      const copy = document.createElement("div");
-      copy.className = "moments-modal__event-copy";
-      const title = document.createElement("h3");
-      title.textContent = `${event.date} · ${event.title}`;
-      copy.append(title);
-      article.append(thumb, copy);
+    month.events.forEach((event) => {
+      const item = event.detail ? document.createElement("button") : document.createElement("span");
+      item.className = `moments-modal__moment-link${event.detail ? " is-clickable" : " is-static"}`;
+      item.textContent = `${event.date} · ${event.title}`;
 
       if (event.detail) {
-        const openDetail = () => renderEventDetail(month, event);
-        article.addEventListener("click", openDetail);
-        article.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            openDetail();
-          }
-        });
+        item.type = "button";
+        item.setAttribute("aria-label", `Open ${event.title} photo story`);
+        item.addEventListener("click", () => renderEventDetail(month, event));
       }
-      modalEvents.append(article);
+
+      modalEvents.append(item);
     });
   };
 
@@ -1542,7 +1517,9 @@
     if (galleryPrevButton) galleryPrevButton.onclick = () => renderGalleryPhoto(activeGalleryIndex - 1);
     if (galleryNextButton) galleryNextButton.onclick = () => renderGalleryPhoto(activeGalleryIndex + 1);
 
-    if (panel) panel.scrollTo({ top: 0, behavior: "smooth" });
+    const copyPanel = modal.querySelector(".moments-modal__masthead-copy");
+    if (copyPanel) copyPanel.scrollTop = 0;
+    if (panel) panel.scrollTo({ top: 0, behavior: "auto" });
   };
 
   const updateNavButtons = (month) => {
@@ -1582,8 +1559,10 @@
       modalImage.style.objectPosition = "center center";
     }
     if (modalNote) modalNote.textContent = "";
-    if (modalCredit) modalCredit.hidden = false;
-    buildCreditNode(month);
+    if (modalCredit) {
+      modalCredit.hidden = true;
+      modalCredit.replaceChildren();
+    }
     buildEvents(month);
     updateNavButtons(month);
   };
