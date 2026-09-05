@@ -1484,7 +1484,7 @@
     if (galleryCounter) {
       const current = String(activeGalleryIndex + 1).padStart(2, "0");
       const total = String(activeGalleryPhotos.length).padStart(2, "0");
-      galleryCounter.textContent = `${current} / ${total}`;
+      galleryCounter.textContent = `${current} of ${total}`;
     }
     if (galleryCredit) {
       galleryCredit.textContent = (activeGalleryEvent.creditText || "Photo: @dewy_photo").replace("Photo:", "Photo ·");
@@ -1525,13 +1525,51 @@
     if (modalEvents) modalEvents.hidden = true;
     if (modalFooter) modalFooter.hidden = true;
 
-    if (galleryPrevButton) galleryPrevButton.onclick = () => renderGalleryPhoto(activeGalleryIndex - 1);
-    if (galleryNextButton) galleryNextButton.onclick = () => renderGalleryPhoto(activeGalleryIndex + 1);
 
     const copyPanel = modal.querySelector(".moments-modal__masthead-copy");
     if (copyPanel) copyPanel.scrollTop = 0;
     if (panel) panel.scrollTo({ top: 0, behavior: "auto" });
   };
+
+  // Stable gallery controls: bind once instead of rebinding on each event render.
+  galleryPrevButton?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (activeGalleryPhotos.length) renderGalleryPhoto(activeGalleryIndex - 1);
+  });
+
+  galleryNextButton?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (activeGalleryPhotos.length) renderGalleryPhoto(activeGalleryIndex + 1);
+  });
+
+  // Touch / pen swipe support for tablet and mobile. Vertical page scrolling is
+  // preserved unless the gesture is clearly horizontal.
+  const galleryStageForSwipe = modalImage?.closest(".moments-modal__gallery-stage");
+  let galleryPointerStartX = null;
+  let galleryPointerStartY = null;
+  if (galleryStageForSwipe) {
+    galleryStageForSwipe.style.touchAction = "pan-y";
+    galleryStageForSwipe.addEventListener("pointerdown", (event) => {
+      if (!activeGalleryPhotos.length || event.pointerType === "mouse") return;
+      galleryPointerStartX = event.clientX;
+      galleryPointerStartY = event.clientY;
+    });
+    galleryStageForSwipe.addEventListener("pointerup", (event) => {
+      if (galleryPointerStartX == null || galleryPointerStartY == null || !activeGalleryPhotos.length) return;
+      const dx = event.clientX - galleryPointerStartX;
+      const dy = event.clientY - galleryPointerStartY;
+      galleryPointerStartX = null;
+      galleryPointerStartY = null;
+      if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy) * 1.15) return;
+      renderGalleryPhoto(dx < 0 ? activeGalleryIndex + 1 : activeGalleryIndex - 1);
+    });
+    galleryStageForSwipe.addEventListener("pointercancel", () => {
+      galleryPointerStartX = null;
+      galleryPointerStartY = null;
+    });
+  }
 
   const updateNavButtons = (month) => {
     if (!prevButton || !nextButton) return;
@@ -1569,7 +1607,7 @@
       modalImage.alt = month.alt;
       modalImage.style.objectPosition = "center center";
       const galleryStage = modalImage.closest(".moments-modal__gallery-stage");
-      if (galleryStage) galleryStage.style.removeProperty("--moments-gallery-bg");
+      if (galleryStage) galleryStage.style.setProperty("--moments-gallery-bg", `url("${month.image}")`);
     }
     if (modalNote) modalNote.textContent = "";
     if (modalCredit) {
