@@ -1316,12 +1316,39 @@
         {
           date: "01 Aug",
           title: "Girls Cup Presented by MAMA",
-          summary: "Oom and Bam stepped onto opposite sides of the Girls Cup — Oom with Team Mint and Bam with Team Peach — bringing playful rivalry, energy, and their familiar chemistry to a lively team competition.",
+          summary: "Oom and Bam joined the Girls Cup on opposing teams, bringing playful rivalry and their familiar chemistry into a lively shared event.",
           image: "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%283%29.jpg",
           imageAlt: "Oom and Bam at Girls Cup Presented by MAMA on August 1, 2026",
           imagePosition: "center center",
           creditText: "Photo: @dewy_photo",
-          creditHref: "https://www.instagram.com/dewy_photo?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw=="
+          creditHref: "https://www.instagram.com/dewy_photo?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
+          detail: {
+            eyebrow: "01 AUGUST 2026",
+            title: "Girls Cup Presented by MAMA",
+            narrative: "Girls Cup opened August on a bright, energetic note for OomBam. Taking part on opposite teams — Oom with Team Mint and Bam with Team Peach — they brought playful rivalry and their natural chemistry into a more spontaneous setting. The event gave fans a fun look at their dynamic beyond formal promotional appearances and became a memorable shared moment to start the month.",
+            note: "Playful rivals. Same OomBam ♡",
+            galleries: {
+              pair: [
+                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%283%29.jpg",
+                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%281%29.jpg",
+                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%282%29.jpg",
+                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%284%29.jpg",
+                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%288%29.jpg"
+              ],
+              oom: [
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%281%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%282%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%283%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%284%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%285%29.jpg"
+              ],
+              bam: [
+                "assets/images/2026/August/GirlsCup/Girlscup_Bam_Solo%20%281%29.jpg",
+                "assets/images/2026/August/GirlsCup/Girlscup_Bam_Solo%20%282%29.jpg",
+                "assets/images/2026/August/GirlsCup/Girlscup_Bam_Solo%20%283%29.jpg"
+              ]
+            }
+          }
         },
         {
           date: "08 Aug",
@@ -1347,6 +1374,12 @@
   const modalCredit = document.getElementById("momentsModalCredit");
   const modalNote = document.getElementById("momentsModalNote");
   const modalEvents = document.getElementById("momentsModalEvents");
+  const eventBackButton = document.getElementById("momentsEventBack");
+  const eventGallery = document.getElementById("momentsEventGallery");
+  const eventGalleryThumbs = document.getElementById("momentsEventGalleryThumbs");
+  const galleryTabButtons = [...document.querySelectorAll("[data-gallery-tab]")];
+  const eventsHeading = document.querySelector(".moments-modal__events-heading");
+  const modalFooter = document.querySelector(".moments-modal__footer--editorial");
   const openers = [...document.querySelectorAll("[data-moment-open]")];
   const closers = [...document.querySelectorAll("[data-moments-close]")];
   const prevButton = document.querySelector("[data-moments-prev]");
@@ -1405,7 +1438,13 @@
     modalEvents.replaceChildren();
     month.events.forEach((event, index) => {
       const article = document.createElement("article");
-      article.className = `moments-modal__event${index === 0 ? " is-lead" : ""}`;
+      article.className = `moments-modal__event${index === 0 ? " is-lead" : ""}${event.detail ? " is-clickable" : ""}`;
+      if (event.detail) {
+        article.tabIndex = 0;
+        article.setAttribute("role", "button");
+        article.setAttribute("aria-label", `Open ${event.title} gallery`);
+        article.dataset.eventIndex = String(index);
+      }
 
       const thumb = document.createElement("div");
       thumb.className = "moments-modal__event-thumb";
@@ -1433,6 +1472,13 @@
 
       copy.append(title, summary);
 
+      if (event.detail) {
+        const cue = document.createElement("span");
+        cue.className = "moments-modal__event-open-cue";
+        cue.textContent = "View photo story →";
+        copy.append(cue);
+      }
+
       if (event.creditText) {
         const credit = event.creditHref ? document.createElement("a") : document.createElement("span");
         credit.className = "moments-modal__event-credit";
@@ -1441,12 +1487,99 @@
           credit.href = event.creditHref;
           credit.target = "_blank";
           credit.rel = "noopener noreferrer";
+          credit.addEventListener("click", (e) => e.stopPropagation());
         }
         copy.append(credit);
       }
       article.append(thumb, copy);
+
+      if (event.detail) {
+        const openDetail = () => renderEventDetail(month, event);
+        article.addEventListener("click", openDetail);
+        article.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openDetail();
+          }
+        });
+      }
       modalEvents.append(article);
     });
+  };
+
+  const renderGalleryThumbs = (event, category = "pair") => {
+    if (!eventGalleryThumbs || !event.detail?.galleries) return;
+    const images = event.detail.galleries[category] || [];
+    eventGalleryThumbs.replaceChildren();
+    images.forEach((src, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `moments-event-gallery__thumb${index === 0 ? " is-active" : ""}`;
+      button.setAttribute("aria-label", `View ${category} photo ${index + 1}`);
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = `${event.title} — ${category} photo ${index + 1}`;
+      img.loading = "lazy";
+      button.append(img);
+      button.addEventListener("click", () => {
+        if (modalImage) {
+          modalImage.src = src;
+          modalImage.alt = img.alt;
+        }
+        [...eventGalleryThumbs.querySelectorAll(".moments-event-gallery__thumb")].forEach((el) => el.classList.remove("is-active"));
+        button.classList.add("is-active");
+      });
+      eventGalleryThumbs.append(button);
+    });
+  };
+
+  const renderEventDetail = (month, event) => {
+    if (!event.detail) return;
+    if (modalEyebrow) modalEyebrow.textContent = event.detail.eyebrow || event.date;
+    if (modalTitle) modalTitle.textContent = event.detail.title || event.title;
+    if (modalIntro) modalIntro.textContent = event.detail.narrative || event.summary;
+    if (modalImage) {
+      modalImage.src = event.image || month.image;
+      modalImage.alt = event.imageAlt || event.title;
+      modalImage.style.objectPosition = event.imagePosition || "center center";
+    }
+    if (modalNote) modalNote.textContent = event.detail.note || month.note;
+
+    if (modalCredit) {
+      modalCredit.replaceChildren();
+      if (event.creditHref) {
+        const link = document.createElement("a");
+        link.href = event.creditHref;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = event.creditText;
+        modalCredit.append(link);
+      } else {
+        modalCredit.textContent = event.creditText || "";
+      }
+    }
+
+    if (eventBackButton) {
+      eventBackButton.hidden = false;
+      eventBackButton.textContent = `← Back to ${month.eyebrow.split(" ")[0]}`;
+      eventBackButton.onclick = () => renderMonth(month.key);
+    }
+    if (eventGallery) eventGallery.hidden = false;
+    if (eventsHeading) eventsHeading.hidden = true;
+    if (modalEvents) modalEvents.hidden = true;
+    if (modalFooter) modalFooter.hidden = true;
+
+    galleryTabButtons.forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.galleryTab === "pair");
+      button.onclick = () => {
+        galleryTabButtons.forEach((tab) => tab.classList.toggle("is-active", tab === button));
+        renderGalleryThumbs(event, button.dataset.galleryTab);
+      };
+    });
+    renderGalleryThumbs(event, "pair");
+
+    const panel = modal.querySelector(".moments-modal__panel");
+    if (panel) panel.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const updateNavButtons = (month) => {
@@ -1466,12 +1599,19 @@
     const month = monthMap.get(monthKey) || MOMENTS_MONTHS[0];
     activeMonthKey = month.key;
 
+    if (eventBackButton) eventBackButton.hidden = true;
+    if (eventGallery) eventGallery.hidden = true;
+    if (eventsHeading) eventsHeading.hidden = false;
+    if (modalEvents) modalEvents.hidden = false;
+    if (modalFooter) modalFooter.hidden = false;
+
     if (modalEyebrow) modalEyebrow.textContent = month.eyebrow;
     if (modalTitle) modalTitle.textContent = month.title;
     if (modalIntro) modalIntro.textContent = month.intro;
     if (modalImage) {
       modalImage.src = month.image;
       modalImage.alt = month.alt;
+      modalImage.style.objectPosition = "center center";
     }
     if (modalNote) modalNote.textContent = month.note;
     buildCreditNode(month);
