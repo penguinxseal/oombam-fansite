@@ -1340,7 +1340,16 @@
                 "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%282%29.jpg",
                 "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%283%29.jpg",
                 "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%284%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%285%29.jpg"
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%285%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%286%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%288%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%289%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2810%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2811%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2812%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2813%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2814%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2815%29.jpg"
               ],
               bam: [
                 "assets/images/2026/August/GirlsCup/Girlscup_Bam_Solo%20%281%29.jpg",
@@ -1486,7 +1495,7 @@
     const panel = modal.querySelector(".moments-modal__panel");
     panel?.classList.add("is-event-detail");
 
-    if (modalEyebrow) modalEyebrow.textContent = event.detail.eyebrow || event.date;
+    if (modalEyebrow) modalEyebrow.textContent = "";
     if (modalTitle) modalTitle.textContent = event.detail.title || event.title;
     if (modalIntro) modalIntro.textContent = event.detail.narrative || event.summary;
     if (modalNote) modalNote.textContent = "";
@@ -1510,9 +1519,10 @@
     }
     if (eventGallery) eventGallery.hidden = false;
     if (galleryMeta) galleryMeta.hidden = false;
-    if (eventsHeading) eventsHeading.hidden = true;
-    if (modalEvents) modalEvents.hidden = true;
-    if (modalFooter) modalFooter.hidden = true;
+    if (eventsHeading) eventsHeading.hidden = false;
+    if (modalEvents) modalEvents.hidden = false;
+    if (modalFooter) modalFooter.hidden = false;
+    buildEvents(month);
 
     if (galleryPrevButton) galleryPrevButton.onclick = () => renderGalleryPhoto(activeGalleryIndex - 1);
     if (galleryNextButton) galleryNextButton.onclick = () => renderGalleryPhoto(activeGalleryIndex + 1);
