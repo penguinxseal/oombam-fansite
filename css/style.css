@@ -9897,3 +9897,235 @@ body.dark-theme .moments-modal__back-event {
     grid-template-columns: repeat(2, minmax(112px, 1fr));
   }
 }
+
+
+/* =================================================
+   HOMEPAGE 15.5 — MOMENTS EVENT GALLERY POLISH
+   Uniform hero canvas, arrow-only gallery, compact Key Moments.
+================================================== */
+
+/* Key Moments are now visual entry points: image + date + title only. */
+.moments-modal__event-copy {
+  padding: 10px 10px 12px;
+}
+.moments-modal__event-copy h3 {
+  margin: 0;
+  font-size: .78rem;
+  line-height: 1.25;
+}
+.moments-modal__event-copy p,
+.moments-modal__event-open-cue,
+.moments-modal__event-credit {
+  display: none !important;
+}
+
+/* Event-detail mode gives the gallery a larger, fixed and predictable canvas. */
+.moments-modal__panel--editorial.is-event-detail {
+  width: min(1040px, calc(100vw - 48px));
+  max-height: min(90vh, 820px);
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+  grid-template-columns: minmax(300px, .72fr) minmax(0, 1.28fr);
+  height: 440px;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy,
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+  height: 440px;
+  min-height: 440px;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+  position: relative;
+  background: #0d0f13;
+  overflow: hidden;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image > img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0 !important;
+  object-fit: contain;
+  object-position: center center;
+  background: #0d0f13;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__script-note {
+  display: none;
+}
+
+/* Arrow-only photo browser: no tabs, no black thumbnail tiles. */
+.moments-event-gallery {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  pointer-events: none;
+}
+.moments-event-gallery[hidden] { display: none !important; }
+
+.moments-event-gallery__arrow {
+  appearance: none;
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  width: 44px;
+  height: 44px;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 50%;
+  background: rgba(10,12,16,.58);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  pointer-events: auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.moments-event-gallery__arrow--prev { left: 16px; }
+.moments-event-gallery__arrow--next { right: 16px; }
+.moments-event-gallery__arrow:hover,
+.moments-event-gallery__arrow:focus-visible {
+  background: rgba(10,12,16,.82);
+  border-color: rgba(255,255,255,.8);
+  outline: none;
+}
+
+.moments-event-gallery__meta {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 11px;
+  border-radius: 10px;
+  background: rgba(8,10,14,.66);
+  color: rgba(255,255,255,.9);
+  font-size: .66rem;
+  letter-spacing: .04em;
+  pointer-events: auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.moments-event-gallery__meta a {
+  color: #9ed7f5;
+  font-weight: 700;
+  text-decoration: none;
+}
+.moments-event-gallery__meta a:hover,
+.moments-event-gallery__meta a:focus-visible { text-decoration: underline; }
+
+/* Tablet */
+@media (min-width: 761px) and (max-width: 1024px) {
+  .moments-modal__panel--editorial.is-event-detail {
+    width: min(900px, calc(100vw - 30px));
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    grid-template-columns: minmax(280px, .82fr) minmax(0, 1.18fr);
+    height: 380px;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy,
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    height: 380px;
+    min-height: 380px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 760px) and (orientation: portrait) {
+  .moments-modal__panel--editorial.is-event-detail {
+    width: calc(100vw - 16px);
+    max-height: 92vh;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    height: 300px;
+    min-height: 300px;
+  }
+  .moments-event-gallery__arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.7rem;
+  }
+  .moments-event-gallery__arrow--prev { left: 10px; }
+  .moments-event-gallery__arrow--next { right: 10px; }
+  .moments-event-gallery__meta {
+    left: 10px;
+    right: 10px;
+    bottom: 9px;
+    font-size: .6rem;
+  }
+}
+
+/* Mobile / tablet landscape */
+@media (max-width: 1100px) and (max-height: 700px) and (orientation: landscape) {
+  .moments-modal__panel--editorial.is-event-detail {
+    width: min(980px, calc(100vw - 22px));
+    max-height: 92vh;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    grid-template-columns: minmax(270px, .76fr) minmax(0, 1.24fr);
+    height: 330px;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy,
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    height: 330px;
+    min-height: 330px;
+  }
+}
+
+/* =========================================================
+   HOMEPAGE 15.6 — MOMENTS TYPOGRAPHY + CLEAN GALLERY
+========================================================= */
+/* Use a restrained editorial serif for modal titles: elegant, readable,
+   and consistent with the rest of the site. */
+.moments-modal__masthead-copy h2,
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-style: normal;
+  line-height: .98;
+  letter-spacing: -.025em;
+  font-size: clamp(2rem, 3.2vw, 3.25rem);
+}
+
+/* Remove decorative text overlay from modal/gallery photography so the
+   image itself remains clean and photo credits carry the attribution. */
+.moments-modal__script-note {
+  display: none !important;
+}
+
+@media (max-width: 820px) {
+  .moments-modal__masthead-copy h2,
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    font-size: clamp(1.85rem, 6.2vw, 2.65rem);
+    line-height: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .moments-modal__masthead-copy h2,
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    font-size: clamp(1.7rem, 8vw, 2.25rem);
+    letter-spacing: -.015em;
+  }
+}
