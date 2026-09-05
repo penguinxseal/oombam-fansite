@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/style.css?v=15.3" rel="stylesheet"/>
+<link href="css/style.css?v=15.4" rel="stylesheet"/>
 <link href="css/Global.css?v=OB00001.7a" rel="stylesheet"/></head>
 <body class="ob-global page-home ob-shell-v2" data-active-nav="welcome" data-page-title="Home"><header class="ob-header" id="siteHeader">
 <div class="ob-header__inner">
@@ -527,6 +527,7 @@
 
     <header class="moments-modal__masthead">
       <div class="moments-modal__masthead-copy">
+        <button class="moments-modal__back-event" id="momentsEventBack" type="button" hidden>← Back to August</button>
         <p class="moments-modal__eyebrow" id="momentsModalEyebrow">JULY 2026</p>
         <h2 id="momentsModalTitle">Blooming With You</h2>
         <p class="moments-modal__intro" id="momentsModalIntro"></p>
@@ -535,6 +536,14 @@
       <div class="moments-modal__masthead-image">
         <img id="momentsModalImage" src="" alt="" loading="lazy"/>
         <span class="moments-modal__script-note" id="momentsModalNote" aria-hidden="true"></span>
+        <div class="moments-event-gallery" id="momentsEventGallery" hidden>
+          <div class="moments-event-gallery__tabs" role="tablist" aria-label="Girls Cup photo categories">
+            <button type="button" class="is-active" data-gallery-tab="pair">OomBam</button>
+            <button type="button" data-gallery-tab="oom">Oom</button>
+            <button type="button" data-gallery-tab="bam">Bam</button>
+          </div>
+          <div class="moments-event-gallery__thumbs" id="momentsEventGalleryThumbs" aria-label="Girls Cup photo gallery"></div>
+        </div>
       </div>
     </header>
 
