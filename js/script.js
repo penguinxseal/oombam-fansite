@@ -1315,8 +1315,13 @@
       events: [
         {
           date: "01 Aug",
-          title: "Girls Cup Presented by มาม่า",
-          summary: "A high-energy shared appearance that opened the month on a public stage."
+          title: "Girls Cup Presented by MAMA",
+          summary: "Oom and Bam stepped onto opposite sides of the Girls Cup — Oom with Team Mint and Bam with Team Peach — bringing playful rivalry, energy, and their familiar chemistry to a lively team competition.",
+          image: "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%283%29.jpg",
+          imageAlt: "Oom and Bam at Girls Cup Presented by MAMA on August 1, 2026",
+          imagePosition: "center center",
+          creditText: "Photo: @dewy_photo",
+          creditHref: "https://www.instagram.com/dewy_photo?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw=="
         },
         {
           date: "08 Aug",
@@ -1408,6 +1413,7 @@
       img.src = event.image || month.image;
       img.alt = event.imageAlt || `${event.title} — ${month.eyebrow}`;
       img.loading = "lazy";
+      if (event.imagePosition) img.style.objectPosition = event.imagePosition;
       thumb.append(img);
 
       const badge = document.createElement("span");
@@ -1426,6 +1432,18 @@
       summary.textContent = event.summary;
 
       copy.append(title, summary);
+
+      if (event.creditText) {
+        const credit = event.creditHref ? document.createElement("a") : document.createElement("span");
+        credit.className = "moments-modal__event-credit";
+        credit.textContent = event.creditText;
+        if (event.creditHref) {
+          credit.href = event.creditHref;
+          credit.target = "_blank";
+          credit.rel = "noopener noreferrer";
+        }
+        copy.append(credit);
+      }
       article.append(thumb, copy);
       modalEvents.append(article);
     });
