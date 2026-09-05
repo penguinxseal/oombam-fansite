@@ -1151,3 +1151,365 @@
     }
   }
 })();
+
+
+/* =========================================================
+   Homepage Moments — monthly modal archive
+========================================================= */
+(() => {
+  const body = document.body;
+
+  const MOMENTS_MONTHS = [
+    {
+      key: "april",
+      eyebrow: "APRIL 2026",
+      title: "The Fulfill Era Begins",
+      intro: "April marked the opening chapter of OomBam’s 2026 journey — moving from introductions and teasers into the official premiere era of Fulfill.",
+      note: "Same people. More memories ♡",
+      image: "assets/images/2026/April/OB_April_2026.jpg",
+      alt: "OomBam during April 2026 activities",
+      creditText: "Photo: @jzornphotoholic",
+      creditHref: "https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
+      events: [
+        {
+          date: "13–17 Apr",
+          title: "Character Introduction Week",
+          summary: "A focused rollout that introduced the series world and helped establish the pairing ahead of premiere week."
+        },
+        {
+          date: "20 Apr",
+          title: "Teaser V5",
+          summary: "A late promotional push that sharpened anticipation for OomBam’s on-screen chapter."
+        },
+        {
+          date: "21 Apr",
+          title: "CH3 Thailand Official Content",
+          summary: "Network-led promotions brought the series into its launch phase and widened attention around the pair."
+        },
+        {
+          date: "24 Apr",
+          title: "Fulfill First Premiere & Press Tour",
+          summary: "The defining milestone of the month, marking the public start of the Fulfill era."
+        },
+        {
+          date: "26 Apr",
+          title: "Post-Premiere Episode 1 Promotions",
+          summary: "Early audience engagement carried the momentum forward immediately after the first broadcast week."
+        }
+      ]
+    },
+    {
+      key: "may",
+      eyebrow: "MAY 2026",
+      title: "From the Screen to the Fans",
+      intro: "May expanded OomBam’s reach through fan-facing appearances and shared public events, led by a major international milestone in Taipei.",
+      note: "From the screen to the fans ♡",
+      image: "assets/images/2026/May/OB_May_2026.jpg",
+      alt: "OomBam during May 2026 activities",
+      creditText: "Photo: @jzornphotoholic",
+      creditHref: "https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
+      events: [
+        {
+          date: "03 May",
+          title: "OomBam 1st Fan Meeting in Taipei",
+          summary: "A standout month-defining milestone and an early international fan meeting for the pair."
+        },
+        {
+          date: "08 May",
+          title: "Fulfill EP03 Promotion",
+          summary: "Shared promotional activities kept the series and pairing highly visible during the core broadcast stretch."
+        },
+        {
+          date: "14 May",
+          title: "Tres Cherie POEM x CHERRY KHEMUPSORN",
+          summary: "A notable joint appearance that extended the month beyond core series promotion."
+        },
+        {
+          date: "19 May",
+          title: "Paragon Cineplex Pair Event",
+          summary: "Another shared public event that brought OomBam directly to fans in a cinema setting."
+        }
+      ]
+    },
+    {
+      key: "june",
+      eyebrow: "JUNE 2026",
+      title: "Closing One Chapter",
+      intro: "June carried OomBam through the closing stretch of Fulfill, balancing official content, shared appearances, and the finale that defined the month.",
+      note: "One chapter closes. The journey continues ♡",
+      image: "assets/images/2026/June/OB_June_2026.jpg",
+      alt: "OomBam during June 2026 activities",
+      creditText: "Photo: @dewy_photo",
+      creditHref: "https://www.instagram.com/dewy_photo?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
+      events: [
+        {
+          date: "05 Jun",
+          title: "Fulfill Press Tour",
+          summary: "Shared promotion continued as the series approached its final chapter."
+        },
+        {
+          date: "09 Jun",
+          title: "CH3 Thailand Content",
+          summary: "Official content kept OomBam visible during the final weeks of the drama’s run."
+        },
+        {
+          date: "11 Jun",
+          title: "Vlog Release",
+          summary: "A lighter, more casual release that added a personal layer to the month’s schedule."
+        },
+        {
+          date: "12 Jun",
+          title: "Fulfill Final Episode",
+          summary: "The emotional center of June and the clearest turning point from series run to post-series momentum."
+        },
+        {
+          date: "16 Jun",
+          title: "ARMCHAIR Feature",
+          summary: "A post-finale appearance that showed the pairing continuing beyond the screen."
+        }
+      ]
+    },
+    {
+      key: "july",
+      eyebrow: "JULY 2026",
+      title: "Blooming With You",
+      intro: "July shifted the focus toward fandom and shared memories, with a photobook-centered month that let fans celebrate OomBam in person.",
+      note: "Same people. More memories ♡",
+      image: "assets/images/2026/July/OB_July_2026.png",
+      alt: "OomBam during July 2026 activities",
+      creditText: "Photo: @__dans_mes_yeux__",
+      creditHref: "",
+      events: [
+        {
+          date: "11 Jul",
+          title: "OOMBAM Blooming With You Photobook Fan Sign",
+          summary: "The defining July milestone, built around a release fans could finally hold and celebrate together."
+        },
+        {
+          date: "11 Jul",
+          title: "Blooming With You Photobook Launch Activities",
+          summary: "Companion activities around the photobook helped turn the day into a full fan-centered moment."
+        },
+        {
+          date: "21 Jul",
+          title: "Thailand Content Market",
+          summary: "An industry-facing appearance that placed OomBam within a broader entertainment spotlight."
+        },
+        {
+          date: "30 Jul",
+          title: "Alive Park Hall, Future Park Event",
+          summary: "Another shared public appearance that kept the month’s momentum going."
+        }
+      ]
+    },
+    {
+      key: "august",
+      eyebrow: "AUGUST 2026",
+      title: "OomBam Goes International",
+      intro: "August became the month of wider visibility, with large-scale public appearances and shared milestones that took OomBam to international stages.",
+      note: "Different stages. Same OomBam ♡",
+      image: "assets/images/2026/August/OB_Aug_2026.jpg",
+      alt: "OomBam during August 2026 activities",
+      creditText: "Photo: @dewy_photo",
+      creditHref: "https://www.instagram.com/dewy_photo?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
+      events: [
+        {
+          date: "01 Aug",
+          title: "Girls Cup Presented by มาม่า",
+          summary: "A high-energy shared appearance that opened the month on a public stage."
+        },
+        {
+          date: "08 Aug",
+          title: "Weibo Gala 2026 • Cultural Communication Night",
+          summary: "The defining August highlight and a major international visibility milestone."
+        },
+        {
+          date: "15 Aug",
+          title: "OomBam 1st Fansign in Shanghai",
+          summary: "An important fan-facing overseas event that deepened their connection with international supporters."
+        }
+      ]
+    }
+  ];
+
+  const monthMap = new Map(MOMENTS_MONTHS.map((month, index) => [month.key, { ...month, index }]));
+
+  const modal = document.getElementById("momentsModal");
+  const modalEyebrow = document.getElementById("momentsModalEyebrow");
+  const modalTitle = document.getElementById("momentsModalTitle");
+  const modalIntro = document.getElementById("momentsModalIntro");
+  const modalImage = document.getElementById("momentsModalImage");
+  const modalCredit = document.getElementById("momentsModalCredit");
+  const modalNote = document.getElementById("momentsModalNote");
+  const modalEvents = document.getElementById("momentsModalEvents");
+  const openers = [...document.querySelectorAll("[data-moment-open]")];
+  const closers = [...document.querySelectorAll("[data-moments-close]")];
+  const prevButton = document.querySelector("[data-moments-prev]");
+  const nextButton = document.querySelector("[data-moments-next]");
+
+  if (!modal || !openers.length) return;
+
+  let activeMonthKey = MOMENTS_MONTHS[0].key;
+  let lastFocusedEl = null;
+  let lockedScrollY = 0;
+  let scrollLocked = false;
+
+  const lockScroll = () => {
+    if (scrollLocked) return;
+    lockedScrollY = window.scrollY || window.pageYOffset || 0;
+    body.style.position = "fixed";
+    body.style.top = `-${lockedScrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+    body.classList.add("moments-open");
+    scrollLocked = true;
+  };
+
+  const unlockScroll = () => {
+    if (!scrollLocked) return;
+    body.style.position = "";
+    body.style.top = "";
+    body.style.left = "";
+    body.style.right = "";
+    body.style.width = "";
+    body.style.overflow = "";
+    body.classList.remove("moments-open");
+    scrollLocked = false;
+    window.scrollTo(0, lockedScrollY);
+  };
+
+  const buildCreditNode = (month) => {
+    if (!modalCredit) return;
+    modalCredit.replaceChildren();
+    if (month.creditHref) {
+      const link = document.createElement("a");
+      link.href = month.creditHref;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = month.creditText;
+      modalCredit.append(link);
+    } else {
+      modalCredit.textContent = month.creditText;
+    }
+  };
+
+  const buildEvents = (month) => {
+    if (!modalEvents) return;
+    modalEvents.replaceChildren();
+    month.events.forEach((event, index) => {
+      const article = document.createElement("article");
+      article.className = `moments-modal__event${index === 0 ? " is-lead" : ""}`;
+
+      const thumb = document.createElement("div");
+      thumb.className = "moments-modal__event-thumb";
+      const img = document.createElement("img");
+      img.src = event.image || month.image;
+      img.alt = event.imageAlt || `${event.title} — ${month.eyebrow}`;
+      img.loading = "lazy";
+      thumb.append(img);
+
+      const badge = document.createElement("span");
+      badge.className = "moments-modal__event-date-badge";
+      const parts = event.date.split(" ");
+      badge.innerHTML = `${parts[0] || ""}<small>${parts.slice(1).join(" ")}</small>`;
+      thumb.append(badge);
+
+      const copy = document.createElement("div");
+      copy.className = "moments-modal__event-copy";
+
+      const title = document.createElement("h3");
+      title.textContent = event.title;
+
+      const summary = document.createElement("p");
+      summary.textContent = event.summary;
+
+      copy.append(title, summary);
+      article.append(thumb, copy);
+      modalEvents.append(article);
+    });
+  };
+
+  const updateNavButtons = (month) => {
+    if (!prevButton || !nextButton) return;
+    const prevMonth = MOMENTS_MONTHS[month.index - 1];
+    const nextMonth = MOMENTS_MONTHS[month.index + 1];
+
+    prevButton.disabled = !prevMonth;
+    nextButton.disabled = !nextMonth;
+    prevButton.dataset.targetMonth = prevMonth?.key || "";
+    nextButton.dataset.targetMonth = nextMonth?.key || "";
+    prevButton.textContent = prevMonth ? `← ${prevMonth.eyebrow}` : "← Previous Month";
+    nextButton.textContent = nextMonth ? `${nextMonth.eyebrow} →` : "Next Month →";
+  };
+
+  const renderMonth = (monthKey) => {
+    const month = monthMap.get(monthKey) || MOMENTS_MONTHS[0];
+    activeMonthKey = month.key;
+
+    if (modalEyebrow) modalEyebrow.textContent = month.eyebrow;
+    if (modalTitle) modalTitle.textContent = month.title;
+    if (modalIntro) modalIntro.textContent = month.intro;
+    if (modalImage) {
+      modalImage.src = month.image;
+      modalImage.alt = month.alt;
+    }
+    if (modalNote) modalNote.textContent = month.note;
+    buildCreditNode(month);
+    buildEvents(month);
+    updateNavButtons(month);
+  };
+
+  const openModal = (monthKey) => {
+    lastFocusedEl = document.activeElement;
+    renderMonth(monthKey);
+    lockScroll();
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    requestAnimationFrame(() => modal.querySelector(".moments-modal__close")?.focus({ preventScroll: true }));
+  };
+
+  const closeModal = () => {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    unlockScroll();
+    lastFocusedEl?.focus?.({ preventScroll: true });
+  };
+
+  openers.forEach((opener) => {
+    opener.addEventListener("click", () => {
+      const key = opener.getAttribute("data-moment-open") || MOMENTS_MONTHS[0].key;
+      openModal(key);
+    });
+  });
+
+  closers.forEach((closer) => closer.addEventListener("click", closeModal));
+
+  prevButton?.addEventListener("click", () => {
+    const key = prevButton.dataset.targetMonth;
+    if (key) renderMonth(key);
+  });
+
+  nextButton?.addEventListener("click", () => {
+    const key = nextButton.dataset.targetMonth;
+    if (key) renderMonth(key);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!modal.classList.contains("is-open")) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeModal();
+      return;
+    }
+    if (event.key === "ArrowLeft" && prevButton?.dataset.targetMonth) {
+      event.preventDefault();
+      renderMonth(prevButton.dataset.targetMonth);
+    }
+    if (event.key === "ArrowRight" && nextButton?.dataset.targetMonth) {
+      event.preventDefault();
+      renderMonth(nextButton.dataset.targetMonth);
+    }
+  });
+})();
