@@ -8581,6 +8581,2182 @@ body.dark-theme .vlog-player-back {
 
 
 /* =========================================================
+   HOMEPAGE 15.0 — MONTHLY MOMENTS MODAL SYSTEM
+   ---------------------------------------------------------
+   - Replaces the older 4-card Moments strip with 5 monthly cards
+   - Equal thumbnail image ratio across all cards
+   - Modal-based monthly archive with 3–5 OomBam pair events
+   - Responsive behavior for desktop, tablet portrait/landscape,
+     and mobile portrait/landscape
+========================================================= */
+
+.page-home .moments-editorial {
+  position: relative;
+}
+
+.page-home .moments-month-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  margin-top: clamp(24px, 2.6vw, 34px);
+}
+
+.page-home .moment-month-card {
+  flex: 0 1 calc((100% - 72px) / 5);
+  max-width: calc((100% - 72px) / 5);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(126, 163, 187, 0.18);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.56);
+  box-shadow: 0 14px 36px rgba(48, 70, 84, 0.05);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.page-home .moment-month-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(126, 163, 187, 0.34);
+  box-shadow: 0 18px 40px rgba(48, 70, 84, 0.08);
+}
+
+.page-home .moment-month-media {
+  position: relative;
+  background: #edf3f7;
+}
+
+.page-home .moment-month-image-button {
+  width: 100%;
+  display: block;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.page-home .moment-month-image-button img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 380ms ease;
+}
+
+.page-home .moment-month-card:hover .moment-month-image-button img,
+.page-home .moment-month-image-button:focus-visible img {
+  transform: scale(1.03);
+}
+
+.page-home .moments-photo-credit {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  width: calc(100% - 24px);
+  padding: 6px 10px;
+  color: rgba(255, 255, 255, 0.96);
+  background: rgba(17, 21, 26, 0.58);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
+  transition: background 220ms ease, transform 220ms ease;
+}
+
+.page-home a.moments-photo-credit:hover {
+  background: rgba(17, 21, 26, 0.76);
+  transform: translateY(-1px);
+}
+
+.page-home .moment-month-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  padding: 15px 16px 17px;
+}
+
+.page-home .moment-month-label {
+  margin: 0 0 8px;
+  color: #7399ae;
+  font-size: 0.60rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.page-home .moment-month-copy h3 {
+  margin: 0 0 7px;
+  color: #282326;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.22rem, 1.45vw, 1.56rem);
+  font-weight: 500;
+  line-height: 1.04;
+}
+
+.page-home .moment-month-copy p:not(.moment-month-label) {
+  margin: 0;
+  color: #6e6668;
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.page-home .moment-month-link {
+  margin-top: 14px;
+  padding: 0;
+  color: #7a9fb7;
+  background: transparent;
+  border: 0;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 220ms ease, transform 220ms ease;
+}
+
+.page-home .moment-month-link:hover,
+.page-home .moment-month-link:focus-visible,
+.page-home .moment-month-image-button:focus-visible,
+.page-home .moments-modal__close:focus-visible,
+.page-home .moments-modal__nav:focus-visible {
+  outline: none;
+}
+
+.page-home .moment-month-link:hover,
+.page-home .moment-month-link:focus-visible {
+  color: #5d85a0;
+  transform: translateX(1px);
+}
+
+.page-home .moment-month-image-button:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(122, 159, 183, 0.42);
+}
+
+/* ---------- Moments modal ---------- */
+.moments-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 220ms ease, visibility 220ms ease;
+}
+
+.moments-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.moments-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 16, 21, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.moments-modal__panel {
+  position: relative;
+  width: min(1040px, 100%);
+  max-height: min(90vh, 940px);
+  overflow: auto;
+  background: linear-gradient(180deg, #fbfdff 0%, #f7fbfd 100%);
+  border: 1px solid rgba(126, 163, 187, 0.18);
+  border-radius: 28px;
+  box-shadow: 0 28px 84px rgba(10, 15, 20, 0.18);
+  padding: clamp(24px, 3vw, 34px);
+}
+
+body.moments-open {
+  overflow: hidden;
+}
+
+.moments-modal__close {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: #557085;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(126, 163, 187, 0.18);
+  border-radius: 50%;
+  box-shadow: 0 10px 22px rgba(37, 56, 68, 0.08);
+  font-size: 1.55rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.moments-modal__header {
+  margin-top: -14px;
+}
+
+.moments-modal__eyebrow {
+  margin: 0 0 10px;
+  color: #7399ae;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.moments-modal__header h2 {
+  margin: 0 0 10px;
+  color: #282326;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.3rem, 4vw, 3.55rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.moments-modal__intro {
+  margin: 0;
+  max-width: 70ch;
+  color: #6a6467;
+  font-size: 0.96rem;
+  line-height: 1.75;
+}
+
+.moments-modal__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.75fr);
+  gap: clamp(20px, 3vw, 32px);
+  align-items: start;
+  margin-top: 24px;
+}
+
+.moments-modal__image-wrap {
+  overflow: hidden;
+  border: 1px solid rgba(126, 163, 187, 0.18);
+  border-radius: 24px;
+  background: #edf3f7;
+  box-shadow: 0 14px 34px rgba(48, 70, 84, 0.08);
+}
+
+.moments-modal__image-wrap img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.moments-modal__aside {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  padding: 4px 0;
+}
+
+.moments-modal__credit,
+.moments-modal__note {
+  color: #6e6668;
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.moments-modal__credit a {
+  color: #6d92a8;
+  font-weight: 600;
+}
+
+.moments-modal__timeline {
+  display: grid;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.moments-modal__event {
+  display: grid;
+  grid-template-columns: minmax(110px, 124px) minmax(0, 1fr);
+  gap: 16px;
+  padding: 18px 18px 18px 16px;
+  border: 1px solid rgba(126, 163, 187, 0.16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.moments-modal__event.is-lead {
+  border-color: rgba(130, 168, 191, 0.28);
+  box-shadow: 0 12px 28px rgba(48, 70, 84, 0.05);
+}
+
+.moments-modal__event-date {
+  align-self: start;
+  color: #7399ae;
+  font-size: 0.70rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.moments-modal__event-copy h3 {
+  margin: 0 0 6px;
+  color: #2b2527;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.moments-modal__event-copy p {
+  margin: 0;
+  color: #6a6467;
+  font-size: 0.90rem;
+  line-height: 1.68;
+}
+
+.moments-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.moments-modal__nav {
+  min-height: 42px;
+  padding: 0 16px;
+  color: #5c7f96;
+  background: rgba(168, 201, 220, 0.14);
+  border: 1px solid rgba(126, 163, 187, 0.22);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 220ms ease, transform 220ms ease;
+}
+
+.moments-modal__nav:hover {
+  background: rgba(168, 201, 220, 0.22);
+  transform: translateY(-1px);
+}
+
+.moments-modal__nav[disabled] {
+  opacity: 0.48;
+  cursor: default;
+  transform: none;
+}
+
+/* ---------- Dark theme ---------- */
+body.dark-theme.page-home .moment-month-card {
+  background: linear-gradient(160deg, rgba(33, 37, 44, 0.96), rgba(24, 27, 33, 0.96));
+  border-color: rgba(169, 206, 229, 0.16);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+}
+
+body.dark-theme.page-home .moment-month-copy h3,
+body.dark-theme .moments-modal__header h2,
+body.dark-theme .moments-modal__event-copy h3 {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+body.dark-theme.page-home .moment-month-copy p:not(.moment-month-label),
+body.dark-theme.page-home .moments-description,
+body.dark-theme .moments-modal__intro,
+body.dark-theme .moments-modal__credit,
+body.dark-theme .moments-modal__note,
+body.dark-theme .moments-modal__event-copy p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+body.dark-theme .moments-modal__panel {
+  background: linear-gradient(180deg, rgba(23, 26, 32, 0.98) 0%, rgba(18, 21, 26, 0.98) 100%);
+  border-color: rgba(169, 206, 229, 0.14);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.42);
+}
+
+body.dark-theme .moments-modal__close {
+  color: #a7cadf;
+  background: rgba(28, 32, 39, 0.92);
+  border-color: rgba(169, 206, 229, 0.14);
+}
+
+body.dark-theme .moments-modal__event {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(169, 206, 229, 0.10);
+}
+
+body.dark-theme .moments-modal__event.is-lead {
+  border-color: rgba(169, 206, 229, 0.20);
+}
+
+body.dark-theme .moments-modal__nav {
+  color: #a7cadf;
+  background: rgba(169, 206, 229, 0.08);
+  border-color: rgba(169, 206, 229, 0.18);
+}
+
+body.dark-theme .moments-modal__credit a,
+body.dark-theme.page-home .moment-month-link {
+  color: #a7cadf;
+}
+
+/* ---------- Responsive alignment ---------- */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .page-home .moment-month-card {
+    flex-basis: calc((100% - 36px) / 3);
+    max-width: calc((100% - 36px) / 3);
+  }
+
+  .moments-modal__panel {
+    width: min(920px, 100%);
+  }
+}
+
+@media (min-width: 761px) and (max-width: 860px) {
+  .page-home .moment-month-card {
+    flex-basis: calc((100% - 18px) / 2);
+    max-width: calc((100% - 18px) / 2);
+  }
+
+  .moments-modal__hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  .page-home .moment-month-card {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+
+  .page-home .moment-month-copy {
+    padding: 14px 15px 16px;
+  }
+
+  .moments-modal {
+    padding: 12px;
+  }
+
+  .moments-modal__panel {
+    border-radius: 22px;
+    padding: 18px 16px 20px;
+  }
+
+  .moments-modal__hero {
+    grid-template-columns: 1fr;
+  }
+
+  .moments-modal__event {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .moments-modal__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 1100px) and (max-height: 700px) and (orientation: landscape) {
+  .page-home .moment-month-card {
+    flex-basis: calc((100% - 18px) / 2);
+    max-width: calc((100% - 18px) / 2);
+  }
+
+  .moments-modal {
+    padding: 14px;
+  }
+
+  .moments-modal__panel {
+    max-height: 88vh;
+    padding: 20px 18px 22px;
+  }
+
+  .moments-modal__hero {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+
+/* =========================================================
+   HOMEPAGE 15.1 — APPROVED MOMENTS EDITORIAL VISUAL
+========================================================= */
+.page-home .moments-inner--editorial {
+  width: min(1180px, calc(100% - 64px));
+  margin-inline: auto;
+}
+
+.page-home .moments-editorial-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 32px;
+}
+
+.page-home .moments-editorial-head .moments-heading {
+  margin-bottom: 6px;
+  font-size: clamp(3rem, 4vw, 4.8rem);
+  line-height: .95;
+}
+
+.page-home .moments-side-note {
+  margin: 0 0 8px;
+  color: rgba(82, 67, 74, .72);
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(1.55rem, 2.2vw, 2.3rem);
+  line-height: 1.05;
+  text-align: right;
+  transform: rotate(-3deg);
+}
+
+.page-home .moments-magazine-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.page-home .moments-mag-card {
+  position: relative;
+  min-width: 0;
+}
+
+.page-home .moments-mag-trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 5;
+  overflow: hidden;
+  padding: 0;
+  background: #e8eef2;
+  border: 1px solid rgba(126, 163, 187, .16);
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(48, 70, 84, .05);
+  cursor: pointer;
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.page-home .moments-mag-trigger img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 420ms ease;
+}
+
+.page-home .moments-mag-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(12, 14, 18, .74) 0%, rgba(12, 14, 18, .32) 38%, rgba(12, 14, 18, .02) 72%);
+}
+
+.page-home .moments-mag-card:hover .moments-mag-trigger,
+.page-home .moments-mag-trigger:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(239, 180, 193, .58);
+  box-shadow: 0 18px 40px rgba(48, 70, 84, .10);
+  outline: none;
+}
+
+.page-home .moments-mag-card:hover .moments-mag-trigger img,
+.page-home .moments-mag-trigger:focus-visible img {
+  transform: scale(1.035);
+}
+
+.page-home .moments-mag-card.is-featured .moments-mag-trigger {
+  border: 2px solid rgba(239, 180, 193, .92);
+  box-shadow: 0 0 0 4px rgba(248, 216, 223, .36), 0 16px 38px rgba(201, 130, 149, .12);
+}
+
+.page-home .moments-mag-copy {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  color: #fff;
+  text-align: left;
+}
+
+.page-home .moments-mag-month,
+.page-home .moments-mag-year,
+.page-home .moments-mag-title {
+  grid-column: 1;
+}
+
+.page-home .moments-mag-month {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2rem, 2.8vw, 3rem);
+  font-weight: 500;
+  line-height: .85;
+  letter-spacing: -.03em;
+}
+
+.page-home .moments-mag-year {
+  margin-top: 7px;
+  color: rgba(255,255,255,.78);
+  font-size: .66rem;
+  letter-spacing: .08em;
+}
+
+.page-home .moments-mag-title {
+  margin-top: 14px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.04rem, 1.35vw, 1.34rem);
+  font-weight: 600;
+  line-height: 1.02;
+}
+
+.page-home .moments-mag-arrow {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: end;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 2px;
+  border: 1px solid rgba(255,255,255,.72);
+  border-radius: 50%;
+  font-size: 1rem;
+}
+
+.page-home .moments-mag-credit {
+  display: block;
+  margin-top: 7px;
+  color: rgba(73, 76, 81, .68);
+  font-size: .58rem;
+  text-align: center;
+}
+.page-home a.moments-mag-credit:hover { color: #6f96ad; }
+
+.page-home .moments-editorial-signoff {
+  display: grid;
+  grid-template-columns: minmax(30px, 1fr) auto minmax(30px, 1fr);
+  align-items: center;
+  gap: 14px;
+  width: min(470px, 72%);
+  margin: 28px auto 0;
+  color: rgba(80, 76, 79, .64);
+}
+.page-home .moments-editorial-signoff span { height: 1px; background: currentColor; opacity: .48; }
+.page-home .moments-editorial-signoff small { font-size: .58rem; letter-spacing: .30em; white-space: nowrap; }
+
+/* editorial modal */
+.moments-modal__panel--editorial {
+  width: min(1120px, calc(100vw - 40px));
+  max-height: min(92vh, 920px);
+  padding: 0;
+  overflow: auto;
+  border-radius: 14px;
+  background: #fffafc;
+}
+
+.moments-modal__panel--editorial .moments-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  margin: 0;
+  z-index: 8;
+}
+
+.moments-modal__masthead {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(380px, 1.15fr);
+  min-height: 250px;
+  background: linear-gradient(135deg, #fff8fb 0%, #f8edf2 100%);
+}
+
+.moments-modal__masthead-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(28px, 4vw, 46px);
+}
+
+.moments-modal__masthead-copy .moments-modal__eyebrow {
+  margin-bottom: 4px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  font-weight: 500;
+  line-height: .9;
+  letter-spacing: -.03em;
+}
+
+.moments-modal__masthead-copy h2 {
+  margin: 4px 0 12px;
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.2rem, 3.8vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.moments-modal__masthead-copy .moments-modal__intro {
+  max-width: 46ch;
+  font-size: .88rem;
+  line-height: 1.62;
+}
+
+.moments-modal__masthead-image {
+  position: relative;
+  min-height: 250px;
+  overflow: hidden;
+}
+.moments-modal__masthead-image::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(90deg, rgba(255,248,251,.38), transparent 28%);
+}
+.moments-modal__masthead-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  object-fit: cover;
+  object-position: center;
+}
+.moments-modal__script-note {
+  position: absolute;
+  top: 34px;
+  right: 52px;
+  z-index: 2;
+  max-width: 180px;
+  color: rgba(91, 70, 80, .76);
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(1.5rem, 2.2vw, 2.4rem);
+  line-height: 1;
+  text-align: right;
+  transform: rotate(-5deg);
+}
+
+.moments-modal__events-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 18px 22px 0;
+}
+.moments-modal__events-heading span { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 600; }
+.moments-modal__events-heading small { color: #7c8790; font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; }
+
+.moments-modal__event-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px 18px 4px;
+  margin-top: 0;
+}
+
+.moments-modal__event {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.moments-modal__event-thumb {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #f1e8ec;
+}
+.moments-modal__event-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.moments-modal__event-date-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: grid;
+  place-items: center;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 5px;
+  color: #2b2527;
+  background: rgba(255, 245, 248, .94);
+  border: 1px solid rgba(239,180,193,.45);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: .9;
+  text-align: center;
+}
+.moments-modal__event-date-badge small { display:block; margin-top:3px; font-family:"DM Sans",sans-serif; font-size:.48rem; letter-spacing:.08em; }
+.moments-modal__event-copy { padding: 11px 11px 13px; }
+.moments-modal__event-copy h3 { font-size: .82rem; line-height: 1.28; }
+.moments-modal__event-copy p { margin-top: 5px; font-size: .69rem; line-height: 1.45; }
+
+.moments-modal__footer--editorial {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px 22px;
+}
+.moments-modal__closing {
+  margin: 0;
+  color: #726a6c;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  font-style: italic;
+  text-align: center;
+}
+
+body.dark-theme.page-home .moments-side-note,
+body.dark-theme.page-home .moments-editorial-signoff,
+body.dark-theme.page-home .moments-mag-credit { color: rgba(255,255,255,.58); }
+body.dark-theme .moments-modal__panel--editorial { background: #1b1d22; }
+body.dark-theme .moments-modal__masthead { background: linear-gradient(135deg, #23262d 0%, #2f252b 100%); }
+body.dark-theme .moments-modal__masthead-image::after { background: linear-gradient(90deg, rgba(35,38,45,.28), transparent 28%); }
+body.dark-theme .moments-modal__event { background: #24272d; }
+body.dark-theme .moments-modal__event-date-badge { color:#f6f2f4; background:rgba(43,35,40,.94); }
+body.dark-theme .moments-modal__events-heading small,
+body.dark-theme .moments-modal__closing { color: rgba(255,255,255,.64); }
+
+@media (min-width: 861px) and (max-width: 1100px) {
+  .page-home .moments-magazine-strip { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+  .page-home .moments-mag-card:nth-child(4), .page-home .moments-mag-card:nth-child(5) { width: 100%; }
+  .moments-modal__event-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+
+@media (min-width: 761px) and (max-width: 860px) {
+  .page-home .moments-magazine-strip { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+  .page-home .moments-mag-card:last-child { grid-column: 1 / -1; width: calc(50% - 7px); justify-self: center; }
+  .moments-modal__masthead { grid-template-columns: 1fr; }
+  .moments-modal__masthead-image { min-height: 220px; }
+  .moments-modal__event-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  .page-home .moments-inner--editorial { width: calc(100% - 32px); }
+  .page-home .moments-editorial-head { grid-template-columns: 1fr; }
+  .page-home .moments-side-note { display: none; }
+  .page-home .moments-magazine-strip {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .page-home .moments-mag-trigger {
+    aspect-ratio: 16 / 10;
+  }
+  .page-home .moments-mag-copy { right: 16px; bottom: 14px; left: 16px; }
+  .page-home .moments-mag-month { font-size: 2.35rem; }
+  .page-home .moments-editorial-signoff { width: 100%; }
+  .page-home .moments-editorial-signoff small { font-size: .5rem; letter-spacing: .18em; }
+  .moments-modal__panel--editorial { width: calc(100vw - 20px); border-radius: 12px; }
+  .moments-modal__masthead { grid-template-columns: 1fr; }
+  .moments-modal__masthead-copy { padding: 24px 18px 18px; }
+  .moments-modal__masthead-image { min-height: 210px; }
+  .moments-modal__masthead-image img { min-height: 210px; }
+  .moments-modal__script-note { top: 20px; right: 24px; max-width: 140px; }
+  .moments-modal__event-grid { grid-template-columns: 1fr; padding-inline: 14px; }
+  .moments-modal__event { display: grid; grid-template-columns: 118px minmax(0,1fr); }
+  .moments-modal__event-thumb { aspect-ratio: 1 / 1; height: 100%; }
+  .moments-modal__footer--editorial { grid-template-columns: 1fr 1fr; }
+  .moments-modal__closing { grid-column: 1 / -1; grid-row: 1; }
+}
+
+@media (max-width: 1100px) and (max-height: 700px) and (orientation: landscape) {
+  .page-home .moments-magazine-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .page-home .moments-mag-trigger { aspect-ratio: 16 / 10; }
+  .page-home .moments-mag-card:last-child { grid-column: 1 / -1; width: calc(50% - 7px); justify-self: center; }
+  .moments-modal__masthead { grid-template-columns: minmax(0,.9fr) minmax(320px,1.1fr); }
+  .moments-modal__event-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+
+
+/* =========================================================
+   HOMEPAGE 15.2 — MOMENTS VISUAL CONSISTENCY + MODAL SCALE
+   ---------------------------------------------------------
+   1) Moments uses the exact Media section surface in both themes.
+   2) Editorial modal is constrained to one predictable desktop size.
+   3) Masthead image height is fixed per breakpoint so different
+      source-photo proportions can never resize the modal.
+========================================================= */
+
+/* Match the Media section surface exactly. */
+.page-home .moments-section.moments-editorial {
+  background: linear-gradient(135deg, #f8fbfd 0%, #f4f9fc 100%) !important;
+  border-color: rgba(103, 140, 164, .10) !important;
+}
+
+body.dark-theme.page-home .moments-section.moments-editorial {
+  background: #111214 !important;
+  border-color: rgba(255, 255, 255, .07) !important;
+}
+
+/* Keep month-card/photo geometry independent of source dimensions. */
+.page-home .moments-mag-trigger {
+  aspect-ratio: 3 / 5;
+}
+.page-home .moments-mag-trigger img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Desktop modal: smaller, calmer editorial canvas. */
+.moments-modal__panel--editorial {
+  width: min(960px, calc(100vw - 56px));
+  max-height: min(86vh, 780px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.moments-modal__masthead {
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  height: 360px;
+  min-height: 0;
+}
+
+.moments-modal__masthead-copy {
+  min-width: 0;
+  padding: clamp(26px, 3.2vw, 38px);
+}
+
+.moments-modal__masthead-copy .moments-modal__eyebrow {
+  font-size: clamp(1.9rem, 3vw, 2.75rem);
+}
+
+.moments-modal__masthead-copy h2 {
+  font-size: clamp(2rem, 3.2vw, 3.15rem);
+}
+
+.moments-modal__masthead-copy .moments-modal__intro {
+  font-size: .82rem;
+  line-height: 1.58;
+}
+
+.moments-modal__masthead-image {
+  height: 360px;
+  min-height: 0;
+}
+
+.moments-modal__masthead-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center;
+}
+
+.moments-modal__script-note {
+  top: 22px;
+  right: 34px;
+  max-width: 150px;
+  font-size: clamp(1.25rem, 1.8vw, 1.9rem);
+}
+
+.moments-modal__events-heading {
+  padding: 15px 20px 0;
+}
+
+.moments-modal__events-heading span {
+  font-size: 1.42rem;
+}
+
+.moments-modal__event-grid {
+  gap: 9px;
+  padding: 11px 16px 4px;
+}
+
+.moments-modal__event-copy {
+  padding: 9px 9px 11px;
+}
+
+.moments-modal__event-copy h3 {
+  font-size: .76rem;
+}
+
+.moments-modal__event-copy p {
+  font-size: .64rem;
+  line-height: 1.42;
+}
+
+.moments-modal__footer--editorial {
+  padding: 14px 18px 18px;
+}
+
+/* Tablet landscape / wider tablet. */
+@media (min-width: 861px) and (max-width: 1100px) {
+  .moments-modal__panel--editorial {
+    width: min(900px, calc(100vw - 36px));
+    max-height: 88vh;
+  }
+  .moments-modal__masthead,
+  .moments-modal__masthead-image {
+    height: 330px;
+  }
+}
+
+/* Tablet portrait. */
+@media (min-width: 761px) and (max-width: 860px) {
+  .moments-modal__panel--editorial {
+    width: min(720px, calc(100vw - 30px));
+    max-height: 88vh;
+  }
+  .moments-modal__masthead {
+    grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+    height: 300px;
+  }
+  .moments-modal__masthead-image {
+    height: 300px;
+    min-height: 0;
+  }
+  .moments-modal__masthead-image img {
+    min-height: 0;
+  }
+  .moments-modal__masthead-copy {
+    padding: 22px;
+  }
+  .moments-modal__event-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile portrait: stack copy and image, but cap the image strongly. */
+@media (max-width: 760px) and (orientation: portrait) {
+  .moments-modal__panel--editorial {
+    width: calc(100vw - 18px);
+    max-height: 90vh;
+  }
+  .moments-modal__masthead {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .moments-modal__masthead-copy {
+    padding: 22px 18px 16px;
+  }
+  .moments-modal__masthead-image {
+    height: 210px;
+    min-height: 210px;
+  }
+  .moments-modal__masthead-image img {
+    height: 210px;
+    min-height: 210px;
+  }
+  .moments-modal__event-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile / tablet landscape: preserve side-by-side masthead and reduce height. */
+@media (max-width: 1100px) and (max-height: 700px) and (orientation: landscape) {
+  .moments-modal__panel--editorial {
+    width: min(920px, calc(100vw - 26px));
+    max-height: 88vh;
+  }
+  .moments-modal__masthead {
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    height: 260px;
+  }
+  .moments-modal__masthead-image {
+    height: 260px;
+    min-height: 0;
+  }
+  .moments-modal__masthead-image img {
+    height: 260px;
+    min-height: 0;
+  }
+  .moments-modal__masthead-copy {
+    padding: 20px 22px;
+  }
+  .moments-modal__event-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+
+/* HOMEPAGE 15.3 — KEY MOMENT EVENT MEDIA */
+.moments-modal__event-thumb {
+  aspect-ratio: 4 / 3;
+}
+
+.moments-modal__event-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.moments-modal__event-credit {
+  display: inline-block;
+  margin-top: 7px;
+  color: #617f92;
+  font-size: .58rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.moments-modal__event-credit:hover,
+.moments-modal__event-credit:focus-visible {
+  text-decoration: underline;
+}
+
+body.dark-theme .moments-modal__event-credit {
+  color: #8fc5e6;
+}
+
+@media (max-width: 860px) {
+  .moments-modal__event-thumb {
+    aspect-ratio: 4 / 3;
+    height: auto;
+  }
+}
+
+/* =================================================
+   HOMEPAGE 15.4 — GIRLS CUP EVENT PHOTO STORY
+================================================== */
+.moments-modal__event.is-clickable {
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.moments-modal__event.is-clickable:hover,
+.moments-modal__event.is-clickable:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(132, 192, 226, .7);
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+  outline: none;
+}
+
+.moments-modal__event-open-cue {
+  display: inline-block;
+  margin-top: .45rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: #7fc6ed;
+}
+
+.moments-modal__back-event {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  margin: 0 0 1rem;
+  padding: .45rem .75rem;
+  border: 1px solid rgba(126, 183, 216, .28);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  cursor: pointer;
+}
+
+.moments-modal__back-event:hover,
+.moments-modal__back-event:focus-visible {
+  border-color: rgba(126, 183, 216, .7);
+  outline: none;
+}
+
+.moments-event-gallery {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 16px;
+  z-index: 3;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 14px;
+  background: rgba(13, 16, 22, .72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.moments-event-gallery[hidden] { display: none !important; }
+
+.moments-event-gallery__tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.moments-event-gallery__tabs button {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255,255,255,.82);
+  padding: .32rem .65rem;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  cursor: pointer;
+}
+
+.moments-event-gallery__tabs button.is-active,
+.moments-event-gallery__tabs button:hover,
+.moments-event-gallery__tabs button:focus-visible {
+  background: rgba(255,255,255,.92);
+  color: #171a20;
+  outline: none;
+}
+
+.moments-event-gallery__thumbs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.moments-event-gallery__thumb {
+  appearance: none;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #111;
+  cursor: pointer;
+}
+
+.moments-event-gallery__thumb img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.moments-event-gallery__thumb.is-active {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(126, 198, 237, .72);
+}
+
+.moments-modal__masthead-image:has(.moments-event-gallery:not([hidden])) img {
+  padding-bottom: 112px;
+  box-sizing: border-box;
+  object-fit: cover;
+}
+
+body.dark-theme .moments-modal__back-event {
+  border-color: rgba(255,255,255,.16);
+}
+
+@media (max-width: 1024px) {
+  .moments-event-gallery {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .moments-event-gallery__thumbs {
+    grid-template-columns: repeat(5, minmax(72px, 1fr));
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .moments-modal__masthead-image:has(.moments-event-gallery:not([hidden])) img {
+    padding-bottom: 106px;
+  }
+}
+
+@media (max-width: 680px) {
+  .moments-event-gallery {
+    position: relative;
+    inset: auto;
+    margin: 10px 12px 12px;
+    background: rgba(20, 22, 28, .96);
+  }
+
+  .moments-modal__masthead-image:has(.moments-event-gallery:not([hidden])) img {
+    padding-bottom: 0;
+  }
+
+  .moments-event-gallery__thumbs {
+    grid-template-columns: repeat(3, minmax(92px, 1fr));
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .moments-event-gallery__thumbs {
+    grid-template-columns: repeat(2, minmax(112px, 1fr));
+  }
+}
+
+
+/* =================================================
+   HOMEPAGE 15.5 — MOMENTS EVENT GALLERY POLISH
+   Uniform hero canvas, arrow-only gallery, compact Key Moments.
+================================================== */
+
+/* Key Moments are now visual entry points: image + date + title only. */
+.moments-modal__event-copy {
+  padding: 10px 10px 12px;
+}
+.moments-modal__event-copy h3 {
+  margin: 0;
+  font-size: .78rem;
+  line-height: 1.25;
+}
+.moments-modal__event-copy p,
+.moments-modal__event-open-cue,
+.moments-modal__event-credit {
+  display: none !important;
+}
+
+/* Event-detail mode gives the gallery a larger, fixed and predictable canvas. */
+.moments-modal__panel--editorial.is-event-detail {
+  width: min(1040px, calc(100vw - 48px));
+  max-height: min(90vh, 820px);
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+  grid-template-columns: minmax(300px, .72fr) minmax(0, 1.28fr);
+  height: 440px;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy,
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+  height: 440px;
+  min-height: 440px;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+  position: relative;
+  background: #0d0f13;
+  overflow: hidden;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image > img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0 !important;
+  object-fit: contain;
+  object-position: center center;
+  background: #0d0f13;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__script-note {
+  display: none;
+}
+
+/* Arrow-only photo browser: no tabs, no black thumbnail tiles. */
+.moments-event-gallery {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  pointer-events: none;
+}
+.moments-event-gallery[hidden] { display: none !important; }
+
+.moments-event-gallery__arrow {
+  appearance: none;
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  width: 44px;
+  height: 44px;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 50%;
+  background: rgba(10,12,16,.58);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  pointer-events: auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.moments-event-gallery__arrow--prev { left: 16px; }
+.moments-event-gallery__arrow--next { right: 16px; }
+.moments-event-gallery__arrow:hover,
+.moments-event-gallery__arrow:focus-visible {
+  background: rgba(10,12,16,.82);
+  border-color: rgba(255,255,255,.8);
+  outline: none;
+}
+
+.moments-event-gallery__meta {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 11px;
+  border-radius: 10px;
+  background: rgba(8,10,14,.66);
+  color: rgba(255,255,255,.9);
+  font-size: .66rem;
+  letter-spacing: .04em;
+  pointer-events: auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.moments-event-gallery__meta a {
+  color: #9ed7f5;
+  font-weight: 700;
+  text-decoration: none;
+}
+.moments-event-gallery__meta a:hover,
+.moments-event-gallery__meta a:focus-visible { text-decoration: underline; }
+
+/* Tablet */
+@media (min-width: 761px) and (max-width: 1024px) {
+  .moments-modal__panel--editorial.is-event-detail {
+    width: min(900px, calc(100vw - 30px));
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    grid-template-columns: minmax(280px, .82fr) minmax(0, 1.18fr);
+    height: 380px;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy,
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    height: 380px;
+    min-height: 380px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 760px) and (orientation: portrait) {
+  .moments-modal__panel--editorial.is-event-detail {
+    width: calc(100vw - 16px);
+    max-height: 92vh;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    height: 300px;
+    min-height: 300px;
+  }
+  .moments-event-gallery__arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.7rem;
+  }
+  .moments-event-gallery__arrow--prev { left: 10px; }
+  .moments-event-gallery__arrow--next { right: 10px; }
+  .moments-event-gallery__meta {
+    left: 10px;
+    right: 10px;
+    bottom: 9px;
+    font-size: .6rem;
+  }
+}
+
+/* Mobile / tablet landscape */
+@media (max-width: 1100px) and (max-height: 700px) and (orientation: landscape) {
+  .moments-modal__panel--editorial.is-event-detail {
+    width: min(980px, calc(100vw - 22px));
+    max-height: 92vh;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    grid-template-columns: minmax(270px, .76fr) minmax(0, 1.24fr);
+    height: 330px;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy,
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    height: 330px;
+    min-height: 330px;
+  }
+}
+
+/* =========================================================
+   HOMEPAGE 15.6 — MOMENTS TYPOGRAPHY + CLEAN GALLERY
+========================================================= */
+/* Use a restrained editorial serif for modal titles: elegant, readable,
+   and consistent with the rest of the site. */
+.moments-modal__masthead-copy h2,
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-style: normal;
+  line-height: .98;
+  letter-spacing: -.025em;
+  font-size: clamp(2rem, 3.2vw, 3.25rem);
+}
+
+/* Remove decorative text overlay from modal/gallery photography so the
+   image itself remains clean and photo credits carry the attribution. */
+.moments-modal__script-note {
+  display: none !important;
+}
+
+@media (max-width: 820px) {
+  .moments-modal__masthead-copy h2,
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    font-size: clamp(1.85rem, 6.2vw, 2.65rem);
+    line-height: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .moments-modal__masthead-copy h2,
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    font-size: clamp(1.7rem, 8vw, 2.25rem);
+    letter-spacing: -.015em;
+  }
+}
+
+
+/* =========================================================
+
+/* =========================================================
+   MOMENTS 15.19 — MONTH + EVENT MODAL REBUILD
+   Scope: August month modal + event-detail gallery.
+   Mobile homepage card sizing retained from approved behavior.
+========================================================= */
+
+/* ---------- Shared modal shell ---------- */
+.moments-modal {
+  z-index: 9999 !important;
+  display: none;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 18px !important;
+}
+.moments-modal.is-open { display: flex !important; }
+.moments-modal__panel--editorial {
+  overflow: hidden !important;
+  border-radius: 20px !important;
+}
+
+/* =========================================================
+   MONTH VIEW — compact editorial composition
+========================================================= */
+.moments-modal__panel--editorial:not(.is-event-detail) {
+  width: min(980px, calc(100vw - 44px)) !important;
+  max-height: min(640px, calc(100svh - 44px)) !important;
+  overflow-y: auto !important;
+}
+
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead {
+  display: grid !important;
+  grid-template-columns: minmax(350px, 42%) minmax(300px, 58%) !important;
+  height: 330px !important;
+  min-height: 0 !important;
+}
+
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-copy {
+  padding: 28px 32px 24px !important;
+  overflow: hidden !important;
+}
+
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__eyebrow {
+  margin: 0 0 10px !important;
+  color: #7399ae !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: .76rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+}
+
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-copy h2 {
+  margin: 0 0 15px !important;
+  max-width: 12ch !important;
+  color: inherit !important;
+  font-family: "Cormorant Garamond", serif !important;
+  font-size: clamp(2rem, 2.4vw, 2.45rem) !important;
+  font-weight: 500 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.022em !important;
+}
+
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__intro {
+  max-width: 46ch !important;
+  margin: 0 !important;
+  font-size: .82rem !important;
+  line-height: 1.58 !important;
+  text-align: left !important;
+}
+
+/* Old narrative-panel credit is intentionally suppressed. */
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__credit {
+  display: none !important;
+}
+
+/* Month photo is preserved, not cropped. The visual panel is sized to a
+   portrait-friendly editorial frame instead of stretching into a banner. */
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 330px !important;
+  min-height: 0 !important;
+  padding: 12px 24px !important;
+  overflow: hidden !important;
+  background: #111419 !important;
+}
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__gallery-stage {
+  width: auto !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  overflow: visible !important;
+}
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-gallery-photo-frame {
+  position: relative !important;
+  display: inline-flex !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 306px !important;
+  overflow: hidden !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-gallery-photo-frame > img {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 306px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+/* Credit belongs to the image itself. */
+.moments-month-photo-credit {
+  position: absolute !important;
+  right: 10px !important;
+  bottom: 10px !important;
+  z-index: 7 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 24px !important;
+  padding: 4px 9px !important;
+  border-radius: 999px !important;
+  background: rgba(9, 12, 16, .58) !important;
+  color: rgba(255,255,255,.94) !important;
+  font-size: .60rem !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.moments-month-photo-credit[hidden] { display: none !important; }
+.moments-month-photo-credit:hover,
+.moments-month-photo-credit:focus-visible { background: rgba(9, 12, 16, .78) !important; }
+
+/* Key Moments — clean editorial list; no dates or divider lines. */
+.moments-modal__events-heading {
+  padding: 17px 30px 5px !important;
+}
+.moments-modal__events-heading > span {
+  font-size: 1.22rem !important;
+}
+.moments-modal__event-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+  width: min(520px, calc(100% - 60px)) !important;
+  margin: 0 30px 12px !important;
+  padding: 0 !important;
+}
+.moments-modal__moment-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  min-height: 30px !important;
+  margin: 0 !important;
+  padding: 5px 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  text-align: left !important;
+  font: inherit !important;
+  font-size: .80rem !important;
+  line-height: 1.35 !important;
+}
+button.moments-modal__moment-link.is-clickable::after {
+  content: "→" !important;
+  margin-left: 9px !important;
+  color: #7297ad !important;
+  transition: transform 180ms ease !important;
+}
+button.moments-modal__moment-link.is-clickable:hover::after,
+button.moments-modal__moment-link.is-clickable:focus-visible::after {
+  transform: translateX(3px) !important;
+}
+.moments-modal__footer--editorial {
+  min-height: 54px !important;
+  padding: 9px 24px 13px !important;
+}
+
+/* =========================================================
+   EVENT DETAIL — gallery sizes to the photograph
+========================================================= */
+.moments-modal__panel--editorial.is-event-detail {
+  width: fit-content !important;
+  max-width: calc(100vw - 44px) !important;
+  max-height: calc(100svh - 44px) !important;
+  overflow: hidden !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+  display: grid !important;
+  grid-template-columns: 330px auto !important;
+  width: fit-content !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: calc(100svh - 44px) !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+  position: relative !important;
+  width: 330px !important;
+  min-width: 330px !important;
+  height: auto !important;
+  min-height: 500px !important;
+  overflow-y: auto !important;
+  padding: 74px 30px 28px !important;
+}
+
+.moments-modal__back-event {
+  position: absolute !important;
+  top: 20px !important;
+  left: 30px !important;
+  z-index: 8 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  width: auto !important;
+  min-height: 34px !important;
+  margin: 0 !important;
+  padding: 0 13px !important;
+  white-space: nowrap !important;
+}
+.moments-modal__back-event[hidden] { display: none !important; }
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__eyebrow,
+.moments-modal__panel--editorial.is-event-detail .moments-modal__credit,
+.moments-modal__panel--editorial.is-event-detail .moments-modal__script-note,
+.moments-modal__panel--editorial.is-event-detail .moments-month-photo-credit {
+  display: none !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+  margin: 0 0 18px !important;
+  max-width: 11.5ch !important;
+  white-space: normal !important;
+  font-family: "Cormorant Garamond", serif !important;
+  font-size: 1.86rem !important;
+  font-weight: 500 !important;
+  line-height: 1.04 !important;
+  letter-spacing: -.018em !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__intro {
+  max-width: 40ch !important;
+  margin: 0 !important;
+  text-align: left !important;
+  text-wrap: pretty;
+  font-size: .87rem !important;
+  line-height: 1.64 !important;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__intro p {
+  margin: 0 !important;
+  text-align: left !important;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__intro p + p {
+  margin-top: .92rem !important;
+}
+
+/* No giant right-side canvas: this module shrink-wraps the active photo. */
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 500px !important;
+  padding: 28px 60px 22px !important;
+  overflow: visible !important;
+  background: #0f1216 !important;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame {
+  position: relative !important;
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: min(600px, 54vw) !important;
+  max-height: min(500px, calc(100svh - 90px)) !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  touch-action: pan-y !important;
+  background: transparent !important;
+}
+.moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame > img {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: min(600px, 54vw) !important;
+  max-height: min(455px, calc(100svh - 135px)) !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  background: transparent !important;
+}
+
+/* Arrows belong to the photo, not to the outer modal. */
+.moments-event-gallery {
+  position: absolute !important;
+  inset: 0 0 28px !important;
+  z-index: 4 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  pointer-events: none !important;
+}
+.moments-event-gallery[hidden] { display: none !important; }
+.moments-event-gallery__arrow {
+  appearance: none !important;
+  position: absolute !important;
+  top: 50% !important;
+  z-index: 5 !important;
+  width: 38px !important;
+  height: 38px !important;
+  transform: translateY(-50%) !important;
+  border: 1px solid rgba(255,255,255,.46) !important;
+  border-radius: 50% !important;
+  background: rgba(10,12,16,.62) !important;
+  color: #fff !important;
+  font-size: 1.55rem !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.moments-event-gallery__arrow--prev { left: -46px !important; }
+.moments-event-gallery__arrow--next { right: -46px !important; }
+.moments-event-gallery__arrow:hover,
+.moments-event-gallery__arrow:focus-visible {
+  background: rgba(10,12,16,.88) !important;
+  outline: none !important;
+}
+
+/* Metadata line is only as wide as the photo. */
+.moments-event-gallery__meta {
+  position: static !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 18px !important;
+  width: 100% !important;
+  min-height: 26px !important;
+  margin: 0 !important;
+  padding: 6px 1px 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: rgba(255,255,255,.62) !important;
+  font-size: .61rem !important;
+  letter-spacing: .02em !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.moments-event-gallery__meta[hidden] { display: none !important; }
+.moments-event-gallery__meta a {
+  color: #9ccbe4 !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+.moments-event-gallery__meta a:hover,
+.moments-event-gallery__meta a:focus-visible { text-decoration: underline !important; }
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__events-heading,
+.moments-modal__panel--editorial.is-event-detail .moments-modal__event-grid,
+.moments-modal__panel--editorial.is-event-detail .moments-modal__footer--editorial {
+  display: none !important;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .moments-modal { padding: 12px !important; }
+  .moments-modal__panel--editorial:not(.is-event-detail) {
+    width: min(880px, calc(100vw - 24px)) !important;
+  }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead {
+    grid-template-columns: minmax(300px, 44%) minmax(260px, 56%) !important;
+    height: 300px !important;
+  }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image {
+    height: 300px !important;
+    padding: 10px 18px !important;
+  }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-gallery-photo-frame,
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-gallery-photo-frame > img {
+    max-height: 280px !important;
+  }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-copy {
+    padding: 24px 26px 20px !important;
+  }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-copy h2 {
+    font-size: 2.05rem !important;
+  }
+
+  .moments-modal__panel--editorial.is-event-detail {
+    max-width: calc(100vw - 24px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    grid-template-columns: 300px auto !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    width: 300px !important;
+    min-width: 300px !important;
+    min-height: 470px !important;
+    padding: 68px 24px 24px !important;
+  }
+  .moments-modal__back-event { top: 16px !important; left: 24px !important; }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    min-height: 470px !important;
+    padding: 24px 50px 20px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame,
+  .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame > img {
+    max-width: min(520px, 50vw) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame > img {
+    max-height: min(420px, calc(100svh - 130px)) !important;
+  }
+  .moments-event-gallery__arrow--prev { left: -40px !important; }
+  .moments-event-gallery__arrow--next { right: -40px !important; }
+}
+
+/* =========================================================
+   MOBILE — retain compact gallery-first behavior
+========================================================= */
+@media (max-width: 760px) {
+  .moments-modal {
+    padding: 8px !important;
+    align-items: center !important;
+  }
+  .moments-modal__panel--editorial {
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    max-height: calc(100svh - 16px) !important;
+    border-radius: 14px !important;
+    overflow-y: auto !important;
+  }
+
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+  }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image {
+    order: 1 !important;
+    height: 230px !important;
+    padding: 8px 12px !important;
+  }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-gallery-photo-frame,
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-gallery-photo-frame > img {
+    max-height: 214px !important;
+  }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-copy {
+    order: 2 !important;
+    padding: 18px 18px 15px !important;
+  }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-copy h2 {
+    max-width: none !important;
+    font-size: 1.85rem !important;
+  }
+  .moments-modal__event-grid {
+    width: calc(100% - 36px) !important;
+    margin-inline: 18px !important;
+  }
+  .moments-modal__events-heading { padding-inline: 18px !important; }
+
+  .moments-modal__panel--editorial.is-event-detail {
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    max-height: calc(100svh - 16px) !important;
+    overflow-y: auto !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    order: 1 !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    padding: 18px 42px 14px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame,
+  .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame > img {
+    max-width: calc(100vw - 100px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame > img {
+    max-height: min(44svh, 360px) !important;
+  }
+  .moments-event-gallery__arrow--prev { left: -34px !important; }
+  .moments-event-gallery__arrow--next { right: -34px !important; }
+  .moments-event-gallery__arrow { width: 32px !important; height: 32px !important; font-size: 1.3rem !important; }
+
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    order: 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 56px 18px 18px !important;
+  }
+  .moments-modal__back-event { top: 12px !important; left: 18px !important; }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    max-width: 12ch !important;
+    font-size: 1.6rem !important;
+    margin-bottom: 12px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__intro {
+    max-width: none !important;
+    font-size: .87rem !important;
+    line-height: 1.62 !important;
+  }
+}
+
+/* Mobile landscape — strict two-column, no overlap. */
+@media (max-width: 900px) and (max-height: 560px) and (orientation: landscape) {
+  .moments-modal__panel--editorial.is-event-detail {
+    overflow: hidden !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    display: grid !important;
+    grid-template-columns: minmax(220px, 40%) auto !important;
+    width: fit-content !important;
+    height: calc(100svh - 16px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    order: initial !important;
+    width: auto !important;
+    min-width: 220px !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    padding: 50px 16px 14px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    order: initial !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    padding: 12px 42px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame > img {
+    max-height: calc(100svh - 54px) !important;
+    max-width: 50vw !important;
+  }
+  .moments-modal__back-event { top: 9px !important; left: 16px !important; }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    font-size: 1.35rem !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__intro {
+    font-size: .70rem !important;
+    line-height: 1.4 !important;
+  }
+}
+
+/* ---------- Homepage Moments card sizing retained ---------- */
+@media (min-width: 761px) and (max-width: 900px) {
+  .page-home .moments-magazine-strip {
+    grid-template-columns: repeat(2, minmax(0, 280px)) !important;
+    justify-content: center !important;
+    gap: 16px !important;
+  }
+  .page-home .moments-mag-card,
+  .page-home .moments-mag-card:last-child {
+    width: 100% !important;
+    max-width: 280px !important;
+    justify-self: center !important;
+    grid-column: auto !important;
+  }
+  .page-home .moments-mag-card:last-child { grid-column: 1 / -1 !important; }
+  .page-home .moments-mag-trigger { aspect-ratio: 4 / 5 !important; }
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  .page-home .moments-magazine-strip {
+    grid-template-columns: 1fr !important;
+    justify-items: center !important;
+    gap: 18px !important;
+  }
+  .page-home .moments-mag-card,
+  .page-home .moments-mag-card:last-child {
+    width: min(320px, 82vw) !important;
+    max-width: 320px !important;
+    grid-column: auto !important;
+    justify-self: center !important;
+  }
+  .page-home .moments-mag-trigger {
+    width: 100% !important;
+    aspect-ratio: 4 / 5 !important;
+    max-height: 400px !important;
+  }
+  .page-home .moments-mag-trigger img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+/* =========================================================
    HOMEPAGE 14.6 — OUR STORY EDITORIAL MODAL
 ========================================================= */
 .page-home .story-actions{margin-top:28px}.page-home .story-actions-label{margin:0 0 10px;font:500 .76rem/1.3 "DM Sans",sans-serif}.page-home .story-actions-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}.page-home .story-read-button{gap:12px;cursor:pointer;border:0}.page-home .story-profile-button{display:inline-flex;min-height:44px;align-items:center;justify-content:center;gap:12px;padding:0 22px;border:1px solid rgba(229,137,157,.34);border-radius:999px;background:linear-gradient(135deg,#f6b7c5,#ef91a8);color:#38252b;font:600 .74rem/1 "DM Sans",sans-serif;text-decoration:none;box-shadow:0 9px 24px rgba(214,118,143,.16);transition:.2s ease}.page-home .story-profile-button:hover,.page-home .story-profile-button:focus-visible{transform:translateY(-2px);box-shadow:0 13px 28px rgba(214,118,143,.23)}
@@ -8589,3 +10765,139 @@ body.dark-theme .vlog-player-back {
 @media(max-width:900px){.story-modal__panel{inset:10px;border-radius:18px}.story-modal__topbar{min-height:70px;padding:21px 64px 14px 22px}.story-modal__layout{grid-template-columns:1fr;padding-top:70px}.story-modal__sidebar{overflow:visible;padding:20px 18px 14px;border-right:0;border-bottom:1px solid rgba(120,154,175,.16)}.story-modal__sidebar h2,.story-modal__sidebar blockquote{display:none}.story-modal__nav{display:flex;overflow-x:auto;gap:6px;scrollbar-width:none}.story-modal__nav-item{flex:0 0 auto;width:auto;min-width:116px;grid-template-columns:22px 1fr;padding:9px 10px}.story-modal__nav-item small{display:none}.story-modal__reader{padding:0 22px 48px}.story-chapter{padding:36px 0 48px}.story-sources a{grid-template-columns:1fr auto}.story-sources a span:first-child{grid-column:1/-1}}
 @media(max-width:600px){.page-home .story-actions-row{display:grid;grid-template-columns:1fr 1fr}.page-home .story-read-button{grid-column:1/-1;width:100%}.page-home .story-profile-button{width:100%;padding-inline:14px}.page-home .story-instagram-source{margin-inline:auto}.story-modal__panel{inset:0;border:0;border-radius:0}.story-modal__topbar div{display:none}.story-modal__close{top:12px;right:12px}.story-modal__reader{padding-inline:18px}.story-chapter__heading h3{font-size:2.7rem}.story-chapter__media img{aspect-ratio:4/3;max-height:none}.story-chapter__copy{font-size:.84rem;line-height:1.68}}
 @media(prefers-reduced-motion:reduce){.story-modal__reader{scroll-behavior:auto}.page-home .story-profile-button{transition:none}}
+
+/* =========================================================
+   HOMEPAGE 14.6.1 — OUR STORY SINGLE-FRAME DESKTOP FIT
+   Keep the full Our Story experience visible in one desktop
+   viewport while preserving the existing editorial direction.
+========================================================= */
+@media (min-width: 1101px) {
+  .page-home .story-panel {
+    grid-template-columns: minmax(430px, 1.18fr) minmax(300px, .72fr);
+    align-items: center;
+    min-height: 0;
+    gap: clamp(28px, 2.6vw, 42px);
+    padding: clamp(38px, 3.5vw, 50px) clamp(42px, 4vw, 62px);
+  }
+
+  .page-home .story-copy-block {
+    max-width: 570px;
+  }
+
+  .page-home .story-copy-block h2 {
+    margin-bottom: 20px;
+    font-size: clamp(3.35rem, 4.2vw, 4.45rem);
+    line-height: .94;
+  }
+
+  .page-home .story-intro {
+    margin-bottom: 24px;
+    font-size: .91rem;
+    line-height: 1.6;
+  }
+
+  .page-home .story-editorial p {
+    margin-bottom: 11px;
+    font-size: .91rem;
+    line-height: 1.62;
+  }
+
+  .page-home .story-closing {
+    margin-top: 18px;
+    margin-bottom: 0;
+    font-size: .88rem;
+  }
+
+  .page-home .story-actions {
+    margin-top: 18px;
+  }
+
+  .page-home .story-actions-label {
+    margin-bottom: 8px;
+  }
+
+  .page-home .story-actions-row {
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+
+  .page-home .story-read-button {
+    min-height: 42px;
+    padding-inline: 18px;
+    white-space: nowrap;
+  }
+
+  .page-home .story-profile-button {
+    min-height: 42px;
+    padding-inline: 17px;
+    white-space: nowrap;
+  }
+
+  .page-home .story-visual-column {
+    width: min(340px, 100%);
+    justify-self: center;
+    padding-top: 0;
+  }
+
+  .page-home .story-visual-column .story-photo-wrap,
+  .page-home .story-photo-frame,
+  .page-home .story-instagram-source {
+    width: min(340px, 100%);
+  }
+
+  .page-home .story-instagram-source {
+    margin-top: 9px;
+    padding: 8px 11px;
+  }
+
+  .page-home .story-instagram-source__icon {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+
+  .page-home .story-instagram-source strong {
+    font-size: .61rem;
+  }
+
+  .page-home .story-instagram-source small {
+    font-size: .53rem;
+  }
+}
+
+/* Short desktop/laptop viewports need a slightly tighter editorial rhythm. */
+@media (min-width: 1101px) and (max-height: 900px) {
+  .page-home .story-panel {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .page-home .story-copy-block h2 {
+    font-size: clamp(3.1rem, 3.8vw, 4rem);
+    margin-bottom: 16px;
+  }
+
+  .page-home .story-intro {
+    margin-bottom: 18px;
+  }
+
+  .page-home .story-editorial p {
+    margin-bottom: 8px;
+    line-height: 1.55;
+  }
+
+  .page-home .story-closing {
+    margin-top: 14px;
+  }
+
+  .page-home .story-actions {
+    margin-top: 14px;
+  }
+
+  .page-home .story-visual-column,
+  .page-home .story-visual-column .story-photo-wrap,
+  .page-home .story-photo-frame,
+  .page-home .story-instagram-source {
+    width: min(320px, 100%);
+  }
+}
