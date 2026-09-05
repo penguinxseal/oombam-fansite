@@ -1519,10 +1519,9 @@
     }
     if (eventGallery) eventGallery.hidden = false;
     if (galleryMeta) galleryMeta.hidden = false;
-    if (eventsHeading) eventsHeading.hidden = false;
-    if (modalEvents) modalEvents.hidden = false;
-    if (modalFooter) modalFooter.hidden = false;
-    buildEvents(month);
+    if (eventsHeading) eventsHeading.hidden = true;
+    if (modalEvents) modalEvents.hidden = true;
+    if (modalFooter) modalFooter.hidden = true;
 
     if (galleryPrevButton) galleryPrevButton.onclick = () => renderGalleryPhoto(activeGalleryIndex - 1);
     if (galleryNextButton) galleryNextButton.onclick = () => renderGalleryPhoto(activeGalleryIndex + 1);
@@ -1570,8 +1569,8 @@
     }
     if (modalNote) modalNote.textContent = "";
     if (modalCredit) {
-      modalCredit.hidden = true;
-      modalCredit.replaceChildren();
+      modalCredit.hidden = false;
+      buildCreditNode(month);
     }
     buildEvents(month);
     updateNavButtons(month);
