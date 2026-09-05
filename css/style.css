@@ -8578,3 +8578,905 @@ body.dark-theme .vlog-player-back {
     object-position: 50% 8% !important;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 15.0 — MONTHLY MOMENTS MODAL SYSTEM
+   ---------------------------------------------------------
+   - Replaces the older 4-card Moments strip with 5 monthly cards
+   - Equal thumbnail image ratio across all cards
+   - Modal-based monthly archive with 3–5 OomBam pair events
+   - Responsive behavior for desktop, tablet portrait/landscape,
+     and mobile portrait/landscape
+========================================================= */
+
+.page-home .moments-editorial {
+  position: relative;
+}
+
+.page-home .moments-month-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  margin-top: clamp(24px, 2.6vw, 34px);
+}
+
+.page-home .moment-month-card {
+  flex: 0 1 calc((100% - 72px) / 5);
+  max-width: calc((100% - 72px) / 5);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(126, 163, 187, 0.18);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.56);
+  box-shadow: 0 14px 36px rgba(48, 70, 84, 0.05);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.page-home .moment-month-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(126, 163, 187, 0.34);
+  box-shadow: 0 18px 40px rgba(48, 70, 84, 0.08);
+}
+
+.page-home .moment-month-media {
+  position: relative;
+  background: #edf3f7;
+}
+
+.page-home .moment-month-image-button {
+  width: 100%;
+  display: block;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.page-home .moment-month-image-button img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 380ms ease;
+}
+
+.page-home .moment-month-card:hover .moment-month-image-button img,
+.page-home .moment-month-image-button:focus-visible img {
+  transform: scale(1.03);
+}
+
+.page-home .moments-photo-credit {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  width: calc(100% - 24px);
+  padding: 6px 10px;
+  color: rgba(255, 255, 255, 0.96);
+  background: rgba(17, 21, 26, 0.58);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
+  transition: background 220ms ease, transform 220ms ease;
+}
+
+.page-home a.moments-photo-credit:hover {
+  background: rgba(17, 21, 26, 0.76);
+  transform: translateY(-1px);
+}
+
+.page-home .moment-month-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  padding: 15px 16px 17px;
+}
+
+.page-home .moment-month-label {
+  margin: 0 0 8px;
+  color: #7399ae;
+  font-size: 0.60rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.page-home .moment-month-copy h3 {
+  margin: 0 0 7px;
+  color: #282326;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.22rem, 1.45vw, 1.56rem);
+  font-weight: 500;
+  line-height: 1.04;
+}
+
+.page-home .moment-month-copy p:not(.moment-month-label) {
+  margin: 0;
+  color: #6e6668;
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.page-home .moment-month-link {
+  margin-top: 14px;
+  padding: 0;
+  color: #7a9fb7;
+  background: transparent;
+  border: 0;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 220ms ease, transform 220ms ease;
+}
+
+.page-home .moment-month-link:hover,
+.page-home .moment-month-link:focus-visible,
+.page-home .moment-month-image-button:focus-visible,
+.page-home .moments-modal__close:focus-visible,
+.page-home .moments-modal__nav:focus-visible {
+  outline: none;
+}
+
+.page-home .moment-month-link:hover,
+.page-home .moment-month-link:focus-visible {
+  color: #5d85a0;
+  transform: translateX(1px);
+}
+
+.page-home .moment-month-image-button:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(122, 159, 183, 0.42);
+}
+
+/* ---------- Moments modal ---------- */
+.moments-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 220ms ease, visibility 220ms ease;
+}
+
+.moments-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.moments-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 16, 21, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.moments-modal__panel {
+  position: relative;
+  width: min(1040px, 100%);
+  max-height: min(90vh, 940px);
+  overflow: auto;
+  background: linear-gradient(180deg, #fbfdff 0%, #f7fbfd 100%);
+  border: 1px solid rgba(126, 163, 187, 0.18);
+  border-radius: 28px;
+  box-shadow: 0 28px 84px rgba(10, 15, 20, 0.18);
+  padding: clamp(24px, 3vw, 34px);
+}
+
+body.moments-open {
+  overflow: hidden;
+}
+
+.moments-modal__close {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: #557085;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(126, 163, 187, 0.18);
+  border-radius: 50%;
+  box-shadow: 0 10px 22px rgba(37, 56, 68, 0.08);
+  font-size: 1.55rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.moments-modal__header {
+  margin-top: -14px;
+}
+
+.moments-modal__eyebrow {
+  margin: 0 0 10px;
+  color: #7399ae;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.moments-modal__header h2 {
+  margin: 0 0 10px;
+  color: #282326;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.3rem, 4vw, 3.55rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.moments-modal__intro {
+  margin: 0;
+  max-width: 70ch;
+  color: #6a6467;
+  font-size: 0.96rem;
+  line-height: 1.75;
+}
+
+.moments-modal__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.75fr);
+  gap: clamp(20px, 3vw, 32px);
+  align-items: start;
+  margin-top: 24px;
+}
+
+.moments-modal__image-wrap {
+  overflow: hidden;
+  border: 1px solid rgba(126, 163, 187, 0.18);
+  border-radius: 24px;
+  background: #edf3f7;
+  box-shadow: 0 14px 34px rgba(48, 70, 84, 0.08);
+}
+
+.moments-modal__image-wrap img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.moments-modal__aside {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  padding: 4px 0;
+}
+
+.moments-modal__credit,
+.moments-modal__note {
+  color: #6e6668;
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.moments-modal__credit a {
+  color: #6d92a8;
+  font-weight: 600;
+}
+
+.moments-modal__timeline {
+  display: grid;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.moments-modal__event {
+  display: grid;
+  grid-template-columns: minmax(110px, 124px) minmax(0, 1fr);
+  gap: 16px;
+  padding: 18px 18px 18px 16px;
+  border: 1px solid rgba(126, 163, 187, 0.16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.moments-modal__event.is-lead {
+  border-color: rgba(130, 168, 191, 0.28);
+  box-shadow: 0 12px 28px rgba(48, 70, 84, 0.05);
+}
+
+.moments-modal__event-date {
+  align-self: start;
+  color: #7399ae;
+  font-size: 0.70rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.moments-modal__event-copy h3 {
+  margin: 0 0 6px;
+  color: #2b2527;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.moments-modal__event-copy p {
+  margin: 0;
+  color: #6a6467;
+  font-size: 0.90rem;
+  line-height: 1.68;
+}
+
+.moments-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.moments-modal__nav {
+  min-height: 42px;
+  padding: 0 16px;
+  color: #5c7f96;
+  background: rgba(168, 201, 220, 0.14);
+  border: 1px solid rgba(126, 163, 187, 0.22);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 220ms ease, transform 220ms ease;
+}
+
+.moments-modal__nav:hover {
+  background: rgba(168, 201, 220, 0.22);
+  transform: translateY(-1px);
+}
+
+.moments-modal__nav[disabled] {
+  opacity: 0.48;
+  cursor: default;
+  transform: none;
+}
+
+/* ---------- Dark theme ---------- */
+body.dark-theme.page-home .moment-month-card {
+  background: linear-gradient(160deg, rgba(33, 37, 44, 0.96), rgba(24, 27, 33, 0.96));
+  border-color: rgba(169, 206, 229, 0.16);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+}
+
+body.dark-theme.page-home .moment-month-copy h3,
+body.dark-theme .moments-modal__header h2,
+body.dark-theme .moments-modal__event-copy h3 {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+body.dark-theme.page-home .moment-month-copy p:not(.moment-month-label),
+body.dark-theme.page-home .moments-description,
+body.dark-theme .moments-modal__intro,
+body.dark-theme .moments-modal__credit,
+body.dark-theme .moments-modal__note,
+body.dark-theme .moments-modal__event-copy p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+body.dark-theme .moments-modal__panel {
+  background: linear-gradient(180deg, rgba(23, 26, 32, 0.98) 0%, rgba(18, 21, 26, 0.98) 100%);
+  border-color: rgba(169, 206, 229, 0.14);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.42);
+}
+
+body.dark-theme .moments-modal__close {
+  color: #a7cadf;
+  background: rgba(28, 32, 39, 0.92);
+  border-color: rgba(169, 206, 229, 0.14);
+}
+
+body.dark-theme .moments-modal__event {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(169, 206, 229, 0.10);
+}
+
+body.dark-theme .moments-modal__event.is-lead {
+  border-color: rgba(169, 206, 229, 0.20);
+}
+
+body.dark-theme .moments-modal__nav {
+  color: #a7cadf;
+  background: rgba(169, 206, 229, 0.08);
+  border-color: rgba(169, 206, 229, 0.18);
+}
+
+body.dark-theme .moments-modal__credit a,
+body.dark-theme.page-home .moment-month-link {
+  color: #a7cadf;
+}
+
+/* ---------- Responsive alignment ---------- */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .page-home .moment-month-card {
+    flex-basis: calc((100% - 36px) / 3);
+    max-width: calc((100% - 36px) / 3);
+  }
+
+  .moments-modal__panel {
+    width: min(920px, 100%);
+  }
+}
+
+@media (min-width: 761px) and (max-width: 860px) {
+  .page-home .moment-month-card {
+    flex-basis: calc((100% - 18px) / 2);
+    max-width: calc((100% - 18px) / 2);
+  }
+
+  .moments-modal__hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  .page-home .moment-month-card {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+
+  .page-home .moment-month-copy {
+    padding: 14px 15px 16px;
+  }
+
+  .moments-modal {
+    padding: 12px;
+  }
+
+  .moments-modal__panel {
+    border-radius: 22px;
+    padding: 18px 16px 20px;
+  }
+
+  .moments-modal__hero {
+    grid-template-columns: 1fr;
+  }
+
+  .moments-modal__event {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .moments-modal__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 1100px) and (max-height: 700px) and (orientation: landscape) {
+  .page-home .moment-month-card {
+    flex-basis: calc((100% - 18px) / 2);
+    max-width: calc((100% - 18px) / 2);
+  }
+
+  .moments-modal {
+    padding: 14px;
+  }
+
+  .moments-modal__panel {
+    max-height: 88vh;
+    padding: 20px 18px 22px;
+  }
+
+  .moments-modal__hero {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+
+/* =========================================================
+   HOMEPAGE 15.1 — APPROVED MOMENTS EDITORIAL VISUAL
+========================================================= */
+.page-home .moments-inner--editorial {
+  width: min(1180px, calc(100% - 64px));
+  margin-inline: auto;
+}
+
+.page-home .moments-editorial-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 32px;
+}
+
+.page-home .moments-editorial-head .moments-heading {
+  margin-bottom: 6px;
+  font-size: clamp(3rem, 4vw, 4.8rem);
+  line-height: .95;
+}
+
+.page-home .moments-side-note {
+  margin: 0 0 8px;
+  color: rgba(82, 67, 74, .72);
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(1.55rem, 2.2vw, 2.3rem);
+  line-height: 1.05;
+  text-align: right;
+  transform: rotate(-3deg);
+}
+
+.page-home .moments-magazine-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.page-home .moments-mag-card {
+  position: relative;
+  min-width: 0;
+}
+
+.page-home .moments-mag-trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 5;
+  overflow: hidden;
+  padding: 0;
+  background: #e8eef2;
+  border: 1px solid rgba(126, 163, 187, .16);
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(48, 70, 84, .05);
+  cursor: pointer;
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.page-home .moments-mag-trigger img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 420ms ease;
+}
+
+.page-home .moments-mag-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(12, 14, 18, .74) 0%, rgba(12, 14, 18, .32) 38%, rgba(12, 14, 18, .02) 72%);
+}
+
+.page-home .moments-mag-card:hover .moments-mag-trigger,
+.page-home .moments-mag-trigger:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(239, 180, 193, .58);
+  box-shadow: 0 18px 40px rgba(48, 70, 84, .10);
+  outline: none;
+}
+
+.page-home .moments-mag-card:hover .moments-mag-trigger img,
+.page-home .moments-mag-trigger:focus-visible img {
+  transform: scale(1.035);
+}
+
+.page-home .moments-mag-card.is-featured .moments-mag-trigger {
+  border: 2px solid rgba(239, 180, 193, .92);
+  box-shadow: 0 0 0 4px rgba(248, 216, 223, .36), 0 16px 38px rgba(201, 130, 149, .12);
+}
+
+.page-home .moments-mag-copy {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  color: #fff;
+  text-align: left;
+}
+
+.page-home .moments-mag-month,
+.page-home .moments-mag-year,
+.page-home .moments-mag-title {
+  grid-column: 1;
+}
+
+.page-home .moments-mag-month {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2rem, 2.8vw, 3rem);
+  font-weight: 500;
+  line-height: .85;
+  letter-spacing: -.03em;
+}
+
+.page-home .moments-mag-year {
+  margin-top: 7px;
+  color: rgba(255,255,255,.78);
+  font-size: .66rem;
+  letter-spacing: .08em;
+}
+
+.page-home .moments-mag-title {
+  margin-top: 14px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.04rem, 1.35vw, 1.34rem);
+  font-weight: 600;
+  line-height: 1.02;
+}
+
+.page-home .moments-mag-arrow {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: end;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 2px;
+  border: 1px solid rgba(255,255,255,.72);
+  border-radius: 50%;
+  font-size: 1rem;
+}
+
+.page-home .moments-mag-credit {
+  display: block;
+  margin-top: 7px;
+  color: rgba(73, 76, 81, .68);
+  font-size: .58rem;
+  text-align: center;
+}
+.page-home a.moments-mag-credit:hover { color: #6f96ad; }
+
+.page-home .moments-editorial-signoff {
+  display: grid;
+  grid-template-columns: minmax(30px, 1fr) auto minmax(30px, 1fr);
+  align-items: center;
+  gap: 14px;
+  width: min(470px, 72%);
+  margin: 28px auto 0;
+  color: rgba(80, 76, 79, .64);
+}
+.page-home .moments-editorial-signoff span { height: 1px; background: currentColor; opacity: .48; }
+.page-home .moments-editorial-signoff small { font-size: .58rem; letter-spacing: .30em; white-space: nowrap; }
+
+/* editorial modal */
+.moments-modal__panel--editorial {
+  width: min(1120px, calc(100vw - 40px));
+  max-height: min(92vh, 920px);
+  padding: 0;
+  overflow: auto;
+  border-radius: 14px;
+  background: #fffafc;
+}
+
+.moments-modal__panel--editorial .moments-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  margin: 0;
+  z-index: 8;
+}
+
+.moments-modal__masthead {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(380px, 1.15fr);
+  min-height: 250px;
+  background: linear-gradient(135deg, #fff8fb 0%, #f8edf2 100%);
+}
+
+.moments-modal__masthead-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(28px, 4vw, 46px);
+}
+
+.moments-modal__masthead-copy .moments-modal__eyebrow {
+  margin-bottom: 4px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  font-weight: 500;
+  line-height: .9;
+  letter-spacing: -.03em;
+}
+
+.moments-modal__masthead-copy h2 {
+  margin: 4px 0 12px;
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.2rem, 3.8vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.moments-modal__masthead-copy .moments-modal__intro {
+  max-width: 46ch;
+  font-size: .88rem;
+  line-height: 1.62;
+}
+
+.moments-modal__masthead-image {
+  position: relative;
+  min-height: 250px;
+  overflow: hidden;
+}
+.moments-modal__masthead-image::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(90deg, rgba(255,248,251,.38), transparent 28%);
+}
+.moments-modal__masthead-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  object-fit: cover;
+  object-position: center;
+}
+.moments-modal__script-note {
+  position: absolute;
+  top: 34px;
+  right: 52px;
+  z-index: 2;
+  max-width: 180px;
+  color: rgba(91, 70, 80, .76);
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(1.5rem, 2.2vw, 2.4rem);
+  line-height: 1;
+  text-align: right;
+  transform: rotate(-5deg);
+}
+
+.moments-modal__events-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 18px 22px 0;
+}
+.moments-modal__events-heading span { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 600; }
+.moments-modal__events-heading small { color: #7c8790; font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; }
+
+.moments-modal__event-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px 18px 4px;
+  margin-top: 0;
+}
+
+.moments-modal__event {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.moments-modal__event-thumb {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #f1e8ec;
+}
+.moments-modal__event-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.moments-modal__event-date-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: grid;
+  place-items: center;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 5px;
+  color: #2b2527;
+  background: rgba(255, 245, 248, .94);
+  border: 1px solid rgba(239,180,193,.45);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: .9;
+  text-align: center;
+}
+.moments-modal__event-date-badge small { display:block; margin-top:3px; font-family:"DM Sans",sans-serif; font-size:.48rem; letter-spacing:.08em; }
+.moments-modal__event-copy { padding: 11px 11px 13px; }
+.moments-modal__event-copy h3 { font-size: .82rem; line-height: 1.28; }
+.moments-modal__event-copy p { margin-top: 5px; font-size: .69rem; line-height: 1.45; }
+
+.moments-modal__footer--editorial {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px 22px;
+}
+.moments-modal__closing {
+  margin: 0;
+  color: #726a6c;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  font-style: italic;
+  text-align: center;
+}
+
+body.dark-theme.page-home .moments-side-note,
+body.dark-theme.page-home .moments-editorial-signoff,
+body.dark-theme.page-home .moments-mag-credit { color: rgba(255,255,255,.58); }
+body.dark-theme .moments-modal__panel--editorial { background: #1b1d22; }
+body.dark-theme .moments-modal__masthead { background: linear-gradient(135deg, #23262d 0%, #2f252b 100%); }
+body.dark-theme .moments-modal__masthead-image::after { background: linear-gradient(90deg, rgba(35,38,45,.28), transparent 28%); }
+body.dark-theme .moments-modal__event { background: #24272d; }
+body.dark-theme .moments-modal__event-date-badge { color:#f6f2f4; background:rgba(43,35,40,.94); }
+body.dark-theme .moments-modal__events-heading small,
+body.dark-theme .moments-modal__closing { color: rgba(255,255,255,.64); }
+
+@media (min-width: 861px) and (max-width: 1100px) {
+  .page-home .moments-magazine-strip { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+  .page-home .moments-mag-card:nth-child(4), .page-home .moments-mag-card:nth-child(5) { width: 100%; }
+  .moments-modal__event-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+
+@media (min-width: 761px) and (max-width: 860px) {
+  .page-home .moments-magazine-strip { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+  .page-home .moments-mag-card:last-child { grid-column: 1 / -1; width: calc(50% - 7px); justify-self: center; }
+  .moments-modal__masthead { grid-template-columns: 1fr; }
+  .moments-modal__masthead-image { min-height: 220px; }
+  .moments-modal__event-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  .page-home .moments-inner--editorial { width: calc(100% - 32px); }
+  .page-home .moments-editorial-head { grid-template-columns: 1fr; }
+  .page-home .moments-side-note { display: none; }
+  .page-home .moments-magazine-strip {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .page-home .moments-mag-trigger {
+    aspect-ratio: 16 / 10;
+  }
+  .page-home .moments-mag-copy { right: 16px; bottom: 14px; left: 16px; }
+  .page-home .moments-mag-month { font-size: 2.35rem; }
+  .page-home .moments-editorial-signoff { width: 100%; }
+  .page-home .moments-editorial-signoff small { font-size: .5rem; letter-spacing: .18em; }
+  .moments-modal__panel--editorial { width: calc(100vw - 20px); border-radius: 12px; }
+  .moments-modal__masthead { grid-template-columns: 1fr; }
+  .moments-modal__masthead-copy { padding: 24px 18px 18px; }
+  .moments-modal__masthead-image { min-height: 210px; }
+  .moments-modal__masthead-image img { min-height: 210px; }
+  .moments-modal__script-note { top: 20px; right: 24px; max-width: 140px; }
+  .moments-modal__event-grid { grid-template-columns: 1fr; padding-inline: 14px; }
+  .moments-modal__event { display: grid; grid-template-columns: 118px minmax(0,1fr); }
+  .moments-modal__event-thumb { aspect-ratio: 1 / 1; height: 100%; }
+  .moments-modal__footer--editorial { grid-template-columns: 1fr 1fr; }
+  .moments-modal__closing { grid-column: 1 / -1; grid-row: 1; }
+}
+
+@media (max-width: 1100px) and (max-height: 700px) and (orientation: landscape) {
+  .page-home .moments-magazine-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .page-home .moments-mag-trigger { aspect-ratio: 16 / 10; }
+  .page-home .moments-mag-card:last-child { grid-column: 1 / -1; width: calc(50% - 7px); justify-self: center; }
+  .moments-modal__masthead { grid-template-columns: minmax(0,.9fr) minmax(320px,1.1fr); }
+  .moments-modal__event-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
