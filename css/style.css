@@ -9723,3 +9723,177 @@ body.dark-theme .moments-modal__event-credit {
     height: auto;
   }
 }
+
+/* =================================================
+   HOMEPAGE 15.4 — GIRLS CUP EVENT PHOTO STORY
+================================================== */
+.moments-modal__event.is-clickable {
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.moments-modal__event.is-clickable:hover,
+.moments-modal__event.is-clickable:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(132, 192, 226, .7);
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+  outline: none;
+}
+
+.moments-modal__event-open-cue {
+  display: inline-block;
+  margin-top: .45rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: #7fc6ed;
+}
+
+.moments-modal__back-event {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  margin: 0 0 1rem;
+  padding: .45rem .75rem;
+  border: 1px solid rgba(126, 183, 216, .28);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  cursor: pointer;
+}
+
+.moments-modal__back-event:hover,
+.moments-modal__back-event:focus-visible {
+  border-color: rgba(126, 183, 216, .7);
+  outline: none;
+}
+
+.moments-event-gallery {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 16px;
+  z-index: 3;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 14px;
+  background: rgba(13, 16, 22, .72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.moments-event-gallery[hidden] { display: none !important; }
+
+.moments-event-gallery__tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.moments-event-gallery__tabs button {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255,255,255,.82);
+  padding: .32rem .65rem;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  cursor: pointer;
+}
+
+.moments-event-gallery__tabs button.is-active,
+.moments-event-gallery__tabs button:hover,
+.moments-event-gallery__tabs button:focus-visible {
+  background: rgba(255,255,255,.92);
+  color: #171a20;
+  outline: none;
+}
+
+.moments-event-gallery__thumbs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.moments-event-gallery__thumb {
+  appearance: none;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #111;
+  cursor: pointer;
+}
+
+.moments-event-gallery__thumb img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.moments-event-gallery__thumb.is-active {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(126, 198, 237, .72);
+}
+
+.moments-modal__masthead-image:has(.moments-event-gallery:not([hidden])) img {
+  padding-bottom: 112px;
+  box-sizing: border-box;
+  object-fit: cover;
+}
+
+body.dark-theme .moments-modal__back-event {
+  border-color: rgba(255,255,255,.16);
+}
+
+@media (max-width: 1024px) {
+  .moments-event-gallery {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .moments-event-gallery__thumbs {
+    grid-template-columns: repeat(5, minmax(72px, 1fr));
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .moments-modal__masthead-image:has(.moments-event-gallery:not([hidden])) img {
+    padding-bottom: 106px;
+  }
+}
+
+@media (max-width: 680px) {
+  .moments-event-gallery {
+    position: relative;
+    inset: auto;
+    margin: 10px 12px 12px;
+    background: rgba(20, 22, 28, .96);
+  }
+
+  .moments-modal__masthead-image:has(.moments-event-gallery:not([hidden])) img {
+    padding-bottom: 0;
+  }
+
+  .moments-event-gallery__thumbs {
+    grid-template-columns: repeat(3, minmax(92px, 1fr));
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .moments-event-gallery__thumbs {
+    grid-template-columns: repeat(2, minmax(112px, 1fr));
+  }
+}
