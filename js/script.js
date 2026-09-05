@@ -1479,6 +1479,8 @@
     modalImage.src = src;
     modalImage.alt = `${activeGalleryEvent.title} — photo ${activeGalleryIndex + 1} of ${activeGalleryPhotos.length}`;
     modalImage.style.objectPosition = "center center";
+    const galleryStage = modalImage.closest(".moments-modal__gallery-stage");
+    if (galleryStage) galleryStage.style.setProperty("--moments-gallery-bg", `url("${src.replace(/"/g, "\\\"")}")`);
     if (galleryCounter) {
       const current = String(activeGalleryIndex + 1).padStart(2, "0");
       const total = String(activeGalleryPhotos.length).padStart(2, "0");
@@ -1566,6 +1568,8 @@
       modalImage.src = month.image;
       modalImage.alt = month.alt;
       modalImage.style.objectPosition = "center center";
+      const galleryStage = modalImage.closest(".moments-modal__gallery-stage");
+      if (galleryStage) galleryStage.style.removeProperty("--moments-gallery-bg");
     }
     if (modalNote) modalNote.textContent = "";
     if (modalCredit) {
@@ -1618,13 +1622,16 @@
       closeModal();
       return;
     }
-    if (event.key === "ArrowLeft" && prevButton?.dataset.targetMonth) {
+    const isEventDetail = modal.querySelector(".moments-modal__panel")?.classList.contains("is-event-detail");
+    if (event.key === "ArrowLeft") {
       event.preventDefault();
-      renderMonth(prevButton.dataset.targetMonth);
+      if (isEventDetail && activeGalleryPhotos.length) renderGalleryPhoto(activeGalleryIndex - 1);
+      else if (prevButton?.dataset.targetMonth) renderMonth(prevButton.dataset.targetMonth);
     }
-    if (event.key === "ArrowRight" && nextButton?.dataset.targetMonth) {
+    if (event.key === "ArrowRight") {
       event.preventDefault();
-      renderMonth(nextButton.dataset.targetMonth);
+      if (isEventDetail && activeGalleryPhotos.length) renderGalleryPhoto(activeGalleryIndex + 1);
+      else if (nextButton?.dataset.targetMonth) renderMonth(nextButton.dataset.targetMonth);
     }
   });
 })();
