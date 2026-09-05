@@ -1326,6 +1326,10 @@
             eyebrow: "01 AUGUST 2026",
             title: "Girls Cup Presented by MAMA",
             narrative: "Girls Cup opened August on a bright, energetic note for OomBam. Taking part on opposite teams — Oom with Team Mint and Bam with Team Peach — they brought playful rivalry and their natural chemistry into a more spontaneous setting. The event gave fans a fun look at their dynamic beyond formal promotional appearances and became a memorable shared moment to start the month.",
+            narrativeParts: [
+              "Girls Cup opened August on a bright, energetic note for OomBam. Taking part on opposite teams — Oom with Team Mint and Bam with Team Peach — they brought playful rivalry and their natural chemistry into a more spontaneous setting.",
+              "The event gave fans a fun look at their dynamic beyond formal promotional appearances and became a memorable shared moment to start the month."
+            ],
             note: "Playful rivals. Same OomBam ♡",
             galleries: {
               pair: [
@@ -1445,13 +1449,29 @@
     }
   };
 
+  const setNarrativeContent = (container, content, parts = null) => {
+    if (!container) return;
+    container.replaceChildren();
+
+    if (Array.isArray(parts) && parts.length) {
+      parts.forEach((text) => {
+        const paragraph = document.createElement("p");
+        paragraph.textContent = text;
+        container.append(paragraph);
+      });
+      return;
+    }
+
+    container.textContent = content || "";
+  };
+
   const buildEvents = (month) => {
     if (!modalEvents) return;
     modalEvents.replaceChildren();
     month.events.forEach((event) => {
       const item = event.detail ? document.createElement("button") : document.createElement("span");
       item.className = `moments-modal__moment-link${event.detail ? " is-clickable" : " is-static"}`;
-      item.textContent = `${event.date} · ${event.title}`;
+      item.textContent = event.title;
 
       if (event.detail) {
         item.type = "button";
@@ -1498,8 +1518,17 @@
     panel?.classList.add("is-event-detail");
 
     if (modalEyebrow) modalEyebrow.textContent = "";
-    if (modalTitle) modalTitle.textContent = event.detail.title || event.title;
-    if (modalIntro) modalIntro.textContent = event.detail.narrative || event.summary;
+    if (modalTitle) {
+      const detailTitle = event.detail.title || event.title;
+      modalTitle.textContent = detailTitle === "Girls Cup Presented by MAMA"
+        ? "Girls Cup\nPresented by MAMA"
+        : detailTitle;
+    }
+    setNarrativeContent(
+      modalIntro,
+      event.detail.narrative || event.summary,
+      event.detail.narrativeParts
+    );
     if (modalNote) modalNote.textContent = "";
 
     if (modalCredit) {
@@ -1544,31 +1573,59 @@
     if (activeGalleryPhotos.length) renderGalleryPhoto(activeGalleryIndex + 1);
   });
 
-  // Touch / pen swipe support for tablet and mobile. Vertical page scrolling is
-  // preserved unless the gesture is clearly horizontal.
-  const galleryStageForSwipe = modalImage?.closest(".moments-modal__gallery-stage");
+  // Gallery swipe support — bind to the actual photo frame, not the outer canvas.
+  // Pointer Events cover modern touch devices; touchstart/touchend is retained as
+  // an iOS/iPadOS fallback. Vertical page scrolling remains available.
+  const gallerySwipeSurface = document.getElementById("momentsGalleryPhotoFrame");
   let galleryPointerStartX = null;
   let galleryPointerStartY = null;
-  if (galleryStageForSwipe) {
-    galleryStageForSwipe.style.touchAction = "pan-y";
-    galleryStageForSwipe.addEventListener("pointerdown", (event) => {
+  let galleryTouchStartX = null;
+  let galleryTouchStartY = null;
+
+  const advanceFromSwipe = (dx, dy) => {
+    if (!activeGalleryPhotos.length) return;
+    if (Math.abs(dx) < 48 || Math.abs(dx) <= Math.abs(dy) * 1.15) return;
+    renderGalleryPhoto(dx < 0 ? activeGalleryIndex + 1 : activeGalleryIndex - 1);
+  };
+
+  if (gallerySwipeSurface) {
+    gallerySwipeSurface.style.touchAction = "pan-y";
+
+    gallerySwipeSurface.addEventListener("pointerdown", (event) => {
       if (!activeGalleryPhotos.length || event.pointerType === "mouse") return;
       galleryPointerStartX = event.clientX;
       galleryPointerStartY = event.clientY;
     });
-    galleryStageForSwipe.addEventListener("pointerup", (event) => {
-      if (galleryPointerStartX == null || galleryPointerStartY == null || !activeGalleryPhotos.length) return;
+
+    gallerySwipeSurface.addEventListener("pointerup", (event) => {
+      if (galleryPointerStartX == null || galleryPointerStartY == null) return;
       const dx = event.clientX - galleryPointerStartX;
       const dy = event.clientY - galleryPointerStartY;
       galleryPointerStartX = null;
       galleryPointerStartY = null;
-      if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy) * 1.15) return;
-      renderGalleryPhoto(dx < 0 ? activeGalleryIndex + 1 : activeGalleryIndex - 1);
+      advanceFromSwipe(dx, dy);
     });
-    galleryStageForSwipe.addEventListener("pointercancel", () => {
+
+    gallerySwipeSurface.addEventListener("pointercancel", () => {
       galleryPointerStartX = null;
       galleryPointerStartY = null;
     });
+
+    gallerySwipeSurface.addEventListener("touchstart", (event) => {
+      if (!activeGalleryPhotos.length || event.touches.length !== 1) return;
+      galleryTouchStartX = event.touches[0].clientX;
+      galleryTouchStartY = event.touches[0].clientY;
+    }, { passive: true });
+
+    gallerySwipeSurface.addEventListener("touchend", (event) => {
+      if (galleryTouchStartX == null || galleryTouchStartY == null || !event.changedTouches.length) return;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - galleryTouchStartX;
+      const dy = touch.clientY - galleryTouchStartY;
+      galleryTouchStartX = null;
+      galleryTouchStartY = null;
+      advanceFromSwipe(dx, dy);
+    }, { passive: true });
   }
 
   const updateNavButtons = (month) => {
@@ -1599,9 +1656,9 @@
     if (modalEvents) modalEvents.hidden = false;
     if (modalFooter) modalFooter.hidden = false;
 
-    if (modalEyebrow) modalEyebrow.textContent = month.eyebrow;
+    if (modalEyebrow) modalEyebrow.textContent = month.eyebrow.replace(" ", " · ");
     if (modalTitle) modalTitle.textContent = month.title;
-    if (modalIntro) modalIntro.textContent = month.intro;
+    setNarrativeContent(modalIntro, month.intro);
     if (modalImage) {
       modalImage.src = month.image;
       modalImage.alt = month.alt;
