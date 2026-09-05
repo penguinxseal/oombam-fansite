@@ -1376,8 +1376,10 @@
   const modalEvents = document.getElementById("momentsModalEvents");
   const eventBackButton = document.getElementById("momentsEventBack");
   const eventGallery = document.getElementById("momentsEventGallery");
-  const eventGalleryThumbs = document.getElementById("momentsEventGalleryThumbs");
-  const galleryTabButtons = [...document.querySelectorAll("[data-gallery-tab]")];
+  const galleryPrevButton = document.getElementById("momentsGalleryPrev");
+  const galleryNextButton = document.getElementById("momentsGalleryNext");
+  const galleryCounter = document.getElementById("momentsGalleryCounter");
+  const galleryCredit = document.getElementById("momentsGalleryCredit");
   const eventsHeading = document.querySelector(".moments-modal__events-heading");
   const modalFooter = document.querySelector(".moments-modal__footer--editorial");
   const openers = [...document.querySelectorAll("[data-moment-open]")];
@@ -1442,7 +1444,7 @@
       if (event.detail) {
         article.tabIndex = 0;
         article.setAttribute("role", "button");
-        article.setAttribute("aria-label", `Open ${event.title} gallery`);
+        article.setAttribute("aria-label", `Open ${event.title} photo story`);
         article.dataset.eventIndex = String(index);
       }
 
@@ -1463,34 +1465,9 @@
 
       const copy = document.createElement("div");
       copy.className = "moments-modal__event-copy";
-
       const title = document.createElement("h3");
       title.textContent = event.title;
-
-      const summary = document.createElement("p");
-      summary.textContent = event.summary;
-
-      copy.append(title, summary);
-
-      if (event.detail) {
-        const cue = document.createElement("span");
-        cue.className = "moments-modal__event-open-cue";
-        cue.textContent = "View photo story →";
-        copy.append(cue);
-      }
-
-      if (event.creditText) {
-        const credit = event.creditHref ? document.createElement("a") : document.createElement("span");
-        credit.className = "moments-modal__event-credit";
-        credit.textContent = event.creditText;
-        if (event.creditHref) {
-          credit.href = event.creditHref;
-          credit.target = "_blank";
-          credit.rel = "noopener noreferrer";
-          credit.addEventListener("click", (e) => e.stopPropagation());
-        }
-        copy.append(credit);
-      }
+      copy.append(title);
       article.append(thumb, copy);
 
       if (event.detail) {
@@ -1507,43 +1484,38 @@
     });
   };
 
-  const renderGalleryThumbs = (event, category = "pair") => {
-    if (!eventGalleryThumbs || !event.detail?.galleries) return;
-    const images = event.detail.galleries[category] || [];
-    eventGalleryThumbs.replaceChildren();
-    images.forEach((src, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = `moments-event-gallery__thumb${index === 0 ? " is-active" : ""}`;
-      button.setAttribute("aria-label", `View ${category} photo ${index + 1}`);
-      const img = document.createElement("img");
-      img.src = src;
-      img.alt = `${event.title} — ${category} photo ${index + 1}`;
-      img.loading = "lazy";
-      button.append(img);
-      button.addEventListener("click", () => {
-        if (modalImage) {
-          modalImage.src = src;
-          modalImage.alt = img.alt;
-        }
-        [...eventGalleryThumbs.querySelectorAll(".moments-event-gallery__thumb")].forEach((el) => el.classList.remove("is-active"));
-        button.classList.add("is-active");
-      });
-      eventGalleryThumbs.append(button);
-    });
+  let activeGalleryPhotos = [];
+  let activeGalleryIndex = 0;
+  let activeGalleryEvent = null;
+
+  const getEventGalleryPhotos = (event) => {
+    const galleries = event.detail?.galleries || {};
+    return ["pair", "oom", "bam"].flatMap((key) => galleries[key] || []);
+  };
+
+  const renderGalleryPhoto = (index) => {
+    if (!activeGalleryPhotos.length || !activeGalleryEvent || !modalImage) return;
+    activeGalleryIndex = (index + activeGalleryPhotos.length) % activeGalleryPhotos.length;
+    const src = activeGalleryPhotos[activeGalleryIndex];
+    modalImage.src = src;
+    modalImage.alt = `${activeGalleryEvent.title} — photo ${activeGalleryIndex + 1} of ${activeGalleryPhotos.length}`;
+    modalImage.style.objectPosition = "center center";
+    if (galleryCounter) galleryCounter.textContent = `${activeGalleryIndex + 1} / ${activeGalleryPhotos.length}`;
+    if (galleryCredit) {
+      galleryCredit.textContent = activeGalleryEvent.creditText || "Photo: @dewy_photo";
+      galleryCredit.href = activeGalleryEvent.creditHref || "#";
+    }
   };
 
   const renderEventDetail = (month, event) => {
     if (!event.detail) return;
+    const panel = modal.querySelector(".moments-modal__panel");
+    panel?.classList.add("is-event-detail");
+
     if (modalEyebrow) modalEyebrow.textContent = event.detail.eyebrow || event.date;
     if (modalTitle) modalTitle.textContent = event.detail.title || event.title;
     if (modalIntro) modalIntro.textContent = event.detail.narrative || event.summary;
-    if (modalImage) {
-      modalImage.src = event.image || month.image;
-      modalImage.alt = event.imageAlt || event.title;
-      modalImage.style.objectPosition = event.imagePosition || "center center";
-    }
-    if (modalNote) modalNote.textContent = event.detail.note || month.note;
+    if (modalNote) modalNote.textContent = "";
 
     if (modalCredit) {
       modalCredit.replaceChildren();
@@ -1559,6 +1531,13 @@
       }
     }
 
+    activeGalleryEvent = event;
+    activeGalleryPhotos = getEventGalleryPhotos(event);
+    const preferred = event.image;
+    activeGalleryIndex = Math.max(0, activeGalleryPhotos.indexOf(preferred));
+    if (!activeGalleryPhotos.length && preferred) activeGalleryPhotos = [preferred];
+    renderGalleryPhoto(activeGalleryIndex);
+
     if (eventBackButton) {
       eventBackButton.hidden = false;
       eventBackButton.textContent = `← Back to ${month.eyebrow.split(" ")[0]}`;
@@ -1569,16 +1548,9 @@
     if (modalEvents) modalEvents.hidden = true;
     if (modalFooter) modalFooter.hidden = true;
 
-    galleryTabButtons.forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.galleryTab === "pair");
-      button.onclick = () => {
-        galleryTabButtons.forEach((tab) => tab.classList.toggle("is-active", tab === button));
-        renderGalleryThumbs(event, button.dataset.galleryTab);
-      };
-    });
-    renderGalleryThumbs(event, "pair");
+    if (galleryPrevButton) galleryPrevButton.onclick = () => renderGalleryPhoto(activeGalleryIndex - 1);
+    if (galleryNextButton) galleryNextButton.onclick = () => renderGalleryPhoto(activeGalleryIndex + 1);
 
-    const panel = modal.querySelector(".moments-modal__panel");
     if (panel) panel.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -1599,6 +1571,10 @@
     const month = monthMap.get(monthKey) || MOMENTS_MONTHS[0];
     activeMonthKey = month.key;
 
+    modal.querySelector(".moments-modal__panel")?.classList.remove("is-event-detail");
+    activeGalleryPhotos = [];
+    activeGalleryIndex = 0;
+    activeGalleryEvent = null;
     if (eventBackButton) eventBackButton.hidden = true;
     if (eventGallery) eventGallery.hidden = true;
     if (eventsHeading) eventsHeading.hidden = false;
@@ -1613,7 +1589,7 @@
       modalImage.alt = month.alt;
       modalImage.style.objectPosition = "center center";
     }
-    if (modalNote) modalNote.textContent = month.note;
+    if (modalNote) modalNote.textContent = "";
     buildCreditNode(month);
     buildEvents(month);
     updateNavButtons(month);
