@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/style.css?v=15.16" rel="stylesheet"/>
+<link href="css/style.css?v=15.18" rel="stylesheet"/>
 <link href="css/Global.css?v=OB00001.7a" rel="stylesheet"/></head>
 <body class="ob-global page-home ob-shell-v2" data-active-nav="welcome" data-page-title="Home"><header class="ob-header" id="siteHeader">
 <div class="ob-header__inner">
@@ -530,21 +530,23 @@
         <button class="moments-modal__back-event" id="momentsEventBack" type="button" hidden>← Back to August</button>
         <p class="moments-modal__eyebrow" id="momentsModalEyebrow">JULY 2026</p>
         <h2 id="momentsModalTitle">Blooming With You</h2>
-        <p class="moments-modal__intro" id="momentsModalIntro"></p>
+        <div class="moments-modal__intro" id="momentsModalIntro"></div>
         <div class="moments-modal__credit" id="momentsModalCredit"></div>
       </div>
       <div class="moments-modal__masthead-image">
         <div class="moments-modal__gallery-stage">
-          <img id="momentsModalImage" src="" alt="" loading="lazy"/>
-          <span class="moments-modal__script-note" id="momentsModalNote" aria-hidden="true"></span>
-          <div class="moments-event-gallery" id="momentsEventGallery" hidden aria-label="Girls Cup photo gallery">
-            <button class="moments-event-gallery__arrow moments-event-gallery__arrow--prev" id="momentsGalleryPrev" type="button" aria-label="Previous Girls Cup photo">‹</button>
-            <button class="moments-event-gallery__arrow moments-event-gallery__arrow--next" id="momentsGalleryNext" type="button" aria-label="Next Girls Cup photo">›</button>
+          <div class="moments-gallery-photo-frame" id="momentsGalleryPhotoFrame">
+            <img id="momentsModalImage" src="" alt="" loading="lazy"/>
+            <span class="moments-modal__script-note" id="momentsModalNote" aria-hidden="true"></span>
+            <div class="moments-event-gallery" id="momentsEventGallery" hidden aria-label="Girls Cup photo gallery">
+              <button class="moments-event-gallery__arrow moments-event-gallery__arrow--prev" id="momentsGalleryPrev" type="button" aria-label="Previous Girls Cup photo">‹</button>
+              <button class="moments-event-gallery__arrow moments-event-gallery__arrow--next" id="momentsGalleryNext" type="button" aria-label="Next Girls Cup photo">›</button>
+            </div>
+            <div class="moments-event-gallery__meta" id="momentsGalleryMeta" hidden>
+              <span id="momentsGalleryCounter">01 of 01</span>
+              <a id="momentsGalleryCredit" href="https://www.instagram.com/dewy_photo?utm_source=ig_web_button_share_sheet&amp;igsi=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">Photo · @dewy_photo</a>
+            </div>
           </div>
-        </div>
-        <div class="moments-event-gallery__meta" id="momentsGalleryMeta" hidden>
-          <span id="momentsGalleryCounter">01 / 01</span>
-          <a id="momentsGalleryCredit" href="https://www.instagram.com/dewy_photo?utm_source=ig_web_button_share_sheet&amp;igsi=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">Photo · @dewy_photo</a>
         </div>
       </div>
     </header>
@@ -633,7 +635,7 @@
 </div>
 
 
-<script src="js/script.js?v=OB00001.26"></script>
+<script src="js/script.js?v=OB00001.28"></script>
 
 
 </body>
