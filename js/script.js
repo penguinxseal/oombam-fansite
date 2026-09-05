@@ -1306,7 +1306,7 @@
       key: "august",
       eyebrow: "AUGUST 2026",
       title: "OomBam Goes International",
-      intro: "August became the month of wider visibility, with large-scale public appearances and shared milestones that took OomBam to international stages.",
+      intro: "August became a month of wider visibility and shared milestones for OomBam. From the playful energy of Girls Cup, to the international spotlight of Weibo Gala 2026, and their first Shanghai fansign, the month reflected both their growing presence as a pair and their expanding connection with fans beyond Thailand.",
       note: "Different stages. Same OomBam ♡",
       image: "assets/images/2026/August/OB_Aug_2026.jpg",
       alt: "OomBam during August 2026 activities",
@@ -1380,6 +1380,7 @@
   const galleryNextButton = document.getElementById("momentsGalleryNext");
   const galleryCounter = document.getElementById("momentsGalleryCounter");
   const galleryCredit = document.getElementById("momentsGalleryCredit");
+  const galleryMeta = document.getElementById("momentsGalleryMeta");
   const eventsHeading = document.querySelector(".moments-modal__events-heading");
   const modalFooter = document.querySelector(".moments-modal__footer--editorial");
   const openers = [...document.querySelectorAll("[data-moment-open]")];
@@ -1457,16 +1458,10 @@
       if (event.imagePosition) img.style.objectPosition = event.imagePosition;
       thumb.append(img);
 
-      const badge = document.createElement("span");
-      badge.className = "moments-modal__event-date-badge";
-      const parts = event.date.split(" ");
-      badge.innerHTML = `${parts[0] || ""}<small>${parts.slice(1).join(" ")}</small>`;
-      thumb.append(badge);
-
       const copy = document.createElement("div");
       copy.className = "moments-modal__event-copy";
       const title = document.createElement("h3");
-      title.textContent = event.title;
+      title.textContent = `${event.date} · ${event.title}`;
       copy.append(title);
       article.append(thumb, copy);
 
@@ -1500,9 +1495,13 @@
     modalImage.src = src;
     modalImage.alt = `${activeGalleryEvent.title} — photo ${activeGalleryIndex + 1} of ${activeGalleryPhotos.length}`;
     modalImage.style.objectPosition = "center center";
-    if (galleryCounter) galleryCounter.textContent = `${activeGalleryIndex + 1} / ${activeGalleryPhotos.length}`;
+    if (galleryCounter) {
+      const current = String(activeGalleryIndex + 1).padStart(2, "0");
+      const total = String(activeGalleryPhotos.length).padStart(2, "0");
+      galleryCounter.textContent = `${current} / ${total}`;
+    }
     if (galleryCredit) {
-      galleryCredit.textContent = activeGalleryEvent.creditText || "Photo: @dewy_photo";
+      galleryCredit.textContent = (activeGalleryEvent.creditText || "Photo: @dewy_photo").replace("Photo:", "Photo ·");
       galleryCredit.href = activeGalleryEvent.creditHref || "#";
     }
   };
@@ -1519,16 +1518,7 @@
 
     if (modalCredit) {
       modalCredit.replaceChildren();
-      if (event.creditHref) {
-        const link = document.createElement("a");
-        link.href = event.creditHref;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = event.creditText;
-        modalCredit.append(link);
-      } else {
-        modalCredit.textContent = event.creditText || "";
-      }
+      modalCredit.hidden = true;
     }
 
     activeGalleryEvent = event;
@@ -1544,6 +1534,7 @@
       eventBackButton.onclick = () => renderMonth(month.key);
     }
     if (eventGallery) eventGallery.hidden = false;
+    if (galleryMeta) galleryMeta.hidden = false;
     if (eventsHeading) eventsHeading.hidden = true;
     if (modalEvents) modalEvents.hidden = true;
     if (modalFooter) modalFooter.hidden = true;
@@ -1577,6 +1568,7 @@
     activeGalleryEvent = null;
     if (eventBackButton) eventBackButton.hidden = true;
     if (eventGallery) eventGallery.hidden = true;
+    if (galleryMeta) galleryMeta.hidden = true;
     if (eventsHeading) eventsHeading.hidden = false;
     if (modalEvents) modalEvents.hidden = false;
     if (modalFooter) modalFooter.hidden = false;
@@ -1590,6 +1582,7 @@
       modalImage.style.objectPosition = "center center";
     }
     if (modalNote) modalNote.textContent = "";
+    if (modalCredit) modalCredit.hidden = false;
     buildCreditNode(month);
     buildEvents(month);
     updateNavButtons(month);
