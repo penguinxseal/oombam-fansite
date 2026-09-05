@@ -1385,6 +1385,7 @@
   const modalIntro = document.getElementById("momentsModalIntro");
   const modalImage = document.getElementById("momentsModalImage");
   const modalCredit = document.getElementById("momentsModalCredit");
+  const monthPhotoCredit = document.getElementById("momentsMonthPhotoCredit");
   const modalNote = document.getElementById("momentsModalNote");
   const modalEvents = document.getElementById("momentsModalEvents");
   const eventBackButton = document.getElementById("momentsEventBack");
@@ -1435,18 +1436,21 @@
   };
 
   const buildCreditNode = (month) => {
-    if (!modalCredit) return;
-    modalCredit.replaceChildren();
-    if (month.creditHref) {
-      const link = document.createElement("a");
-      link.href = month.creditHref;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = month.creditText;
-      modalCredit.append(link);
-    } else {
-      modalCredit.textContent = month.creditText;
+    // Keep attribution attached to the month hero image, not in the copy panel.
+    if (modalCredit) {
+      modalCredit.replaceChildren();
+      modalCredit.hidden = true;
     }
+    if (!monthPhotoCredit) return;
+    monthPhotoCredit.textContent = month.creditText || "Photo: @dewy_photo";
+    if (month.creditHref) {
+      monthPhotoCredit.href = month.creditHref;
+      monthPhotoCredit.removeAttribute("aria-disabled");
+    } else {
+      monthPhotoCredit.href = "#";
+      monthPhotoCredit.setAttribute("aria-disabled", "true");
+    }
+    monthPhotoCredit.hidden = false;
   };
 
   const setNarrativeContent = (container, content, parts = null) => {
@@ -1502,8 +1506,8 @@
     const galleryStage = modalImage.closest(".moments-modal__gallery-stage");
     if (galleryStage) galleryStage.style.setProperty("--moments-gallery-bg", `url("${src.replace(/"/g, "\\\"")}")`);
     if (galleryCounter) {
-      const current = String(activeGalleryIndex + 1).padStart(2, "0");
-      const total = String(activeGalleryPhotos.length).padStart(2, "0");
+      const current = activeGalleryIndex + 1;
+      const total = activeGalleryPhotos.length;
       galleryCounter.textContent = `${current} of ${total}`;
     }
     if (galleryCredit) {
@@ -1520,9 +1524,7 @@
     if (modalEyebrow) modalEyebrow.textContent = "";
     if (modalTitle) {
       const detailTitle = event.detail.title || event.title;
-      modalTitle.textContent = detailTitle === "Girls Cup Presented by MAMA"
-        ? "Girls Cup\nPresented by MAMA"
-        : detailTitle;
+      modalTitle.textContent = detailTitle;
     }
     setNarrativeContent(
       modalIntro,
@@ -1535,6 +1537,7 @@
       modalCredit.replaceChildren();
       modalCredit.hidden = true;
     }
+    if (monthPhotoCredit) monthPhotoCredit.hidden = true;
 
     activeGalleryEvent = event;
     activeGalleryPhotos = getEventGalleryPhotos(event);
