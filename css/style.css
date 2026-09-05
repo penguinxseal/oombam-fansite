@@ -11318,3 +11318,733 @@ button.moments-modal__moment-link.is-clickable::after {
     font-size: .78rem !important;
   }
 }
+
+/* ================================================================
+   HOMEPAGE 15.13 — RESPONSIVE MODAL GEOMETRY FIX
+   Rebalances desktop/tablet modal size, removes oversized gallery
+   canvas, and prevents mobile portrait/landscape overlap.
+   ================================================================ */
+
+/* DESKTOP BASE: large enough to breathe, small enough to fit the viewport. */
+.moments-modal {
+  align-items: flex-start !important;
+  padding: 104px 18px 18px !important;
+  overflow: hidden !important;
+}
+
+.moments-modal__panel--editorial {
+  width: min(1360px, calc(100vw - 56px)) !important;
+  max-width: 1360px !important;
+  max-height: calc(100dvh - 122px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Event detail: balanced editorial split instead of an oversized black canvas. */
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+  display: grid !important;
+  grid-template-columns: minmax(330px, 36%) minmax(0, 64%) !important;
+  min-height: 0 !important;
+  height: min(500px, calc(100dvh - 290px)) !important;
+  max-height: 500px !important;
+  overflow: hidden !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy,
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+  padding: 22px 30px 26px !important;
+  overflow-y: auto !important;
+}
+
+.moments-modal__back-event {
+  display: inline-flex !important;
+  width: auto !important;
+  max-width: 210px !important;
+  min-height: 36px !important;
+  margin: 0 0 20px !important;
+  padding: 7px 14px !important;
+  flex: 0 0 auto !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+  max-width: 14ch !important;
+  margin: 0 0 14px !important;
+  font-size: clamp(1.55rem, 1.55vw, 1.9rem) !important;
+  line-height: 1.08 !important;
+  font-weight: 500 !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__intro {
+  max-width: 46ch !important;
+  margin: 0 !important;
+  font-size: .86rem !important;
+  line-height: 1.58 !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+  overflow: hidden !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage {
+  width: 100% !important;
+  min-height: 0 !important;
+  height: calc(100% - 26px) !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage > img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+.moments-event-gallery__meta {
+  min-height: 26px !important;
+  height: 26px !important;
+  padding: 4px 14px !important;
+  font-size: .54rem !important;
+  line-height: 18px !important;
+}
+
+/* Key Moments stay compact, vertical, and text-only. */
+.moments-modal__events-heading {
+  padding: 14px 30px 0 !important;
+}
+.moments-modal__events-heading span {
+  font-size: 1.08rem !important;
+}
+.moments-modal__event-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0 !important;
+  padding: 4px 30px 10px !important;
+}
+.moments-modal__moment-link {
+  width: min(470px, 100%) !important;
+  padding: 7px 0 !important;
+  font-size: .8rem !important;
+  line-height: 1.35 !important;
+}
+.moments-modal__footer--editorial {
+  min-height: 54px !important;
+  padding-block: 8px !important;
+}
+
+/* TABLET LANDSCAPE */
+@media (min-width: 821px) and (max-width: 1180px) {
+  .moments-modal {
+    padding: 94px 10px 12px !important;
+  }
+  .moments-modal__panel--editorial {
+    width: min(1100px, calc(100vw - 20px)) !important;
+    max-width: none !important;
+    max-height: calc(100dvh - 106px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    grid-template-columns: minmax(280px, 37%) minmax(0, 63%) !important;
+    height: min(450px, calc(100dvh - 250px)) !important;
+    max-height: 450px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    padding: 18px 24px 22px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    font-size: clamp(1.45rem, 2.2vw, 1.72rem) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__intro {
+    font-size: .8rem !important;
+    line-height: 1.5 !important;
+  }
+  .moments-modal__back-event {
+    margin-bottom: 14px !important;
+  }
+}
+
+/* TABLET PORTRAIT: photo first and deliberately larger than the copy block. */
+@media (min-width: 641px) and (max-width: 820px) {
+  .moments-modal {
+    padding: 84px 8px 10px !important;
+    overflow: hidden !important;
+  }
+  .moments-modal__panel--editorial {
+    width: calc(100vw - 16px) !important;
+    max-width: none !important;
+    max-height: calc(100dvh - 94px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    order: 1 !important;
+    width: 100% !important;
+    height: clamp(360px, 46dvh, 440px) !important;
+    min-height: 360px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage {
+    height: calc(100% - 26px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    order: 2 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 18px 26px 20px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    max-width: none !important;
+    font-size: 1.55rem !important;
+    margin-bottom: 10px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__intro {
+    max-width: 65ch !important;
+    font-size: .8rem !important;
+    line-height: 1.5 !important;
+  }
+  .moments-modal__back-event {
+    margin-bottom: 12px !important;
+  }
+}
+
+/* MOBILE PORTRAIT: gallery is the visual priority; narrative follows compactly. */
+@media (max-width: 640px) and (orientation: portrait) {
+  .moments-modal {
+    padding: 70px 4px 6px !important;
+    overflow: hidden !important;
+  }
+  .moments-modal__panel--editorial {
+    width: calc(100vw - 8px) !important;
+    max-width: none !important;
+    max-height: calc(100dvh - 76px) !important;
+    border-radius: 10px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    max-height: none !important;
+    position: relative !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    order: 1 !important;
+    width: 100% !important;
+    height: clamp(285px, 43dvh, 360px) !important;
+    min-height: 285px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage {
+    height: calc(100% - 24px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    order: 2 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 16px 16px 16px !important;
+  }
+  .moments-modal__back-event {
+    position: absolute !important;
+    top: 10px !important;
+    left: 10px !important;
+    z-index: 8 !important;
+    margin: 0 !important;
+    min-height: 32px !important;
+    max-width: 150px !important;
+    padding: 5px 10px !important;
+    background: rgba(255,255,255,.9) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    max-width: none !important;
+    font-size: 1.35rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 9px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__intro {
+    font-size: .76rem !important;
+    line-height: 1.46 !important;
+  }
+  .moments-modal__events-heading {
+    padding: 14px 16px 0 !important;
+  }
+  .moments-modal__event-grid {
+    padding: 4px 16px 8px !important;
+  }
+  .moments-modal__moment-link {
+    width: 100% !important;
+    font-size: .75rem !important;
+    padding: 7px 0 !important;
+  }
+}
+
+/* MOBILE LANDSCAPE: real two-column hero, no overlap. */
+@media (max-width: 820px) and (orientation: landscape) and (max-height: 560px) {
+  .moments-modal {
+    padding: 62px 4px 6px !important;
+    overflow: hidden !important;
+  }
+  .moments-modal__panel--editorial {
+    width: calc(100vw - 8px) !important;
+    max-width: none !important;
+    max-height: calc(100dvh - 68px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    display: grid !important;
+    grid-template-columns: minmax(230px, 38%) minmax(0, 62%) !important;
+    height: calc(100dvh - 120px) !important;
+    min-height: 280px !important;
+    max-height: 360px !important;
+    overflow: hidden !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    order: initial !important;
+    width: auto !important;
+    height: 100% !important;
+    padding: 12px 18px 14px !important;
+    overflow-y: auto !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    order: initial !important;
+    width: auto !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage {
+    height: calc(100% - 22px) !important;
+    min-height: 0 !important;
+  }
+  .moments-modal__back-event {
+    position: static !important;
+    margin: 0 0 10px !important;
+    min-height: 30px !important;
+    max-width: 145px !important;
+    padding: 4px 9px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    max-width: none !important;
+    font-size: 1.2rem !important;
+    line-height: 1.08 !important;
+    margin-bottom: 7px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__intro {
+    font-size: .7rem !important;
+    line-height: 1.4 !important;
+  }
+  .moments-modal__events-heading {
+    padding: 10px 18px 0 !important;
+  }
+  .moments-modal__event-grid {
+    padding: 2px 18px 6px !important;
+  }
+  .moments-modal__moment-link {
+    font-size: .7rem !important;
+    padding: 5px 0 !important;
+  }
+}
+
+/* =========================================================
+   HOMEPAGE 15.14 — MOMENTS RESPONSIVE REBUILD
+   Root fix for event-detail modal geometry and month cards.
+   ========================================================= */
+
+/* The modal must sit above the fixed global navigation. */
+.moments-modal {
+  z-index: 9999 !important;
+  padding: clamp(12px, 1.6vw, 24px) !important;
+  align-items: center !important;
+}
+
+.moments-modal__panel--editorial {
+  width: min(1180px, calc(100vw - 48px)) !important;
+  max-height: min(820px, calc(100svh - 48px)) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  border-radius: 22px !important;
+}
+
+/* MONTH VIEW — keep the archive compact rather than full-screen. */
+.moments-modal__panel--editorial:not(.is-event-detail) {
+  width: min(1120px, calc(100vw - 56px)) !important;
+}
+
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead {
+  display: grid !important;
+  grid-template-columns: minmax(320px, 38%) minmax(0, 62%) !important;
+  min-height: 360px !important;
+  max-height: 410px !important;
+}
+
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-copy {
+  padding: clamp(28px, 3vw, 42px) !important;
+}
+
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image,
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__gallery-stage {
+  height: 100% !important;
+  min-height: 360px !important;
+}
+
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__gallery-stage > img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+/* Restore the single month-level credit in month view. */
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__credit {
+  display: block !important;
+  margin-top: 8px !important;
+  font-size: .74rem !important;
+}
+
+/* EVENT DETAIL — only narrative + gallery. */
+.moments-modal__panel--editorial.is-event-detail {
+  width: min(1240px, calc(100vw - 48px)) !important;
+  max-height: min(780px, calc(100svh - 40px)) !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+  display: grid !important;
+  grid-template-columns: minmax(300px, 34%) minmax(0, 66%) !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+  position: relative !important;
+  padding: 78px clamp(26px, 2.4vw, 38px) 30px !important;
+  overflow: visible !important;
+  min-height: 470px !important;
+  max-height: 520px !important;
+}
+
+.moments-modal__back-event {
+  position: absolute !important;
+  top: 22px !important;
+  left: clamp(26px, 2.4vw, 38px) !important;
+  right: auto !important;
+  z-index: 20 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: calc(100% - 52px) !important;
+  min-height: 36px !important;
+  margin: 0 !important;
+  padding: 0 15px !important;
+  white-space: nowrap !important;
+}
+
+.moments-modal__back-event[hidden] {
+  display: none !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__eyebrow {
+  display: none !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+  margin: 0 0 18px !important;
+  max-width: 13ch !important;
+  font-size: clamp(2rem, 2.55vw, 2.8rem) !important;
+  line-height: .98 !important;
+  letter-spacing: -.025em !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__intro {
+  max-width: 42ch !important;
+  font-size: .91rem !important;
+  line-height: 1.62 !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__credit {
+  display: none !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  height: 500px !important;
+  min-height: 0 !important;
+  background: #0d1014 !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage {
+  position: relative !important;
+  width: 100% !important;
+  height: 466px !important;
+  min-height: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  background: #0d1014 !important;
+}
+
+.moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage > img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+/* Quiet but visible gallery metadata. */
+.moments-event-gallery__meta {
+  min-height: 34px !important;
+  padding: 7px 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  background: #faf5f7 !important;
+  border-top: 1px solid rgba(40,35,38,.08) !important;
+  color: #776e72 !important;
+  font-size: .68rem !important;
+  letter-spacing: .03em !important;
+}
+
+.moments-event-gallery__meta[hidden] {
+  display: none !important;
+}
+
+.moments-event-gallery__meta a {
+  color: #6f91a6 !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+}
+
+body.dark-theme .moments-event-gallery__meta {
+  background: #171a1f !important;
+  border-top-color: rgba(255,255,255,.08) !important;
+  color: rgba(255,255,255,.62) !important;
+}
+body.dark-theme .moments-event-gallery__meta a {
+  color: #a8cce1 !important;
+}
+
+/* Event detail has its own Back control; remove duplicated month navigation. */
+.moments-modal__panel--editorial.is-event-detail .moments-modal__events-heading,
+.moments-modal__panel--editorial.is-event-detail .moments-modal__event-grid,
+.moments-modal__panel--editorial.is-event-detail .moments-modal__footer--editorial {
+  display: none !important;
+}
+
+/* Month-level Key Moments stay simple text links. */
+.moments-modal__event-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+  width: min(520px, 100%) !important;
+  margin: 0 0 10px 28px !important;
+}
+
+.moments-modal__moment-link {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  min-height: 38px !important;
+  padding: 8px 2px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(40,35,38,.10) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-align: left !important;
+  font-size: .84rem !important;
+  line-height: 1.35 !important;
+}
+
+button.moments-modal__moment-link.is-clickable::after {
+  content: "→" !important;
+  margin-left: 14px !important;
+  flex: 0 0 auto !important;
+}
+
+/* Homepage month thumbnails: prevent one huge card on phone/tablet. */
+@media (min-width: 601px) and (max-width: 900px) {
+  .page-home .moments-month-grid {
+    gap: 16px !important;
+  }
+  .page-home .moment-month-card {
+    flex: 0 1 min(280px, calc((100% - 16px) / 2)) !important;
+    max-width: 280px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-home .moment-month-card {
+    flex: 0 1 min(340px, 86vw) !important;
+    max-width: min(340px, 86vw) !important;
+  }
+}
+
+/* Tablet landscape */
+@media (min-width: 901px) and (max-width: 1180px) {
+  .moments-modal__panel--editorial.is-event-detail {
+    width: min(1040px, calc(100vw - 32px)) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    grid-template-columns: minmax(280px, 36%) minmax(0, 64%) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    min-height: 430px !important;
+    max-height: 460px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    height: 460px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage {
+    height: 426px !important;
+  }
+}
+
+/* Tablet portrait: image first, narrative second, no overlay. */
+@media (min-width: 601px) and (max-width: 900px) and (orientation: portrait) {
+  .moments-modal {
+    padding: 14px !important;
+  }
+  .moments-modal__panel--editorial,
+  .moments-modal__panel--editorial.is-event-detail {
+    width: min(720px, calc(100vw - 28px)) !important;
+    max-height: calc(100svh - 28px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    order: 1 !important;
+    height: 390px !important;
+    width: 100% !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage {
+    height: 356px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    order: 2 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 66px 28px 26px !important;
+  }
+  .moments-modal__back-event {
+    top: 18px !important;
+    left: 28px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    max-width: none !important;
+    font-size: 2.15rem !important;
+  }
+}
+
+/* Mobile portrait: gallery first and materially larger than the copy. */
+@media (max-width: 600px) and (orientation: portrait) {
+  .moments-modal {
+    padding: 8px !important;
+  }
+  .moments-modal__panel--editorial,
+  .moments-modal__panel--editorial.is-event-detail {
+    width: calc(100vw - 16px) !important;
+    max-height: calc(100svh - 16px) !important;
+    border-radius: 18px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    order: 1 !important;
+    width: 100% !important;
+    height: min(56svh, 420px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage {
+    height: calc(min(56svh, 420px) - 34px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    order: 2 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 62px 20px 22px !important;
+  }
+  .moments-modal__back-event {
+    top: 16px !important;
+    left: 20px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    max-width: none !important;
+    margin-bottom: 12px !important;
+    font-size: 1.8rem !important;
+    line-height: 1 !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__intro {
+    max-width: none !important;
+    font-size: .83rem !important;
+    line-height: 1.5 !important;
+  }
+  .moments-event-gallery__arrow {
+    width: 36px !important;
+    height: 36px !important;
+  }
+}
+
+/* Mobile landscape: strict side-by-side geometry, no overlap. */
+@media (max-width: 900px) and (max-height: 520px) and (orientation: landscape) {
+  .moments-modal {
+    padding: 6px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail {
+    width: calc(100vw - 12px) !important;
+    max-height: calc(100svh - 12px) !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead {
+    display: grid !important;
+    grid-template-columns: minmax(250px, 36%) minmax(0, 64%) !important;
+    height: calc(100svh - 14px) !important;
+    max-height: none !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    order: initial !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    padding: 58px 22px 18px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image {
+    order: initial !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage {
+    height: calc(100% - 34px) !important;
+  }
+  .moments-modal__back-event {
+    top: 12px !important;
+    left: 22px !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    max-width: none !important;
+    margin-bottom: 9px !important;
+    font-size: 1.55rem !important;
+  }
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__intro {
+    font-size: .73rem !important;
+    line-height: 1.42 !important;
+  }
+}
