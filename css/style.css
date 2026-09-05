@@ -9683,3 +9683,43 @@ body.dark-theme.page-home .moments-section.moments-editorial {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+
+/* HOMEPAGE 15.3 — KEY MOMENT EVENT MEDIA */
+.moments-modal__event-thumb {
+  aspect-ratio: 4 / 3;
+}
+
+.moments-modal__event-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.moments-modal__event-credit {
+  display: inline-block;
+  margin-top: 7px;
+  color: #617f92;
+  font-size: .58rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.moments-modal__event-credit:hover,
+.moments-modal__event-credit:focus-visible {
+  text-decoration: underline;
+}
+
+body.dark-theme .moments-modal__event-credit {
+  color: #8fc5e6;
+}
+
+@media (max-width: 860px) {
+  .moments-modal__event-thumb {
+    aspect-ratio: 4 / 3;
+    height: auto;
+  }
+}
