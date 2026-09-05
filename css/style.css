@@ -10901,3 +10901,158 @@ button.moments-modal__moment-link.is-clickable:focus-visible::after {
     width: min(320px, 100%);
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 15.21 — OUR STORY MODAL REFINEMENT
+   Editorial reading panel • contained width • uncropped media
+========================================================= */
+.story-modal {
+  padding: clamp(18px, 3vw, 42px);
+  background: rgba(14, 18, 23, .68);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.story-modal__dialog {
+  width: min(1180px, calc(100vw - 48px));
+  height: min(860px, calc(100dvh - 48px));
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 28px 90px rgba(0,0,0,.28);
+}
+.story-modal__topbar {
+  min-height: 76px;
+  padding: 18px 28px;
+}
+.story-modal__layout {
+  grid-template-columns: 245px minmax(0, 1fr);
+  height: calc(100% - 76px);
+}
+.story-modal__rail {
+  padding: 28px 22px;
+  overflow-y: auto;
+}
+.story-modal__content {
+  padding: 38px clamp(38px, 5vw, 70px) 54px;
+  overflow-y: auto;
+}
+.story-chapter {
+  width: min(100%, 760px);
+  margin-inline: auto;
+}
+.story-chapter__title {
+  font-size: clamp(2.55rem, 4vw, 4.25rem);
+  line-height: .98;
+}
+.story-chapter__media {
+  width: 100%;
+  max-width: 720px;
+  margin: 24px auto 26px;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: auto;
+  background: transparent;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(30, 26, 32, .10);
+}
+.story-chapter__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 470px;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+}
+
+/* Modal palette follows the site's existing data-theme switch. */
+html[data-theme="dark"] .story-modal {
+  background: rgba(3, 7, 11, .82);
+}
+html[data-theme="dark"] .story-modal__dialog {
+  background: #15191f;
+  color: #f4f0ec;
+  border-color: rgba(255,255,255,.10);
+  box-shadow: 0 30px 100px rgba(0,0,0,.58);
+}
+html[data-theme="dark"] .story-modal__topbar,
+html[data-theme="dark"] .story-modal__rail {
+  background: #12161b;
+  border-color: rgba(255,255,255,.09);
+}
+html[data-theme="dark"] .story-modal__content {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(237,166,187,.08), transparent 34%),
+    #181c22;
+}
+html[data-theme="dark"] .story-modal__title,
+html[data-theme="dark"] .story-chapter__title,
+html[data-theme="dark"] .story-chapter__subtitle,
+html[data-theme="dark"] .story-modal__rail-title,
+html[data-theme="dark"] .story-modal__quote {
+  color: #f5f0ec;
+}
+html[data-theme="dark"] .story-chapter__body,
+html[data-theme="dark"] .story-modal__nav-copy strong,
+html[data-theme="dark"] .story-modal__brand,
+html[data-theme="dark"] .story-modal__eyebrow {
+  color: #e6e1dc;
+}
+html[data-theme="dark"] .story-modal__nav-copy small,
+html[data-theme="dark"] .story-chapter__media-note,
+html[data-theme="dark"] .story-source-list a,
+html[data-theme="dark"] .story-source-list li {
+  color: #aaaeb5;
+}
+html[data-theme="dark"] .story-modal__nav-item {
+  color: #d8d9dc;
+}
+html[data-theme="dark"] .story-modal__nav-item:hover {
+  background: rgba(255,255,255,.055);
+}
+html[data-theme="dark"] .story-modal__nav-item.is-active {
+  background: linear-gradient(90deg, rgba(166,207,232,.13), rgba(238,166,188,.10));
+  border-color: rgba(166,207,232,.25);
+}
+html[data-theme="dark"] .story-modal__close {
+  background: rgba(255,255,255,.07);
+  color: #f5f0ec;
+  border-color: rgba(255,255,255,.10);
+}
+html[data-theme="dark"] .story-chapter__sources,
+html[data-theme="dark"] .story-chapter__footer {
+  border-color: rgba(255,255,255,.10);
+}
+
+@media (max-width: 900px) {
+  .story-modal { padding: 12px; }
+  .story-modal__dialog {
+    width: calc(100vw - 24px);
+    height: calc(100dvh - 24px);
+    max-height: calc(100dvh - 24px);
+    border-radius: 18px;
+  }
+  .story-modal__layout { grid-template-columns: 1fr; }
+  .story-modal__rail { max-height: none; padding: 18px 20px; }
+  .story-modal__content { padding: 28px 22px 42px; }
+  .story-chapter__media img { max-height: none; }
+}
+
+@media (max-width: 560px) {
+  .story-modal { padding: 0; }
+  .story-modal__dialog {
+    width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+  .story-modal__topbar { min-height: 66px; padding: 14px 16px; }
+  .story-modal__layout { height: calc(100% - 66px); }
+  .story-modal__content { padding: 24px 18px 38px; }
+  .story-chapter__title { font-size: clamp(2.35rem, 12vw, 3.2rem); }
+  .story-chapter__media { margin-block: 20px 22px; border-radius: 14px; }
+  .story-chapter__media img { width: 100%; height: auto; max-height: none; object-fit: contain; }
+}
