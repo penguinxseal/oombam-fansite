@@ -1912,7 +1912,7 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
 })();
 
 // =========================================================
-// HOMEPAGE 15.39 — MEDIA DETAIL MODAL
+// HOMEPAGE 15.40 — MEDIA DETAIL MODAL
 // =========================================================
 (() => {
   const modal = document.getElementById('mediaDetailModal');
