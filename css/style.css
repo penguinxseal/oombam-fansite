@@ -14767,3 +14767,234 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
     color:#b7adb1;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 15.37 — MOBILE PROPORTION + FOOTER FIX
+   Scope: isolated osm-* mobile reader only.
+========================================================= */
+
+/* ---------- MOBILE PORTRAIT ---------- */
+@media (max-width:560px) and (orientation:portrait) {
+
+  #storyModal .osm-panel {
+    grid-template-rows:54px auto minmax(0,1fr) auto !important;
+  }
+
+  #storyModal .osm-reader {
+    padding:12px 16px 16px !important;
+  }
+
+  #storyModal .osm-heading {
+    margin-bottom:12px !important;
+  }
+
+  #storyModal .osm-heading h3 {
+    font-size:clamp(2rem,9.2vw,2.35rem) !important;
+  }
+
+  #storyModal .osm-heading em {
+    font-size:1rem !important;
+  }
+
+  /* Image should shine, but never consume the whole screen. */
+  #storyModal .osm-media {
+    margin-bottom:16px !important;
+  }
+
+  #storyModal .osm-media img {
+    width:auto !important;
+    height:auto !important;
+    max-width:88% !important;
+    max-height:52vh !important;
+    object-fit:contain !important;
+  }
+
+  /* Portrait images capped further for balanced page flow. */
+  #storyModal .osm-media img[src*="751002312"],
+  #storyModal .osm-media img[src*="656283025"],
+  #storyModal .osm-media img[src*="682621314"],
+  #storyModal .osm-media img[src*="730854563"],
+  #storyModal .osm-media img[src*="758915116"] {
+    max-height:50vh !important;
+  }
+
+  #storyModal .osm-copy {
+    font-size:.97rem !important;
+    line-height:1.62 !important;
+  }
+
+  /* Portrait footer becomes compact and non-dominant. */
+  #storyModal .osm-footer {
+    grid-template-columns:minmax(0,1fr) !important;
+    padding:5px 12px 7px !important;
+    max-height:150px !important;
+    overflow:hidden !important;
+  }
+
+  #storyModal .osm-step {
+    display:none !important;
+  }
+
+  #storyModal .osm-sources {
+    min-width:0 !important;
+  }
+
+  #storyModal .osm-sources summary {
+    min-height:30px !important;
+    padding:5px 0 !important;
+    font-size:.65rem !important;
+  }
+
+  #storyModal .osm-source-list {
+    max-height:108px !important;
+    overflow-y:auto !important;
+    margin-top:3px !important;
+  }
+
+  #storyModal .osm-source-list li {
+    padding:4px 0 !important;
+  }
+
+  /* Restore complete source row: metadata + title */
+  #storyModal .osm-source-list a {
+    display:grid !important;
+    grid-template-columns:98px minmax(0,1fr) !important;
+    gap:7px !important;
+    align-items:start !important;
+    font-size:.60rem !important;
+    line-height:1.24 !important;
+  }
+
+  #storyModal .osm-source-list a span {
+    color:#7f8c95 !important;
+  }
+
+  #storyModal .osm-source-list a strong {
+    display:block !important;
+    min-width:0 !important;
+    color:#4f616c !important;
+    white-space:normal !important;
+    overflow:visible !important;
+    text-overflow:clip !important;
+    font-weight:600 !important;
+  }
+}
+
+/* ---------- MOBILE LANDSCAPE ---------- */
+@media (max-height:560px) and (orientation:landscape) {
+
+  #storyModal .osm-panel {
+    grid-template-rows:46px minmax(0,1fr) auto !important;
+  }
+
+  #storyModal .osm-reader {
+    padding:8px 14px 10px !important;
+  }
+
+  #storyModal .osm-chapter.is-active {
+    grid-template-columns:minmax(230px,.88fr) minmax(0,1.12fr) !important;
+    gap:6px 20px !important;
+  }
+
+  #storyModal .osm-heading h3 {
+    font-size:clamp(1.75rem,3.8vw,2.1rem) !important;
+  }
+
+  #storyModal .osm-heading em {
+    font-size:.86rem !important;
+  }
+
+  #storyModal .osm-media img {
+    max-height:185px !important;
+    max-width:92% !important;
+  }
+
+  #storyModal .osm-credit {
+    margin-top:4px !important;
+    padding:4px 7px !important;
+  }
+
+  #storyModal .osm-copy {
+    font-size:.83rem !important;
+    line-height:1.44 !important;
+    max-height:188px !important;
+    overflow-y:auto !important;
+    padding-right:4px !important;
+  }
+
+  /* Footer is fixed but compact; sources scroll internally. */
+  #storyModal .osm-footer {
+    grid-template-columns:minmax(0,1fr) auto !important;
+    align-items:end !important;
+    gap:10px !important;
+    padding:4px 10px 5px !important;
+    max-height:118px !important;
+    overflow:hidden !important;
+  }
+
+  #storyModal .osm-sources summary {
+    min-height:28px !important;
+    padding:4px 0 !important;
+    font-size:.61rem !important;
+  }
+
+  #storyModal .osm-source-list {
+    max-height:78px !important;
+    overflow-y:auto !important;
+    margin-top:3px !important;
+  }
+
+  #storyModal .osm-source-list li {
+    padding:3px 0 !important;
+  }
+
+  #storyModal .osm-source-list a {
+    display:grid !important;
+    grid-template-columns:92px minmax(0,1fr) !important;
+    gap:7px !important;
+    align-items:start !important;
+    font-size:.54rem !important;
+    line-height:1.2 !important;
+  }
+
+  #storyModal .osm-source-list a span {
+    color:#7f8c95 !important;
+  }
+
+  #storyModal .osm-source-list a strong {
+    display:block !important;
+    color:#4f616c !important;
+    white-space:normal !important;
+    overflow:visible !important;
+    text-overflow:clip !important;
+    font-weight:600 !important;
+  }
+
+  #storyModal .osm-step-group {
+    align-items:end !important;
+    padding-bottom:1px !important;
+  }
+
+  #storyModal .osm-step-group button {
+    font-size:.60rem !important;
+  }
+}
+
+/* ---------- MOBILE DARK MODE SOURCE TUNING ---------- */
+@media (max-width:560px), (max-height:560px) and (orientation:landscape) {
+  html[data-theme="dark"] #storyModal .osm-source-list a span,
+  body.dark-theme #storyModal .osm-source-list a span {
+    color:#929ca4 !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osm-source-list a strong,
+  body.dark-theme #storyModal .osm-source-list a strong {
+    color:#c4ccd2 !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osm-source-list a:hover strong,
+  body.dark-theme #storyModal .osm-source-list a:hover strong {
+    color:#93c0da !important;
+  }
+}
