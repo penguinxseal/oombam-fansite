@@ -1744,7 +1744,7 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
   let storyLastFocus=null,storyScrollY=0;
   function setActiveStoryChapter(id){storyChapterButtons.forEach(b=>{const a=b.dataset.storyChapter===id;b.classList.toggle("is-active",a);if(b.closest(".story-modal__nav"))b.setAttribute("aria-current",a?"true":"false")})}
   function goToStoryChapter(id){const c=document.getElementById(id);if(!c||!storyReader)return;setActiveStoryChapter(id);storyReader.scrollTo({top:c.offsetTop-18,behavior:"smooth"})}
-  function openStoryModal(){if(!storyModal)return;storyLastFocus=document.activeElement;storyScrollY=window.scrollY||0;storyModal.classList.add("is-open");storyModal.setAttribute("aria-hidden","false");document.body.classList.add("story-modal-open");if(storyReader)storyReader.scrollTop=0;setActiveStoryChapter("storyChapter01");requestAnimationFrame(()=>(window.matchMedia("(min-width: 901px)").matches ? storyModal.querySelector(".osd-close") : ((window.matchMedia("(max-width: 560px)").matches || window.matchMedia("(max-height: 560px) and (orientation: landscape)").matches) ? storyModal.querySelector(".osm-close") : storyModal.querySelector(".story-modal__close")))?.focus({preventScroll:true}))}
+  function openStoryModal(){if(!storyModal)return;storyLastFocus=document.activeElement;storyScrollY=window.scrollY||0;storyModal.classList.add("is-open");storyModal.setAttribute("aria-hidden","false");document.body.classList.add("story-modal-open");if(storyReader)storyReader.scrollTop=0;setActiveStoryChapter("storyChapter01");requestAnimationFrame(()=>(window.matchMedia("(min-width: 901px)").matches ? storyModal.querySelector(".osd-close") : storyModal.querySelector(".story-modal__close"))?.focus({preventScroll:true}))}
   function closeStoryModal(){if(!storyModal)return;storyModal.classList.remove("is-open");storyModal.setAttribute("aria-hidden","true");document.body.classList.remove("story-modal-open");window.scrollTo(0,storyScrollY);storyLastFocus?.focus?.({preventScroll:true})}
   storyOpeners.forEach(b=>b.addEventListener("click",openStoryModal));storyClosers.forEach(b=>b.addEventListener("click",closeStoryModal));storyChapterButtons.forEach(b=>b.addEventListener("click",()=>goToStoryChapter(b.dataset.storyChapter)));
   if(storyReader&&storySections.length)storyReader.addEventListener("scroll",()=>{const top=storyReader.getBoundingClientRect().top;let active=storySections[0].id;storySections.forEach(s=>{if(s.getBoundingClientRect().top-top<=120)active=s.id});setActiveStoryChapter(active)},{passive:true});
@@ -1909,76 +1909,4 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
   buttons.forEach(b=>b.addEventListener('click',e=>{e.preventDefault();show(b.dataset.osdChapter)}));
   document.querySelectorAll('[data-story-open]').forEach(b=>b.addEventListener('click',()=>{if(window.matchMedia('(min-width: 901px)').matches)show('osdChapter01')}));
   show('osdChapter01');
-})();
-
-
-/* =========================================================
-   HOMEPAGE 15.36 — ISOLATED MOBILE STORY CONTROLLER
-========================================================= */
-(function(){
-  const modal = document.getElementById('storyModal');
-  if (!modal) return;
-
-  const panel = modal.querySelector('.osm-panel');
-  if (!panel) return;
-
-  const chapters = [...panel.querySelectorAll('.osm-chapter')];
-  const navItems = [...panel.querySelectorAll('.osm-nav-item')];
-  const sourceGroups = [...panel.querySelectorAll('.osm-sources')];
-  const stepGroups = [...panel.querySelectorAll('.osm-step-group')];
-  const reader = panel.querySelector('.osm-reader');
-
-  function show(id, options = {}) {
-    chapters.forEach(ch => {
-      const active = ch.id === id;
-      ch.hidden = !active;
-      ch.classList.toggle('is-active', active);
-    });
-
-    navItems.forEach(btn => {
-      const active = btn.dataset.osmChapter === id;
-      btn.classList.toggle('is-active', active);
-      if (active && options.centerNav !== false) {
-        btn.scrollIntoView({
-          behavior: options.instant ? 'auto' : 'smooth',
-          inline: 'center',
-          block: 'nearest'
-        });
-      }
-    });
-
-    sourceGroups.forEach(group => {
-      const active = group.dataset.osmSources === id;
-      group.hidden = !active;
-      group.classList.toggle('is-active', active);
-      if (!active) group.removeAttribute('open');
-    });
-
-    stepGroups.forEach(group => {
-      const active = group.dataset.osmStep === id;
-      group.hidden = !active;
-      group.classList.toggle('is-active', active);
-    });
-
-    if (reader && options.resetScroll !== false) {
-      reader.scrollTo({ top:0, behavior: options.instant ? 'auto' : 'smooth' });
-    }
-  }
-
-  panel.querySelectorAll('[data-osm-chapter]').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      show(btn.dataset.osmChapter, { resetScroll:true, centerNav:true });
-    });
-  });
-
-  document.querySelectorAll('[data-story-open]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const isMobile = window.matchMedia('(max-width: 560px)').matches ||
-        window.matchMedia('(max-height: 560px) and (orientation: landscape)').matches;
-      if (isMobile) show('osmChapter01', { instant:true, resetScroll:false, centerNav:false });
-    });
-  });
-
-  show('osmChapter01', { instant:true, resetScroll:false, centerNav:false });
 })();
