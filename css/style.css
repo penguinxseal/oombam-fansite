@@ -4950,7 +4950,8 @@ body.dark-theme.page-home .story-copy-block .primary-button:hover {
 /* ---------------------------------------------------------
    MEDIA — ALL THREE DESKTOP TILES USE THE SAME FOOTPRINT
 --------------------------------------------------------- */
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
 
   .page-home .media-home-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -5191,7 +5192,8 @@ html:has(body.dark-theme.page-home) {
    MEDIA — GIVE FULFILL IMAGE MORE VISUAL WEIGHT
 --------------------------------------------------------- */
 
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
 
   .page-home .media-fulfill-card {
     grid-template-rows: none;
@@ -5488,7 +5490,8 @@ body.dark-theme.page-home .moments-description {
    MEDIA — KEEP CTA VISIBLE INSIDE FULFILL CARD
 --------------------------------------------------------- */
 
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
 
   .page-home .media-fulfill-card {
     height: 294px;
@@ -11571,7 +11574,8 @@ body.dark-theme .story-modal__sidebar::-webkit-scrollbar-thumb {
 ========================================================= */
 
 /* ---------- DESKTOP ONLY ---------- */
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
   .story-modal {
     padding: clamp(18px, 2.2vw, 32px);
   }
@@ -12011,7 +12015,8 @@ body.dark-theme .story-modal__sidebar::-webkit-scrollbar-thumb {
 }
 
 /* ---------- DESKTOP ONLY ---------- */
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
   .story-modal__panel {
     width: min(1160px, calc(100vw - 54px)) !important;
     height: min(760px, calc(100dvh - 36px)) !important;
@@ -12584,7 +12589,8 @@ body.dark-theme .story-chapter-prev,
 body.dark-theme .story-chapter-next { color: #8dc5e4; }
 
 /* ================= DESKTOP ================= */
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
   .story-modal__panel {
     width: min(1180px, calc(100vw - 44px)) !important;
     height: min(760px, calc(100dvh - 34px)) !important;
@@ -12943,7 +12949,8 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
 }
 
 /* Desktop */
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
   .story-modal__reader {
     padding-top: 14px !important;
   }
@@ -13007,7 +13014,8 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
    Fixes remaining desktop geometry from v15.27
 ========================================================= */
 
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
 
   /* Pull the editorial spread upward and reduce unused canvas. */
   .story-modal__reader {
@@ -13219,7 +13227,8 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
    Scope: DESKTOP ONLY. Mobile/tablet intentionally untouched.
 ========================================================= */
 
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
 
   /* -------------------------------------------------------
      1. SHELL GEOMETRY
@@ -13547,7 +13556,7 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
    Completely separate desktop component to stop legacy CSS conflicts.
 ========================================================= */
 .osd-panel{display:none}
-@media (min-width:901px){
+@media (min-width:901px), (min-width:700px) and (max-width:900px) and (orientation:portrait){
   #storyModal .story-modal__panel--legacy{display:none!important}
   #storyModal .osd-panel{position:absolute;inset:clamp(10px,1.3vw,18px);display:grid;grid-template-rows:64px minmax(0,1fr);overflow:hidden;border:1px solid rgba(183,211,228,.42);border-radius:22px;background:radial-gradient(circle at 92% 4%,rgba(246,192,206,.22),transparent 25%),linear-gradient(145deg,#fffdfb 0%,#fff8f6 55%,#f6fbff 100%);color:#28262b;box-shadow:0 28px 80px rgba(0,0,0,.35)}
   #storyModal .osd-header{display:grid;grid-template-columns:1fr auto 44px;align-items:center;gap:18px;padding:0 16px 0 24px;border-bottom:1px solid rgba(120,154,175,.16);background:rgba(255,253,251,.9)}
@@ -13578,7 +13587,7 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
   #storyModal .osd-step{display:flex;justify-content:flex-end;gap:10px;margin-top:3px}.osd-step button{border:0;background:transparent;color:#5c99bc;font:700 .68rem/1 "DM Sans",sans-serif;cursor:pointer;padding:6px}.osd-step span{font:500 .68rem/1.2 "DM Sans",sans-serif;opacity:.7;padding:6px}
   html[data-theme="dark"] #storyModal .osd-panel,body.dark-theme #storyModal .osd-panel{background:#141a20;color:#eee9e4;border-color:rgba(255,255,255,.1)}html[data-theme="dark"] #storyModal .osd-header,body.dark-theme #storyModal .osd-header,html[data-theme="dark"] #storyModal .osd-rail,body.dark-theme #storyModal .osd-rail{background:#0e1318;border-color:rgba(255,255,255,.08)}html[data-theme="dark"] #storyModal .osd-nav-item strong,body.dark-theme #storyModal .osd-nav-item strong{color:#f0ece8}html[data-theme="dark"] #storyModal .osd-nav-item small,body.dark-theme #storyModal .osd-nav-item small{color:#c0c5cb}html[data-theme="dark"] #storyModal .osd-heading h3,body.dark-theme #storyModal .osd-heading h3,html[data-theme="dark"] #storyModal .osd-heading em,body.dark-theme #storyModal .osd-heading em,html[data-theme="dark"] #storyModal .osd-copy,body.dark-theme #storyModal .osd-copy{color:#eee9e4}html[data-theme="dark"] #storyModal .osd-credit,body.dark-theme #storyModal .osd-credit{background:#10161c;color:#f1ece7;border-color:rgba(238,166,188,.24)}html[data-theme="dark"] #storyModal .osd-source-list,body.dark-theme #storyModal .osd-source-list{background:#10161c;border-color:rgba(255,255,255,.12)}
 }
-@media (max-width:900px){#storyModal .osd-panel{display:none!important}#storyModal .story-modal__panel--legacy{display:block!important}}
+@media (max-width:699px), (min-width:700px) and (max-width:900px) and (orientation:landscape){#storyModal .osd-panel{display:none!important}#storyModal .story-modal__panel--legacy{display:block!important}}
 
 
 /* =========================================================
@@ -13586,7 +13595,8 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
    Completes the missed desktop fixes from v15.31.
 ========================================================= */
 
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
 
   /* 1) Tighten header and eliminate the large band below it */
   #storyModal .osd-panel {
@@ -13723,7 +13733,8 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
    Scope: isolated desktop Our Story only.
 ========================================================= */
 
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
 
   /* Make the editorial modal a contained desktop panel instead of
      nearly filling the entire viewport. */
@@ -13776,7 +13787,8 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
    Scope: isolated desktop Our Story only.
 ========================================================= */
 
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
 
   /* Slightly more contained desktop modal */
   #storyModal .osd-panel {
@@ -13944,7 +13956,8 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
    Restores v15.33 modal scale and optimizes source rows.
 ========================================================= */
 
-@media (min-width: 901px) {
+@media (min-width: 901px),
+       (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
 
   /* Restore roomier contained modal from v15.33 */
   #storyModal .osd-panel {
@@ -14308,6 +14321,274 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
   #storyModal .story-chapter__footer {
     position: static !important;
     margin-top: 5px !important;
+  }
+}
+
+/* =========================================================
+   HOMEPAGE 15.37 — TABLET OUR STORY POLISH
+   Baseline: matched v15.36 package
+   Scope:
+   - tablet portrait: 700–900px, portrait
+   - tablet landscape: 901–1180px
+   - Global.css untouched
+========================================================= */
+
+/* ---------------------------------------------------------
+   TABLET PORTRAIT
+   Use the same full vertical chapter rail seen in landscape.
+   The right reading area stays single-column because portrait
+   width is better used for comfortable text rather than forcing
+   photo + copy into two cramped columns.
+--------------------------------------------------------- */
+@media (min-width:700px) and (max-width:900px) and (orientation:portrait) {
+
+  #storyModal .story-modal__panel--legacy {
+    display:none !important;
+  }
+
+  #storyModal .osd-panel {
+    display:grid !important;
+    width:min(760px, 94vw) !important;
+    height:min(1040px, 90vh) !important;
+    max-width:760px !important;
+    max-height:1040px !important;
+  }
+
+  #storyModal .osd-body {
+    grid-template-columns:190px minmax(0,1fr) !important;
+  }
+
+  /* Full landscape-style left rail */
+  #storyModal .osd-rail {
+    display:flex !important;
+    flex-direction:column !important;
+    min-height:0 !important;
+    padding:14px 12px 12px !important;
+    overflow:hidden !important;
+  }
+
+  #storyModal .osd-rail h2 {
+    display:block !important;
+    margin:0 5px 12px !important;
+    font-size:1.45rem !important;
+    line-height:1 !important;
+  }
+
+  #storyModal .osd-nav {
+    display:grid !important;
+    gap:3px !important;
+  }
+
+  #storyModal .osd-nav-item,
+  #storyModal .osd-nav-item[hidden] {
+    display:grid !important;
+    grid-template-columns:25px minmax(0,1fr) !important;
+    grid-template-areas:"n t" "n s" !important;
+    gap:1px 6px !important;
+    min-height:49px !important;
+    padding:7px 8px !important;
+  }
+
+  #storyModal .osd-nav-item > span {
+    font-size:.66rem !important;
+  }
+
+  #storyModal .osd-nav-item strong {
+    display:block !important;
+    font-size:.72rem !important;
+    line-height:1.15 !important;
+  }
+
+  #storyModal .osd-nav-item small {
+    display:block !important;
+    font-size:.57rem !important;
+    line-height:1.18 !important;
+  }
+
+  #storyModal .osd-rail blockquote {
+    margin:auto 5px 0 !important;
+    padding-top:10px !important;
+    font-size:.76rem !important;
+    line-height:1.24 !important;
+  }
+
+  #storyModal .osd-reader {
+    padding:9px 16px 12px !important;
+    overflow:hidden !important;
+  }
+
+  #storyModal .osd-chapter.is-active {
+    height:100% !important;
+    min-height:0 !important;
+    grid-template-rows:auto minmax(0,1fr) !important;
+    gap:7px !important;
+  }
+
+  #storyModal .osd-heading h3 {
+    font-size:2.15rem !important;
+  }
+
+  #storyModal .osd-heading em {
+    font-size:1.02rem !important;
+  }
+
+  /* Portrait reading column: photo, credit, then copy/actions */
+  #storyModal .osd-main {
+    display:flex !important;
+    flex-direction:column !important;
+    gap:10px !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+  }
+
+  #storyModal .osd-media {
+    flex:0 0 auto !important;
+  }
+
+  #storyModal .osd-media img {
+    width:auto !important;
+    height:auto !important;
+    max-width:100% !important;
+    max-height:330px !important;
+    object-fit:contain !important;
+  }
+
+  #storyModal .osd-credit {
+    margin-top:6px !important;
+  }
+
+  #storyModal .osd-copy-panel {
+    display:grid !important;
+    grid-template-rows:minmax(0,1fr) auto !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    height:auto !important;
+  }
+
+  #storyModal .osd-copy {
+    min-height:0 !important;
+    overflow-y:auto !important;
+    padding-right:5px !important;
+    font-size:.88rem !important;
+    line-height:1.48 !important;
+  }
+
+  #storyModal .osd-actions {
+    position:static !important;
+    flex:0 0 auto !important;
+    margin-top:5px !important;
+    padding-top:5px !important;
+  }
+
+  /* Inline sources consume their own space and never cover copy */
+  #storyModal .osd-source-list {
+    position:static !important;
+    inset:auto !important;
+    width:100% !important;
+    max-width:none !important;
+    max-height:112px !important;
+    overflow-y:auto !important;
+    margin:4px 0 0 !important;
+    padding:3px 0 1px !important;
+    border:0 !important;
+    border-top:1px solid rgba(118,150,170,.18) !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+  }
+
+  #storyModal .osd-source-list li {
+    min-height:30px !important;
+    padding:3px 0 !important;
+  }
+
+  #storyModal .osd-source-list a {
+    grid-template-columns:118px minmax(0,1fr) 14px !important;
+    gap:7px !important;
+    font-size:.58rem !important;
+  }
+
+  #storyModal .osd-source-list a span:first-child,
+  #storyModal .osd-source-list a strong {
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+
+  #storyModal .osd-step {
+    margin-top:3px !important;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   TABLET LANDSCAPE
+   Keep existing landscape composition, but make the right panel
+   an explicit copy + actions grid so an opened source list can
+   only reduce the scrollable copy area — never overlap it.
+--------------------------------------------------------- */
+@media (min-width:901px) and (max-width:1180px) {
+
+  #storyModal .osd-copy-panel {
+    display:grid !important;
+    grid-template-rows:minmax(0,1fr) auto !important;
+    min-height:0 !important;
+    height:100% !important;
+    overflow:hidden !important;
+  }
+
+  #storyModal .osd-copy {
+    min-height:0 !important;
+    overflow-y:auto !important;
+    padding-right:6px !important;
+  }
+
+  #storyModal .osd-actions {
+    position:static !important;
+    inset:auto !important;
+    align-self:end !important;
+    margin-top:5px !important;
+    padding-top:5px !important;
+    background:transparent !important;
+  }
+
+  #storyModal .osd-sources {
+    position:static !important;
+  }
+
+  #storyModal .osd-source-list {
+    position:static !important;
+    inset:auto !important;
+    width:100% !important;
+    max-width:none !important;
+    max-height:108px !important;
+    overflow-y:auto !important;
+    margin:4px 0 0 !important;
+    padding:3px 0 1px !important;
+    border:0 !important;
+    border-top:1px solid rgba(118,150,170,.18) !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+  }
+
+  #storyModal .osd-source-list li {
+    min-height:29px !important;
+    padding:3px 0 !important;
+  }
+
+  #storyModal .osd-source-list a {
+    grid-template-columns:132px minmax(0,1fr) 14px !important;
+    gap:8px !important;
+    font-size:.59rem !important;
+  }
+
+  #storyModal .osd-source-list a span:first-child,
+  #storyModal .osd-source-list a strong {
+    min-width:0 !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
   }
 }
 
