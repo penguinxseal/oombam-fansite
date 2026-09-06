@@ -13716,3 +13716,56 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
     padding-bottom: 2px !important;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 15.33 — DESKTOP MODAL SCALE + QUOTE READABILITY
+   Scope: isolated desktop Our Story only.
+========================================================= */
+
+@media (min-width: 901px) {
+
+  /* Make the editorial modal a contained desktop panel instead of
+     nearly filling the entire viewport. */
+  #storyModal .osd-panel {
+    inset: 50% auto auto 50% !important;
+    width: min(1180px, 92vw) !important;
+    height: min(720px, 88vh) !important;
+    max-width: 1180px !important;
+    max-height: 720px !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  /* Keep internal geometry proportional to the reduced modal. */
+  #storyModal .osd-body {
+    grid-template-columns: 214px minmax(0, 1fr) !important;
+  }
+
+  #storyModal .osd-reader {
+    padding: 8px 22px 14px !important;
+  }
+
+  #storyModal .osd-main {
+    grid-template-columns: minmax(325px, .92fr) minmax(390px, 1.08fr) !important;
+    gap: 32px !important;
+  }
+
+  #storyModal .osd-media img {
+    height: min(430px, 54vh) !important;
+    max-height: 430px !important;
+  }
+
+  /* Stronger quote contrast in light mode. */
+  #storyModal .osd-rail blockquote {
+    color: #51494d !important;
+    opacity: 1 !important;
+    font-weight: 500 !important;
+  }
+
+  /* Matching readable contrast in dark mode. */
+  html[data-theme="dark"] #storyModal .osd-rail blockquote,
+  body.dark-theme #storyModal .osd-rail blockquote {
+    color: #d8d1cc !important;
+    opacity: 1 !important;
+  }
+}
