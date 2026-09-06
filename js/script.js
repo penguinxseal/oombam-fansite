@@ -1912,7 +1912,7 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
 })();
 
 // =========================================================
-// HOMEPAGE 15.40 — MEDIA DETAIL MODAL
+// HOMEPAGE 15.41 — MEDIA DETAIL MODAL
 // =========================================================
 (() => {
   const modal = document.getElementById('mediaDetailModal');
@@ -1924,8 +1924,8 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
     soundtrack: { eyebrow:'Soundtrack', title:'Oom Eisaya / Bam Saralee', image:'assets/images/OomBam-Fan-Illustration.png', description:'The voices and melodies that carried the story of Fulfill. Revisit the official soundtrack performances by Oom Eisaya and Bam Saralee.', credit:'Official soundtrack links', actions:[['Oom Eisaya ↗','https://youtu.be/RHnPq3Z0A8c?si=4wHs9wk1SmEROy8O'],['Bam Saralee ↗','https://youtu.be/CKclkO6HHrY?si=Mp3vlasXStTSTknn']] }
   };
   const img=modal.querySelector('#mediaDetailImage'), eye=modal.querySelector('#mediaDetailEyebrow'), title=modal.querySelector('#mediaDetailTitle'), desc=modal.querySelector('#mediaDetailDescription'), actions=modal.querySelector('#mediaDetailActions'), credit=modal.querySelector('#mediaDetailCredit'), note=modal.querySelector('#mediaDetailNote');
-  const open=(key)=>{ const d=DATA[key]; if(!d)return; img.src=d.image; img.alt=d.title; eye.textContent=d.eyebrow; title.textContent=d.title; desc.textContent=d.description; actions.innerHTML=''; (d.actions||[]).forEach(([label,url])=>{const a=document.createElement('a');a.textContent=label;a.href=url;if(/^https?:/.test(url)){a.target='_blank';a.rel='noopener noreferrer'}actions.appendChild(a)}); credit.innerHTML=''; if(d.creditUrl){const a=document.createElement('a');a.href=d.creditUrl;a.target='_blank';a.rel='noopener noreferrer';a.textContent=d.credit+' ↗';credit.appendChild(a)}else credit.textContent=d.credit||''; if(d.note){note.textContent=d.note;note.hidden=false}else{note.textContent='';note.hidden=true} modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');modal.querySelector('.media-detail-modal__close')?.focus({preventScroll:true})};
-  const close=()=>{modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');document.body.classList.remove('modal-open')};
+  const open=(key)=>{ const d=DATA[key]; if(!d)return; modal.dataset.mediaKey=key; img.src=d.image; img.alt=d.title; eye.textContent=d.eyebrow; title.textContent=d.title; desc.textContent=d.description; actions.innerHTML=''; (d.actions||[]).forEach(([label,url])=>{const a=document.createElement('a');a.textContent=label;a.href=url;if(/^https?:/.test(url)){a.target='_blank';a.rel='noopener noreferrer'}actions.appendChild(a)}); credit.innerHTML=''; if(d.creditUrl){const a=document.createElement('a');a.href=d.creditUrl;a.target='_blank';a.rel='noopener noreferrer';a.textContent=d.credit+' ↗';credit.appendChild(a)}else credit.textContent=d.credit||''; if(d.note){note.textContent=d.note;note.hidden=false}else{note.textContent='';note.hidden=true} modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');modal.querySelector('.media-detail-modal__close')?.focus({preventScroll:true})};
+  const close=()=>{modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');delete modal.dataset.mediaKey;document.body.classList.remove('modal-open')};
   document.addEventListener('click',e=>{const trigger=e.target.closest('[data-media-detail-open]');if(trigger){e.preventDefault();open(trigger.dataset.mediaDetailOpen)}if(e.target.closest('[data-media-detail-close]'))close()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('is-open'))close()});
 })();
