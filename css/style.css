@@ -14062,3 +14062,252 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
     color: #b7adb1 !important;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 15.36 — MOBILE OUR STORY FIX
+   Baseline: verified working v15.35 package supplied by user
+   Scope: legacy/mobile Our Story modal ONLY (<= 900px)
+   Desktop isolated .osd-* component is intentionally untouched.
+========================================================= */
+
+/* ---------------------------------------------------------
+   PHONE PORTRAIT
+   Keep v15.35 proportions. Only remove excess top spacing,
+   keep the real photo with no wrapper/card, and stop actions
+   / source articles from floating over the chapter write-up.
+--------------------------------------------------------- */
+@media (max-width: 560px) and (orientation: portrait) {
+
+  /* Compact the space between chapter rail and chapter heading. */
+  #storyModal .story-modal__sidebar {
+    padding-bottom: 2px !important;
+  }
+
+  #storyModal .story-modal__sidebar blockquote {
+    margin-top: 4px !important;
+    padding-top: 5px !important;
+  }
+
+  #storyModal .story-modal__reader {
+    padding-top: 6px !important;
+    padding-bottom: 28px !important;
+  }
+
+  #storyModal .story-chapter.is-active {
+    padding-top: 0 !important;
+    align-content: start !important;
+  }
+
+  #storyModal .story-chapter__heading {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  /* Figure is layout only — retain the image itself. */
+  #storyModal .story-chapter__media,
+  #storyModal .story-chapter__media.is-portrait,
+  #storyModal .story-chapter__media.is-square,
+  #storyModal .story-chapter__media.is-landscape {
+    min-height: 0 !important;
+    height: auto !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  #storyModal .story-chapter__media::before,
+  #storyModal .story-chapter__media::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  #storyModal .story-chapter__media img {
+    display: block !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+    background: transparent !important;
+  }
+
+  /* Source Articles and Previous/Next must follow the write-up in
+     normal document flow. This is the overlap fix. */
+  #storyModal .story-chapter__actions {
+    position: static !important;
+    inset: auto !important;
+    z-index: auto !important;
+    width: 100% !important;
+    margin: 14px 0 0 !important;
+    padding: 6px 0 0 !important;
+    background: transparent !important;
+  }
+
+  html[data-theme="dark"] #storyModal .story-chapter__actions,
+  body.dark-theme #storyModal .story-chapter__actions {
+    background: transparent !important;
+  }
+
+  #storyModal .story-sources {
+    position: static !important;
+    margin: 0 !important;
+  }
+
+  #storyModal .story-sources ul {
+    position: static !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  #storyModal .story-sources a {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 5px 8px !important;
+  }
+
+  #storyModal .story-sources a span:first-child {
+    grid-column: 1 / -1 !important;
+  }
+
+  #storyModal .story-sources a strong {
+    min-width: 0 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  #storyModal .story-chapter__footer {
+    position: static !important;
+    margin-top: 8px !important;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   PHONE / SMALL TABLET LANDSCAPE
+   Keep photo left and write-up right. Sources become a normal
+   third row underneath the write-up and therefore cannot overlap.
+--------------------------------------------------------- */
+@media (max-width: 900px) and (max-height: 560px) and (orientation: landscape) {
+
+  #storyModal .story-modal__reader {
+    padding-top: 6px !important;
+    padding-bottom: 16px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  #storyModal .story-chapter.is-active {
+    grid-template-columns:
+      minmax(220px, .86fr)
+      minmax(0, 1.14fr) !important;
+
+    /* Content-driven rows allow an opened source list to add height.
+       The reader scrolls instead of the source drawer covering text. */
+    grid-template-rows:
+      auto
+      auto
+      auto !important;
+
+    align-content: start !important;
+    align-items: start !important;
+    gap: 7px 20px !important;
+    padding-top: 0 !important;
+  }
+
+  #storyModal .story-chapter__heading {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  /* Photo wrapper remains transparent; only the actual photo is shown. */
+  #storyModal .story-chapter__media,
+  #storyModal .story-chapter__media.is-portrait,
+  #storyModal .story-chapter__media.is-square,
+  #storyModal .story-chapter__media.is-landscape {
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  #storyModal .story-chapter__media::before,
+  #storyModal .story-chapter__media::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  #storyModal .story-chapter__media img {
+    height: auto !important;
+    max-height: 220px !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+    background: transparent !important;
+  }
+
+  #storyModal .story-chapter__copy {
+    align-self: start !important;
+    min-height: 0 !important;
+  }
+
+  /* Critical: actions are no longer sticky. */
+  #storyModal .story-chapter__actions {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+    position: static !important;
+    inset: auto !important;
+    z-index: auto !important;
+    align-self: start !important;
+    width: 100% !important;
+    margin: 2px 0 0 !important;
+    padding: 4px 0 0 !important;
+    background: transparent !important;
+  }
+
+  #storyModal .story-sources {
+    position: static !important;
+    margin: 0 !important;
+  }
+
+  #storyModal .story-sources ul {
+    position: static !important;
+    max-height: none !important;
+    margin-bottom: 4px !important;
+    overflow: visible !important;
+  }
+
+  /* Compact one-row source entries in landscape.
+     Long article titles truncate instead of spilling over the copy. */
+  #storyModal .story-sources a {
+    grid-template-columns:
+      128px
+      minmax(0, 1fr)
+      auto !important;
+    gap: 6px !important;
+    align-items: center !important;
+  }
+
+  #storyModal .story-sources a span:first-child,
+  #storyModal .story-sources a strong {
+    min-width: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  #storyModal .story-sources a span:first-child {
+    grid-column: auto !important;
+  }
+
+  #storyModal .story-chapter__footer {
+    position: static !important;
+    margin-top: 5px !important;
+  }
+}
+
