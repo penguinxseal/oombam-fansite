@@ -13769,3 +13769,296 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
     opacity: 1 !important;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 15.34 — DESKTOP SOURCE DRAWER + SCALE REFINEMENT
+   Scope: isolated desktop Our Story only.
+========================================================= */
+
+@media (min-width: 901px) {
+
+  /* Slightly more contained desktop modal */
+  #storyModal .osd-panel {
+    width: min(1100px, 90vw) !important;
+    height: min(680px, 84vh) !important;
+    max-width: 1100px !important;
+    max-height: 680px !important;
+  }
+
+  #storyModal .osd-body {
+    grid-template-columns: 205px minmax(0, 1fr) !important;
+  }
+
+  #storyModal .osd-reader {
+    padding: 8px 20px 12px !important;
+  }
+
+  #storyModal .osd-main {
+    grid-template-columns: minmax(315px, .9fr) minmax(380px, 1.1fr) !important;
+    gap: 28px !important;
+  }
+
+  #storyModal .osd-media img {
+    height: min(410px, 52vh) !important;
+    max-height: 410px !important;
+  }
+
+  /* Softer quote tone: readable without harsh contrast */
+  #storyModal .osd-rail blockquote {
+    color: #746b6f !important;
+    opacity: 1 !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osd-rail blockquote,
+  body.dark-theme #storyModal .osd-rail blockquote {
+    color: #b7adb1 !important;
+    opacity: 1 !important;
+  }
+
+  /* Right column is explicitly split into copy + actions.
+     When sources open, the copy area shrinks/scrolls;
+     the source drawer never overlays the write-up. */
+  #storyModal .osd-copy-panel {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    height: 100% !important;
+  }
+
+  #storyModal .osd-copy {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    padding-right: 6px !important;
+  }
+
+  #storyModal .osd-actions {
+    flex: 0 0 auto !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: end !important;
+    gap: 12px !important;
+    margin-top: 6px !important;
+    padding-top: 6px !important;
+    border-top: 1px solid rgba(118,150,170,.24) !important;
+  }
+
+  #storyModal .osd-sources {
+    position: static !important;
+    min-width: 0 !important;
+  }
+
+  #storyModal .osd-sources summary {
+    color: #718b9b !important;
+    padding: 6px 0 !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osd-sources summary,
+  body.dark-theme #storyModal .osd-sources summary {
+    color: #9eb0bb !important;
+  }
+
+  /* Inline source drawer: max ~3 visible rows, scrolls internally if more.
+     This replaces the old popover that covered the chapter text. */
+  #storyModal .osd-source-list {
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    max-height: 132px !important;
+    overflow-y: auto !important;
+    margin: 5px 0 0 !important;
+    padding: 5px 0 2px !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(118,150,170,.18) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #storyModal .osd-source-list li {
+    min-height: 38px !important;
+    padding: 5px 0 !important;
+    border-bottom: 1px solid rgba(118,150,170,.12) !important;
+  }
+
+  #storyModal .osd-source-list li:last-child {
+    border-bottom: 0 !important;
+  }
+
+  #storyModal .osd-source-list a {
+    grid-template-columns: 132px minmax(0, 1fr) !important;
+    gap: 8px !important;
+    color: #61717b !important;
+    font-size: .63rem !important;
+    line-height: 1.28 !important;
+  }
+
+  #storyModal .osd-source-list a span:first-child {
+    color: #87949c !important;
+  }
+
+  #storyModal .osd-source-list a strong {
+    color: #4f616c !important;
+    font-weight: 600 !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osd-source-list a,
+  body.dark-theme #storyModal .osd-source-list a {
+    color: #aeb8bf !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osd-source-list a span:first-child,
+  body.dark-theme #storyModal .osd-source-list a span:first-child {
+    color: #8f9aa2 !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osd-source-list a strong,
+  body.dark-theme #storyModal .osd-source-list a strong {
+    color: #c3ccd2 !important;
+  }
+
+  #storyModal .osd-source-list a:hover strong,
+  #storyModal .osd-source-list a:focus-visible strong {
+    color: #5f95b5 !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osd-source-list a:hover strong,
+  body.dark-theme #storyModal .osd-source-list a:hover strong,
+  html[data-theme="dark"] #storyModal .osd-source-list a:focus-visible strong,
+  body.dark-theme #storyModal .osd-source-list a:focus-visible strong {
+    color: #91c2df !important;
+  }
+
+  /* Keep chapter step navigation readable and fixed to the action row */
+  #storyModal .osd-step {
+    align-self: end !important;
+    margin: 0 !important;
+  }
+}
+
+
+/* =========================================================
+   HOMEPAGE 15.35 — DESKTOP SOURCE ROW FIX
+   Restores v15.33 modal scale and optimizes source rows.
+========================================================= */
+
+@media (min-width: 901px) {
+
+  /* Restore roomier contained modal from v15.33 */
+  #storyModal .osd-panel {
+    width: min(1180px, 92vw) !important;
+    height: min(720px, 88vh) !important;
+    max-width: 1180px !important;
+    max-height: 720px !important;
+  }
+
+  #storyModal .osd-body {
+    grid-template-columns: 214px minmax(0, 1fr) !important;
+  }
+
+  #storyModal .osd-reader {
+    padding: 8px 22px 14px !important;
+  }
+
+  #storyModal .osd-main {
+    grid-template-columns: minmax(325px, .92fr) minmax(390px, 1.08fr) !important;
+    gap: 32px !important;
+  }
+
+  #storyModal .osd-media img {
+    height: min(430px, 54vh) !important;
+    max-height: 430px !important;
+  }
+
+  /* Keep source drawer inline and non-overlapping */
+  #storyModal .osd-source-list {
+    position: static !important;
+    width: 100% !important;
+    max-width: none !important;
+    max-height: 138px !important;
+    overflow-y: auto !important;
+    margin: 5px 0 0 !important;
+    padding: 4px 0 2px !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(118,150,170,.18) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #storyModal .osd-source-list li {
+    min-height: 34px !important;
+    padding: 4px 0 !important;
+    border-bottom: 1px solid rgba(118,150,170,.10) !important;
+  }
+
+  #storyModal .osd-source-list li:last-child {
+    border-bottom: 0 !important;
+  }
+
+  /* Single-line source row:
+     metadata left + title center + external-link affordance right */
+  #storyModal .osd-source-list a {
+    display: grid !important;
+    grid-template-columns: 150px minmax(0, 1fr) 14px !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+    color: #5f6d76 !important;
+    font-size: .64rem !important;
+    line-height: 1.25 !important;
+    text-decoration: none !important;
+  }
+
+  #storyModal .osd-source-list a span:first-child {
+    color: #7d8991 !important;
+    white-space: nowrap !important;
+  }
+
+  #storyModal .osd-source-list a strong {
+    min-width: 0 !important;
+    color: #4b5f6b !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* Existing trailing arrow/link span */
+  #storyModal .osd-source-list a span:last-child {
+    justify-self: end !important;
+    white-space: nowrap !important;
+  }
+
+  #storyModal .osd-source-list a:hover strong,
+  #storyModal .osd-source-list a:focus-visible strong {
+    color: #5f95b5 !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osd-source-list a,
+  body.dark-theme #storyModal .osd-source-list a {
+    color: #aeb7bd !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osd-source-list a span:first-child,
+  body.dark-theme #storyModal .osd-source-list a span:first-child {
+    color: #8e989f !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osd-source-list a strong,
+  body.dark-theme #storyModal .osd-source-list a strong {
+    color: #c2cad0 !important;
+  }
+
+  /* Softer quote colors retained */
+  #storyModal .osd-rail blockquote {
+    color: #746b6f !important;
+  }
+
+  html[data-theme="dark"] #storyModal .osd-rail blockquote,
+  body.dark-theme #storyModal .osd-rail blockquote {
+    color: #b7adb1 !important;
+  }
+}
