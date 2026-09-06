@@ -14688,3 +14688,181 @@ body.dark-theme.page-home .media-mag-credit--links a:hover {
   color:#9ac2da;
 }
 
+
+/* =========================================================
+   HOMEPAGE 15.40 — MEDIA CORRECTIONS
+   - restore embedded Fulfill OST player
+   - show complete Interviews thumbnail
+   - center mobile Media signoff
+========================================================= */
+
+/* ---------------------------------------------------------
+   SOUNDTRACK — restore the previous embedded-video treatment
+--------------------------------------------------------- */
+.page-home .media-mag-card--soundtrack {
+  display:grid;
+  grid-template-rows:minmax(0, 58%) minmax(0, 42%);
+  aspect-ratio:3 / 5;
+  min-width:0;
+  overflow:hidden;
+  border:1px solid rgba(126,163,187,.16);
+  border-radius:8px;
+  background:rgba(248,252,254,.96);
+  box-shadow:0 12px 28px rgba(48,70,84,.05);
+}
+
+.page-home .media-mag-soundtrack-player {
+  position:relative;
+  min-height:0;
+  overflow:hidden;
+  background:#111;
+}
+
+.page-home .media-mag-soundtrack-player iframe {
+  display:block;
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+.page-home .media-mag-soundtrack-copy {
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  padding:12px 12px 10px;
+  color:#46494e;
+}
+
+.page-home .media-mag-soundtrack-copy .media-mag-eyebrow {
+  position:static;
+  display:block;
+  margin:0 0 5px;
+  color:#6e9db8;
+  font:700 .48rem/1.15 "DM Sans",sans-serif;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.page-home .media-mag-soundtrack-copy > strong {
+  display:block;
+  margin:0;
+  color:#3f3b3f;
+  font:500 clamp(1rem,1.2vw,1.2rem)/1.03 "Cormorant Garamond",serif;
+}
+
+.page-home .media-mag-soundtrack-copy p {
+  margin:6px 0 8px;
+  color:#7a7e84;
+  font:400 .55rem/1.4 "DM Sans",sans-serif;
+}
+
+.page-home .media-mag-soundtrack-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px 8px;
+  margin-top:auto;
+}
+
+.page-home .media-mag-soundtrack-links a {
+  color:#df7190;
+  font:700 .46rem/1.2 "DM Sans",sans-serif;
+  letter-spacing:.04em;
+  text-decoration:none;
+  text-transform:uppercase;
+  border-bottom:1px solid rgba(223,113,144,.28);
+}
+
+.page-home .media-mag-soundtrack-links a:hover {
+  color:#c85d7b;
+  border-bottom-color:currentColor;
+}
+
+body.dark-theme.page-home .media-mag-card--soundtrack {
+  background:#171c21;
+  border-color:rgba(255,255,255,.08);
+}
+
+body.dark-theme.page-home .media-mag-soundtrack-copy > strong {
+  color:#f4eeee;
+}
+
+body.dark-theme.page-home .media-mag-soundtrack-copy p {
+  color:#a5adb3;
+}
+
+
+/* ---------------------------------------------------------
+   INTERVIEWS — show the entire source image.
+   The landscape source cannot crop correctly into a narrow
+   portrait tile while keeping both people visible, so contain
+   it within the card instead of cutting either person out.
+--------------------------------------------------------- */
+.page-home #media-interviews .media-mag-trigger {
+  background:#161a1e;
+}
+
+.page-home #media-interviews .media-mag-trigger img {
+  object-fit:contain !important;
+  object-position:center center !important;
+  transform:none !important;
+  background:#161a1e;
+}
+
+.page-home #media-interviews .media-mag-trigger:hover img {
+  transform:none !important;
+}
+
+
+/* ---------------------------------------------------------
+   MEDIA SIGNOFF — mobile alignment
+--------------------------------------------------------- */
+@media (max-width:760px) {
+  .page-home .media-editorial-signoff {
+    display:grid !important;
+    grid-template-columns:minmax(28px,1fr) auto minmax(28px,1fr) !important;
+    align-items:center !important;
+    width:100% !important;
+    max-width:100% !important;
+    gap:8px !important;
+    margin:20px 0 0 !important;
+    padding:0 4px !important;
+    box-sizing:border-box !important;
+  }
+
+  .page-home .media-editorial-signoff span {
+    width:100% !important;
+    max-width:none !important;
+    min-width:0 !important;
+  }
+
+  .page-home .media-editorial-signoff small {
+    min-width:0 !important;
+    max-width:100% !important;
+    margin:0 !important;
+    text-align:center !important;
+    white-space:nowrap !important;
+    letter-spacing:.18em !important;
+    font-size:.42rem !important;
+  }
+
+  .page-home .media-mag-card--soundtrack {
+    aspect-ratio:3 / 4;
+  }
+}
+
+@media (max-width:420px) {
+  .page-home .media-editorial-signoff {
+    grid-template-columns:minmax(18px,1fr) auto minmax(18px,1fr) !important;
+    gap:6px !important;
+  }
+
+  .page-home .media-editorial-signoff small {
+    letter-spacing:.12em !important;
+    font-size:.39rem !important;
+  }
+
+  .page-home .media-mag-card--soundtrack {
+    aspect-ratio:4 / 5;
+  }
+}
+
