@@ -11561,3 +11561,420 @@ body.dark-theme .story-modal__sidebar::-webkit-scrollbar-thumb {
     width: min(100%, 320px) !important;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 15.24 — OUR STORY RESPONSIVE EDITORIAL REBUILD
+   Desktop: one-screen magazine spread
+   Mobile portrait: horizontal chapter rail + full-width reader
+   Tablet (561–900px): intentionally preserved from 15.23
+========================================================= */
+
+/* ---------- DESKTOP ONLY ---------- */
+@media (min-width: 901px) {
+  .story-modal {
+    padding: clamp(18px, 2.2vw, 32px);
+  }
+
+  .story-modal__panel {
+    width: min(1120px, calc(100vw - 56px)) !important;
+    height: min(760px, calc(100dvh - 40px)) !important;
+    max-height: calc(100dvh - 40px) !important;
+  }
+
+  .story-modal__topbar {
+    min-height: 64px;
+    padding: 13px 22px;
+  }
+
+  .story-modal__layout {
+    grid-template-columns: 188px minmax(0, 1fr) !important;
+    height: calc(100% - 64px);
+  }
+
+  .story-modal__sidebar {
+    padding: 22px 14px 20px !important;
+    overflow: hidden !important;
+  }
+
+  .story-modal__sidebar h2 {
+    width: 100%;
+    margin: 0 4px 18px;
+    font-size: 1.58rem !important;
+    line-height: 1.02 !important;
+    letter-spacing: -.025em;
+  }
+
+  .story-modal__nav {
+    gap: 3px !important;
+  }
+
+  .story-modal__nav-item {
+    display: grid;
+    grid-template-columns: 25px minmax(0,1fr);
+    column-gap: 6px;
+    row-gap: 1px;
+    padding: 8px 7px !important;
+    min-height: 48px;
+  }
+
+  .story-modal__nav-item > span {
+    grid-row: 1 / span 2;
+    align-self: start;
+    padding-top: 1px;
+    font-size: .66rem;
+  }
+
+  .story-modal__nav-item strong {
+    font-size: .67rem !important;
+    line-height: 1.15;
+  }
+
+  .story-modal__nav-item small {
+    font-size: .49rem !important;
+    line-height: 1.2;
+  }
+
+  .story-modal__sidebar blockquote {
+    margin: 15px 5px 0;
+    padding-top: 13px;
+    font-size: .86rem !important;
+    line-height: 1.25;
+  }
+
+  .story-modal__reader {
+    padding: 24px 30px 26px !important;
+    overflow-y: auto;
+  }
+
+  .story-chapter {
+    width: min(100%, 840px) !important;
+    max-width: 840px !important;
+    min-height: 100%;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: minmax(270px, .88fr) minmax(0, 1.12fr);
+    grid-template-rows: auto 1fr auto;
+    column-gap: 32px;
+    row-gap: 12px;
+    align-content: center;
+  }
+
+  .story-chapter__heading {
+    grid-column: 1 / -1;
+    margin: 0 0 4px !important;
+  }
+
+  .story-chapter__heading > p {
+    margin-bottom: 5px;
+  }
+
+  .story-chapter__heading h3,
+  .story-chapter__title {
+    font-size: clamp(2.35rem, 3.2vw, 3.05rem) !important;
+    line-height: .98 !important;
+    letter-spacing: -.035em;
+  }
+
+  .story-chapter__heading em {
+    display: block;
+    margin-top: 6px;
+    font-size: clamp(1.08rem, 1.5vw, 1.34rem) !important;
+    line-height: 1.15;
+  }
+
+  .story-chapter__media {
+    grid-column: 1;
+    grid-row: 2 / span 2;
+    align-self: start;
+    display: flex !important;
+    flex-direction: column;
+    width: 100% !important;
+    max-width: 330px !important;
+    margin: 0 auto !important;
+  }
+
+  .story-chapter__media img {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 410px !important;
+    margin: 0 auto;
+  }
+
+  .story-chapter__media.is-portrait img {
+    width: min(100%, 300px) !important;
+    max-height: 410px !important;
+  }
+
+  .story-chapter__media.is-landscape {
+    max-width: 350px !important;
+  }
+
+  .story-chapter__media.is-landscape img {
+    width: 100% !important;
+    max-height: 300px !important;
+  }
+
+  .story-chapter__media.is-square img {
+    width: min(100%, 320px) !important;
+    max-height: 330px !important;
+  }
+
+  .story-chapter__credit {
+    width: min(100%, 330px) !important;
+    margin: 8px auto 0 !important;
+  }
+
+  .story-chapter__credit a {
+    gap: 8px;
+    padding: 7px 9px !important;
+    border-radius: 10px;
+  }
+
+  .story-chapter__credit-icon {
+    flex-basis: 27px;
+    width: 27px;
+    height: 27px;
+    border-radius: 8px;
+    font-size: .88rem;
+  }
+
+  .story-chapter__credit strong {
+    font-size: .61rem !important;
+  }
+
+  .story-chapter__credit small {
+    font-size: .48rem !important;
+  }
+
+  .story-chapter__copy {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    font-size: .82rem !important;
+    line-height: 1.58 !important;
+  }
+
+  .story-chapter__copy p {
+    margin: 0 0 .72em !important;
+  }
+
+  .story-sources,
+  .story-chapter__sources {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: end;
+    margin-top: 2px !important;
+  }
+
+  .story-sources summary,
+  .story-chapter__sources summary {
+    font-size: .68rem !important;
+    padding-block: 7px !important;
+  }
+
+  .story-chapter__footer {
+    grid-column: 2;
+    margin-top: 5px !important;
+    padding-top: 8px !important;
+  }
+
+  .story-chapter-next {
+    font-size: .68rem !important;
+    padding: 7px 10px !important;
+  }
+}
+
+/* ---------- MOBILE PORTRAIT ONLY ----------
+   Tablet rules remain unchanged because this starts at 560px and below.
+*/
+@media (max-width: 560px) {
+  .story-modal__topbar {
+    min-height: 58px !important;
+    padding: 11px 14px !important;
+  }
+
+  .story-modal__topbar > div {
+    display: none;
+  }
+
+  .story-modal__close {
+    width: 42px !important;
+    height: 42px !important;
+    right: 10px !important;
+    top: 8px !important;
+    font-size: 1.55rem !important;
+  }
+
+  .story-modal__layout {
+    display: flex !important;
+    flex-direction: column !important;
+    height: calc(100% - 58px) !important;
+    min-width: 0 !important;
+  }
+
+  .story-modal__sidebar {
+    flex: 0 0 auto;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 9px 12px 8px !important;
+    overflow: hidden !important;
+    border-right: 0 !important;
+  }
+
+  .story-modal__sidebar h2,
+  .story-modal__sidebar blockquote {
+    display: none !important;
+  }
+
+  .story-modal__nav {
+    display: flex !important;
+    width: 100%;
+    gap: 6px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 0 0 3px !important;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .story-modal__nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .story-modal__nav-item {
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+    width: auto !important;
+    min-height: 38px;
+    padding: 7px 10px !important;
+    display: flex !important;
+    align-items: center;
+    gap: 7px;
+    border-radius: 999px !important;
+    scroll-snap-align: start;
+  }
+
+  .story-modal__nav-item > span {
+    font-size: .66rem !important;
+  }
+
+  .story-modal__nav-item strong {
+    font-size: .68rem !important;
+    white-space: nowrap;
+  }
+
+  .story-modal__nav-item small {
+    display: none !important;
+  }
+
+  .story-modal__reader {
+    flex: 1 1 auto;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 20px 18px 34px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  .story-chapter {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
+  .story-chapter__heading {
+    margin-bottom: 17px !important;
+  }
+
+  .story-chapter__heading > p {
+    margin-bottom: 5px !important;
+    font-size: .67rem !important;
+  }
+
+  .story-chapter__heading h3,
+  .story-chapter__title {
+    font-size: clamp(2.25rem, 11vw, 2.8rem) !important;
+    line-height: .98 !important;
+    letter-spacing: -.035em;
+  }
+
+  .story-chapter__heading em {
+    display: block;
+    margin-top: 7px;
+    font-size: 1.18rem !important;
+    line-height: 1.18 !important;
+  }
+
+  .story-chapter__media {
+    display: flex !important;
+    flex-direction: column;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto 22px !important;
+  }
+
+  .story-chapter__media img {
+    width: auto !important;
+    height: auto !important;
+    max-width: 88% !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    object-fit: contain !important;
+  }
+
+  .story-chapter__media.is-portrait img {
+    width: min(82vw, 330px) !important;
+  }
+
+  .story-chapter__media.is-landscape img {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .story-chapter__media.is-square img {
+    width: min(88vw, 350px) !important;
+  }
+
+  .story-chapter__credit {
+    width: min(100%, 330px) !important;
+    margin: 8px auto 0 !important;
+  }
+
+  .story-chapter__credit a {
+    padding: 8px 10px !important;
+    gap: 8px !important;
+  }
+
+  .story-chapter__credit-icon {
+    flex: 0 0 28px !important;
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .story-chapter__credit strong {
+    font-size: .62rem !important;
+  }
+
+  .story-chapter__credit small {
+    font-size: .49rem !important;
+  }
+
+  .story-chapter__copy {
+    width: 100%;
+    font-size: .96rem !important;
+    line-height: 1.65 !important;
+  }
+
+  .story-chapter__copy p {
+    margin-bottom: .9em !important;
+  }
+
+  .story-sources,
+  .story-chapter__sources {
+    margin-top: 16px !important;
+  }
+}
