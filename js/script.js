@@ -1750,3 +1750,21 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
   if(storyReader&&storySections.length)storyReader.addEventListener("scroll",()=>{const top=storyReader.getBoundingClientRect().top;let active=storySections[0].id;storySections.forEach(s=>{if(s.getBoundingClientRect().top-top<=120)active=s.id});setActiveStoryChapter(active)},{passive:true});
   document.addEventListener("keydown",e=>{if(!storyModal?.classList.contains("is-open"))return;if(e.key==="Escape"){e.preventDefault();closeStoryModal();return}if(e.key!=="Tab")return;const f=[...storyModal.querySelectorAll('button:not([disabled]),a[href],summary,[tabindex]:not([tabindex="-1"])')].filter(x=>!x.hidden&&x.offsetParent!==null);if(!f.length)return;const first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}});
 })();
+
+
+/* 15.24: classify Our Story chapter media by its natural aspect ratio. */
+(function () {
+  function classifyStoryMedia(img) {
+    if (!img || !img.closest) return;
+    var figure = img.closest('.story-chapter__media');
+    if (!figure || !img.naturalWidth || !img.naturalHeight) return;
+    figure.classList.remove('is-portrait', 'is-landscape', 'is-square');
+    var ratio = img.naturalWidth / img.naturalHeight;
+    figure.classList.add(ratio < 0.88 ? 'is-portrait' : ratio > 1.12 ? 'is-landscape' : 'is-square');
+  }
+
+  document.querySelectorAll('.story-chapter__media img').forEach(function (img) {
+    if (img.complete) classifyStoryMedia(img);
+    img.addEventListener('load', function () { classifyStoryMedia(img); }, { once: true });
+  });
+})();
