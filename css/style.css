@@ -14866,3 +14866,192 @@ body.dark-theme.page-home .media-mag-soundtrack-copy p {
   }
 }
 
+
+/* =========================================================
+   HOMEPAGE 15.41 — MEDIA POLISH
+   - Soundtrack matches Media card styling
+   - Keep Oom/Bam soundtrack names
+   - Crop Sakura promo text from card + modal
+========================================================= */
+
+/* ---------------------------------------------------------
+   SOUNDTRACK — same visual language as Media editorial tiles
+--------------------------------------------------------- */
+.page-home .media-mag-card--soundtrack {
+  display:grid !important;
+  grid-template-rows:minmax(0,1fr) auto !important;
+  aspect-ratio:3 / 5 !important;
+  min-width:0 !important;
+  overflow:visible !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+
+.page-home .media-mag-card--soundtrack .media-mag-soundtrack-player {
+  position:relative !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+  border:1px solid rgba(126,163,187,.20) !important;
+  border-radius:8px !important;
+  background:#111 !important;
+  box-shadow:0 12px 28px rgba(48,70,84,.05) !important;
+}
+
+.page-home .media-mag-card--soundtrack .media-mag-soundtrack-player iframe {
+  position:absolute !important;
+  inset:0 !important;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  border:0 !important;
+  z-index:1 !important;
+}
+
+.page-home .media-mag-card--soundtrack .media-mag-gradient {
+  position:absolute !important;
+  inset:0 !important;
+  display:block !important;
+  z-index:2 !important;
+  pointer-events:none !important;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 46%,
+      rgba(10,11,13,.12) 58%,
+      rgba(10,11,13,.88) 100%
+    ) !important;
+}
+
+.page-home .media-mag-card--soundtrack .media-mag-soundtrack-overlay {
+  position:absolute !important;
+  left:12px !important;
+  right:12px !important;
+  bottom:14px !important;
+  z-index:3 !important;
+  pointer-events:none !important;
+  color:#fff !important;
+}
+
+.page-home .media-mag-card--soundtrack .media-mag-soundtrack-overlay .media-mag-eyebrow {
+  display:block !important;
+  margin:0 0 5px !important;
+  color:#d9edf7 !important;
+  font:700 .48rem/1.15 "DM Sans",sans-serif !important;
+  letter-spacing:.14em !important;
+  text-transform:uppercase !important;
+}
+
+.page-home .media-mag-card--soundtrack .media-mag-soundtrack-overlay strong {
+  display:block !important;
+  margin:0 !important;
+  color:#fff !important;
+  font:500 clamp(1rem,1.15vw,1.18rem)/1.03 "Cormorant Garamond",serif !important;
+}
+
+.page-home .media-mag-credit--soundtrack {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex-wrap:wrap !important;
+  gap:4px 6px !important;
+  margin-top:7px !important;
+  padding:0 3px !important;
+  color:#7d858b !important;
+  font:500 .43rem/1.25 "DM Sans",sans-serif !important;
+  text-align:center !important;
+}
+
+.page-home .media-mag-credit--soundtrack a {
+  color:#df7190 !important;
+  font-weight:700 !important;
+  text-decoration:none !important;
+  text-transform:uppercase !important;
+  letter-spacing:.03em !important;
+  border-bottom:1px solid rgba(223,113,144,.28) !important;
+}
+
+.page-home .media-mag-credit--soundtrack a:hover {
+  color:#c85d7b !important;
+  border-bottom-color:currentColor !important;
+}
+
+/* No sub-description block remains in the soundtrack tile. */
+.page-home .media-mag-card--soundtrack .media-mag-soundtrack-copy,
+.page-home .media-mag-card--soundtrack .media-mag-soundtrack-copy p {
+  display:none !important;
+}
+
+
+/* ---------------------------------------------------------
+   WHEN SAKURA BLOOMS — crop the promotional text from the top
+--------------------------------------------------------- */
+
+/* Thumbnail:
+   zoom and bias the source downward enough to remove the promo
+   header while keeping both faces and the card title visible. */
+.page-home #media-sakura .media-mag-trigger {
+  overflow:hidden !important;
+  background:#111 !important;
+}
+
+.page-home #media-sakura .media-mag-trigger img {
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center 72% !important;
+  transform:scale(1.20) !important;
+  transform-origin:center center !important;
+}
+
+.page-home #media-sakura .media-mag-trigger:hover img {
+  transform:scale(1.23) !important;
+}
+
+/* Modal:
+   dedicated crop only when the Sakura collection is open. */
+.media-detail-modal[data-media-key="sakura"] .media-detail-modal__image {
+  overflow:hidden !important;
+  background:#f3efeb !important;
+}
+
+.media-detail-modal[data-media-key="sakura"] .media-detail-modal__image img {
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center 72% !important;
+  transform:scale(1.18) !important;
+  transform-origin:center center !important;
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE / TABLET tuning
+--------------------------------------------------------- */
+@media (max-width:760px) {
+  .page-home .media-mag-card--soundtrack {
+    aspect-ratio:3 / 5 !important;
+  }
+
+  .page-home .media-mag-card--soundtrack .media-mag-soundtrack-overlay {
+    left:10px !important;
+    right:10px !important;
+    bottom:11px !important;
+  }
+
+  .page-home .media-mag-credit--soundtrack {
+    font-size:.40rem !important;
+  }
+
+  .page-home #media-sakura .media-mag-trigger img {
+    object-position:center 74% !important;
+    transform:scale(1.24) !important;
+  }
+
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__image img {
+    object-position:center 74% !important;
+    transform:scale(1.22) !important;
+  }
+}
+
