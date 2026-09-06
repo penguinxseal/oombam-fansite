@@ -1869,3 +1869,23 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
   // expose for existing modal-open logic if needed
   window.activateOomBamStoryChapter = activateStoryChapter;
 })();
+
+
+/* =========================================================
+   HOMEPAGE 15.26 — STORY ACTION CONTROLS
+========================================================= */
+(function () {
+  const modal = document.getElementById('storyModal');
+  if (!modal) return;
+  modal.querySelectorAll('.story-chapter-prev, .story-chapter-next').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      const id = button.getAttribute('data-story-chapter');
+      const chapters = Array.from(modal.querySelectorAll('.story-chapter'));
+      const index = chapters.findIndex((chapter) => chapter.id === id);
+      if (index >= 0 && typeof window.activateOomBamStoryChapter === 'function') {
+        window.activateOomBamStoryChapter(index, { resetScroll: true, centerNav: true });
+      }
+    });
+  });
+})();
