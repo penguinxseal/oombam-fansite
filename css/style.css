@@ -13000,3 +13000,214 @@ body.dark-theme .story-chapter-next { color: #8dc5e4; }
     padding-top: 0 !important;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE 15.28 — DESKTOP REBALANCE
+   Fixes remaining desktop geometry from v15.27
+========================================================= */
+
+@media (min-width: 901px) {
+
+  /* Pull the editorial spread upward and reduce unused canvas. */
+  .story-modal__reader {
+    padding: 12px 24px 18px !important;
+    overflow: hidden !important;
+  }
+
+  .story-chapter.is-active {
+    width: min(100%, 920px) !important;
+    max-width: 920px !important;
+    height: 100% !important;
+    display: grid !important;
+    grid-template-columns: minmax(390px, .98fr) minmax(410px, 1.02fr) !important;
+    grid-template-rows: auto 1fr auto !important;
+    column-gap: 36px !important;
+    row-gap: 10px !important;
+    align-content: start !important;
+    align-items: start !important;
+  }
+
+  .story-chapter__heading {
+    grid-column: 1 / -1 !important;
+    margin: 0 0 6px !important;
+  }
+
+  .story-chapter__heading h3 {
+    font-size: clamp(2.35rem, 2.8vw, 2.75rem) !important;
+  }
+
+  .story-chapter__heading em {
+    margin-top: 5px !important;
+    font-size: 1.2rem !important;
+  }
+
+  /* REMOVE the visible photo panel entirely.
+     Figure becomes a transparent layout wrapper. */
+  .story-chapter__media,
+  .story-chapter__media.is-portrait,
+  .story-chapter__media.is-landscape,
+  .story-chapter__media.is-square {
+    grid-column: 1 !important;
+    grid-row: 2 / span 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 390px !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  /* Make the actual media visually substantial. */
+  .story-chapter__media img {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 455px !important;
+    margin: 0 auto !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    border-radius: 15px !important;
+    box-shadow: 0 14px 34px rgba(24,23,28,.13) !important;
+    background: transparent !important;
+  }
+
+  .story-chapter__media.is-portrait img {
+    width: min(100%, 360px) !important;
+  }
+
+  .story-chapter__media.is-square img {
+    width: min(100%, 380px) !important;
+    max-height: 405px !important;
+  }
+
+  .story-chapter__media.is-landscape img {
+    width: 100% !important;
+    max-height: 315px !important;
+  }
+
+  /* Compact attribution directly under the image. */
+  .story-chapter__credit {
+    width: fit-content !important;
+    max-width: 100% !important;
+    margin: 8px auto 0 !important;
+  }
+
+  .story-chapter__credit a {
+    display: inline-flex !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 280px !important;
+    padding: 6px 9px !important;
+    gap: 7px !important;
+    border-radius: 10px !important;
+  }
+
+  .story-chapter__credit-icon {
+    width: 26px !important;
+    height: 26px !important;
+    flex-basis: 26px !important;
+  }
+
+  .story-chapter__credit strong {
+    font-size: .69rem !important;
+  }
+
+  .story-chapter__credit small {
+    font-size: .53rem !important;
+  }
+
+  /* Align narrative with top of the image, not halfway down the page. */
+  .story-chapter__copy {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    align-self: start !important;
+    margin: 0 !important;
+    padding-top: 0 !important;
+    font-size: 1rem !important;
+    line-height: 1.58 !important;
+    max-width: 100% !important;
+  }
+
+  .story-chapter__copy p {
+    margin: 0 0 .78em !important;
+  }
+
+  /* Keep sources + navigation visible inside the first desktop frame. */
+  .story-chapter__actions {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+    align-self: end !important;
+    margin: 0 !important;
+    padding-top: 4px !important;
+  }
+
+  .story-sources,
+  .story-chapter__sources {
+    margin: 0 !important;
+  }
+
+  .story-sources summary,
+  .story-chapter__sources summary {
+    padding: 7px 0 !important;
+    font-size: .72rem !important;
+  }
+
+  .story-chapter__footer {
+    margin: 2px 0 0 !important;
+    padding: 2px 0 0 !important;
+  }
+
+  /* Left rail readability and geometry. */
+  .story-modal__sidebar {
+    padding: 18px 14px 16px !important;
+  }
+
+  .story-modal__sidebar h2 {
+    font-size: 1.68rem !important;
+    margin-bottom: 14px !important;
+  }
+
+  .story-modal__nav-item {
+    min-height: 56px !important;
+    padding: 9px 9px !important;
+  }
+
+  .story-modal__nav-item strong {
+    font-size: .83rem !important;
+    color: #283038 !important;
+  }
+
+  .story-modal__nav-item small {
+    font-size: .67rem !important;
+    line-height: 1.32 !important;
+    color: #666f77 !important;
+    opacity: 1 !important;
+  }
+
+  html[data-theme="dark"] .story-modal__nav-item strong,
+  body.dark-theme .story-modal__nav-item strong {
+    color: #f0ece7 !important;
+  }
+
+  html[data-theme="dark"] .story-modal__nav-item small,
+  body.dark-theme .story-modal__nav-item small {
+    color: #c3c7cc !important;
+  }
+
+  .story-modal__sidebar blockquote {
+    margin-top: auto !important;
+    font-size: .88rem !important;
+    line-height: 1.28 !important;
+  }
+}
