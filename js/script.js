@@ -1768,3 +1768,104 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
     img.addEventListener('load', function () { classifyStoryMedia(img); }, { once: true });
   });
 })();
+
+
+/* =========================================================
+   HOMEPAGE 15.25 — OUR STORY CHAPTER VIEW CONTROLLER
+   One active chapter at a time + nav centering
+========================================================= */
+(function () {
+  const storyModal = document.getElementById('storyModal');
+  if (!storyModal) return;
+
+  const navItems = Array.from(storyModal.querySelectorAll('.story-modal__nav-item'));
+  const chapters = Array.from(storyModal.querySelectorAll('.story-chapter'));
+  const reader = storyModal.querySelector('.story-modal__reader');
+  const nav = storyModal.querySelector('.story-modal__nav');
+
+  if (!navItems.length || !chapters.length) return;
+
+  function chapterIndexFromButton(button, fallbackIndex) {
+    const target = button.getAttribute('data-story-chapter');
+    if (target) {
+      const found = chapters.findIndex((chapter) =>
+        chapter.id === target || chapter.getAttribute('data-story-chapter') === target
+      );
+      if (found >= 0) return found;
+    }
+    return fallbackIndex;
+  }
+
+  function activateStoryChapter(index, opts = {}) {
+    if (index < 0 || index >= chapters.length) return;
+
+    chapters.forEach((chapter, i) => {
+      const active = i === index;
+      chapter.classList.toggle('is-active', active);
+      chapter.hidden = !active;
+      chapter.setAttribute('aria-hidden', active ? 'false' : 'true');
+    });
+
+    navItems.forEach((button, i) => {
+      const active = chapterIndexFromButton(button, i) === index;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-current', active ? 'step' : 'false');
+    });
+
+    const activeButton = navItems.find((button, i) => chapterIndexFromButton(button, i) === index);
+    if (activeButton && opts.centerNav !== false) {
+      activeButton.scrollIntoView({
+        behavior: opts.instant ? 'auto' : 'smooth',
+        inline: 'center',
+        block: 'nearest'
+      });
+    }
+
+    if (reader && opts.resetScroll !== false) {
+      reader.scrollTo({ top: 0, behavior: opts.instant ? 'auto' : 'smooth' });
+    }
+  }
+
+  navItems.forEach((button, i) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      activateStoryChapter(chapterIndexFromButton(button, i), {
+        resetScroll: true,
+        centerNav: true
+      });
+    });
+  });
+
+  storyModal.querySelectorAll('[data-story-next], .story-chapter-next').forEach((control) => {
+    control.addEventListener('click', (event) => {
+      const activeIndex = chapters.findIndex((chapter) => !chapter.hidden);
+      if (activeIndex < 0) return;
+      event.preventDefault();
+      activateStoryChapter(Math.min(activeIndex + 1, chapters.length - 1), {
+        resetScroll: true,
+        centerNav: true
+      });
+    });
+  });
+
+  storyModal.querySelectorAll('[data-story-prev], .story-chapter-prev').forEach((control) => {
+    control.addEventListener('click', (event) => {
+      const activeIndex = chapters.findIndex((chapter) => !chapter.hidden);
+      if (activeIndex < 0) return;
+      event.preventDefault();
+      activateStoryChapter(Math.max(activeIndex - 1, 0), {
+        resetScroll: true,
+        centerNav: true
+      });
+    });
+  });
+
+  const initialIndex = Math.max(
+    0,
+    chapters.findIndex((chapter) => chapter.classList.contains('is-active') || !chapter.hidden)
+  );
+  activateStoryChapter(initialIndex, { instant: true, resetScroll: false, centerNav: false });
+
+  // expose for existing modal-open logic if needed
+  window.activateOomBamStoryChapter = activateStoryChapter;
+})();
