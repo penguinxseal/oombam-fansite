@@ -1744,7 +1744,7 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
   let storyLastFocus=null,storyScrollY=0;
   function setActiveStoryChapter(id){storyChapterButtons.forEach(b=>{const a=b.dataset.storyChapter===id;b.classList.toggle("is-active",a);if(b.closest(".story-modal__nav"))b.setAttribute("aria-current",a?"true":"false")})}
   function goToStoryChapter(id){const c=document.getElementById(id);if(!c||!storyReader)return;setActiveStoryChapter(id);storyReader.scrollTo({top:c.offsetTop-18,behavior:"smooth"})}
-  function openStoryModal(){if(!storyModal)return;storyLastFocus=document.activeElement;storyScrollY=window.scrollY||0;storyModal.classList.add("is-open");storyModal.setAttribute("aria-hidden","false");document.body.classList.add("story-modal-open");if(storyReader)storyReader.scrollTop=0;setActiveStoryChapter("storyChapter01");requestAnimationFrame(()=>(window.matchMedia("(min-width: 901px)").matches ? storyModal.querySelector(".osd-close") : storyModal.querySelector(".story-modal__close"))?.focus({preventScroll:true}))}
+  function openStoryModal(){if(!storyModal)return;storyLastFocus=document.activeElement;storyScrollY=window.scrollY||0;storyModal.classList.add("is-open");storyModal.setAttribute("aria-hidden","false");document.body.classList.add("story-modal-open");if(storyReader)storyReader.scrollTop=0;setActiveStoryChapter("storyChapter01");requestAnimationFrame(()=>(window.matchMedia("(min-width: 901px), (min-width: 700px) and (max-width: 900px) and (orientation: portrait)").matches ? storyModal.querySelector(".osd-close") : storyModal.querySelector(".story-modal__close"))?.focus({preventScroll:true}))}
   function closeStoryModal(){if(!storyModal)return;storyModal.classList.remove("is-open");storyModal.setAttribute("aria-hidden","true");document.body.classList.remove("story-modal-open");window.scrollTo(0,storyScrollY);storyLastFocus?.focus?.({preventScroll:true})}
   storyOpeners.forEach(b=>b.addEventListener("click",openStoryModal));storyClosers.forEach(b=>b.addEventListener("click",closeStoryModal));storyChapterButtons.forEach(b=>b.addEventListener("click",()=>goToStoryChapter(b.dataset.storyChapter)));
   if(storyReader&&storySections.length)storyReader.addEventListener("scroll",()=>{const top=storyReader.getBoundingClientRect().top;let active=storySections[0].id;storySections.forEach(s=>{if(s.getBoundingClientRect().top-top<=120)active=s.id});setActiveStoryChapter(active)},{passive:true});
@@ -1907,6 +1907,6 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
     panel.querySelectorAll('.osd-sources[open]').forEach(d=>d.removeAttribute('open'));
   }
   buttons.forEach(b=>b.addEventListener('click',e=>{e.preventDefault();show(b.dataset.osdChapter)}));
-  document.querySelectorAll('[data-story-open]').forEach(b=>b.addEventListener('click',()=>{if(window.matchMedia('(min-width: 901px)').matches)show('osdChapter01')}));
+  document.querySelectorAll('[data-story-open]').forEach(b=>b.addEventListener('click',()=>{if(window.matchMedia('(min-width: 901px), (min-width: 700px) and (max-width: 900px) and (orientation: portrait)').matches)show('osdChapter01')}));
   show('osdChapter01');
 })();
