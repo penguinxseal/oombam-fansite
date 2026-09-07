@@ -15782,3 +15782,128 @@ body.dark-theme .sakura-clip-card__caption{color:#bac2c8}
   }
 }
 
+
+/* =========================================================
+   HOMEPAGE 15.46 — SAKURA MODAL QUALITY + WIDTH FIX
+   ---------------------------------------------------------
+   Root cause:
+   - source cover is only 640×1136
+   - previous rules enlarged it 1.4–1.6×, causing visible blur
+   - modal width was too generous for this source resolution
+   Strategy:
+   - remove transform zoom completely
+   - crop by using a dedicated overflow viewport + object-position
+   - reduce Sakura modal width and image-column width
+   - keep portrait mobile modal layout unchanged
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   SAKURA THUMBNAIL — CROP WITHOUT UPSCALING
+--------------------------------------------------------- */
+.page-home #media-sakura .media-mag-trigger {
+  overflow:hidden !important;
+  background:#111 !important;
+}
+
+.page-home #media-sakura .media-mag-trigger img {
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center 74% !important;
+  transform:none !important;
+  filter:none !important;
+}
+
+.page-home #media-sakura .media-mag-trigger:hover img {
+  transform:none !important;
+}
+
+
+/* ---------------------------------------------------------
+   SAKURA DESKTOP/TABLET MODAL — NARROWER + SHARPER
+--------------------------------------------------------- */
+@media (min-width:761px) {
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__panel {
+    width:min(900px,92vw) !important;
+    max-width:900px !important;
+    grid-template-columns:minmax(280px,340px) minmax(0,1fr) !important;
+  }
+
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__image {
+    min-height:0 !important;
+    height:auto !important;
+    overflow:hidden !important;
+    background:#f1ece7 !important;
+  }
+
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__image img {
+    width:100% !important;
+    height:100% !important;
+    min-height:100% !important;
+    object-fit:cover !important;
+    object-position:center 76% !important;
+    transform:none !important;
+    filter:none !important;
+  }
+
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__content {
+    padding:clamp(26px,3vw,38px) !important;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE PORTRAIT THUMBNAIL — CENTER SUBJECTS
+   No transform zoom; rely on the source crop itself.
+--------------------------------------------------------- */
+@media (max-width:760px) and (orientation:portrait) {
+  .page-home #media-sakura .media-mag-trigger img {
+    object-position:center 72% !important;
+    transform:none !important;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE PORTRAIT MODAL — KEEP WORKING STACK,
+   REMOVE BLUR-CAUSING SCALE ONLY
+--------------------------------------------------------- */
+@media (max-width:760px) and (orientation:portrait) {
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__image {
+    overflow:hidden !important;
+  }
+
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__image img {
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center 76% !important;
+    transform:none !important;
+    filter:none !important;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   LANDSCAPE MODAL
+   Slightly narrower player collection prevents over-wide stretching.
+--------------------------------------------------------- */
+@media (orientation:landscape) and (max-height:820px) {
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__panel {
+    width:min(880px,92vw) !important;
+    max-width:880px !important;
+  }
+
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__collection {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:14px !important;
+  }
+
+  .sakura-clip-card__player,
+  .sakura-clip-card__player iframe {
+    aspect-ratio:16 / 9 !important;
+    height:auto !important;
+  }
+}
+
