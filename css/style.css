@@ -15546,3 +15546,159 @@ body.dark-theme.page-home .media-side-note {
   }
 }
 
+
+/* =========================================================
+   HOMEPAGE 15.44 — SAKURA COLLECTION + SOUNDTRACK ALIGNMENT
+========================================================= */
+
+/* Soundtrack: larger player zone, smaller editorial metadata zone. */
+.page-home .media-soundtrack-tile{
+  grid-template-rows:minmax(0,74%) minmax(68px,26%)!important;
+}
+.page-home .media-soundtrack-player{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:0!important;
+  background:#000!important;
+}
+.page-home .media-soundtrack-player iframe{
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  border:0!important;
+}
+.page-home .media-soundtrack-meta{
+  justify-content:center!important;
+  padding:10px 12px 11px!important;
+}
+.page-home .media-soundtrack-meta .media-mag-eyebrow{
+  margin-bottom:6px!important;
+}
+.page-home .media-mag-credit--soundtrack{
+  min-height:20px!important;
+  align-items:flex-start!important;
+  padding-top:0!important;
+}
+
+/* Sakura becomes a full curated video collection. */
+.media-detail-modal[data-media-key="sakura"] .media-detail-modal__panel{
+  width:min(1120px,94vw)!important;
+  max-height:90vh!important;
+  grid-template-columns:minmax(300px,.86fr) minmax(0,1.14fr)!important;
+  grid-template-rows:auto auto!important;
+  align-items:stretch!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+}
+.media-detail-modal[data-media-key="sakura"] .media-detail-modal__image{
+  grid-column:1!important;
+  grid-row:1!important;
+  min-height:430px!important;
+}
+.media-detail-modal[data-media-key="sakura"] .media-detail-modal__content{
+  grid-column:2!important;
+  grid-row:1!important;
+  align-self:center!important;
+  padding:clamp(30px,4vw,46px)!important;
+}
+.media-detail-modal__collection{
+  grid-column:1 / -1;
+  min-width:0;
+}
+.media-detail-modal[data-media-key="sakura"] .media-detail-modal__collection{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+  padding:22px clamp(22px,3vw,34px) 30px;
+  border-top:1px solid rgba(126,163,187,.20);
+  background:linear-gradient(180deg,rgba(239,247,252,.42),rgba(255,251,249,.84));
+}
+.media-detail-modal__collection[hidden]{display:none!important}
+.sakura-clip-card{
+  min-width:0;
+  overflow:hidden;
+  border:1px solid rgba(126,163,187,.16);
+  border-radius:14px;
+  background:rgba(255,255,255,.78);
+  box-shadow:0 8px 24px rgba(42,63,75,.045);
+}
+.sakura-clip-card__player{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  background:#000;
+}
+.sakura-clip-card__player iframe{
+  display:block;
+  width:100%;
+  height:100%;
+  border:0;
+}
+.sakura-clip-card__caption{
+  margin:0;
+  padding:12px 13px 14px;
+  color:#636a70;
+  font:500 .69rem/1.5 "DM Sans",sans-serif;
+}
+body.dark-theme .media-detail-modal[data-media-key="sakura"] .media-detail-modal__collection{
+  background:linear-gradient(180deg,rgba(28,35,41,.98),rgba(19,23,27,.98));
+  border-top-color:rgba(255,255,255,.08);
+}
+body.dark-theme .sakura-clip-card{
+  background:#171c21;
+  border-color:rgba(255,255,255,.08);
+}
+body.dark-theme .sakura-clip-card__caption{color:#bac2c8}
+
+@media (min-width:761px) and (max-width:1020px){
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__panel{
+    width:min(900px,95vw)!important;
+    grid-template-columns:minmax(240px,.78fr) minmax(0,1.22fr)!important;
+  }
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__image{
+    min-height:380px!important;
+  }
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__collection{
+    gap:13px;
+    padding:18px 20px 24px;
+  }
+  .sakura-clip-card__caption{font-size:.66rem}
+}
+
+@media (max-width:760px){
+  .page-home .media-soundtrack-tile{
+    grid-template-rows:minmax(0,72%) minmax(64px,28%)!important;
+  }
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__panel{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto auto auto!important;
+    max-height:92vh!important;
+    overflow-y:auto!important;
+  }
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__image{
+    grid-column:1!important;
+    grid-row:1!important;
+    height:300px!important;
+    min-height:300px!important;
+  }
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__content{
+    grid-column:1!important;
+    grid-row:2!important;
+    padding:22px 19px 20px!important;
+  }
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__collection{
+    grid-column:1!important;
+    grid-row:3!important;
+    grid-template-columns:1fr!important;
+    gap:12px;
+    padding:16px 14px 22px;
+  }
+  .sakura-clip-card__caption{
+    padding:10px 11px 12px;
+    font-size:.66rem;
+  }
+}
+
