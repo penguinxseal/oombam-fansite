@@ -15332,3 +15332,217 @@ body.dark-theme .vlogs-modal__close{
   }
 }
 
+
+/* =========================================================
+   HOMEPAGE 15.43 — MEDIA + MOMENTS VISUAL POLISH
+   ---------------------------------------------------------
+   - restore visible Soundtrack YouTube player
+   - align Soundtrack card with the Media tile system
+   - clean Sakura title wrapping and remove all top promo text
+   - unify Moments / Media side-note treatment
+   - reduce Moments month typography
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   SHARED SIDE NOTE / QUOTE TREATMENT
+   Chosen direction: the restrained uppercase editorial note
+   used by Media. It better matches the site's section labels,
+   dividers, and luxury-editorial typography than the script note.
+--------------------------------------------------------- */
+.page-home .moments-side-note,
+.page-home .media-side-note {
+  margin:0 0 8px !important;
+  color:rgba(82,67,74,.72) !important;
+  font-family:"DM Sans",sans-serif !important;
+  font-size:clamp(.76rem,.95vw,.92rem) !important;
+  font-weight:500 !important;
+  line-height:1.45 !important;
+  letter-spacing:.18em !important;
+  text-transform:uppercase !important;
+  text-align:right !important;
+  transform:none !important;
+}
+
+body.dark-theme.page-home .moments-side-note,
+body.dark-theme.page-home .media-side-note {
+  color:rgba(235,239,242,.65) !important;
+}
+
+
+/* ---------------------------------------------------------
+   MOMENTS — reduce month dominance
+--------------------------------------------------------- */
+.page-home .moments-mag-month {
+  font-size:clamp(1.62rem,2.05vw,2.22rem) !important;
+  line-height:.88 !important;
+  letter-spacing:-.025em !important;
+}
+
+.page-home .moments-mag-year {
+  margin-top:5px !important;
+  font-size:.60rem !important;
+}
+
+.page-home .moments-mag-title {
+  margin-top:11px !important;
+}
+
+
+/* ---------------------------------------------------------
+   WHEN SAKURA BLOOMS — title + stronger crop
+--------------------------------------------------------- */
+.page-home #media-sakura .media-mag-copy strong {
+  max-width:calc(100% - 34px) !important;
+  font-size:clamp(1rem,1.08vw,1.18rem) !important;
+  line-height:.94 !important;
+  letter-spacing:-.015em !important;
+}
+
+/* Push the promotional header completely out of the visible tile. */
+.page-home #media-sakura .media-mag-trigger img {
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center 90% !important;
+  transform:scale(1.60) !important;
+  transform-origin:center 70% !important;
+}
+
+.page-home #media-sakura .media-mag-trigger:hover img {
+  transform:scale(1.63) !important;
+}
+
+/* Same crop logic inside the Sakura modal. */
+.media-detail-modal[data-media-key="sakura"] .media-detail-modal__image {
+  overflow:hidden !important;
+}
+
+.media-detail-modal[data-media-key="sakura"] .media-detail-modal__image img {
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center 90% !important;
+  transform:scale(1.58) !important;
+  transform-origin:center 72% !important;
+}
+
+
+/* ---------------------------------------------------------
+   SOUNDTRACK — VISIBLE EMBED + EDITORIAL TILE FORMAT
+   Player remains functional. The lower metadata block uses the same
+   category/title hierarchy and dark treatment as the other cards.
+--------------------------------------------------------- */
+.page-home .media-mag-card--soundtrack {
+  display:grid !important;
+  grid-template-rows:minmax(0,1fr) 20px !important;
+  min-width:0 !important;
+  overflow:visible !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+.page-home .media-soundtrack-tile {
+  display:grid !important;
+  grid-template-rows:minmax(0,64%) minmax(76px,36%) !important;
+  width:100% !important;
+  aspect-ratio:3/5 !important;
+  overflow:hidden !important;
+  border:1px solid rgba(126,163,187,.16) !important;
+  border-radius:8px !important;
+  background:#0d1013 !important;
+  box-shadow:0 12px 28px rgba(48,70,84,.05) !important;
+}
+
+.page-home .media-soundtrack-player {
+  position:relative !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+  background:#000 !important;
+}
+
+.page-home .media-soundtrack-player iframe {
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  border:0 !important;
+  background:#000 !important;
+}
+
+.page-home .media-soundtrack-meta {
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:flex-end !important;
+  min-height:0 !important;
+  padding:11px 12px 13px !important;
+  color:#fff !important;
+  background:
+    linear-gradient(180deg,#151a1e 0%,#0d1013 100%) !important;
+}
+
+.page-home .media-soundtrack-meta .media-mag-eyebrow {
+  display:block !important;
+  margin:0 0 7px !important;
+  color:#d8edf7 !important;
+  font:700 .50rem/1 "DM Sans",sans-serif !important;
+  letter-spacing:.14em !important;
+  text-transform:uppercase !important;
+}
+
+.page-home .media-soundtrack-meta strong {
+  display:block !important;
+  margin:0 !important;
+  color:#fff !important;
+  font:500 clamp(1.12rem,1.22vw,1.38rem)/.94 "Cormorant Garamond",serif !important;
+}
+
+.page-home .media-mag-credit--soundtrack {
+  display:flex !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  flex-wrap:nowrap !important;
+  gap:4px !important;
+  min-height:20px !important;
+  margin:6px 0 0 !important;
+  overflow:visible !important;
+  white-space:nowrap !important;
+}
+
+.page-home .media-mag-credit--soundtrack a {
+  color:#df7190 !important;
+  font:700 .42rem/1.15 "DM Sans",sans-serif !important;
+  letter-spacing:.02em !important;
+  text-decoration:none !important;
+  text-transform:uppercase !important;
+  border-bottom:1px solid rgba(223,113,144,.28) !important;
+}
+
+
+/* ---------------------------------------------------------
+   RESPONSIVE FINE TUNING
+--------------------------------------------------------- */
+@media (max-width:760px) {
+  .page-home #media-sakura .media-mag-trigger img {
+    object-position:center 92% !important;
+    transform:scale(1.64) !important;
+  }
+
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__image img {
+    object-position:center 92% !important;
+    transform:scale(1.62) !important;
+  }
+
+  .page-home .media-soundtrack-tile {
+    grid-template-rows:minmax(0,62%) minmax(72px,38%) !important;
+  }
+
+  .page-home .media-soundtrack-meta {
+    padding:9px 10px 11px !important;
+  }
+
+  .page-home .media-soundtrack-meta strong {
+    font-size:1.05rem !important;
+  }
+}
+
