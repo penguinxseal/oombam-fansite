@@ -15702,3 +15702,83 @@ body.dark-theme .sakura-clip-card__caption{color:#bac2c8}
   }
 }
 
+
+/* =========================================================
+   HOMEPAGE 15.45 — SAKURA RESPONSIVE FIX
+   ---------------------------------------------------------
+   Scope only:
+   - mobile Media thumbnail alignment for When SAKURA Blooms
+   - landscape Sakura YouTube player proportions
+   - portrait Sakura modal remains unchanged
+========================================================= */
+
+/* ---------------------------------------------------------
+   MOBILE THUMBNAIL
+   Reduce the aggressive zoom from v15.43/15.44 and re-center
+   the subjects so the card does not feel pushed/cropped off-axis.
+--------------------------------------------------------- */
+@media (max-width:760px) and (orientation:portrait) {
+  .page-home #media-sakura .media-mag-trigger img {
+    object-position:center 78% !important;
+    transform:scale(1.38) !important;
+    transform-origin:center 66% !important;
+  }
+
+  .page-home #media-sakura .media-mag-trigger:hover img {
+    transform:scale(1.40) !important;
+  }
+}
+
+/* ---------------------------------------------------------
+   LANDSCAPE — SAKURA VIDEO COLLECTION
+   Keep each YouTube embed at a real 16:9 shape instead of
+   stretching to fill the entire wide modal column.
+--------------------------------------------------------- */
+@media (orientation:landscape) and (max-height:820px) {
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__panel {
+    max-height:92vh !important;
+  }
+
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__collection {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    align-items:start !important;
+  }
+
+  .sakura-clip-card {
+    align-self:start !important;
+  }
+
+  .sakura-clip-card__player {
+    width:100% !important;
+    aspect-ratio:16 / 9 !important;
+    height:auto !important;
+    max-height:none !important;
+  }
+
+  .sakura-clip-card__player iframe {
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    aspect-ratio:16 / 9 !important;
+    object-fit:contain !important;
+  }
+
+  .sakura-clip-card__caption {
+    min-height:0 !important;
+  }
+}
+
+/* Extra-short phone landscape: use one player per row so the video
+   remains watchable and does not become an ultra-wide strip. */
+@media (orientation:landscape) and (max-height:520px) and (max-width:980px) {
+  .media-detail-modal[data-media-key="sakura"] .media-detail-modal__collection {
+    grid-template-columns:1fr !important;
+    max-width:720px !important;
+    margin-inline:auto !important;
+  }
+
+  .sakura-clip-card__player {
+    aspect-ratio:16 / 9 !important;
+  }
+}
+
