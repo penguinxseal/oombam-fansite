@@ -7143,7 +7143,7 @@ button.community-card[data-gallery-open="journal"] > .community-card-content {
 
 
 /* =========================================================
-   BLOSSOM AUTH — SUPABASE PRODUCTION ACCESS v20.1
+   BLOSSOM AUTH — SUPABASE PRODUCTION ACCESS v20.2
 ========================================================= */
 
 .community-auth-tabs {
@@ -7253,5 +7253,252 @@ body.dark-theme .community-form input[readonly] {
     min-height: 38px;
     padding-inline: 8px;
     font-size: .74rem;
+  }
+}
+
+/* =========================================================
+   BLOSSOM AUTH — ACCESS STABILIZATION v20.2
+========================================================= */
+
+/* Hidden auth fields must stay hidden even when a component has display rules. */
+.page-community [hidden] {
+  display: none !important;
+}
+
+/* Compact desktop auth controls in the reserved space beside the logo. */
+.page-community .community-header-auth {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  margin-left: 2px;
+}
+
+.page-community .community-header-auth__button {
+  min-height: 32px;
+  padding: 7px 11px;
+  border: 1px solid rgba(239,120,155,.32);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-soft);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  transition: color .2s ease, border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.page-community .community-header-auth__button:hover {
+  color: #c65376;
+  border-color: rgba(239,120,155,.62);
+  transform: translateY(-1px);
+}
+
+.page-community .community-header-auth__button.is-primary {
+  background: rgba(239,120,155,.10);
+  color: #c65376;
+}
+
+.page-community .community-header-auth__button:disabled {
+  opacity: .42;
+  cursor: default;
+  transform: none;
+}
+
+/* Personalized Welcome label: contain unusually long display names. */
+.page-community .ob-nav__link[data-nav-key="welcome"] {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Mobile auth access belongs in the drawer, not the narrow top bar. */
+.page-community .community-mobile-auth {
+  display: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 0 2px 14px;
+  border-bottom: 1px solid rgba(120,120,120,.12);
+}
+
+.page-community .community-mobile-auth__button {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid rgba(239,120,155,.28);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font-size: .76rem;
+  font-weight: 600;
+}
+
+.page-community .community-mobile-auth__button.is-primary {
+  background: rgba(239,120,155,.10);
+  color: #c65376;
+}
+
+/* Sign-in-specific utility link. */
+.page-community .community-auth-forgot {
+  display: block;
+  width: max-content;
+  margin: -2px 0 1px auto;
+  padding: 2px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(183,76,107,.24);
+  background: transparent;
+  color: #b74c6b;
+  font-size: .72rem;
+  font-weight: 600;
+}
+
+.page-community .community-auth-forgot:hover {
+  border-color: currentColor;
+}
+
+/* Dedicated signup / verification success presentation. */
+.page-community .community-auth-success {
+  text-align: left;
+}
+
+.page-community .community-auth-success__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin: 4px 0 13px;
+  border: 1px solid rgba(239,120,155,.22);
+  border-radius: 50%;
+  background: rgba(239,120,155,.08);
+  font-size: 1.45rem;
+}
+
+.page-community .community-auth-success__email {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.page-community .community-auth-success__note {
+  display: grid;
+  gap: 5px;
+  margin: 16px 0 5px;
+  padding: 13px 14px;
+  border: 1px solid rgba(217,168,166,.22);
+  border-radius: 12px;
+  background: rgba(255,250,251,.46);
+  color: var(--text-soft);
+  font-size: .76rem;
+  line-height: 1.5;
+}
+
+.page-community .community-auth-success__note strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+html[data-theme="dark"] .page-community .community-header-auth__button,
+body.dark-theme.page-community .community-header-auth__button,
+html[data-theme="dark"] .page-community .community-mobile-auth__button,
+body.dark-theme.page-community .community-mobile-auth__button {
+  border-color: rgba(242,154,181,.24);
+  color: rgba(255,255,255,.76);
+}
+
+html[data-theme="dark"] .page-community .community-header-auth__button.is-primary,
+body.dark-theme.page-community .community-header-auth__button.is-primary,
+html[data-theme="dark"] .page-community .community-mobile-auth__button.is-primary,
+body.dark-theme.page-community .community-mobile-auth__button.is-primary {
+  background: rgba(242,154,181,.10);
+  color: #f29ab5;
+}
+
+html[data-theme="dark"] .page-community .community-auth-success__note,
+body.dark-theme.page-community .community-auth-success__note {
+  background: rgba(255,255,255,.025);
+  border-color: rgba(255,255,255,.08);
+}
+
+html[data-theme="dark"] .page-community .community-auth-success__note strong,
+body.dark-theme.page-community .community-auth-success__note strong,
+html[data-theme="dark"] .page-community .community-auth-success__email,
+body.dark-theme.page-community .community-auth-success__email {
+  color: rgba(255,255,255,.88);
+}
+
+/* Keep the desktop navigation from crowding at intermediate widths. */
+@media (max-width: 1180px) {
+  .page-community .community-header-auth {
+    gap: 5px;
+  }
+
+  .page-community .community-header-auth__button {
+    padding-inline: 9px;
+    font-size: .64rem;
+  }
+}
+
+/* At tablet/mobile breakpoints, auth controls move into the drawer. */
+@media (max-width: 1040px) {
+  .page-community .community-header-auth {
+    display: none !important;
+  }
+
+  .page-community .community-mobile-auth:not([hidden]) {
+    display: grid;
+  }
+
+  .page-community .ob-mobile-nav__link[data-nav-key="welcome"] {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .page-community .community-mobile-auth {
+    gap: 7px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+
+  .page-community .community-mobile-auth__button {
+    min-height: 38px;
+    font-size: .73rem;
+  }
+
+  .page-community .community-auth-success__note {
+    font-size: .72rem;
+  }
+}
+
+.page-community .community-access-strip__actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.page-community .community-access-strip__button--signout {
+  background: transparent;
+  color: var(--text-soft);
+  border-color: rgba(130,130,130,.20);
+}
+
+.page-community .community-access-strip__button--signout:hover {
+  color: #b74c6b;
+  border-color: rgba(183,76,107,.38);
+}
+
+@media (max-width: 760px) {
+  .page-community .community-access-strip__actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .page-community .community-access-strip__actions .community-access-strip__button {
+    flex: 1 1 auto;
   }
 }
