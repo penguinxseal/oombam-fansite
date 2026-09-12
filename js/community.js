@@ -178,6 +178,8 @@
   const headerSignin = document.getElementById("communityHeaderSignin");
   const mobileSignup = document.getElementById("communityMobileSignup");
   const mobileSignin = document.getElementById("communityMobileSignin");
+  const headerSignout = document.getElementById("communityHeaderSignout");
+  const mobileSignout = document.getElementById("communityMobileSignout");
   const headerAuth = document.getElementById("communityHeaderAuth");
   const mobileAuth = document.getElementById("communityMobileAuth");
 
@@ -186,7 +188,7 @@
     const known = hasKnownAccount();
 
     [headerAuth, mobileAuth].forEach((el) => {
-      if (el) el.hidden = signedIn;
+      if (el) el.hidden = false;
     });
 
     [headerSignup, mobileSignup].forEach((button) => {
@@ -199,6 +201,12 @@
       if (!button) return;
       button.hidden = signedIn;
       button.disabled = authInitFailed || !hasSupabaseConfig || !authReady;
+    });
+
+    [headerSignout, mobileSignout].forEach((button) => {
+      if (!button) return;
+      button.hidden = !signedIn;
+      button.disabled = !authReady;
     });
   };
 
@@ -1803,11 +1811,28 @@
   });
 
 
+  const signOutBlossom = async (button) => {
+    if (button) button.disabled = true;
+    try {
+      const { error } = await withTimeout(db.auth.signOut(), 8000, "Sign out timed out");
+      if (error) throw error;
+      currentSession = null;
+      currentMember = null;
+      try { localStorage.removeItem(KEYS.profile); } catch (_) {}
+      updateAuthUI();
+    } catch (error) {
+      console.error("Blossom sign out:", error);
+      if (button) button.disabled = false;
+    }
+  };
+
   const wireAuthEntryButtons = () => {
     headerSignup?.addEventListener("click", () => renderAuthGate("signup"));
     headerSignin?.addEventListener("click", () => renderAuthGate("signin"));
     mobileSignup?.addEventListener("click", () => renderAuthGate("signup"));
     mobileSignin?.addEventListener("click", () => renderAuthGate("signin"));
+    headerSignout?.addEventListener("click", () => signOutBlossom(headerSignout));
+    mobileSignout?.addEventListener("click", () => signOutBlossom(mobileSignout));
     authButton?.addEventListener("click", () => {
       if (authInitFailed) {
         window.location.reload();
@@ -1815,20 +1840,7 @@
       }
       currentSession?.user ? renderAuthAccount() : renderAuthGate("signup");
     });
-    authSignoutButton?.addEventListener("click", async () => {
-      authSignoutButton.disabled = true;
-      try {
-        const { error } = await withTimeout(db.auth.signOut(), 8000, "Sign out timed out");
-        if (error) throw error;
-        currentSession = null;
-        currentMember = null;
-        try { localStorage.removeItem(KEYS.profile); } catch (_) {}
-        updateAuthUI();
-      } catch (error) {
-        console.error("Blossom sign out:", error);
-        authSignoutButton.disabled = false;
-      }
-    });
+    authSignoutButton?.addEventListener("click", () => signOutBlossom(authSignoutButton));
   };
 
   const shouldShowVerifiedWelcome = () => {
