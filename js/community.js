@@ -67,6 +67,7 @@
   const messageGrid = document.getElementById("blossomMessageGrid");
   const authSummary = document.getElementById("communityAuthSummary");
   const authButton = document.getElementById("communityAuthButton");
+  const authSignoutButton = document.getElementById("communityAuthSignout");
 
   const setChatState = (state, note = "") => {
     if (chatStatus) {
@@ -85,8 +86,30 @@
 
   let currentSession = null;
   let currentMember = null;
+  let authInitFailed = false;
+  let authReady = false;
+
+  const AUTH_KNOWN_ACCOUNT_KEY = "oombam-community-known-account";
+  const AUTH_PENDING_CONFIRM_KEY = "oombam-community-pending-confirmation";
+  const AUTH_WELCOME_SHOWN_KEY = "oombam-community-welcome-shown";
 
   const authRedirectUrl = () => `${window.location.origin}${window.location.pathname}`;
+
+  const authReturnType = (() => {
+    try {
+      const queryType = new URLSearchParams(window.location.search).get("type");
+      const hashType = new URLSearchParams(window.location.hash.replace(/^#/, "")).get("type");
+      return queryType || hashType || "";
+    } catch (_) {
+      return "";
+    }
+  })();
+
+  const withTimeout = (promise, ms = 8000, message = "Request timed out") =>
+    Promise.race([
+      promise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error(message)), ms))
+    ]);
 
   const passwordLooksValid = (value = "") =>
     value.length >= 8 &&
@@ -101,6 +124,83 @@
     displayName: safeText(user?.user_metadata?.display_name || "", 30),
     avatar: safeText(user?.user_metadata?.avatar || "🌸", 4) || "🌸"
   });
+
+  const setKnownAccount = (value = true) => {
+    try {
+      if (value) localStorage.setItem(AUTH_KNOWN_ACCOUNT_KEY, "1");
+      else localStorage.removeItem(AUTH_KNOWN_ACCOUNT_KEY);
+    } catch (_) {}
+  };
+
+  const hasKnownAccount = () => {
+    try { return localStorage.getItem(AUTH_KNOWN_ACCOUNT_KEY) === "1"; }
+    catch (_) { return false; }
+  };
+
+  const setPendingConfirmation = (payload) => {
+    try { localStorage.setItem(AUTH_PENDING_CONFIRM_KEY, JSON.stringify(payload)); } catch (_) {}
+  };
+
+  const getPendingConfirmation = () => {
+    try {
+      const raw = localStorage.getItem(AUTH_PENDING_CONFIRM_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) { return null; }
+  };
+
+  const clearPendingConfirmation = () => {
+    try { localStorage.removeItem(AUTH_PENDING_CONFIRM_KEY); } catch (_) {}
+  };
+
+  const welcomeNavLinks = () => [
+    ...document.querySelectorAll('[data-nav-key="welcome"]')
+  ];
+
+  const shortDisplayName = (value = "") => {
+    const name = safeText(value, 30) || "Blossom";
+    return name.length > 14 ? `${name.slice(0, 13)}…` : name;
+  };
+
+  const updateWelcomeNavigation = () => {
+    const signedInName = currentSession?.user && currentMember?.displayName
+      ? shortDisplayName(currentMember.displayName)
+      : "";
+    welcomeNavLinks().forEach((link) => {
+      link.textContent = signedInName ? `Welcome ${signedInName} 🌸` : "Welcome 🌸";
+      link.title = signedInName ? `Welcome ${currentMember.displayName}` : "Welcome";
+      link.setAttribute("aria-label", signedInName
+        ? `Welcome ${currentMember.displayName}. Go to the home section.`
+        : "Welcome. Go to the home section.");
+    });
+  };
+
+  const headerSignup = document.getElementById("communityHeaderSignup");
+  const headerSignin = document.getElementById("communityHeaderSignin");
+  const mobileSignup = document.getElementById("communityMobileSignup");
+  const mobileSignin = document.getElementById("communityMobileSignin");
+  const headerAuth = document.getElementById("communityHeaderAuth");
+  const mobileAuth = document.getElementById("communityMobileAuth");
+
+  const updateHeaderAuthControls = () => {
+    const signedIn = Boolean(currentSession?.user?.id);
+    const known = hasKnownAccount();
+
+    [headerAuth, mobileAuth].forEach((el) => {
+      if (el) el.hidden = signedIn;
+    });
+
+    [headerSignup, mobileSignup].forEach((button) => {
+      if (!button) return;
+      button.hidden = signedIn || known;
+      button.disabled = authInitFailed || !hasSupabaseConfig || !authReady;
+    });
+
+    [headerSignin, mobileSignin].forEach((button) => {
+      if (!button) return;
+      button.hidden = signedIn;
+      button.disabled = authInitFailed || !hasSupabaseConfig || !authReady;
+    });
+  };
 
   const ensureMemberProfile = async (user) => {
     if (!db || !user) return null;
@@ -148,7 +248,7 @@
       displayName: currentMember.displayName,
       avatar: currentMember.avatar
     });
-
+    setKnownAccount(true);
     return currentMember;
   };
 
@@ -158,28 +258,38 @@
   };
 
   const updateAuthUI = () => {
-    if (!authSummary || !authButton) return;
-
     if (currentSession?.user && currentMember?.displayName) {
-      authSummary.textContent = `Signed in as ${currentMember.displayName}.`;
-      authButton.textContent = "Account";
-      authButton.classList.add("is-signed-in");
-      return;
-    }
-
-    if (hasSupabaseConfig) {
-      authSummary.textContent = "Leave a letter. Share a message. Join the conversation.";
-      authButton.textContent = "Join / Sign In";
+      if (authSummary) authSummary.textContent = `Welcome back, ${currentMember.displayName} 🌸 You're signed in and ready to join the community.`;
+      if (authButton) {
+        authButton.textContent = "Account";
+        authButton.classList.add("is-signed-in");
+        authButton.disabled = false;
+      }
+      if (authSignoutButton) {
+        authSignoutButton.hidden = false;
+        authSignoutButton.disabled = false;
+      }
     } else {
-      authSummary.textContent = "Community access is temporarily unavailable.";
-      authButton.textContent = "Unavailable";
+      if (authSummary) authSummary.textContent = authInitFailed
+        ? "Community access could not connect. Please refresh and try again."
+        : "Leave a letter. Share a message. Join the conversation.";
+      if (authButton) {
+        authButton.textContent = authInitFailed ? "Try Again" : "Join / Sign In";
+        authButton.classList.remove("is-signed-in");
+        authButton.disabled = !authReady && !authInitFailed;
+      }
+      if (authSignoutButton) {
+        authSignoutButton.hidden = true;
+        authSignoutButton.disabled = true;
+      }
     }
-    authButton.classList.remove("is-signed-in");
+    updateWelcomeNavigation();
+    updateHeaderAuthControls();
   };
 
   const renderAuthAccount = () => {
     if (!currentSession?.user || !currentMember) {
-      renderAuthGate();
+      renderAuthGate("signin");
       return;
     }
 
@@ -197,35 +307,189 @@
         <button class="community-form__primary community-signout" type="button">Sign Out</button>
       </div>`;
 
-    wrapper.querySelector("#communityModalTitle").textContent = `Hi, ${currentMember.displayName} 🌸`;
+    wrapper.querySelector("#communityModalTitle").textContent = `Welcome back, ${currentMember.displayName} 🌸`;
     wrapper.querySelector(".community-account-email").textContent = currentMember.email;
     wrapper.querySelector(".community-account-name").textContent = currentMember.displayName;
 
     wrapper.querySelector(".community-signout")?.addEventListener("click", async () => {
       const button = wrapper.querySelector(".community-signout");
       button.disabled = true;
-      const { error } = await db.auth.signOut();
-      if (error) {
+      try {
+        const { error } = await withTimeout(db.auth.signOut(), 8000, "Sign out timed out");
+        if (error) throw error;
+        currentSession = null;
+        currentMember = null;
+        try { localStorage.removeItem(KEYS.profile); } catch (_) {}
+        updateAuthUI();
+        closeModal();
+      } catch (error) {
+        console.error("Blossom sign out:", error);
         button.disabled = false;
-        return;
       }
-      currentSession = null;
-      currentMember = null;
-      try { localStorage.removeItem(KEYS.profile); } catch (_) {}
-      updateAuthUI();
-      closeModal();
     });
 
     openModal(wrapper);
   };
 
-  const renderAuthGate = (onSuccess) => {
-    if (!hasSupabaseConfig || !db) {
+  const renderSignupSuccess = (email, displayName = "") => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "community-auth-success";
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM COMMUNITY ACCESS</p>
+      <div class="community-auth-success__icon" aria-hidden="true">✉️</div>
+      <h2 class="community-modal__title" id="communityModalTitle">Check your inbox 🌸</h2>
+      <p class="community-modal__intro">We sent a confirmation email to <strong class="community-auth-success__email"></strong>.</p>
+      <div class="community-auth-success__note">
+        <strong>One little step before you bloom with us.</strong>
+        <span>Confirm your Blossom account within <strong>10 minutes</strong>, then return to the Community page.</span>
+      </div>
+      <p class="community-form__status" aria-live="polite"></p>
+      <div class="community-form__actions">
+        <button class="community-form__secondary community-auth-resend" type="button">Resend Email</button>
+        <button class="community-form__primary" type="button" data-community-close>Got it 🌸</button>
+      </div>`;
+    wrapper.querySelector(".community-auth-success__email").textContent = email;
+
+    const resend = wrapper.querySelector(".community-auth-resend");
+    resend.addEventListener("click", async () => {
+      resend.disabled = true;
+      const status = wrapper.querySelector(".community-form__status");
+      status.textContent = "Sending a new confirmation email…";
+      status.classList.remove("is-success", "is-error");
+      try {
+        const { error } = await withTimeout(db.auth.resend({
+          type: "signup",
+          email,
+          options: { emailRedirectTo: authRedirectUrl() }
+        }), 10000, "Resend timed out");
+        if (error) throw error;
+        status.textContent = "Sent 🌸 Please use the newest confirmation email within 10 minutes.";
+        status.classList.add("is-success");
+      } catch (error) {
+        status.textContent = safeText(error?.message || "We could not resend the email. Please try again.", 180);
+        status.classList.add("is-error");
+      } finally {
+        resend.disabled = false;
+      }
+    });
+
+    openModal(wrapper);
+  };
+
+  const renderVerifiedWelcome = () => {
+    if (!currentSession?.user || !currentMember) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "community-auth-success";
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">WELCOME, BLOSSOM</p>
+      <div class="community-auth-success__icon" aria-hidden="true">🌸</div>
+      <h2 class="community-modal__title" id="communityModalTitle"></h2>
+      <p class="community-modal__intro">Your email is confirmed and your Blossom Community account is ready.</p>
+      <div class="community-auth-success__note">
+        <strong>You’re officially part of the garden.</strong>
+        <span>You can now send letters, leave Blossom Wall messages, and join Blossom Chat.</span>
+      </div>
+      <div class="community-form__actions">
+        <button class="community-form__primary" type="button" data-community-close>Enter the Community 🌸</button>
+      </div>`;
+    wrapper.querySelector("#communityModalTitle").textContent = `Welcome, ${currentMember.displayName} 🌸`;
+    openModal(wrapper);
+  };
+
+  const renderPasswordRecovery = () => {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM ACCOUNT</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Choose a new password</h2>
+      <p class="community-modal__intro">Create a new password for your Blossom Community account.</p>
+      <form class="community-form" id="communityRecoveryForm">
+        <label>New password
+          <input name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="Create a secure password">
+        </label>
+        <div class="community-auth-guidance">
+          <p class="community-auth-guidance__item"><span aria-hidden="true">◇</span><span>Use 8+ characters with lowercase, uppercase, a number, and a symbol.</span></p>
+        </div>
+        <p class="community-form__status" aria-live="polite"></p>
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
+          <button class="community-form__primary" type="submit">Update Password</button>
+        </div>
+      </form>`;
+    const form = wrapper.querySelector("form");
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const password = String(new FormData(form).get("password") || "");
+      if (!passwordLooksValid(password)) {
+        showFormStatus(form, "Password must have 8+ characters with lowercase, uppercase, a number, and a symbol.", "error");
+        return;
+      }
+      const submit = form.querySelector('[type="submit"]');
+      submit.disabled = true;
+      showFormStatus(form, "Updating your password…");
+      try {
+        const { error } = await withTimeout(db.auth.updateUser({ password }), 10000, "Password update timed out");
+        if (error) throw error;
+        showFormStatus(form, "Password updated 🌸 You can continue using your account.", "success");
+        setTimeout(() => closeModal(), 1000);
+      } catch (error) {
+        showFormStatus(form, safeText(error?.message || "We could not update your password.", 180), "error");
+      } finally {
+        submit.disabled = false;
+      }
+    });
+    openModal(wrapper);
+  };
+
+  const renderForgotPassword = (prefillEmail = "") => {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM ACCOUNT</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Reset your password</h2>
+      <p class="community-modal__intro">Enter the email connected to your Blossom account. We’ll send a secure reset link.</p>
+      <form class="community-form" id="communityForgotForm">
+        <label>Email address
+          <input name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" required placeholder="you@example.com">
+        </label>
+        <p class="community-form__status" aria-live="polite"></p>
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
+          <button class="community-form__primary" type="submit">Send Reset Link</button>
+        </div>
+      </form>`;
+    const form = wrapper.querySelector("form");
+    form.elements.email.value = safeText(prefillEmail, 120);
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = safeText(new FormData(form).get("email"), 120).toLowerCase();
+      const submit = form.querySelector('[type="submit"]');
+      submit.disabled = true;
+      showFormStatus(form, "Sending your reset link…");
+      try {
+        const { error } = await withTimeout(db.auth.resetPasswordForEmail(email, {
+          redirectTo: authRedirectUrl()
+        }), 10000, "Password reset request timed out");
+        if (error) throw error;
+        showFormStatus(form, "Reset link sent 🌸 Check your inbox and follow the link within 10 minutes.", "success");
+      } catch (error) {
+        showFormStatus(form, safeText(error?.message || "We could not send the reset link.", 180), "error");
+      } finally {
+        submit.disabled = false;
+      }
+    });
+    openModal(wrapper);
+  };
+
+  const renderAuthGate = (initialMode = "signup", onSuccess) => {
+    if (typeof initialMode === "function") {
+      onSuccess = initialMode;
+      initialMode = "signup";
+    }
+    if (!hasSupabaseConfig || !db || authInitFailed) {
       const wrapper = document.createElement("div");
       wrapper.innerHTML = `
         <p class="community-modal__eyebrow">BLOSSOM COMMUNITY</p>
         <h2 class="community-modal__title" id="communityModalTitle">Community access unavailable</h2>
-        <p class="community-modal__intro">We could not connect to Blossom Community Access right now. Please try again later.</p>
+        <p class="community-modal__intro">We could not connect to Blossom Community Access right now. Please refresh and try again.</p>
         <div class="community-form__actions">
           <button class="community-form__secondary" type="button" data-community-close>Close</button>
         </div>`;
@@ -237,52 +501,41 @@
     wrapper.innerHTML = `
       <p class="community-modal__eyebrow">BLOSSOM COMMUNITY ACCESS</p>
       <h2 class="community-modal__title" id="communityModalTitle">Grow with us 🌸</h2>
-      <p class="community-modal__intro">
-        Join the community to send letters, leave Blossom Wall messages, and take part in Blossom Chat.
-      </p>
+      <p class="community-modal__intro community-auth-intro"></p>
       <div class="community-auth-tabs" role="tablist" aria-label="Blossom account access">
-        <button class="community-auth-tab is-active" type="button" data-auth-mode="signup" role="tab" aria-selected="true">Join Community</button>
-        <button class="community-auth-tab" type="button" data-auth-mode="signin" role="tab" aria-selected="false">Sign In</button>
+        <button class="community-auth-tab" type="button" data-auth-mode="signup" role="tab">Join Community</button>
+        <button class="community-auth-tab" type="button" data-auth-mode="signin" role="tab">Sign In</button>
       </div>
       <form class="community-form" id="communityAuthForm">
         <label>Email address
-          <input name="email" type="email" inputmode="email" autocomplete="email"
-                 maxlength="120" required placeholder="you@example.com">
+          <input name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" required placeholder="you@example.com">
         </label>
         <label class="community-auth-signup-only">Display name
-          <input name="displayName" maxlength="30" autocomplete="nickname"
-                 required placeholder="e.g. Blossom PH">
+          <input name="displayName" maxlength="30" autocomplete="nickname" placeholder="e.g. Blossom PH">
         </label>
         <label>Password
-          <input name="password" type="password" autocomplete="new-password" minlength="8"
-                 maxlength="128" required placeholder="Create a secure password">
+          <input name="password" type="password" minlength="8" maxlength="128" required>
         </label>
         <div class="community-auth-guidance community-auth-signup-only" aria-label="Account requirements">
-          <p class="community-auth-guidance__item">
-            <span aria-hidden="true">◇</span>
-            <span><strong>Password:</strong> 8+ characters with lowercase, uppercase, a number, and a symbol.</span>
-          </p>
-          <p class="community-auth-guidance__item">
-            <span aria-hidden="true">♡</span>
-            <span>Your email stays private and is never shown on Community posts.</span>
-          </p>
-          <p class="community-auth-guidance__item community-auth-confirm-note">
-            <span aria-hidden="true">✉</span>
-            <span>After joining, confirm your Blossom account from the email we send within <strong>10 minutes</strong>.</span>
-          </p>
+          <p class="community-auth-guidance__item"><span aria-hidden="true">◇</span><span><strong>Password:</strong> 8+ characters with lowercase, uppercase, a number, and a symbol.</span></p>
+          <p class="community-auth-guidance__item"><span aria-hidden="true">♡</span><span>Your email stays private and is never shown on Community posts.</span></p>
+          <p class="community-auth-guidance__item community-auth-confirm-note"><span aria-hidden="true">✉</span><span>After joining, confirm your Blossom account from the email we send within <strong>10 minutes</strong>.</span></p>
         </div>
+        <button class="community-auth-forgot" type="button">Forgot password?</button>
         <p class="community-form__status" aria-live="polite"></p>
         <div class="community-form__actions">
           <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
-          <button class="community-form__primary community-auth-submit" type="submit">Join Community 🌸</button>
+          <button class="community-form__primary community-auth-submit" type="submit"></button>
         </div>
       </form>`;
 
     const form = wrapper.querySelector("form");
     const submit = wrapper.querySelector(".community-auth-submit");
+    const intro = wrapper.querySelector(".community-auth-intro");
     const displayNameInput = form.elements.displayName;
     const passwordInput = form.elements.password;
-    let mode = "signup";
+    const forgot = wrapper.querySelector(".community-auth-forgot");
+    let mode = initialMode === "signin" ? "signin" : "signup";
 
     const setMode = (nextMode) => {
       mode = nextMode === "signin" ? "signin" : "signup";
@@ -290,20 +543,26 @@
         const active = button.dataset.authMode === mode;
         button.classList.toggle("is-active", active);
         button.setAttribute("aria-selected", String(active));
+        button.tabIndex = active ? 0 : -1;
       });
       wrapper.querySelectorAll(".community-auth-signup-only").forEach((el) => {
         el.hidden = mode !== "signup";
       });
       displayNameInput.required = mode === "signup";
+      forgot.hidden = mode !== "signin";
       passwordInput.autocomplete = mode === "signup" ? "new-password" : "current-password";
       passwordInput.placeholder = mode === "signup" ? "Create a secure password" : "Enter your password";
       submit.textContent = mode === "signup" ? "Join Community 🌸" : "Sign In 🌸";
+      intro.textContent = mode === "signup"
+        ? "Join the community to send letters, leave Blossom Wall messages, and take part in Blossom Chat."
+        : "Welcome back, Blossom. Sign in to continue sharing, chatting, and growing with the community.";
       showFormStatus(form, "");
     };
 
     wrapper.querySelectorAll("[data-auth-mode]").forEach((button) => {
       button.addEventListener("click", () => setMode(button.dataset.authMode));
     });
+    forgot.addEventListener("click", () => renderForgotPassword(form.elements.email.value));
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -330,37 +589,47 @@
 
       try {
         if (mode === "signup") {
-          const { data: result, error } = await db.auth.signUp({
+          const { data: result, error } = await withTimeout(db.auth.signUp({
             email,
             password,
             options: {
               emailRedirectTo: authRedirectUrl(),
               data: { display_name: displayName, avatar: "🌸" }
             }
-          });
+          }), 12000, "Sign up is taking longer than expected. Please check your connection and try again.");
           if (error) throw error;
+          setKnownAccount(true);
+          setPendingConfirmation({ email, displayName, createdAt: Date.now() });
 
           if (result.session?.user) {
             currentSession = result.session;
             await ensureMemberProfile(result.session.user);
+            clearPendingConfirmation();
             updateAuthUI();
             closeModal();
+            renderVerifiedWelcome();
             onSuccess?.();
           } else {
-            form.reset();
-            showFormStatus(
-              form,
-              "Almost there 🌸 Check your email and confirm your account within 10 minutes, then return here to sign in.",
-              "success"
-            );
+            renderSignupSuccess(email, displayName);
           }
         } else {
-          const { data: result, error } = await db.auth.signInWithPassword({ email, password });
+          const { data: result, error } = await withTimeout(
+            db.auth.signInWithPassword({ email, password }),
+            12000,
+            "Sign in is taking longer than expected. Please check your connection and try again."
+          );
           if (error) throw error;
           currentSession = result.session;
+          setKnownAccount(true);
           await ensureMemberProfile(result.user);
           updateAuthUI();
           closeModal();
+
+          const pending = getPendingConfirmation();
+          if (pending && pending.email?.toLowerCase() === email) {
+            clearPendingConfirmation();
+            renderVerifiedWelcome();
+          }
           onSuccess?.();
         }
       } catch (error) {
@@ -372,7 +641,7 @@
       }
     });
 
-    setMode("signup");
+    setMode(mode);
     openModal(wrapper);
   };
 
@@ -381,7 +650,7 @@
       onSuccess?.();
       return true;
     }
-    renderAuthGate(onSuccess);
+    renderAuthGate("signup", onSuccess);
     return false;
   };
 
@@ -1534,36 +1803,110 @@
   });
 
 
+  const wireAuthEntryButtons = () => {
+    headerSignup?.addEventListener("click", () => renderAuthGate("signup"));
+    headerSignin?.addEventListener("click", () => renderAuthGate("signin"));
+    mobileSignup?.addEventListener("click", () => renderAuthGate("signup"));
+    mobileSignin?.addEventListener("click", () => renderAuthGate("signin"));
+    authButton?.addEventListener("click", () => {
+      if (authInitFailed) {
+        window.location.reload();
+        return;
+      }
+      currentSession?.user ? renderAuthAccount() : renderAuthGate("signup");
+    });
+    authSignoutButton?.addEventListener("click", async () => {
+      authSignoutButton.disabled = true;
+      try {
+        const { error } = await withTimeout(db.auth.signOut(), 8000, "Sign out timed out");
+        if (error) throw error;
+        currentSession = null;
+        currentMember = null;
+        try { localStorage.removeItem(KEYS.profile); } catch (_) {}
+        updateAuthUI();
+      } catch (error) {
+        console.error("Blossom sign out:", error);
+        authSignoutButton.disabled = false;
+      }
+    });
+  };
+
+  const shouldShowVerifiedWelcome = () => {
+    if (!currentSession?.user || !currentMember) return false;
+    const pending = getPendingConfirmation();
+    const sessionEmail = safeText(currentSession.user.email || "", 120).toLowerCase();
+    const pendingMatches = Boolean(pending && pending.email?.toLowerCase() === sessionEmail);
+    const isSignupReturn = authReturnType === "signup" || authReturnType === "email";
+    if (!pendingMatches && !isSignupReturn) return false;
+    try {
+      const alreadyShown = sessionStorage.getItem(AUTH_WELCOME_SHOWN_KEY) === currentSession.user.id;
+      if (alreadyShown) return false;
+      sessionStorage.setItem(AUTH_WELCOME_SHOWN_KEY, currentSession.user.id);
+    } catch (_) {}
+    clearPendingConfirmation();
+    return true;
+  };
+
   async function init() {
-    if (hasSupabaseConfig) {
+    updateAuthUI();
+    wireAuthEntryButtons();
+
+    if (!hasSupabaseConfig) {
+      authInitFailed = true;
+      authReady = true;
+      updateAuthUI();
+      setChatState("error", "Community access is temporarily unavailable.");
+      return;
+    }
+
+    try {
       db = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
         auth: {
           persistSession: true,
           autoRefreshToken: true,
-          detectSessionInUrl: true
+          detectSessionInUrl: true,
+          flowType: "implicit"
         }
       });
 
-      const { data: { session } } = await db.auth.getSession();
+      const { data: { session }, error: sessionError } = await withTimeout(
+        db.auth.getSession(),
+        9000,
+        "Blossom Community Access took too long to load."
+      );
+      if (sessionError) throw sessionError;
+
       currentSession = session || null;
       if (currentSession?.user) {
-        try {
-          await ensureMemberProfile(currentSession.user);
-        } catch (error) {
-          console.error("Blossom profile load failed:", error);
-        }
+        await withTimeout(
+          ensureMemberProfile(currentSession.user),
+          9000,
+          "Your Blossom profile took too long to load."
+        );
       }
 
       db.auth.onAuthStateChange(async (event, session) => {
         currentSession = session || null;
+
+        if (event === "PASSWORD_RECOVERY") {
+          try {
+            if (currentSession?.user) await ensureMemberProfile(currentSession.user);
+          } catch (error) {
+            console.error("Blossom profile recovery sync failed:", error);
+          }
+          updateAuthUI();
+          setTimeout(() => renderPasswordRecovery(), 0);
+          return;
+        }
+
         if (currentSession?.user) {
           try {
             await ensureMemberProfile(currentSession.user);
           } catch (error) {
             console.error("Blossom profile sync failed:", error);
           }
-          if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED") && !realtimeChannel) {
-            await loadChat();
+          if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED" || event === "INITIAL_SESSION") && !realtimeChannel) {
+            try { await loadChat(); } catch (_) {}
           }
         } else {
           currentMember = null;
@@ -1578,26 +1921,37 @@
         updateAuthUI();
       });
 
+      authInitFailed = false;
+      authReady = true;
       updateAuthUI();
-      authButton?.addEventListener("click", () => {
-        currentSession?.user ? renderAuthAccount() : renderAuthGate();
-      });
 
       setChatState("connecting", currentSession?.user
         ? "Connecting to the live Blossom community…"
         : "Sign in to join live Blossom Chat.");
 
-      await refreshWallPreview();
-      if (currentSession?.user || !AUTH_REQUIRED) {
-        await loadChat();
-      } else if (chatWindow) {
+      await Promise.allSettled([
+        withTimeout(refreshWallPreview(), 7000, "Blossom Wall load timed out"),
+        currentSession?.user || !AUTH_REQUIRED
+          ? withTimeout(loadChat(), 9000, "Blossom Chat load timed out")
+          : Promise.resolve()
+      ]);
+
+      if (!currentSession?.user && AUTH_REQUIRED && chatWindow) {
         chatWindow.replaceChildren();
         setChatState("preview", "Sign in to join live Blossom Chat.");
       }
-    } else {
+
+      if (shouldShowVerifiedWelcome()) {
+        setTimeout(() => renderVerifiedWelcome(), 120);
+      }
+    } catch (error) {
+      console.error("Blossom Community initialization failed:", error);
+      authInitFailed = true;
+      authReady = true;
+      currentSession = null;
+      currentMember = null;
       updateAuthUI();
-      authButton?.addEventListener("click", () => renderAuthGate());
-      setChatState("error", "Community access is temporarily unavailable.");
+      setChatState("error", "Community access could not connect. Refresh the page and try again.");
     }
   }
 
