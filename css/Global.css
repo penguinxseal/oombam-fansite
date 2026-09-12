@@ -1315,3 +1315,239 @@ html[data-theme="dark"] .ob-header {
     z-index: 5000 !important;
   }
 }
+
+
+/* =========================================================
+   GLOBAL FOOTER — OB_00001.8a
+   Unified brand + social links across the fansite.
+   Namespaced to avoid page-specific footer collisions.
+========================================================= */
+.ob-global .ob-site-footer {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: var(--ob-ink);
+  background: rgba(255, 253, 249, 0.985);
+  border-top: 1px solid var(--ob-line);
+  box-shadow: none;
+}
+
+.ob-global .ob-site-footer,
+.ob-global .ob-site-footer * {
+  box-sizing: border-box;
+}
+
+.ob-global .ob-footer__inner {
+  width: min(var(--ob-shell-max), 100%);
+  margin-inline: auto;
+  padding: 26px clamp(24px, 3.5vw, 52px) 20px;
+  display: grid;
+  grid-template-columns: minmax(230px, 1fr) auto minmax(200px, 1fr);
+  align-items: center;
+  gap: clamp(22px, 4vw, 60px);
+}
+
+.ob-global .ob-footer__brand-block {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ob-global .ob-footer__brand {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 78px;
+}
+
+.ob-global .ob-footer__brand img {
+  display: block;
+  width: 78px;
+  height: auto;
+  max-height: 52px;
+  object-fit: contain;
+}
+
+.ob-global .ob-footer__main,
+.ob-global .ob-footer__message,
+.ob-global .ob-footer__social-label,
+.ob-global .ob-footer__bottom p {
+  margin: 0;
+}
+
+.ob-global .ob-footer__main {
+  color: var(--ob-muted);
+  font-family: var(--ob-ui-font);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.ob-global .ob-footer__social-block {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.ob-global .ob-footer__social-label {
+  color: var(--ob-muted);
+  font-family: var(--ob-ui-font);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ob-global .ob-footer__socials {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ob-global .ob-footer__socials a {
+  min-height: 32px;
+  padding: 7px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ob-ink);
+  background: transparent;
+  border: 1px solid var(--ob-line);
+  border-radius: 999px;
+  font-family: var(--ob-ui-font);
+  font-size: 0.67rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.ob-global .ob-footer__socials a:hover,
+.ob-global .ob-footer__socials a:focus-visible {
+  color: var(--ob-blue-deep);
+  border-color: rgba(93, 159, 210, 0.5);
+  background: rgba(93, 159, 210, 0.07);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.ob-global .ob-footer__message {
+  justify-self: end;
+  color: var(--ob-ink);
+  font-family: var(--ob-display-font);
+  font-size: clamp(0.92rem, 1.25vw, 1.08rem);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ob-global .ob-footer__bottom {
+  border-top: 1px solid var(--ob-line);
+}
+
+.ob-global .ob-footer__bottom p {
+  width: min(var(--ob-shell-max), 100%);
+  margin-inline: auto;
+  padding: 11px clamp(24px, 3.5vw, 52px) 13px;
+  color: var(--ob-muted);
+  font-family: var(--ob-ui-font);
+  font-size: 0.62rem;
+  text-align: center;
+}
+
+html[data-theme="dark"] .ob-global .ob-site-footer {
+  color: var(--ob-dark-ink);
+  background: rgba(23, 24, 27, 0.985);
+  border-color: var(--ob-dark-line);
+}
+
+html[data-theme="dark"] .ob-global .ob-footer__main,
+html[data-theme="dark"] .ob-global .ob-footer__social-label,
+html[data-theme="dark"] .ob-global .ob-footer__bottom p {
+  color: var(--ob-dark-muted);
+}
+
+html[data-theme="dark"] .ob-global .ob-footer__message,
+html[data-theme="dark"] .ob-global .ob-footer__socials a {
+  color: var(--ob-dark-ink);
+}
+
+html[data-theme="dark"] .ob-global .ob-footer__socials a,
+html[data-theme="dark"] .ob-global .ob-footer__bottom {
+  border-color: var(--ob-dark-line);
+}
+
+html[data-theme="dark"] .ob-global .ob-footer__socials a:hover,
+html[data-theme="dark"] .ob-global .ob-footer__socials a:focus-visible {
+  color: #c7e6fb;
+  border-color: rgba(169, 206, 229, 0.42);
+  background: rgba(169, 206, 229, 0.08);
+}
+
+@media (max-width: 1100px) and (min-width: 901px) {
+  .ob-global .ob-footer__inner {
+    grid-template-columns: minmax(220px, 1fr) auto;
+    grid-template-areas:
+      "brand social"
+      "message message";
+    gap: 18px 32px;
+    padding-top: 24px;
+  }
+
+  .ob-global .ob-footer__brand-block {
+    grid-area: brand;
+  }
+
+  .ob-global .ob-footer__social-block {
+    grid-area: social;
+    justify-self: end;
+  }
+
+  .ob-global .ob-footer__message {
+    grid-area: message;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .ob-global .ob-footer__inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 18px;
+    padding-top: 24px;
+    text-align: center;
+  }
+
+  .ob-global .ob-footer__brand-block {
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .ob-global .ob-footer__message {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .ob-global .ob-footer__inner {
+    padding-inline: 18px;
+  }
+
+  .ob-global .ob-footer__socials {
+    width: 100%;
+    gap: 6px;
+  }
+
+  .ob-global .ob-footer__socials a {
+    min-height: 34px;
+    padding-inline: 11px;
+    font-size: 0.65rem;
+  }
+
+  .ob-global .ob-footer__bottom p {
+    padding-inline: 18px;
+  }
+}
