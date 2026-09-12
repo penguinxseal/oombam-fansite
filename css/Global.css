@@ -1,6 +1,6 @@
 /* =========================================================
    OOMBAM FANSITE — GLOBAL SITE HEADER / NAVIGATION
-   OB_00001.7 — live mobile-menu anchoring + consolidated navigation
+   OB_00001.9 — responsive footer + homepage Blossom auth utility
 
    IMPORTANT
    ---------
@@ -1550,4 +1550,172 @@ html[data-theme="dark"] .ob-global .ob-footer__socials a:focus-visible {
   .ob-global .ob-footer__bottom p {
     padding-inline: 18px;
   }
+}
+
+
+/* =========================================================
+   HOMEPAGE — BLOSSOM ACCOUNT ACCESS v1.0
+   Mirrors Community header auth without crowding main nav.
+========================================================= */
+.page-home [hidden] { display: none !important; }
+
+.page-home .home-brand-access {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.page-home .home-brand-access .ob-brand { flex: 0 0 auto; }
+
+.page-home .home-header-auth {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+
+.page-home .home-header-auth__button {
+  min-height: 32px;
+  padding: 7px 11px;
+  border: 1px solid rgba(229,123,156,.34);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ob-muted);
+  font-family: var(--ob-ui-font);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .2s ease, border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.page-home .home-header-auth__button:hover {
+  color: #c65376;
+  border-color: rgba(229,123,156,.62);
+  transform: translateY(-1px);
+}
+
+.page-home .home-header-auth__button.is-primary {
+  color: #c65376;
+  background: rgba(229,123,156,.10);
+}
+
+.page-home .home-header-auth__button:disabled {
+  opacity: .45;
+  cursor: default;
+  transform: none;
+}
+
+.page-home .ob-nav__link[data-nav-key="welcome"] {
+  max-width: 155px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.page-home .home-mobile-auth {
+  display: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 0 2px 14px;
+  border-bottom: 1px solid rgba(120,120,120,.12);
+}
+
+.page-home .home-mobile-auth__button {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid rgba(229,123,156,.28);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font: 600 .76rem var(--ob-ui-font);
+  cursor: pointer;
+}
+
+.page-home .home-mobile-auth__button.is-primary {
+  color: #c65376;
+  background: rgba(229,123,156,.10);
+}
+
+/* Auth modal */
+.page-home .home-auth-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.page-home .home-auth-modal[hidden] { display: none !important; }
+.page-home .home-auth-modal__backdrop { position:absolute; inset:0; background:rgba(24,25,30,.60); backdrop-filter:blur(8px); }
+.page-home .home-auth-modal__dialog {
+  position: relative;
+  width: min(520px, 100%);
+  max-height: min(760px, calc(100vh - 34px));
+  overflow: auto;
+  padding: 30px;
+  border: 1px solid rgba(217,168,166,.26);
+  border-radius: 22px;
+  background: rgba(255,253,249,.985);
+  color: var(--ob-ink);
+  box-shadow: 0 28px 80px rgba(31,32,36,.22);
+}
+.page-home .home-auth-modal__close { position:absolute; top:14px; right:16px; width:36px; height:36px; border:0; border-radius:50%; background:transparent; color:inherit; font-size:1.5rem; cursor:pointer; }
+.page-home .home-auth-eyebrow { margin:0 0 9px; color:var(--ob-pink); font:.7rem/1.2 var(--ob-ui-font); font-weight:700; letter-spacing:.16em; }
+.page-home .home-auth-title { margin:0 44px 8px 0; font:600 clamp(1.9rem,4vw,2.6rem)/1 var(--ob-display-font); }
+.page-home .home-auth-intro { margin:0 0 18px; color:var(--ob-muted); font:.84rem/1.55 var(--ob-ui-font); }
+.page-home .home-auth-tabs { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:18px; padding:5px; border-radius:12px; background:rgba(229,123,156,.07); }
+.page-home .home-auth-tab { min-height:40px; border:0; border-radius:9px; background:transparent; color:var(--ob-muted); font:600 .78rem var(--ob-ui-font); cursor:pointer; }
+.page-home .home-auth-tab.is-active { background:#fff; color:#c65376; box-shadow:0 5px 18px rgba(80,50,60,.07); }
+.page-home .home-auth-form { display:grid; gap:13px; }
+.page-home .home-auth-form label { display:grid; gap:6px; color:var(--ob-ink); font:600 .76rem var(--ob-ui-font); }
+.page-home .home-auth-form input { width:100%; min-height:44px; padding:10px 12px; border:1px solid rgba(45,48,53,.14); border-radius:9px; background:#fff; color:var(--ob-ink); font:400 .84rem var(--ob-ui-font); outline:none; }
+.page-home .home-auth-form input:focus { border-color:rgba(229,123,156,.58); box-shadow:0 0 0 3px rgba(229,123,156,.08); }
+.page-home .home-auth-guidance { display:grid; gap:7px; padding:12px 13px; border:1px solid rgba(217,168,166,.22); border-radius:11px; background:rgba(255,248,250,.62); color:var(--ob-muted); font:.72rem/1.45 var(--ob-ui-font); }
+.page-home .home-auth-guidance p { margin:0; }
+.page-home .home-auth-forgot { justify-self:end; border:0; border-bottom:1px solid rgba(183,76,107,.25); background:transparent; color:#b74c6b; font:600 .72rem var(--ob-ui-font); cursor:pointer; }
+.page-home .home-auth-status { min-height:18px; margin:0; color:var(--ob-muted); font:.74rem/1.4 var(--ob-ui-font); }
+.page-home .home-auth-status.is-error { color:#b8405e; }
+.page-home .home-auth-status.is-success { color:#47765f; }
+.page-home .home-auth-actions { display:flex; justify-content:flex-end; gap:9px; margin-top:2px; }
+.page-home .home-auth-secondary, .page-home .home-auth-primary { min-height:42px; padding:9px 16px; border-radius:9px; font:600 .76rem var(--ob-ui-font); cursor:pointer; }
+.page-home .home-auth-secondary { border:1px solid rgba(45,48,53,.13); background:transparent; color:var(--ob-muted); }
+.page-home .home-auth-primary { border:1px solid transparent; background:linear-gradient(135deg,var(--ob-pink),#d96f91); color:#fff; }
+.page-home .home-auth-success-icon { display:grid; place-items:center; width:52px; height:52px; margin:2px 0 13px; border:1px solid rgba(229,123,156,.22); border-radius:50%; background:rgba(229,123,156,.08); font-size:1.4rem; }
+.page-home .home-auth-account { display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:18px 0; padding:14px; border:1px solid rgba(45,48,53,.10); border-radius:11px; background:rgba(255,255,255,.55); font:.76rem var(--ob-ui-font); }
+.page-home .home-auth-account span { color:var(--ob-muted); }
+.page-home .home-auth-account strong { overflow-wrap:anywhere; }
+body.home-auth-modal-open { overflow:hidden; }
+
+html[data-theme="dark"] .page-home .home-header-auth__button,
+html[data-theme="dark"] .page-home .home-mobile-auth__button { color:rgba(255,255,255,.76); border-color:rgba(242,154,181,.25); }
+html[data-theme="dark"] .page-home .home-header-auth__button.is-primary,
+html[data-theme="dark"] .page-home .home-mobile-auth__button.is-primary { color:#f29ab5; background:rgba(242,154,181,.10); }
+html[data-theme="dark"] .page-home .home-auth-modal__dialog { background:#25272c; color:#f5f2ef; border-color:rgba(255,255,255,.08); }
+html[data-theme="dark"] .page-home .home-auth-tab.is-active,
+html[data-theme="dark"] .page-home .home-auth-form input { background:#1f2024; color:#f5f2ef; }
+html[data-theme="dark"] .page-home .home-auth-form label { color:#f5f2ef; }
+html[data-theme="dark"] .page-home .home-auth-guidance,
+html[data-theme="dark"] .page-home .home-auth-account { background:rgba(255,255,255,.025); border-color:rgba(255,255,255,.08); }
+
+@media (max-width: 1180px) {
+  .page-home .home-header-auth { gap:5px; }
+  .page-home .home-header-auth__button { padding-inline:9px; font-size:.64rem; }
+}
+
+@media (max-width: 1040px) {
+  .page-home .home-header-auth { display:none; }
+  .page-home .home-mobile-auth:not([hidden]) { display:grid; }
+  .page-home .ob-mobile-nav__link[data-nav-key="welcome"] { max-width:none; }
+}
+
+@media (max-width: 620px) {
+  .page-home .home-auth-modal { padding:10px; align-items:end; }
+  .page-home .home-auth-modal__dialog { width:100%; max-height:88vh; padding:24px 18px 20px; border-radius:18px 18px 0 0; }
+  .page-home .home-auth-actions { flex-direction:column-reverse; }
+  .page-home .home-auth-secondary, .page-home .home-auth-primary { width:100%; }
 }
