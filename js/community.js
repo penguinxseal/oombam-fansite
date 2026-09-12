@@ -168,7 +168,7 @@
     }
 
     if (hasSupabaseConfig) {
-      authSummary.textContent = "Join the Blossom Community to write, post, and chat.";
+      authSummary.textContent = "Leave a letter. Share a message. Join the conversation.";
       authButton.textContent = "Join / Sign In";
     } else {
       authSummary.textContent = "Community access is temporarily unavailable.";
@@ -257,12 +257,20 @@
           <input name="password" type="password" autocomplete="new-password" minlength="8"
                  maxlength="128" required placeholder="Create a secure password">
         </label>
-        <p class="community-form__help community-auth-signup-only">
-          Use at least 8 characters with lowercase, uppercase, a number, and a symbol. Your email is never displayed publicly.
-        </p>
-        <p class="community-form__help community-auth-confirm-note community-auth-signup-only">
-          After joining, check your email within 10 minutes to confirm your Blossom account.
-        </p>
+        <div class="community-auth-guidance community-auth-signup-only" aria-label="Account requirements">
+          <p class="community-auth-guidance__item">
+            <span aria-hidden="true">◇</span>
+            <span><strong>Password:</strong> 8+ characters with lowercase, uppercase, a number, and a symbol.</span>
+          </p>
+          <p class="community-auth-guidance__item">
+            <span aria-hidden="true">♡</span>
+            <span>Your email stays private and is never shown on Community posts.</span>
+          </p>
+          <p class="community-auth-guidance__item community-auth-confirm-note">
+            <span aria-hidden="true">✉</span>
+            <span>After joining, confirm your Blossom account from the email we send within <strong>10 minutes</strong>.</span>
+          </p>
+        </div>
         <p class="community-form__status" aria-live="polite"></p>
         <div class="community-form__actions">
           <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
