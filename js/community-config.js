@@ -13,10 +13,10 @@
 */
 
 window.OOMBAM_COMMUNITY_CONFIG = {
-  supabaseUrl: "",
-  supabaseAnonKey: "",
+  supabaseUrl: "https://oxczxnfajbdrsochluei.supabase.co",
+  supabaseAnonKey: "sb_publishable_8rxEbAI9Y008yhV5KV8qcw_WjWNM6ia",
 
-  // Preview phase only: signup UI is available, but participation is NOT restricted yet.
-  // We will switch this to true later when Supabase Auth and access controls are ready.
-  requireAuthForParticipation: false
+  // Production community access: authenticated membership is required for participation.
+  // Public visitors can still browse approved/public Community content.
+  requireAuthForParticipation: true
 };
