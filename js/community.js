@@ -83,61 +83,111 @@
   };
 
 
-  const authPreviewNotice =
-    "Preview only — Supabase is not connected yet. No verification email will be sent and nothing is saved online.";
+  let currentSession = null;
+  let currentMember = null;
 
-  const getAuthPreview = () => storage.get(KEYS.authPreview, null);
+  const authRedirectUrl = () => `${window.location.origin}${window.location.pathname}`;
 
-  const clearAuthPreview = () => {
-    try { localStorage.removeItem(KEYS.authPreview); } catch (_) {}
-    updateAuthUI();
-  };
+  const passwordLooksValid = (value = "") =>
+    value.length >= 8 &&
+    /[a-z]/.test(value) &&
+    /[A-Z]/.test(value) &&
+    /\d/.test(value) &&
+    /[^A-Za-z0-9]/.test(value);
 
-  const setAuthPreview = (session) => {
-    storage.set(KEYS.authPreview, session);
-    updateAuthUI();
+  const memberFromUser = (user) => ({
+    userId: user?.id || "",
+    email: safeText(user?.email || "", 120),
+    displayName: safeText(user?.user_metadata?.display_name || "", 30),
+    avatar: safeText(user?.user_metadata?.avatar || "🌸", 4) || "🌸"
+  });
+
+  const ensureMemberProfile = async (user) => {
+    if (!db || !user) return null;
+
+    const fallback = memberFromUser(user);
+    const fallbackName = fallback.displayName || safeText((fallback.email.split("@")[0] || "Blossom"), 30);
+
+    const { data: existing, error: readError } = await db
+      .from("community_profiles")
+      .select("user_id, display_name, avatar, country_code")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (readError) throw readError;
+
+    if (!existing) {
+      const { data: created, error: insertError } = await db
+        .from("community_profiles")
+        .insert({
+          user_id: user.id,
+          display_name: fallbackName,
+          avatar: fallback.avatar || "🌸"
+        })
+        .select("user_id, display_name, avatar, country_code")
+        .single();
+      if (insertError) throw insertError;
+      currentMember = {
+        userId: created.user_id,
+        email: fallback.email,
+        displayName: created.display_name,
+        avatar: created.avatar || "🌸",
+        countryCode: created.country_code || ""
+      };
+    } else {
+      currentMember = {
+        userId: existing.user_id,
+        email: fallback.email,
+        displayName: existing.display_name,
+        avatar: existing.avatar || "🌸",
+        countryCode: existing.country_code || ""
+      };
+    }
+
+    storage.set(KEYS.profile, {
+      displayName: currentMember.displayName,
+      avatar: currentMember.avatar
+    });
+
+    return currentMember;
   };
 
   const isSignedIn = () => {
     if (!AUTH_REQUIRED) return true;
-    const preview = getAuthPreview();
-    return Boolean(preview?.email && preview?.displayName);
+    return Boolean(currentSession?.user?.id);
   };
 
   const updateAuthUI = () => {
     if (!authSummary || !authButton) return;
-    const member = getAuthPreview();
 
-    if (member?.email && member?.displayName) {
-      authSummary.textContent = hasSupabaseConfig
-        ? `Signed in as ${member.displayName}.`
-        : `Preview member: ${member.displayName}.`;
+    if (currentSession?.user && currentMember?.displayName) {
+      authSummary.textContent = `Signed in as ${currentMember.displayName}.`;
       authButton.textContent = "Account";
       authButton.classList.add("is-signed-in");
-    } else {
-      authSummary.textContent = hasSupabaseConfig
-        ? "Preview the future Blossom member signup."
-        : "Preview the future Blossom member signup. Participation is still open for now.";
-      authButton.textContent = "Preview Sign Up";
-      authButton.classList.remove("is-signed-in");
+      return;
     }
+
+    if (hasSupabaseConfig) {
+      authSummary.textContent = "Join the Blossom Community to write, post, and chat.";
+      authButton.textContent = "Join / Sign In";
+    } else {
+      authSummary.textContent = "Community access is temporarily unavailable.";
+      authButton.textContent = "Unavailable";
+    }
+    authButton.classList.remove("is-signed-in");
   };
 
   const renderAuthAccount = () => {
-    const member = getAuthPreview();
-    if (!member) {
+    if (!currentSession?.user || !currentMember) {
       renderAuthGate();
       return;
     }
 
     const wrapper = document.createElement("div");
-    const title = document.createElement("h2");
     wrapper.innerHTML = `
       <p class="community-modal__eyebrow">BLOSSOM ACCOUNT</p>
       <h2 class="community-modal__title" id="communityModalTitle"></h2>
-      <p class="community-modal__intro">${hasSupabaseConfig
-        ? "Your Blossom Community account is active."
-        : authPreviewNotice}</p>
+      <p class="community-modal__intro">Your Blossom Community account is active.</p>
       <div class="community-account-card">
         <span>Email</span><strong class="community-account-email"></strong>
         <span>Display name</span><strong class="community-account-name"></strong>
@@ -147,12 +197,22 @@
         <button class="community-form__primary community-signout" type="button">Sign Out</button>
       </div>`;
 
-    wrapper.querySelector("#communityModalTitle").textContent = `Hi, ${safeText(member.displayName, 30)} 🌸`;
-    wrapper.querySelector(".community-account-email").textContent = safeText(member.email, 120);
-    wrapper.querySelector(".community-account-name").textContent = safeText(member.displayName, 30);
+    wrapper.querySelector("#communityModalTitle").textContent = `Hi, ${currentMember.displayName} 🌸`;
+    wrapper.querySelector(".community-account-email").textContent = currentMember.email;
+    wrapper.querySelector(".community-account-name").textContent = currentMember.displayName;
 
-    wrapper.querySelector(".community-signout")?.addEventListener("click", () => {
-      clearAuthPreview();
+    wrapper.querySelector(".community-signout")?.addEventListener("click", async () => {
+      const button = wrapper.querySelector(".community-signout");
+      button.disabled = true;
+      const { error } = await db.auth.signOut();
+      if (error) {
+        button.disabled = false;
+        return;
+      }
+      currentSession = null;
+      currentMember = null;
+      try { localStorage.removeItem(KEYS.profile); } catch (_) {}
+      updateAuthUI();
       closeModal();
     });
 
@@ -160,78 +220,151 @@
   };
 
   const renderAuthGate = (onSuccess) => {
+    if (!hasSupabaseConfig || !db) {
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = `
+        <p class="community-modal__eyebrow">BLOSSOM COMMUNITY</p>
+        <h2 class="community-modal__title" id="communityModalTitle">Community access unavailable</h2>
+        <p class="community-modal__intro">We could not connect to Blossom Community Access right now. Please try again later.</p>
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Close</button>
+        </div>`;
+      openModal(wrapper);
+      return;
+    }
+
     const wrapper = document.createElement("div");
     wrapper.innerHTML = `
-      <p class="community-modal__eyebrow">BLOSSOM COMMUNITY</p>
-      <h2 class="community-modal__title" id="communityModalTitle">Join with your email 🌸</h2>
+      <p class="community-modal__eyebrow">BLOSSOM COMMUNITY ACCESS</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Grow with us 🌸</h2>
       <p class="community-modal__intro">
-        This is a preview of the future Blossom member signup experience.
-        Community participation is still open while we finish polishing the site.
+        Join the community to send letters, leave Blossom Wall messages, and take part in Blossom Chat.
       </p>
-      ${hasSupabaseConfig ? "" : `<div class="community-preview-banner">${authPreviewNotice}</div>`}
+      <div class="community-auth-tabs" role="tablist" aria-label="Blossom account access">
+        <button class="community-auth-tab is-active" type="button" data-auth-mode="signup" role="tab" aria-selected="true">Join Community</button>
+        <button class="community-auth-tab" type="button" data-auth-mode="signin" role="tab" aria-selected="false">Sign In</button>
+      </div>
       <form class="community-form" id="communityAuthForm">
         <label>Email address
           <input name="email" type="email" inputmode="email" autocomplete="email"
                  maxlength="120" required placeholder="you@example.com">
         </label>
-        <label>Display name
+        <label class="community-auth-signup-only">Display name
           <input name="displayName" maxlength="30" autocomplete="nickname"
                  required placeholder="e.g. Blossom PH">
         </label>
-        <p class="community-form__help">
-          Your email will never be displayed publicly. Community posts use only your display name.
+        <label>Password
+          <input name="password" type="password" autocomplete="new-password" minlength="8"
+                 maxlength="128" required placeholder="Create a secure password">
+        </label>
+        <p class="community-form__help community-auth-signup-only">
+          Use at least 8 characters with lowercase, uppercase, a number, and a symbol. Your email is never displayed publicly.
+        </p>
+        <p class="community-form__help community-auth-confirm-note community-auth-signup-only">
+          After joining, check your email within 10 minutes to confirm your Blossom account.
         </p>
         <p class="community-form__status" aria-live="polite"></p>
         <div class="community-form__actions">
           <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
-          <button class="community-form__primary" type="submit">
-            ${hasSupabaseConfig ? "Continue with Email" : "Create Preview Profile"}
-          </button>
+          <button class="community-form__primary community-auth-submit" type="submit">Join Community 🌸</button>
         </div>
       </form>`;
 
     const form = wrapper.querySelector("form");
-    form.addEventListener("submit", (event) => {
+    const submit = wrapper.querySelector(".community-auth-submit");
+    const displayNameInput = form.elements.displayName;
+    const passwordInput = form.elements.password;
+    let mode = "signup";
+
+    const setMode = (nextMode) => {
+      mode = nextMode === "signin" ? "signin" : "signup";
+      wrapper.querySelectorAll("[data-auth-mode]").forEach((button) => {
+        const active = button.dataset.authMode === mode;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-selected", String(active));
+      });
+      wrapper.querySelectorAll(".community-auth-signup-only").forEach((el) => {
+        el.hidden = mode !== "signup";
+      });
+      displayNameInput.required = mode === "signup";
+      passwordInput.autocomplete = mode === "signup" ? "new-password" : "current-password";
+      passwordInput.placeholder = mode === "signup" ? "Create a secure password" : "Enter your password";
+      submit.textContent = mode === "signup" ? "Join Community 🌸" : "Sign In 🌸";
+      showFormStatus(form, "");
+    };
+
+    wrapper.querySelectorAll("[data-auth-mode]").forEach((button) => {
+      button.addEventListener("click", () => setMode(button.dataset.authMode));
+    });
+
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const data = new FormData(form);
       const email = safeText(data.get("email"), 120).toLowerCase();
       const displayName = safeText(data.get("displayName"), 30);
+      const password = String(data.get("password") || "");
 
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         showFormStatus(form, "Please enter a valid email address.", "error");
         return;
       }
-      if (!displayName) {
+      if (mode === "signup" && !displayName) {
         showFormStatus(form, "Please choose a display name.", "error");
         return;
       }
-
-      if (hasSupabaseConfig) {
-        showFormStatus(
-          form,
-          "Supabase is connected, but Auth has not been enabled in this preview build yet.",
-          "error"
-        );
+      if (mode === "signup" && !passwordLooksValid(password)) {
+        showFormStatus(form, "Password must have 8+ characters with lowercase, uppercase, a number, and a symbol.", "error");
         return;
       }
 
-      setAuthPreview({
-        email,
-        displayName,
-        preview: true,
-        signedInAt: new Date().toISOString()
-      });
+      submit.disabled = true;
+      showFormStatus(form, mode === "signup" ? "Creating your Blossom account…" : "Signing you in…");
 
-      // Keep Chat profile aligned with the membership display name.
-      storage.set(KEYS.profile, {
-        displayName,
-        avatar: getProfile()?.avatar || "🌸"
-      });
+      try {
+        if (mode === "signup") {
+          const { data: result, error } = await db.auth.signUp({
+            email,
+            password,
+            options: {
+              emailRedirectTo: authRedirectUrl(),
+              data: { display_name: displayName, avatar: "🌸" }
+            }
+          });
+          if (error) throw error;
 
-      closeModal();
-      onSuccess?.();
+          if (result.session?.user) {
+            currentSession = result.session;
+            await ensureMemberProfile(result.session.user);
+            updateAuthUI();
+            closeModal();
+            onSuccess?.();
+          } else {
+            form.reset();
+            showFormStatus(
+              form,
+              "Almost there 🌸 Check your email and confirm your account within 10 minutes, then return here to sign in.",
+              "success"
+            );
+          }
+        } else {
+          const { data: result, error } = await db.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          currentSession = result.session;
+          await ensureMemberProfile(result.user);
+          updateAuthUI();
+          closeModal();
+          onSuccess?.();
+        }
+      } catch (error) {
+        console.error("Blossom Auth:", error);
+        const message = safeText(error?.message || "We could not complete that request. Please try again.", 220);
+        showFormStatus(form, message, "error");
+      } finally {
+        submit.disabled = false;
+      }
     });
 
+    setMode("signup");
     openModal(wrapper);
   };
 
@@ -383,6 +516,10 @@
   }
 
   function renderLetterForm(recipient = "OomBam") {
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      requireParticipationAuth(() => renderLetterForm(recipient));
+      return;
+    }
     const wrapper = document.createElement("div");
     wrapper.innerHTML = `
       <p class="community-modal__eyebrow">FAN LETTER</p>
@@ -447,6 +584,11 @@
       </form>`;
 
     const form = wrapper.querySelector("form");
+    const memberName = currentMember?.displayName || getProfile()?.displayName || "";
+    if (memberName && form.elements.displayName) {
+      form.elements.displayName.value = memberName;
+      form.elements.displayName.readOnly = AUTH_REQUIRED;
+    }
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (isRateLimited(KEYS.lastSubmit, 15000)) {
@@ -494,6 +636,10 @@
   }
 
   function renderMessageForm() {
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      requireParticipationAuth(() => renderMessageForm());
+      return;
+    }
     const wrapper = document.createElement("div");
     wrapper.innerHTML = `
       <p class="community-modal__eyebrow">BLOSSOM WALL</p>
@@ -557,6 +703,11 @@
       </form>`;
 
     const form = wrapper.querySelector("form");
+    const memberName = currentMember?.displayName || getProfile()?.displayName || "";
+    if (memberName && form.elements.displayName) {
+      form.elements.displayName.value = memberName;
+      form.elements.displayName.readOnly = AUTH_REQUIRED;
+    }
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (isRateLimited(KEYS.lastSubmit, 15000)) {
@@ -603,6 +754,10 @@
   }
 
   function renderSubmitMenu() {
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      requireParticipationAuth(() => renderSubmitMenu());
+      return;
+    }
     const wrapper = document.createElement("div");
     wrapper.innerHTML = `
       <p class="community-modal__eyebrow">COMMUNITY BLOSSOMS</p>
@@ -879,6 +1034,11 @@
   async function handleChatSubmit(event) {
     event.preventDefault();
 
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      requireParticipationAuth(() => chatInput?.focus());
+      return;
+    }
+
     const message = safeMultiline(chatInput?.value || "", 280);
     if (!message) return;
 
@@ -920,13 +1080,21 @@
     event.preventDefault();
 
     const action = actionEl.dataset.communityAction;
-    if (action === "letter") renderLetterForm(actionEl.dataset.recipient || "OomBam");
-    if (action === "message") renderMessageForm();
+    if (action === "letter") {
+      const recipient = actionEl.dataset.recipient || "OomBam";
+      requireParticipationAuth(() => renderLetterForm(recipient));
+    }
+    if (action === "message") requireParticipationAuth(() => renderMessageForm());
     if (action === "view-wall") renderWallModal();
-    if (action === "submit-menu") renderSubmitMenu();
+    if (action === "submit-menu") requireParticipationAuth(() => renderSubmitMenu());
   });
 
   chatInput?.addEventListener("focus", () => {
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      chatInput.blur();
+      requireParticipationAuth(() => chatInput?.focus());
+      return;
+    }
     if (!getProfile()?.displayName) {
       chatInput.blur();
       renderProfileForm();
@@ -944,6 +1112,10 @@
   const PROJECT_PROPOSAL_KEY = "oombam-community-preview-project-proposals";
 
   const renderProjectProposalHub = () => {
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      requireParticipationAuth(() => renderProjectProposalHub());
+      return;
+    }
     const wrapper = document.createElement("div");
     wrapper.innerHTML = `
       <p class="community-modal__eyebrow">FAN PROJECTS</p>
@@ -1044,6 +1216,11 @@
       </form>`;
 
     const form = wrapper.querySelector("form");
+    const memberName = currentMember?.displayName || getProfile()?.displayName || "";
+    if (memberName && form.elements.displayName) {
+      form.elements.displayName.value = memberName;
+      form.elements.displayName.readOnly = AUTH_REQUIRED;
+    }
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -1095,7 +1272,7 @@
     const trigger = event.target.closest("[data-project-proposal-open]");
     if (!trigger) return;
     event.preventDefault();
-    renderProjectProposalHub();
+    requireParticipationAuth(() => renderProjectProposalHub());
   });
 
 
@@ -1334,7 +1511,7 @@
       const submit = event.target.closest('[data-community-action="submit-menu"]');
       if (!submit) return;
       event.preventDefault();
-      renderSubmitMenu();
+      requireParticipationAuth(() => renderSubmitMenu());
     });
 
     setFilter(initialFilter);
@@ -1350,29 +1527,69 @@
 
 
   async function init() {
-    updateAuthUI();
-
-    const member = getAuthPreview();
-    if (member?.displayName && !getProfile()?.displayName) {
-      storage.set(KEYS.profile, {
-        displayName: member.displayName,
-        avatar: "🌸"
-      });
-    }
-
-    authButton?.addEventListener("click", () => {
-      getAuthPreview()?.email ? renderAuthAccount() : renderAuthGate();
-    });
-
     if (hasSupabaseConfig) {
       db = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
-        auth: { persistSession: false, autoRefreshToken: false }
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
       });
-      setChatState("connecting", "Connecting to the live Blossom community…");
-      await Promise.allSettled([refreshWallPreview(), loadChat()]);
+
+      const { data: { session } } = await db.auth.getSession();
+      currentSession = session || null;
+      if (currentSession?.user) {
+        try {
+          await ensureMemberProfile(currentSession.user);
+        } catch (error) {
+          console.error("Blossom profile load failed:", error);
+        }
+      }
+
+      db.auth.onAuthStateChange(async (event, session) => {
+        currentSession = session || null;
+        if (currentSession?.user) {
+          try {
+            await ensureMemberProfile(currentSession.user);
+          } catch (error) {
+            console.error("Blossom profile sync failed:", error);
+          }
+          if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED") && !realtimeChannel) {
+            await loadChat();
+          }
+        } else {
+          currentMember = null;
+          try { localStorage.removeItem(KEYS.profile); } catch (_) {}
+          if (db && realtimeChannel) {
+            db.removeChannel(realtimeChannel);
+            realtimeChannel = null;
+          }
+          if (chatWindow) chatWindow.replaceChildren();
+          setChatState("preview", "Sign in to join live Blossom Chat.");
+        }
+        updateAuthUI();
+      });
+
+      updateAuthUI();
+      authButton?.addEventListener("click", () => {
+        currentSession?.user ? renderAuthAccount() : renderAuthGate();
+      });
+
+      setChatState("connecting", currentSession?.user
+        ? "Connecting to the live Blossom community…"
+        : "Sign in to join live Blossom Chat.");
+
+      await refreshWallPreview();
+      if (currentSession?.user || !AUTH_REQUIRED) {
+        await loadChat();
+      } else if (chatWindow) {
+        chatWindow.replaceChildren();
+        setChatState("preview", "Sign in to join live Blossom Chat.");
+      }
     } else {
-      setChatState("preview", "Preview mode: messages are saved only in this browser until Supabase is connected.");
-      await loadChat();
+      updateAuthUI();
+      authButton?.addEventListener("click", () => renderAuthGate());
+      setChatState("error", "Community access is temporarily unavailable.");
     }
   }
 
