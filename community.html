@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=DM+Sans:wght@400;500;600&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/Global.css?v=OB00001.7" rel="stylesheet"/><link href="css/community.css?v=20.2.0" rel="stylesheet"/><style id="community-hero-v18-failsafe">
+<link href="css/Global.css?v=OB00001.7" rel="stylesheet"/><link href="css/community.css?v=20.2.1" rel="stylesheet"/><style id="community-hero-v18-failsafe">
 /* V18: final hero typography + no-crop banner */
 body.page-community .community-hero-media {
   height: auto !important;
@@ -87,8 +87,9 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <div class="ob-mobile-menu__backdrop" data-menu-close=""></div>
 <nav aria-label="Mobile navigation" class="ob-mobile-menu__panel">
 <div class="community-mobile-auth" id="communityMobileAuth" aria-label="Blossom account access">
-  <button class="community-mobile-auth__button is-primary" id="communityMobileSignup" type="button">Sign Up</button>
+  <button class="community-mobile-auth__button is-primary" id="communityMobileSignup" type="button">Join</button>
   <button class="community-mobile-auth__button" id="communityMobileSignin" type="button">Sign In</button>
+  <button class="community-mobile-auth__button community-mobile-auth__button--signout" id="communityMobileSignout" type="button" hidden>Sign Out</button>
 </div>
 <a class="ob-mobile-nav__link" data-nav-key="welcome" href="index.html#home">Welcome 🌸</a>
 <a class="ob-mobile-nav__link" data-nav-key="story" href="index.html#about">Our Story</a>
@@ -126,12 +127,15 @@ body.page-community .garden-link { margin-top: 8px !important; }
 </nav>
 </div><header class="ob-header" id="siteHeader">
 <div class="ob-header__inner">
+<div class="community-brand-access">
 <a aria-label="OomBam Society Philippines home" class="ob-brand" href="index.html#home">
 <img alt="OomBam Society Philippines" class="ob-brand__logo" src="assets/images/OBSocPH-Logo-transparent.png"/>
 </a>
 <div class="community-header-auth" id="communityHeaderAuth" aria-label="Blossom account access">
-  <button class="community-header-auth__button is-primary" id="communityHeaderSignup" type="button">Sign Up</button>
+  <button class="community-header-auth__button is-primary" id="communityHeaderSignup" type="button">Join</button>
   <button class="community-header-auth__button" id="communityHeaderSignin" type="button">Sign In</button>
+  <button class="community-header-auth__button community-header-auth__button--signout" id="communityHeaderSignout" type="button" hidden>Sign Out</button>
+</div>
 </div>
 <nav aria-label="Main navigation" class="ob-nav">
 <a class="ob-nav__link" data-nav-key="welcome" href="index.html#home">Welcome 🌸</a>
@@ -210,26 +214,6 @@ body.page-community .garden-link { margin-top: 8px !important; }
 </div>
 </div>
 </section>
-<!-- ======================================================
-         BLOSSOM MEMBER ACCESS
-    ======================================================= -->
-<section class="community-access-strip" aria-label="Blossom member access">
-  <div class="community-container community-access-strip__inner">
-    <div class="community-access-strip__copy">
-      <strong>🌸 Blossom Community Access</strong>
-      <span id="communityAuthSummary">Leave a letter. Share a message. Join the conversation.</span>
-    </div>
-    <div class="community-access-strip__actions">
-      <button class="community-access-strip__button" id="communityAuthButton" type="button">
-        Join / Sign In
-      </button>
-      <button class="community-access-strip__button community-access-strip__button--signout" id="communityAuthSignout" type="button" hidden>
-        Sign Out
-      </button>
-    </div>
-  </div>
-</section>
-
 <!-- ======================================================
          LETTERS TO OOM & BAM
     ======================================================= -->
@@ -655,5 +639,5 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <script src="js/script.js?v=OB00001.7"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/community-config.js?v=2.1"></script>
-<script src="js/community.js?v=20.2.0"></script></body>
+<script src="js/community.js?v=20.2.1"></script></body>
 </html>
