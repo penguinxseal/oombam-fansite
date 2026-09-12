@@ -6326,7 +6326,7 @@ body.dark-theme .community-modal__close {
 
 
 /* =========================================================
-   BLOSSOM EMAIL MEMBERSHIP PREVIEW — v19.2
+   BLOSSOM COMMUNITY ACCESS — v20.0
 ========================================================= */
 
 .community-access-strip {
@@ -7079,5 +7079,80 @@ button.community-card[data-gallery-open="journal"] > .community-card-content {
 
   button.community-card > .community-card-content p {
     padding-right: 0 !important;
+  }
+}
+
+
+/* =========================================================
+   BLOSSOM AUTH — SUPABASE PRODUCTION ACCESS v20.0
+========================================================= */
+
+.community-auth-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 18px 0 16px;
+  padding: 5px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255,255,255,.52);
+}
+
+.community-auth-tab {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-soft);
+  font-size: .78rem;
+  font-weight: 600;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+
+.community-auth-tab.is-active {
+  background: #fff;
+  color: #b74c6b;
+  box-shadow: 0 6px 18px rgba(95,68,72,.08);
+}
+
+.community-auth-confirm-note {
+  margin-top: -4px;
+  color: #8a6a73;
+}
+
+.community-form input[readonly] {
+  cursor: default;
+  background: rgba(85,155,209,.055);
+}
+
+html[data-theme="dark"] .community-auth-tabs,
+body.dark-theme .community-auth-tabs {
+  background: rgba(255,255,255,.035);
+  border-color: rgba(255,255,255,.10);
+}
+
+html[data-theme="dark"] .community-auth-tab.is-active,
+body.dark-theme .community-auth-tab.is-active {
+  background: rgba(255,255,255,.08);
+  color: #f29ab5;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .community-form input[readonly],
+body.dark-theme .community-form input[readonly] {
+  background: rgba(85,155,209,.08);
+}
+
+@media (max-width: 520px) {
+  .community-auth-tabs {
+    gap: 5px;
+    padding: 4px;
+  }
+
+  .community-auth-tab {
+    min-height: 38px;
+    padding-inline: 8px;
+    font-size: .74rem;
   }
 }
