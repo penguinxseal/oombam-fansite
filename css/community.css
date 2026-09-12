@@ -7502,3 +7502,53 @@ body.dark-theme.page-community .community-auth-success__email {
     flex: 1 1 auto;
   }
 }
+
+/* =========================================================
+   BLOSSOM AUTH — HEADER COMPACT PATCH v20.2.1
+   Removes the full-width Community Access strip and keeps
+   Join / Sign In immediately beside the OBSocPH logo.
+========================================================= */
+.page-community .community-brand-access {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.page-community .community-brand-access .ob-brand {
+  flex: 0 0 auto;
+  margin: 0 !important;
+}
+
+.page-community .community-brand-access .community-header-auth {
+  margin: 0 !important;
+  gap: 8px;
+}
+
+.page-community .community-header-auth__button {
+  min-height: 31px;
+  padding: 6px 12px;
+}
+
+.page-community .community-header-auth__button.is-primary {
+  background: linear-gradient(135deg, rgba(239,120,155,.17), rgba(239,120,155,.08));
+  color: #d45f82;
+  border-color: rgba(239,120,155,.40);
+}
+
+.page-community .community-header-auth__button--signout,
+.page-community .community-mobile-auth__button--signout {
+  color: var(--text-soft);
+}
+
+/* The long page-level member access bar was intentionally removed in v20.2.1. */
+.page-community .community-access-strip {
+  display: none !important;
+}
+
+@media (max-width: 1040px) {
+  .page-community .community-brand-access {
+    gap: 0;
+  }
+}
