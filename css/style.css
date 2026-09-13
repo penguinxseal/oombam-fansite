@@ -16243,3 +16243,32 @@ body.dark-theme .sakura-clip-card__caption{color:#bac2c8}
     min-height: 2.1rem;
   }
 }
+
+
+/* =========================================================
+   v20.4.0 — MEDIA / MUSIC TILE
+   Player-first treatment: ~80% player, compact metadata.
+========================================================= */
+.page-home .media-soundtrack-tile { grid-template-rows:minmax(0,80%) minmax(58px,20%) !important; }
+.page-home .media-soundtrack-meta {
+  display:flex !important; flex-direction:column !important; justify-content:center !important; align-items:flex-start !important;
+  padding:8px 11px 9px !important; text-align:left !important;
+}
+.page-home .media-soundtrack-meta .media-mag-eyebrow {
+  width:100% !important; margin:0 0 4px !important; color:#d8edf7 !important;
+  font:700 .47rem/1 "DM Sans",sans-serif !important; letter-spacing:.14em !important; text-transform:uppercase !important;
+}
+.page-home .media-soundtrack-meta strong {
+  width:100% !important; margin:0 !important; color:#fff !important;
+  font:500 clamp(.98rem,1.08vw,1.18rem)/1 "Cormorant Garamond",serif !important; letter-spacing:-.01em !important;
+}
+.page-home .media-mag-credit--soundtrack { margin-top:5px !important; min-height:18px !important; }
+.page-home .media-mag-credit--soundtrack a { font-size:.41rem !important; }
+@media (max-width:760px) {
+  .page-home .media-soundtrack-tile { grid-template-rows:minmax(0,79%) minmax(56px,21%) !important; }
+  .page-home .media-soundtrack-meta { padding:7px 10px 8px !important; }
+  .page-home .media-soundtrack-meta strong { font-size:1rem !important; }
+}
+@media (orientation:landscape) and (max-height:650px) {
+  .page-home .media-soundtrack-tile { grid-template-rows:minmax(0,82%) minmax(52px,18%) !important; }
+}
