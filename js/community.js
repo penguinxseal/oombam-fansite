@@ -63,6 +63,8 @@
   const chatNote = document.getElementById("communityChatNote");
   const chatWindow = document.getElementById("communityChatWindow");
   const chatForm = document.getElementById("communityChatForm");
+  const chatEmojiButton = document.getElementById("communityChatEmojiButton");
+  const chatEmojiPicker = document.getElementById("communityChatEmojiPicker");
   const chatInput = document.getElementById("communityChatInput");
   const messageGrid = document.getElementById("blossomMessageGrid");
   const authSummary = document.getElementById("communityAuthSummary");
@@ -214,7 +216,6 @@
 
   const updateHeaderAuthControls = () => {
     const signedIn = Boolean(currentSession?.user?.id);
-    const known = hasKnownAccount();
     const admin = signedIn && isCommunityAdmin();
 
     [headerAuth, mobileAuth].forEach((el) => {
@@ -223,7 +224,7 @@
 
     [headerSignup, mobileSignup].forEach((button) => {
       if (!button) return;
-      button.hidden = signedIn || known;
+      button.hidden = signedIn;
       button.disabled = authInitFailed || !hasSupabaseConfig || !authReady;
     });
 
@@ -1388,6 +1389,48 @@
     appendChatMessage(item);
   }
 
+  const CHAT_EMOJIS = ["🌸","💖","🥹","😂","😭","😍","🥰","✨","🐧","🦭","💛","🩷","💙","💚","🤍","🙌","👏","🫶","🔥","🎉","💕","💐","🌷","🌼"];
+
+  function insertChatEmoji(emoji) {
+    if (!chatInput) return;
+    const start = Number.isInteger(chatInput.selectionStart) ? chatInput.selectionStart : chatInput.value.length;
+    const end = Number.isInteger(chatInput.selectionEnd) ? chatInput.selectionEnd : start;
+    const next = `${chatInput.value.slice(0, start)}${emoji}${chatInput.value.slice(end)}`.slice(0, 280);
+    chatInput.value = next;
+    const cursor = Math.min(start + emoji.length, next.length);
+    chatInput.focus();
+    try { chatInput.setSelectionRange(cursor, cursor); } catch (_) {}
+  }
+
+  function closeChatEmojiPicker() {
+    if (!chatEmojiPicker || !chatEmojiButton) return;
+    chatEmojiPicker.hidden = true;
+    chatEmojiButton.setAttribute("aria-expanded", "false");
+  }
+
+  function setupChatEmojiPicker() {
+    if (!chatEmojiPicker || !chatEmojiButton) return;
+    chatEmojiPicker.replaceChildren(...CHAT_EMOJIS.map((emoji) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "chat-emoji-picker__item";
+      button.textContent = emoji;
+      button.setAttribute("aria-label", `Insert ${emoji}`);
+      button.addEventListener("click", () => { insertChatEmoji(emoji); closeChatEmojiPicker(); });
+      return button;
+    }));
+    chatEmojiButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const opening = chatEmojiPicker.hidden;
+      chatEmojiPicker.hidden = !opening;
+      chatEmojiButton.setAttribute("aria-expanded", opening ? "true" : "false");
+    });
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".chat-emoji-wrap")) closeChatEmojiPicker();
+    });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeChatEmojiPicker(); });
+  }
+
   async function handleChatSubmit(event) {
     event.preventDefault();
 
@@ -1458,6 +1501,7 @@
     }
   });
 
+  setupChatEmojiPicker();
   chatForm?.addEventListener("submit", handleChatSubmit);
 
 
