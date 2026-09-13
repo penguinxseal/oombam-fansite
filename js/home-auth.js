@@ -9,6 +9,12 @@
   const PROFILE_KEY = "oombam-community-preview-profile";
   const PENDING_KEY = "oombam-community-pending-confirmation";
 
+  // Production custom-domain auth destinations.
+  // Keep confirmation and recovery routes at the domain root; the old
+  // /oombam-fansite/ GitHub Pages project path must never be used here.
+  const confirmationRedirectUrl = () => `${window.location.origin}/community.html?confirmed=1`;
+  const recoveryRedirectUrl = () => `${window.location.origin}/community.html`;
+
   const safe = (value = "", max = 5000) => String(value).replace(/\s+/g, " ").trim().slice(0, max);
   const withTimeout = (promise, ms = 10000, message = "Request timed out") => Promise.race([
     promise,
@@ -119,7 +125,7 @@
     wrap.querySelector(".home-auth-intro strong").textContent = email;
     wrap.querySelector(".home-resend").addEventListener("click", async (e) => {
       const b=e.currentTarget; b.disabled=true;
-      try { const { error } = await db.auth.resend({ type:"signup", email, options:{ emailRedirectTo:`${location.origin}/oombam-fansite/community.html` } }); if(error) throw error; status(wrap,"Confirmation email sent again 🌸","success"); }
+      try { const { error } = await db.auth.resend({ type:"signup", email, options:{ emailRedirectTo: confirmationRedirectUrl() } }); if(error) throw error; status(wrap,"Confirmation email sent again 🌸","success"); }
       catch(err){ status(wrap,safe(err.message || "Could not resend email.",180),"error"); }
       finally { b.disabled=false; }
     });
@@ -139,7 +145,7 @@
   const renderForgot = (prefill="") => {
     const wrap=document.createElement("div");
     wrap.innerHTML=`<p class="home-auth-eyebrow">BLOSSOM ACCOUNT</p><h2 class="home-auth-title" id="homeAuthTitle">Reset your password</h2><p class="home-auth-intro">Enter your account email and we’ll send password reset instructions.</p><form class="home-auth-form"><label>Email address<input name="email" type="email" required value="${safe(prefill,120).replace(/"/g,"&quot;")}"></label><p class="home-auth-status" aria-live="polite"></p><div class="home-auth-actions"><button class="home-auth-secondary" type="button" data-home-auth-close>Cancel</button><button class="home-auth-primary" type="submit">Send Reset Email</button></div></form>`;
-    const form=wrap.querySelector("form");form.addEventListener("submit",async e=>{e.preventDefault();const email=safe(new FormData(form).get("email"),120).toLowerCase();const b=form.querySelector('[type="submit"]');b.disabled=true;try{const{error}=await db.auth.resetPasswordForEmail(email,{redirectTo:`${location.origin}/oombam-fansite/community.html`});if(error)throw error;status(form,"Password reset email sent 🌸","success");}catch(err){status(form,safe(err.message || "Could not send reset email.",180),"error");}finally{b.disabled=false;}});openModal(wrap);
+    const form=wrap.querySelector("form");form.addEventListener("submit",async e=>{e.preventDefault();const email=safe(new FormData(form).get("email"),120).toLowerCase();const b=form.querySelector('[type="submit"]');b.disabled=true;try{const{error}=await db.auth.resetPasswordForEmail(email,{redirectTo: recoveryRedirectUrl()});if(error)throw error;status(form,"Password reset email sent 🌸","success");}catch(err){status(form,safe(err.message || "Could not send reset email.",180),"error");}finally{b.disabled=false;}});openModal(wrap);
   };
 
   const renderAuth = (initial="signup") => {
@@ -152,7 +158,7 @@
     let mode=initial==="signin"?"signin":"signup";
     const setMode=(m)=>{mode=m==="signin"?"signin":"signup";w.querySelectorAll("[data-mode]").forEach(b=>b.classList.toggle("is-active",b.dataset.mode===mode));w.querySelectorAll(".signup-only").forEach(el=>el.hidden=mode!=="signup");dn.required=mode==="signup";forgot.hidden=mode!=="signin";pw.autocomplete=mode==="signup"?"new-password":"current-password";pw.placeholder=mode==="signup"?"Create a secure password":"Enter your password";submit.textContent=mode==="signup"?"Join Community 🌸":"Sign In 🌸";intro.textContent=mode==="signup"?"Join the community to send letters, leave Blossom Wall messages, and take part in Blossom Chat.":"Welcome back, Blossom. Sign in to continue sharing, chatting, and growing with the community.";status(form);};
     w.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode)));forgot.addEventListener("click",()=>renderForgot(form.elements.email.value));
-    form.addEventListener("submit",async e=>{e.preventDefault();const fd=new FormData(form), email=safe(fd.get("email"),120).toLowerCase(), displayName=safe(fd.get("displayName"),30), password=String(fd.get("password")||"");if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return status(form,"Please enter a valid email address.","error");if(mode==="signup"&&!displayName)return status(form,"Please choose a display name.","error");if(mode==="signup"&&!validPassword(password))return status(form,"Password must have 8+ characters with lowercase, uppercase, a number, and a symbol.","error");submit.disabled=true;status(form,mode==="signup"?"Creating your Blossom account…":"Signing you in…");try{if(mode==="signup"){const{data,error}=await withTimeout(db.auth.signUp({email,password,options:{emailRedirectTo:`${location.origin}/oombam-fansite/community.html`,data:{display_name:displayName,avatar:"🌸"}}}),12000,"Sign up is taking longer than expected.");if(error)throw error;setKnown();setPending({email,displayName,createdAt:Date.now()});if(data.session?.user){session=data.session;await ensureProfile(data.session.user);clearPending();updateControls();closeModal();}else renderSignupSuccess(email);}else{const{data,error}=await withTimeout(db.auth.signInWithPassword({email,password}),12000,"Sign in is taking longer than expected.");if(error)throw error;session=data.session;setKnown();await ensureProfile(data.user);updateControls();closeModal();}}catch(err){status(form,safe(err.message||"We could not complete that request.",220),"error");}finally{submit.disabled=false;}});
+    form.addEventListener("submit",async e=>{e.preventDefault();const fd=new FormData(form), email=safe(fd.get("email"),120).toLowerCase(), displayName=safe(fd.get("displayName"),30), password=String(fd.get("password")||"");if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return status(form,"Please enter a valid email address.","error");if(mode==="signup"&&!displayName)return status(form,"Please choose a display name.","error");if(mode==="signup"&&!validPassword(password))return status(form,"Password must have 8+ characters with lowercase, uppercase, a number, and a symbol.","error");submit.disabled=true;status(form,mode==="signup"?"Creating your Blossom account…":"Signing you in…");try{if(mode==="signup"){const{data,error}=await withTimeout(db.auth.signUp({email,password,options:{emailRedirectTo: confirmationRedirectUrl(),data:{display_name:displayName,avatar:"🌸"}}}),12000,"Sign up is taking longer than expected.");if(error)throw error;setKnown();setPending({email,displayName,createdAt:Date.now()});if(data.session?.user){session=data.session;await ensureProfile(data.session.user);clearPending();updateControls();closeModal();}else renderSignupSuccess(email);}else{const{data,error}=await withTimeout(db.auth.signInWithPassword({email,password}),12000,"Sign in is taking longer than expected.");if(error)throw error;session=data.session;setKnown();await ensureProfile(data.user);updateControls();closeModal();}}catch(err){status(form,safe(err.message||"We could not complete that request.",220),"error");}finally{submit.disabled=false;}});
     setMode(mode);openModal(w);
   };
 
