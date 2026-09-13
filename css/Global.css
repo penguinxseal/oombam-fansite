@@ -1864,3 +1864,44 @@ body.dark-theme .ob-account-mobile__actions a,body.dark-theme .ob-account-mobile
   .ob-account-mobile { padding:11px; }
   .ob-account-mobile__actions { grid-template-columns:1fr 1fr; }
 }
+
+
+/* =========================================================
+   v20.4.1 — ACCOUNT MENU POLISH
+========================================================= */
+.ob-account-menu > a,
+.ob-account-menu__signout {
+  font-family: "DM Sans", sans-serif !important;
+  font-size: .68rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+.ob-account-menu__signout {
+  min-height: 32px !important;
+  padding: 7px 9px !important;
+  color: #8a606e !important;
+}
+.ob-account-menu__moderate {
+  color: #d26084 !important;
+}
+.ob-account-mobile__actions a,
+.ob-account-mobile__actions button {
+  font-family: "DM Sans", sans-serif !important;
+  font-size: .63rem !important;
+  font-weight: 600 !important;
+}
+
+
+/* =========================================================
+   v20.4.3 — ACCOUNT MENU FINAL POLISH
+========================================================= */
+.ob-account-menu__signout {
+  font-size: .68rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+.ob-account-mobile__signout {
+  font-size: .63rem !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+}
