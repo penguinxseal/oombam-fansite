@@ -1270,6 +1270,18 @@
     openModal(wrapper);
   }
 
+  function formatChatTimestamp(value) {
+    const date = value ? new Date(value) : new Date();
+    if (Number.isNaN(date.getTime())) return "";
+    const now = new Date();
+    const sameDay = date.getFullYear() === now.getFullYear() &&
+      date.getMonth() === now.getMonth() && date.getDate() === now.getDate();
+    const time = new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(date);
+    if (sameDay) return time;
+    const day = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" }).format(date);
+    return `${day} · ${time}`;
+  }
+
   function createChatMessage(item) {
     const row = document.createElement("div");
     row.className = "chat-message";
@@ -1280,12 +1292,21 @@
     avatar.textContent = safeText(item.avatar || "🌸", 4);
 
     const content = document.createElement("div");
+    const meta = document.createElement("div");
+    meta.className = "chat-message__meta";
     const author = document.createElement("strong");
     author.textContent = safeText(item.display_name || item.displayName || "Blossom", 30);
+    const timestamp = document.createElement("time");
+    timestamp.className = "chat-message__time";
+    const rawTime = item.created_at || item.createdAt || new Date().toISOString();
+    timestamp.dateTime = rawTime;
+    timestamp.textContent = formatChatTimestamp(rawTime);
+    try { timestamp.title = new Date(rawTime).toLocaleString(); } catch (_) {}
+    meta.append(author, timestamp);
     const message = document.createElement("p");
     message.textContent = safeMultiline(item.message, 280);
 
-    content.append(author, message);
+    content.append(meta, message);
     row.append(avatar, content);
     return row;
   }
@@ -1632,15 +1653,15 @@
       ]
     },
     photos: {
-      label: "Fan Photos",
+      label: "Fan Photos & Videos",
       icon: "📷",
-      intro: "Fan-captured moments and memories shared by Blossoms.",
+      intro: "Fan-captured photos and videos shared by Blossoms.",
       layout: "visual",
       items: [
         {
           type: "preview",
-          title: "Fan Photos Collection",
-          description: "Approved Fan Photo submissions will appear here.",
+          title: "Fan Photos & Videos Collection",
+          description: "Approved fan photo and video submissions will appear here.",
           image: "assets/images/Fan-photos.png",
           status: "approved"
         }
@@ -1665,7 +1686,7 @@
   const GALLERY_TABS = [
     ["all", "All"],
     ["art", "Fan Arts"],
-    ["photos", "Fan Photos"],
+    ["photos", "Fan Photos & Videos"],
     ["journal", "Blossom Journal"]
   ];
 
@@ -1772,7 +1793,7 @@
       <p class="community-modal__eyebrow">FROM THE COMMUNITY</p>
       <h2 class="community-modal__title" id="communityModalTitle">Community Gallery</h2>
       <p class="community-modal__intro community-archive__intro">
-        Browse Fan Arts, Fan Photos, and the Blossom Journal without leaving this page.
+        Browse Fan Arts, Fan Photos & Videos, and the Blossom Journal without leaving this page.
       </p>
       <div class="community-archive__tabs" role="tablist" aria-label="Community gallery categories"></div>
       <div class="community-archive__heading">
@@ -1811,7 +1832,7 @@
         categoryIcon.textContent = "🌸";
         categoryTitle.textContent = "All Community Collections";
         categoryDescription.textContent =
-          "A curated view across Fan Arts, Fan Photos, and the Blossom Journal.";
+          "A curated view across Fan Arts, Fan Photos & Videos, and the Blossom Journal.";
       } else {
         const category = COMMUNITY_GALLERY[active];
         categoryIcon.textContent = category.icon;
@@ -2223,6 +2244,22 @@
 
       if (shouldShowVerifiedWelcome()) {
         setTimeout(() => renderVerifiedWelcome(), 120);
+      }
+
+      // Global account menu deep-links: keep account/moderation available from every page.
+      const accessParams = new URLSearchParams(window.location.search);
+      if (currentSession?.user && accessParams.get("account") === "1") {
+        setTimeout(() => renderAuthAccount(), 160);
+      } else if (currentSession?.user && accessParams.get("moderate") === "1" && isCommunityAdmin()) {
+        setTimeout(() => renderAdminModeration(), 160);
+      }
+      if (accessParams.has("account") || accessParams.has("moderate")) {
+        try {
+          const cleanUrl = new URL(window.location.href);
+          cleanUrl.searchParams.delete("account");
+          cleanUrl.searchParams.delete("moderate");
+          window.history.replaceState({}, "", `${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`);
+        } catch (_) {}
       }
     } catch (error) {
       console.error("Blossom Community initialization failed:", error);
