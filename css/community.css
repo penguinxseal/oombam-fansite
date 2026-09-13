@@ -7688,3 +7688,165 @@ body.page-community.dark-theme .chat-emoji-picker { background:rgba(24,28,32,.98
   .page-community .chat-emoji-button { width:34px; height:34px; border-radius:9px; }
   .page-community .chat-emoji-picker { width:min(260px,86vw); grid-template-columns:repeat(6,1fr); left:-2px; }
 }
+
+/* =========================================================
+   v20.4.4 — Community hero surface polish
+   Merge the banner and editorial copy into one visual surface.
+   ========================================================= */
+body.page-community .community-hero {
+  background: var(--ivory) !important;
+}
+
+body.page-community .community-hero-media,
+body.page-community .hero-overlay,
+body.page-community .hero-text-only {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Preserve breathing room using spacing rather than a color band. */
+body.page-community .hero-overlay {
+  padding-top: 48px !important;
+  padding-bottom: 34px !important;
+}
+
+html[data-theme="dark"] body.page-community .community-hero,
+body.dark-theme.page-community .community-hero {
+  background: #090a0c !important;
+}
+
+html[data-theme="dark"] body.page-community .community-hero-media,
+html[data-theme="dark"] body.page-community .hero-overlay,
+html[data-theme="dark"] body.page-community .hero-text-only,
+body.dark-theme.page-community .community-hero-media,
+body.dark-theme.page-community .hero-overlay,
+body.dark-theme.page-community .hero-text-only {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-community .hero-overlay {
+    padding-top: 40px !important;
+    padding-bottom: 30px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body.page-community .hero-overlay {
+    padding-top: 30px !important;
+    padding-bottom: 24px !important;
+  }
+}
+
+@media (max-width: 899px) and (orientation: landscape) {
+  body.page-community .hero-overlay {
+    padding-top: 28px !important;
+    padding-bottom: 22px !important;
+  }
+}
+
+/* =========================================================
+   COMMUNITY OVERFLOW + SCALABILITY POLISH — v20.4.5
+   Keeps Blossom Wall, Blossom Chat, and moderation queues
+   contained as community content grows.
+========================================================= */
+
+/* Desktop/tablet: keep the two social panels visually balanced. */
+body.page-community .community-social-section .social-grid {
+  align-items: stretch;
+}
+
+body.page-community .blossom-wall,
+body.page-community .blossom-chat {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: clamp(560px, 62vh, 650px);
+  overflow: hidden;
+}
+
+/* Blossom Wall: preview is capped to six approved messages in JS.
+   Extra rows stay inside the panel rather than stretching the page. */
+body.page-community .blossom-wall .message-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  align-content: start;
+  padding-right: 5px;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+
+body.page-community .blossom-wall .panel-footer-center {
+  flex: 0 0 auto;
+}
+
+/* Blossom Chat: only message history scrolls; composer and notes stay visible. */
+body.page-community .blossom-chat .chat-window {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+
+body.page-community .blossom-chat .chat-input,
+body.page-community .blossom-chat .chat-coming-soon,
+body.page-community .blossom-chat .chat-rules {
+  flex: 0 0 auto;
+}
+
+/* Full Blossom Wall modal: the modal itself stays compact while cards scroll. */
+body.page-community .community-wall-list {
+  max-height: min(58vh, 620px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+  align-content: start;
+}
+
+@media (max-width: 1100px) {
+  body.page-community .blossom-wall,
+  body.page-community .blossom-chat {
+    height: 600px;
+  }
+}
+
+@media (max-width: 760px) {
+  body.page-community .blossom-wall {
+    height: 610px;
+  }
+
+  body.page-community .blossom-chat {
+    height: 560px;
+  }
+
+  body.page-community .blossom-wall .message-grid,
+  body.page-community .blossom-chat .chat-window {
+    scrollbar-gutter: auto;
+  }
+
+  body.page-community .community-wall-list {
+    max-height: 58vh;
+    padding-right: 3px;
+  }
+}
+
+@media (max-width: 899px) and (orientation: landscape) {
+  body.page-community .blossom-wall,
+  body.page-community .blossom-chat {
+    height: 500px;
+  }
+
+  body.page-community .community-wall-list {
+    max-height: 52vh;
+  }
+}
