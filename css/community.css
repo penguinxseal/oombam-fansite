@@ -7936,3 +7936,72 @@ body.dark-theme.page-community .community-hero > .hero-overlay.hero-text-only .g
     padding: 24px 18px 22px !important;
   }
 }
+
+/* =========================================================
+   v20.4.7 — COMMUNITY HERO COPY ALIGNMENT FIX
+   ---------------------------------------------------------
+   Keep both intro paragraphs inside the same centered visual
+   axis, remove the stray divider, and preserve the v20.4.6
+   continuous hero surface in both light and dark mode.
+========================================================= */
+
+/* Use one centered content width for the full editorial block. */
+body.page-community .community-hero > .hero-overlay.hero-text-only {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: none !important;
+  text-align: center !important;
+}
+
+body.page-community .community-hero > .hero-overlay.hero-text-only .hero-copy,
+body.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy {
+  width: min(760px, 100%) !important;
+  max-width: 760px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  justify-self: auto !important;
+  text-align: center !important;
+}
+
+/* First and second copy lines share the exact same centered axis. */
+body.page-community .community-hero > .hero-overlay.hero-text-only .hero-description,
+body.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy p {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+/* Remove the small divider that visually split the two copy lines. */
+body.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy::before {
+  display: none !important;
+  content: none !important;
+}
+
+body.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy {
+  margin-top: 16px !important;
+  padding-top: 0 !important;
+  border-top: 0 !important;
+}
+
+/* Keep the CTA centered under the copy. */
+body.page-community .community-hero > .hero-overlay.hero-text-only .garden-link {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@media (max-width: 760px) {
+  body.page-community .community-hero > .hero-overlay.hero-text-only .hero-copy,
+  body.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy {
+    margin-top: 12px !important;
+  }
+}
