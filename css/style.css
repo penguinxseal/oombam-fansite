@@ -16151,3 +16151,95 @@ body.dark-theme .sakura-clip-card__caption{color:#bac2c8}
   }
 }
 
+
+/* =========================================================
+   v15.54 — MOMENTS PHOTO PRESENTATION NORMALIZATION
+   Keeps all five cards visually consistent while preserving
+   each source image's natural composition.
+========================================================= */
+
+/* One consistent card + credit footprint across the row */
+.page-home .moments-magazine-strip {
+  align-items: start;
+}
+
+.page-home .moments-mag-card {
+  display: grid;
+  grid-template-rows: auto 2.35rem;
+  align-content: start;
+}
+
+/* Slightly less narrow editorial crop for a calmer, more balanced row */
+.page-home .moments-mag-trigger {
+  aspect-ratio: 2 / 3;
+}
+
+/* Every image fills exactly the same frame; focal point is controlled per month */
+.page-home .moments-mag-trigger img {
+  object-fit: cover;
+  object-position: var(--moment-focus-x, 50%) var(--moment-focus-y, 50%);
+}
+
+/* Per-image focal points: move the crop, not the layout */
+.page-home .moments-mag-card[data-month-card="april"]  { --moment-focus-x: 50%; --moment-focus-y: 44%; }
+.page-home .moments-mag-card[data-month-card="may"]    { --moment-focus-x: 50%; --moment-focus-y: 46%; }
+.page-home .moments-mag-card[data-month-card="june"]   { --moment-focus-x: 50%; --moment-focus-y: 43%; }
+.page-home .moments-mag-card[data-month-card="july"]   { --moment-focus-x: 50%; --moment-focus-y: 42%; }
+.page-home .moments-mag-card[data-month-card="august"] { --moment-focus-x: 50%; --moment-focus-y: 45%; }
+
+/* Keep month/title blocks at the same visual baseline */
+.page-home .moments-mag-copy {
+  min-height: 8.75rem;
+  align-content: end;
+}
+
+.page-home .moments-mag-title {
+  min-height: 2.15em;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Equal credit zone beneath every card, including the longer July provenance */
+.page-home .moments-mag-credit {
+  box-sizing: border-box;
+  min-height: 2.35rem;
+  margin-top: 0;
+  padding: 7px 4px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  line-height: 1.25;
+}
+
+/* July remains identifiable but no longer appears physically larger than the others */
+.page-home .moments-mag-card.is-featured .moments-mag-trigger {
+  border-width: 1px;
+  box-shadow: 0 0 0 2px rgba(248, 216, 223, .28),
+              0 16px 38px rgba(201, 130, 149, .10);
+}
+
+/* Tablet: preserve the same crop logic without forcing an overly tall card */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .page-home .moments-mag-trigger {
+    aspect-ratio: 2 / 3;
+  }
+
+  .page-home .moments-mag-copy {
+    min-height: 7.8rem;
+  }
+}
+
+/* Mobile cards can breathe a little more while retaining the same presentation */
+@media (max-width: 760px) {
+  .page-home .moments-mag-trigger {
+    aspect-ratio: 4 / 5;
+  }
+
+  .page-home .moments-mag-copy {
+    min-height: 7.25rem;
+  }
+
+  .page-home .moments-mag-credit {
+    min-height: 2.1rem;
+  }
+}
