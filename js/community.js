@@ -1185,7 +1185,7 @@
     try {
       const data = await getApprovedWallMessages();
       if (!data.length) return;
-      messageGrid.replaceChildren(...data.slice(0, 3).map(createWallCard));
+      messageGrid.replaceChildren(...data.slice(0, 6).map(createWallCard));
     } catch (error) {
       console.error("Blossom Wall load failed:", error);
     }
