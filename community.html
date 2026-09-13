@@ -78,6 +78,54 @@ body.page-community .garden-link { margin-top: 8px !important; }
 }
 </style>
 
+
+<style id="community-admin-v203">
+.community-admin-entry {
+  border-color: rgba(232,166,181,.7) !important;
+  color: inherit;
+}
+.community-admin-entry:not([hidden]) { display: inline-flex; align-items:center; justify-content:center; }
+.community-admin-panel { display:grid; gap:18px; }
+.community-admin-toolbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between; }
+.community-admin-tabs, .community-admin-filters { display:flex; flex-wrap:wrap; gap:8px; }
+.community-admin-tab, .community-admin-filter {
+  appearance:none; border:1px solid rgba(125,116,108,.22); background:transparent; color:inherit;
+  border-radius:999px; padding:8px 13px; font:inherit; font-size:.82rem; cursor:pointer;
+}
+.community-admin-tab.is-active, .community-admin-filter.is-active {
+  background:rgba(232,166,181,.18); border-color:rgba(232,166,181,.65);
+}
+.community-admin-summary { margin:0; font-size:.84rem; opacity:.72; }
+.community-admin-list { display:grid; gap:12px; }
+.community-admin-item {
+  border:1px solid rgba(125,116,108,.18); border-radius:16px; padding:16px; background:rgba(255,255,255,.035);
+  display:grid; gap:10px;
+}
+.community-admin-item__top { display:flex; gap:12px; justify-content:space-between; align-items:flex-start; }
+.community-admin-item__meta { display:flex; flex-wrap:wrap; gap:6px 10px; font-size:.78rem; opacity:.68; }
+.community-admin-item__message { margin:0; white-space:pre-wrap; line-height:1.6; }
+.community-admin-badge {
+  flex:0 0 auto; border-radius:999px; padding:5px 9px; font-size:.72rem; text-transform:uppercase; letter-spacing:.08em;
+  border:1px solid rgba(125,116,108,.2);
+}
+.community-admin-badge.is-pending { background:rgba(245,190,80,.12); }
+.community-admin-badge.is-approved { background:rgba(91,180,122,.12); }
+.community-admin-badge.is-rejected { background:rgba(205,94,94,.10); }
+.community-admin-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.community-admin-actions button {
+  border-radius:999px; padding:8px 13px; font:inherit; font-size:.8rem; cursor:pointer;
+  border:1px solid rgba(125,116,108,.22); background:transparent; color:inherit;
+}
+.community-admin-actions .approve { background:rgba(91,180,122,.13); }
+.community-admin-actions .reject { background:rgba(205,94,94,.10); }
+.community-admin-empty { text-align:center; padding:28px 14px; opacity:.68; }
+.community-admin-error { color:#b34f5b; font-size:.86rem; }
+@media (max-width:760px) {
+  .community-admin-toolbar { align-items:flex-start; flex-direction:column; }
+  .community-admin-item__top { flex-direction:column; }
+}
+</style>
+
 </head>
 <body class="ob-global page-community community-page" data-active-nav="blossoms" data-page-title="Community Blossoms">
 <!-- ======================================================
@@ -89,6 +137,7 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <div class="community-mobile-auth" id="communityMobileAuth" aria-label="Blossom account access">
   <button class="community-mobile-auth__button is-primary" id="communityMobileSignup" type="button">Join</button>
   <button class="community-mobile-auth__button" id="communityMobileSignin" type="button">Sign In</button>
+  <button class="community-mobile-auth__button community-admin-entry" id="communityMobileAdmin" type="button" hidden>Moderate</button>
   <button class="community-mobile-auth__button community-mobile-auth__button--signout" id="communityMobileSignout" type="button" hidden>Sign Out</button>
 </div>
 <a class="ob-mobile-nav__link" data-nav-key="welcome" href="index.html#home">Welcome 🌸</a>
@@ -134,6 +183,7 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <div class="community-header-auth" id="communityHeaderAuth" aria-label="Blossom account access">
   <button class="community-header-auth__button is-primary" id="communityHeaderSignup" type="button">Join</button>
   <button class="community-header-auth__button" id="communityHeaderSignin" type="button">Sign In</button>
+  <button class="community-header-auth__button community-admin-entry" id="communityHeaderAdmin" type="button" hidden>Moderate</button>
   <button class="community-header-auth__button community-header-auth__button--signout" id="communityHeaderSignout" type="button" hidden>Sign Out</button>
 </div>
 </div>
@@ -652,5 +702,5 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <script src="js/script.js?v=OB00001.7"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/community-config.js?v=2.1"></script>
-<script src="js/community.js?v=20.2.2"></script></body>
+<script src="js/community.js?v=20.3.0"></script></body>
 </html>
