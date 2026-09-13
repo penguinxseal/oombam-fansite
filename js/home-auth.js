@@ -55,8 +55,7 @@
 
   const updateControls = () => {
     const signedIn = Boolean(session?.user?.id);
-    const known = knownAccount();
-    [headerSignup, mobileSignup].forEach((b) => { if (b) { b.hidden = signedIn || known; b.disabled = !ready || failed; } });
+    [headerSignup, mobileSignup].forEach((b) => { if (b) { b.hidden = signedIn; b.disabled = !ready || failed; } });
     [headerSignin, mobileSignin].forEach((b) => { if (b) { b.hidden = signedIn; b.disabled = !ready || failed; } });
     [headerSignout, mobileSignout].forEach((b) => { if (b) { b.hidden = !signedIn; b.disabled = !ready; } });
     updateWelcome();
