@@ -36,8 +36,7 @@
         <div><strong class="ob-account-menu__name">Blossom</strong><small class="ob-account-menu__role">Blossom Member</small></div>
       </div>
       <a href="community.html?account=1">My Account</a>
-      <a href="community.html">Community</a>
-      <a class="ob-account-menu__moderate" href="community.html?moderate=1" hidden>Moderate</a>
+      <a class="ob-account-menu__moderate" href="community.html?moderate=1" hidden>Admin Hub</a>
       <button class="ob-account-menu__signout" type="button">Sign Out</button>
     </div>`;
   headerActions.insertBefore(desktop, headerActions.firstChild);
@@ -52,8 +51,7 @@
     </div>
     <div class="ob-account-mobile__actions">
       <a href="community.html?account=1">My Account</a>
-      <a href="community.html">Community</a>
-      <a class="ob-account-mobile__moderate" href="community.html?moderate=1" hidden>Moderate</a>
+      <a class="ob-account-mobile__moderate" href="community.html?moderate=1" hidden>Admin Hub</a>
       <button class="ob-account-mobile__signout" type="button">Sign Out</button>
     </div>`;
   mobilePanel.insertBefore(mobile, mobilePanel.firstChild);
