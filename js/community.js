@@ -93,7 +93,12 @@
   const AUTH_PENDING_CONFIRM_KEY = "oombam-community-pending-confirmation";
   const AUTH_WELCOME_SHOWN_KEY = "oombam-community-welcome-shown";
 
-  const authRedirectUrl = () => `${window.location.origin}${window.location.pathname}`;
+  // Production custom-domain auth destinations.
+  // Confirmation carries a short marker so the Community page can always
+  // show a clear success state even when the auth provider uses a code-based
+  // callback that does not expose type=signup in the final URL.
+  const authConfirmRedirectUrl = () => `${window.location.origin}/community.html?confirmed=1`;
+  const authRecoveryRedirectUrl = () => `${window.location.origin}/community.html`;
 
   const authReturnType = (() => {
     try {
@@ -368,7 +373,7 @@
         const { error } = await withTimeout(db.auth.resend({
           type: "signup",
           email,
-          options: { emailRedirectTo: authRedirectUrl() }
+          options: { emailRedirectTo: authConfirmRedirectUrl() }
         }), 10000, "Resend timed out");
         if (error) throw error;
         status.textContent = "Sent 🌸 Please use the newest confirmation email within 10 minutes.";
@@ -474,7 +479,7 @@
       showFormStatus(form, "Sending your reset link…");
       try {
         const { error } = await withTimeout(db.auth.resetPasswordForEmail(email, {
-          redirectTo: authRedirectUrl()
+          redirectTo: authRecoveryRedirectUrl()
         }), 10000, "Password reset request timed out");
         if (error) throw error;
         showFormStatus(form, "Reset link sent 🌸 Check your inbox and follow the link within 10 minutes.", "success");
@@ -601,7 +606,7 @@
             email,
             password,
             options: {
-              emailRedirectTo: authRedirectUrl(),
+              emailRedirectTo: authConfirmRedirectUrl(),
               data: { display_name: displayName, avatar: "🌸" }
             }
           }), 12000, "Sign up is taking longer than expected. Please check your connection and try again.");
@@ -1848,7 +1853,8 @@
     const pending = getPendingConfirmation();
     const sessionEmail = safeText(currentSession.user.email || "", 120).toLowerCase();
     const pendingMatches = Boolean(pending && pending.email?.toLowerCase() === sessionEmail);
-    const isSignupReturn = authReturnType === "signup" || authReturnType === "email";
+    const confirmedMarker = new URLSearchParams(window.location.search).get("confirmed") === "1";
+    const isSignupReturn = authReturnType === "signup" || authReturnType === "email" || confirmedMarker;
     if (!pendingMatches && !isSignupReturn) return false;
     try {
       const alreadyShown = sessionStorage.getItem(AUTH_WELCOME_SHOWN_KEY) === currentSession.user.id;
@@ -1856,6 +1862,15 @@
       sessionStorage.setItem(AUTH_WELCOME_SHOWN_KEY, currentSession.user.id);
     } catch (_) {}
     clearPendingConfirmation();
+
+    // Remove our one-time confirmation marker after it has served its purpose.
+    // This keeps the canonical Community URL clean and prevents confusing repeats.
+    try {
+      const cleanUrl = new URL(window.location.href);
+      cleanUrl.searchParams.delete("confirmed");
+      window.history.replaceState({}, "", `${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`);
+    } catch (_) {}
+
     return true;
   };
 
