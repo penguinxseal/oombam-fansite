@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=DM+Sans:wght@400;500;600&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/Global.css?v=20.4.0" rel="stylesheet"/><link href="css/community.css?v=20.4.0" rel="stylesheet"/><style id="community-hero-v18-failsafe">
+<link href="css/Global.css?v=20.4.3" rel="stylesheet"/><link href="css/community.css?v=20.4.3" rel="stylesheet"/><style id="community-hero-v18-failsafe">
 /* V18: final hero typography + no-crop banner */
 body.page-community .community-hero-media {
   height: auto !important;
@@ -142,7 +142,7 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <div class="community-mobile-auth" id="communityMobileAuth" aria-label="Blossom account access">
   <button class="community-mobile-auth__button is-primary" id="communityMobileSignup" type="button">Join</button>
   <button class="community-mobile-auth__button" id="communityMobileSignin" type="button">Sign In</button>
-  <button class="community-mobile-auth__button community-admin-entry" id="communityMobileAdmin" type="button" hidden>Moderate</button>
+  <button class="community-mobile-auth__button community-admin-entry" id="communityMobileAdmin" type="button" hidden>Admin Hub</button>
   <button class="community-mobile-auth__button community-mobile-auth__button--signout" id="communityMobileSignout" type="button" hidden>Sign Out</button>
 </div>
 <a class="ob-mobile-nav__link" data-nav-key="welcome" href="index.html#home">Welcome 🌸</a>
@@ -188,7 +188,7 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <div class="community-header-auth" id="communityHeaderAuth" aria-label="Blossom account access">
   <button class="community-header-auth__button is-primary" id="communityHeaderSignup" type="button">Join</button>
   <button class="community-header-auth__button" id="communityHeaderSignin" type="button">Sign In</button>
-  <button class="community-header-auth__button community-admin-entry" id="communityHeaderAdmin" type="button" hidden>Moderate</button>
+  <button class="community-header-auth__button community-admin-entry" id="communityHeaderAdmin" type="button" hidden>Admin Hub</button>
   <button class="community-header-auth__button community-header-auth__button--signout" id="communityHeaderSignout" type="button" hidden>Sign Out</button>
 </div>
 </div>
@@ -451,6 +451,10 @@ body.page-community .garden-link { margin-top: 8px !important; }
 </div>
 </div>
 <form class="chat-input" id="communityChatForm">
+<div class="chat-emoji-wrap">
+<button aria-controls="communityChatEmojiPicker" aria-expanded="false" aria-label="Add emoji" class="chat-emoji-button" id="communityChatEmojiButton" type="button">😊</button>
+<div aria-label="Choose an emoji" class="chat-emoji-picker" id="communityChatEmojiPicker" role="group" hidden></div>
+</div>
 <input aria-label="Chat message" id="communityChatInput" maxlength="280" placeholder="Join the conversation..." type="text"/>
 <button aria-label="Send message" id="communityChatSend" type="submit">➤</button>
 </form>
@@ -707,6 +711,6 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <script src="js/script.js?v=20.4.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/community-config.js?v=2.1"></script>
-<script src="js/site-auth.js?v=20.4.0"></script>
-<script src="js/community.js?v=20.4.0"></script></body>
+<script src="js/site-auth.js?v=20.4.3"></script>
+<script src="js/community.js?v=20.4.3"></script></body>
 </html>
