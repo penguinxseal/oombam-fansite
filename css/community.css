@@ -7850,3 +7850,89 @@ body.page-community .community-wall-list {
     max-height: 52vh;
   }
 }
+
+/* =========================================================
+   v20.4.6 — COMMUNITY HERO INTEGRATION FIX
+   ---------------------------------------------------------
+   One continuous hero surface in light and dark mode.
+   The banner artwork remains untouched; the editorial copy
+   sits below it with breathing room created by padding only,
+   never by a separate card, margin gap, tint, blur or shadow.
+========================================================= */
+
+/* The complete hero is one surface. */
+body.page-community .community-hero {
+  background: var(--ivory) !important;
+}
+
+/* Remove the old exposed margin gap and use inner spacing instead. */
+body.page-community .community-hero > .hero-overlay.hero-text-only {
+  margin-top: 0 !important;
+  padding: 44px 24px 34px !important;
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Absolutely no individual tiles behind either part of the intro copy. */
+body.page-community .community-hero > .hero-overlay.hero-text-only .hero-copy,
+body.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Keep the subtle editorial divider only; it should not read as a second panel. */
+body.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy {
+  margin-top: 12px !important;
+  padding-top: 12px !important;
+}
+
+/* Dark mode uses exactly the same page surface as the surrounding shell. */
+html[data-theme="dark"] body.page-community .community-hero,
+body.dark-theme.page-community .community-hero {
+  background: #090a0c !important;
+}
+
+html[data-theme="dark"] body.page-community .community-hero > .hero-overlay.hero-text-only,
+body.dark-theme.page-community .community-hero > .hero-overlay.hero-text-only,
+html[data-theme="dark"] body.page-community .community-hero > .hero-overlay.hero-text-only .hero-copy,
+html[data-theme="dark"] body.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy,
+body.dark-theme.page-community .community-hero > .hero-overlay.hero-text-only .hero-copy,
+body.dark-theme.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Responsive breathing room: clear separation, but never a detached block. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-community .community-hero > .hero-overlay.hero-text-only {
+    margin-top: 0 !important;
+    padding: 36px 20px 30px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body.page-community .community-hero > .hero-overlay.hero-text-only {
+    margin-top: 0 !important;
+    padding: 26px 14px 24px !important;
+  }
+}
+
+@media (max-width: 899px) and (orientation: landscape) {
+  body.page-community .community-hero > .hero-overlay.hero-text-only {
+    margin-top: 0 !important;
+    padding: 24px 18px 22px !important;
+  }
+}
