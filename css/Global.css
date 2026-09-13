@@ -1719,3 +1719,74 @@ html[data-theme="dark"] .page-home .home-auth-account { background:rgba(255,255,
   .page-home .home-auth-actions { flex-direction:column-reverse; }
   .page-home .home-auth-secondary, .page-home .home-auth-primary { width:100%; }
 }
+
+
+/* =========================================================
+   GLOBAL FOOTER SOCIAL ICONS — OB_00001.10
+   Shared across all fansite pages.
+========================================================= */
+.ob-global .ob-footer__socials--icons {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ob-global .ob-footer__socials--icons .ob-footer__social-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.ob-global .ob-footer__socials--icons .ob-footer__social-icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.ob-global .ob-footer__socials--icons .ob-footer__social-icon:hover,
+.ob-global .ob-footer__socials--icons .ob-footer__social-icon:focus-visible {
+  transform: translateY(-1px);
+}
+
+.ob-global .ob-footer__socials--icons .ob-footer__social-icon:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.ob-global .ob-sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@media (max-width: 520px) {
+  .ob-global .ob-footer__socials--icons {
+    width: auto;
+    gap: 9px;
+  }
+
+  .ob-global .ob-footer__socials--icons .ob-footer__social-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
+    font-size: inherit;
+  }
+}
