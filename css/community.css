@@ -7566,3 +7566,125 @@ body.dark-theme.page-community .community-auth-success__email {
   .chat-message__meta { gap:6px; }
   .chat-message__time { font-size:.54rem; }
 }
+
+
+/* =========================================================
+   v20.4.1 — COMMUNITY HERO / INTRO COHESION
+   Keep the banner visually connected to its editorial caption.
+========================================================= */
+body.page-community .community-hero {
+  overflow: hidden !important;
+}
+body.page-community .community-hero-media {
+  margin: 0 !important;
+}
+body.page-community .hero-overlay {
+  position: relative !important;
+  margin: 0 !important;
+  padding: 12px 24px 16px !important;
+  border-top: 1px solid rgba(83,106,121,.08) !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(249,251,252,.96)) !important;
+}
+body.page-community #communityHeroTitle.hero-lead {
+  margin: 0 !important;
+  font-size: clamp(1.95rem, 3vw, 2.75rem) !important;
+  line-height: 1.04 !important;
+}
+body.page-community .hero-description {
+  margin: 5px auto 0 !important;
+  max-width: 720px !important;
+  font-size: .88rem !important;
+  line-height: 1.45 !important;
+}
+body.page-community .garden-copy {
+  margin-top: 8px !important;
+  padding-top: 8px !important;
+}
+body.page-community .garden-copy::before {
+  width: 28px !important;
+}
+body.page-community .garden-copy p {
+  margin: 0 !important;
+}
+body.page-community .garden-link {
+  margin-top: 8px !important;
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  body.page-community .hero-overlay { padding: 11px 20px 15px !important; }
+  body.page-community #communityHeroTitle.hero-lead { font-size: clamp(1.8rem, 4vw, 2.45rem) !important; }
+  body.page-community .hero-description { font-size: .84rem !important; }
+}
+
+@media (max-width: 760px) {
+  body.page-community .hero-overlay { padding: 10px 14px 13px !important; }
+  body.page-community #communityHeroTitle.hero-lead {
+    font-size: clamp(1.45rem, 6vw, 1.9rem) !important;
+    white-space: nowrap !important;
+  }
+  body.page-community .hero-description {
+    margin-top: 4px !important;
+    font-size: .79rem !important;
+    line-height: 1.4 !important;
+  }
+  body.page-community .garden-copy { margin-top: 6px !important; padding-top: 7px !important; }
+  body.page-community .garden-link { margin-top: 7px !important; }
+}
+
+@media (max-width: 899px) and (orientation: landscape) {
+  body.page-community .hero-overlay { padding: 9px 18px 12px !important; }
+  body.page-community #communityHeroTitle.hero-lead { font-size: clamp(1.6rem, 4vw, 2rem) !important; }
+}
+
+html[data-theme="dark"] body.page-community .hero-overlay,
+body.page-community.dark-theme .hero-overlay {
+  background: linear-gradient(180deg, #111513 0%, #101312 100%) !important;
+  border-top-color: rgba(255,255,255,.07) !important;
+}
+
+
+/* =========================================================
+   v20.4.3 — HERO BREATHING ROOM + BLOSSOM CHAT EMOJI PICKER
+========================================================= */
+body.page-community .hero-overlay {
+  margin-top: 56px !important;
+  border-top: 0 !important;
+}
+@media (min-width:761px) and (max-width:1100px) {
+  body.page-community .hero-overlay { margin-top: 44px !important; }
+}
+@media (max-width:760px) {
+  body.page-community .hero-overlay { margin-top: 32px !important; }
+}
+@media (max-width:899px) and (orientation:landscape) {
+  body.page-community .hero-overlay { margin-top: 30px !important; }
+}
+
+.page-community .chat-input { position:relative; }
+.page-community .chat-emoji-wrap { position:relative; flex:0 0 auto; display:flex; align-items:center; }
+.page-community .chat-emoji-button {
+  width:36px; height:36px; display:grid; place-items:center; padding:0;
+  border:1px solid rgba(83,106,121,.14); border-radius:10px; background:rgba(255,255,255,.72);
+  color:inherit; font-size:1rem; line-height:1; cursor:pointer; transition:transform .18s ease,background .18s ease,border-color .18s ease;
+}
+.page-community .chat-emoji-button:hover { transform:translateY(-1px); border-color:rgba(226,121,153,.34); background:rgba(255,255,255,.96); }
+.page-community .chat-emoji-picker {
+  position:absolute; left:0; bottom:calc(100% + 9px); z-index:40; width:min(280px,82vw);
+  display:grid; grid-template-columns:repeat(6,1fr); gap:4px; padding:9px;
+  border:1px solid rgba(83,106,121,.12); border-radius:13px; background:rgba(255,255,255,.98);
+  box-shadow:0 16px 38px rgba(34,45,54,.16); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+}
+.page-community .chat-emoji-picker[hidden] { display:none !important; }
+.page-community .chat-emoji-picker__item {
+  min-width:0; aspect-ratio:1; display:grid; place-items:center; padding:0; border:0; border-radius:8px;
+  background:transparent; font-size:1.05rem; cursor:pointer;
+}
+.page-community .chat-emoji-picker__item:hover { background:rgba(239,120,155,.10); }
+html[data-theme="dark"] body.page-community .chat-emoji-button,
+body.page-community.dark-theme .chat-emoji-button { background:rgba(255,255,255,.04); border-color:rgba(255,255,255,.11); }
+html[data-theme="dark"] body.page-community .chat-emoji-picker,
+body.page-community.dark-theme .chat-emoji-picker { background:rgba(24,28,32,.98); border-color:rgba(255,255,255,.09); }
+@media (max-width:520px) {
+  .page-community .chat-emoji-button { width:34px; height:34px; border-radius:9px; }
+  .page-community .chat-emoji-picker { width:min(260px,86vw); grid-template-columns:repeat(6,1fr); left:-2px; }
+}
