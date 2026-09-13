@@ -7552,3 +7552,17 @@ body.dark-theme.page-community .community-auth-success__email {
     gap: 0;
   }
 }
+
+
+/* =========================================================
+   v20.4.0 — BLOSSOM CHAT TIMESTAMPS
+========================================================= */
+.chat-message > div { min-width:0; flex:1 1 auto; }
+.chat-message__meta { display:flex; align-items:baseline; gap:8px; min-width:0; }
+.chat-message__meta strong { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.chat-message__time { margin-left:auto; flex:0 0 auto; color:var(--text-soft); opacity:.72; font:500 .58rem/1.2 "DM Sans",sans-serif; white-space:nowrap; }
+.chat-message p { margin-top:2px; overflow-wrap:anywhere; }
+@media (max-width:520px) {
+  .chat-message__meta { gap:6px; }
+  .chat-message__time { font-size:.54rem; }
+}
