@@ -185,12 +185,37 @@
   const mobileSignin = document.getElementById("communityMobileSignin");
   const headerSignout = document.getElementById("communityHeaderSignout");
   const mobileSignout = document.getElementById("communityMobileSignout");
+  const headerAdmin = document.getElementById("communityHeaderAdmin");
+  const mobileAdmin = document.getElementById("communityMobileAdmin");
   const headerAuth = document.getElementById("communityHeaderAuth");
   const mobileAuth = document.getElementById("communityMobileAuth");
+
+  let communityAdminAccess = false;
+
+  const isCommunityAdmin = () => communityAdminAccess === true;
+
+  const refreshCommunityAdminAccess = async () => {
+    if (!db || !currentSession?.user?.id) {
+      communityAdminAccess = false;
+      return false;
+    }
+
+    const { data, error } = await db.rpc("is_community_admin");
+    if (error) {
+      communityAdminAccess = false;
+      console.error("Community admin check failed:", error);
+      return false;
+    }
+
+    communityAdminAccess = data === true;
+    if (currentMember) currentMember.role = communityAdminAccess ? "admin" : (currentMember.role || "member");
+    return communityAdminAccess;
+  };
 
   const updateHeaderAuthControls = () => {
     const signedIn = Boolean(currentSession?.user?.id);
     const known = hasKnownAccount();
+    const admin = signedIn && isCommunityAdmin();
 
     [headerAuth, mobileAuth].forEach((el) => {
       if (el) el.hidden = false;
@@ -213,6 +238,12 @@
       button.hidden = !signedIn;
       button.disabled = !authReady;
     });
+
+    [headerAdmin, mobileAdmin].forEach((button) => {
+      if (!button) return;
+      button.hidden = !admin;
+      button.disabled = !authReady || authInitFailed;
+    });
   };
 
   const ensureMemberProfile = async (user) => {
@@ -223,7 +254,7 @@
 
     const { data: existing, error: readError } = await db
       .from("community_profiles")
-      .select("user_id, display_name, avatar, country_code")
+      .select("user_id, display_name, avatar, country_code, role")
       .eq("user_id", user.id)
       .maybeSingle();
 
@@ -237,7 +268,7 @@
           display_name: fallbackName,
           avatar: fallback.avatar || "🌸"
         })
-        .select("user_id, display_name, avatar, country_code")
+        .select("user_id, display_name, avatar, country_code, role")
         .single();
       if (insertError) throw insertError;
       currentMember = {
@@ -245,7 +276,8 @@
         email: fallback.email,
         displayName: created.display_name,
         avatar: created.avatar || "🌸",
-        countryCode: created.country_code || ""
+        countryCode: created.country_code || "",
+        role: created.role || "member"
       };
     } else {
       currentMember = {
@@ -253,13 +285,15 @@
         email: fallback.email,
         displayName: existing.display_name,
         avatar: existing.avatar || "🌸",
-        countryCode: existing.country_code || ""
+        countryCode: existing.country_code || "",
+        role: existing.role || "member"
       };
     }
 
     storage.set(KEYS.profile, {
       displayName: currentMember.displayName,
-      avatar: currentMember.avatar
+      avatar: currentMember.avatar,
+      role: currentMember.role || "member"
     });
     setKnownAccount(true);
     return currentMember;
@@ -314,6 +348,7 @@
       <div class="community-account-card">
         <span>Email</span><strong class="community-account-email"></strong>
         <span>Display name</span><strong class="community-account-name"></strong>
+        <span class="community-account-role-label" hidden>Role</span><strong class="community-account-role" hidden></strong>
       </div>
       <div class="community-form__actions">
         <button class="community-form__secondary" type="button" data-community-close>Close</button>
@@ -323,6 +358,15 @@
     wrapper.querySelector("#communityModalTitle").textContent = `Welcome back, ${currentMember.displayName} 🌸`;
     wrapper.querySelector(".community-account-email").textContent = currentMember.email;
     wrapper.querySelector(".community-account-name").textContent = currentMember.displayName;
+    if (isCommunityAdmin()) {
+      const roleLabel = wrapper.querySelector(".community-account-role-label");
+      const roleValue = wrapper.querySelector(".community-account-role");
+      if (roleLabel && roleValue) {
+        roleLabel.hidden = false;
+        roleValue.hidden = false;
+        roleValue.textContent = "Community Admin";
+      }
+    }
 
     wrapper.querySelector(".community-signout")?.addEventListener("click", async () => {
       const button = wrapper.querySelector(".community-signout");
@@ -617,6 +661,7 @@
           if (result.session?.user) {
             currentSession = result.session;
             await ensureMemberProfile(result.session.user);
+            await refreshCommunityAdminAccess();
             clearPendingConfirmation();
             updateAuthUI();
             closeModal();
@@ -635,6 +680,7 @@
           currentSession = result.session;
           setKnownAccount(true);
           await ensureMemberProfile(result.user);
+          await refreshCommunityAdminAccess();
           updateAuthUI();
           closeModal();
 
@@ -1816,6 +1862,209 @@
   });
 
 
+  /* -----------------------------------------------------
+     ADMIN MODERATION — visible only to Supabase admin role
+     RLS remains the source of truth for authorization.
+  ----------------------------------------------------- */
+  const ADMIN_TABLES = {
+    letters: {
+      table: "community_letters",
+      label: "Fan Letters",
+      select: "id, recipient, display_name, country_code, message, status, created_at"
+    },
+    wall: {
+      table: "blossom_messages",
+      label: "Blossom Wall",
+      select: "id, display_name, country_code, message, status, created_at"
+    }
+  };
+
+  const adminDate = (value) => {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    return new Intl.DateTimeFormat("en", {
+      year: "numeric", month: "short", day: "numeric",
+      hour: "numeric", minute: "2-digit"
+    }).format(date);
+  };
+
+  async function fetchAdminQueue(kind, status = "pending") {
+    if (!isCommunityAdmin()) throw new Error("Admin access required.");
+    const cfg = ADMIN_TABLES[kind];
+    if (!cfg) throw new Error("Unknown moderation queue.");
+
+    let query = db
+      .from(cfg.table)
+      .select(cfg.select)
+      .order("created_at", { ascending: false })
+      .limit(100);
+
+    if (["pending", "approved", "rejected"].includes(status)) {
+      query = query.eq("status", status);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return data || [];
+  }
+
+  async function setModerationStatus(kind, id, nextStatus) {
+    if (!isCommunityAdmin()) throw new Error("Admin access required.");
+    if (!["approved", "rejected", "pending"].includes(nextStatus)) {
+      throw new Error("Invalid moderation status.");
+    }
+    const cfg = ADMIN_TABLES[kind];
+    const { error } = await db
+      .from(cfg.table)
+      .update({ status: nextStatus })
+      .eq("id", id);
+    if (error) throw error;
+    if (kind === "wall") await refreshWallPreview();
+  }
+
+  const makeAdminItem = (item, kind, reload) => {
+    const article = document.createElement("article");
+    article.className = "community-admin-item";
+
+    const top = document.createElement("div");
+    top.className = "community-admin-item__top";
+
+    const metaWrap = document.createElement("div");
+    const title = document.createElement("strong");
+    title.textContent = safeText(item.display_name || "Blossom", 40);
+    const meta = document.createElement("div");
+    meta.className = "community-admin-item__meta";
+    const parts = [];
+    if (kind === "letters" && item.recipient) parts.push(`To: ${safeText(item.recipient, 20)}`);
+    const flag = flagFromCountry(item.country_code || "");
+    if (item.country_code) parts.push(`${safeText(item.country_code, 8)}${flag ? ` ${flag}` : ""}`);
+    if (item.created_at) parts.push(adminDate(item.created_at));
+    parts.forEach((value) => {
+      const span = document.createElement("span");
+      span.textContent = value;
+      meta.append(span);
+    });
+    metaWrap.append(title, meta);
+
+    const badge = document.createElement("span");
+    const currentStatus = safeText(item.status || "pending", 12).toLowerCase();
+    badge.className = `community-admin-badge is-${currentStatus}`;
+    badge.textContent = currentStatus;
+    top.append(metaWrap, badge);
+
+    const message = document.createElement("p");
+    message.className = "community-admin-item__message";
+    message.textContent = safeMultiline(item.message || "", 5000);
+
+    const actions = document.createElement("div");
+    actions.className = "community-admin-actions";
+    const actionDefs = [
+      ["Approve", "approved", "approve"],
+      ["Reject", "rejected", "reject"],
+      ["Move to Pending", "pending", "pending"]
+    ];
+    actionDefs.forEach(([label, status, className]) => {
+      if (currentStatus === status) return;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = className;
+      button.textContent = label;
+      button.addEventListener("click", async () => {
+        const buttons = [...actions.querySelectorAll("button")];
+        buttons.forEach((b) => { b.disabled = true; });
+        try {
+          await setModerationStatus(kind, item.id, status);
+          await reload();
+        } catch (error) {
+          console.error("Community moderation update failed:", error);
+          buttons.forEach((b) => { b.disabled = false; });
+          window.alert(safeText(error?.message || "Could not update this submission.", 180));
+        }
+      });
+      actions.append(button);
+    });
+
+    article.append(top, message, actions);
+    return article;
+  };
+
+  const renderAdminModeration = () => {
+    if (!isCommunityAdmin()) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "community-admin-panel";
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">COMMUNITY ADMIN</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Moderation</h2>
+      <p class="community-modal__intro">Review member submissions without leaving the Community page.</p>
+      <div class="community-admin-toolbar">
+        <div class="community-admin-tabs" role="tablist" aria-label="Moderation queues">
+          <button class="community-admin-tab is-active" type="button" data-admin-kind="letters">Fan Letters</button>
+          <button class="community-admin-tab" type="button" data-admin-kind="wall">Blossom Wall</button>
+        </div>
+        <div class="community-admin-filters" aria-label="Moderation status">
+          <button class="community-admin-filter is-active" type="button" data-admin-status="pending">Pending</button>
+          <button class="community-admin-filter" type="button" data-admin-status="approved">Approved</button>
+          <button class="community-admin-filter" type="button" data-admin-status="rejected">Rejected</button>
+        </div>
+      </div>
+      <p class="community-admin-summary" id="communityAdminSummary">Loading moderation queue…</p>
+      <div class="community-admin-list" id="communityAdminList"></div>`;
+
+    let activeKind = "letters";
+    let activeStatus = "pending";
+    const list = wrapper.querySelector("#communityAdminList");
+    const summary = wrapper.querySelector("#communityAdminSummary");
+
+    const load = async () => {
+      if (!isCommunityAdmin()) {
+        closeModal();
+        return;
+      }
+      summary.textContent = "Loading moderation queue…";
+      list.replaceChildren();
+      try {
+        const data = await fetchAdminQueue(activeKind, activeStatus);
+        const label = ADMIN_TABLES[activeKind].label;
+        summary.textContent = `${data.length} ${activeStatus} ${label.toLowerCase()} submission${data.length === 1 ? "" : "s"}.`;
+        if (!data.length) {
+          const empty = document.createElement("div");
+          empty.className = "community-admin-empty";
+          empty.textContent = `No ${activeStatus} ${label.toLowerCase()} submissions right now.`;
+          list.append(empty);
+          return;
+        }
+        list.replaceChildren(...data.map((item) => makeAdminItem(item, activeKind, load)));
+      } catch (error) {
+        console.error("Community moderation load failed:", error);
+        summary.textContent = "Moderation queue could not be loaded.";
+        const err = document.createElement("p");
+        err.className = "community-admin-error";
+        err.textContent = safeText(error?.message || "Check your admin permissions and try again.", 200);
+        list.append(err);
+      }
+    };
+
+    wrapper.querySelectorAll("[data-admin-kind]").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeKind = button.dataset.adminKind;
+        wrapper.querySelectorAll("[data-admin-kind]").forEach((b) => b.classList.toggle("is-active", b === button));
+        load();
+      });
+    });
+    wrapper.querySelectorAll("[data-admin-status]").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeStatus = button.dataset.adminStatus;
+        wrapper.querySelectorAll("[data-admin-status]").forEach((b) => b.classList.toggle("is-active", b === button));
+        load();
+      });
+    });
+
+    openModal(wrapper, { wide: true });
+    load();
+  };
+
+
   const signOutBlossom = async (button) => {
     if (button) button.disabled = true;
     try {
@@ -1836,6 +2085,8 @@
     headerSignin?.addEventListener("click", () => renderAuthGate("signin"));
     mobileSignup?.addEventListener("click", () => renderAuthGate("signup"));
     mobileSignin?.addEventListener("click", () => renderAuthGate("signin"));
+    headerAdmin?.addEventListener("click", renderAdminModeration);
+    mobileAdmin?.addEventListener("click", renderAdminModeration);
     headerSignout?.addEventListener("click", () => signOutBlossom(headerSignout));
     mobileSignout?.addEventListener("click", () => signOutBlossom(mobileSignout));
     authButton?.addEventListener("click", () => {
@@ -1906,7 +2157,7 @@
       currentSession = session || null;
       if (currentSession?.user) {
         await withTimeout(
-          ensureMemberProfile(currentSession.user),
+          (async () => { await ensureMemberProfile(currentSession.user); await refreshCommunityAdminAccess(); })(),
           9000,
           "Your Blossom profile took too long to load."
         );
@@ -1917,7 +2168,7 @@
 
         if (event === "PASSWORD_RECOVERY") {
           try {
-            if (currentSession?.user) await ensureMemberProfile(currentSession.user);
+            if (currentSession?.user) { await ensureMemberProfile(currentSession.user); await refreshCommunityAdminAccess(); }
           } catch (error) {
             console.error("Blossom profile recovery sync failed:", error);
           }
@@ -1929,6 +2180,7 @@
         if (currentSession?.user) {
           try {
             await ensureMemberProfile(currentSession.user);
+            await refreshCommunityAdminAccess();
           } catch (error) {
             console.error("Blossom profile sync failed:", error);
           }
@@ -1937,6 +2189,7 @@
           }
         } else {
           currentMember = null;
+          communityAdminAccess = false;
           try { localStorage.removeItem(KEYS.profile); } catch (_) {}
           if (db && realtimeChannel) {
             db.removeChannel(realtimeChannel);
@@ -1977,6 +2230,7 @@
       authReady = true;
       currentSession = null;
       currentMember = null;
+      communityAdminAccess = false;
       updateAuthUI();
       setChatState("error", "Community access could not connect. Refresh the page and try again.");
     }
