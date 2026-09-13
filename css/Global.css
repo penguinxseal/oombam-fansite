@@ -1790,3 +1790,77 @@ html[data-theme="dark"] .page-home .home-auth-account { background:rgba(255,255,
     font-size: inherit;
   }
 }
+
+
+/* =========================================================
+   v20.4.0 — GLOBAL BLOSSOM ACCOUNT MENU
+   Signed-out Join/Sign In remains exclusive to Home/Community.
+   Signed-in members receive one compact account control site-wide.
+========================================================= */
+.ob-site-auth-signed-in #homeHeaderAuth,
+.ob-site-auth-signed-in #homeMobileAuth,
+.ob-site-auth-signed-in #communityHeaderAuth,
+.ob-site-auth-signed-in #communityMobileAuth { display:none !important; }
+
+.ob-account { position:relative; flex:0 0 auto; }
+.ob-account__trigger {
+  width:36px; height:36px; display:inline-grid; place-items:center; position:relative;
+  border:1px solid rgba(83,106,121,.14); border-radius:50%; background:rgba(255,255,255,.62);
+  color:var(--ob-text,#34383d); cursor:pointer; transition:transform .18s ease,border-color .18s ease,background .18s ease;
+}
+.ob-account__trigger:hover { transform:translateY(-1px); border-color:rgba(226,121,153,.34); background:rgba(255,255,255,.9); }
+.ob-account__icon { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.55; stroke-linecap:round; stroke-linejoin:round; }
+.ob-account__avatar { position:absolute; right:-3px; bottom:-3px; width:17px; height:17px; display:grid; place-items:center; border-radius:50%; background:#fff; font-size:10px; box-shadow:0 2px 8px rgba(47,55,63,.14); }
+.ob-account-menu {
+  position:absolute; top:calc(100% + 10px); right:0; z-index:1400; width:220px; padding:8px;
+  border:1px solid rgba(83,106,121,.12); border-radius:14px; background:rgba(255,255,255,.97);
+  box-shadow:0 18px 46px rgba(34,45,54,.16); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+}
+.ob-account-menu[hidden] { display:none !important; }
+.ob-account-menu__identity { display:grid; grid-template-columns:36px 1fr; gap:10px; align-items:center; padding:8px 8px 10px; margin-bottom:4px; border-bottom:1px solid rgba(83,106,121,.09); }
+.ob-account-menu__avatar { width:36px; height:36px; display:grid; place-items:center; border-radius:50%; background:linear-gradient(135deg,#eaf6ff,#fff0f5); font-size:18px; }
+.ob-account-menu__identity div { min-width:0; }
+.ob-account-menu__identity strong,.ob-account-menu__identity small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ob-account-menu__identity strong { font:600 .78rem/1.25 "DM Sans",sans-serif; color:var(--ob-text,#34383d); }
+.ob-account-menu__identity small { margin-top:2px; font:500 .61rem/1.25 "DM Sans",sans-serif; color:var(--ob-muted,#7b7f84); }
+.ob-account-menu > a,.ob-account-menu__signout { width:100%; min-height:34px; display:flex; align-items:center; padding:8px 9px; border:0; border-radius:9px; background:transparent; color:var(--ob-text,#34383d); font:600 .68rem/1.2 "DM Sans",sans-serif; text-align:left; text-decoration:none; cursor:pointer; }
+.ob-account-menu > a:hover,.ob-account-menu__signout:hover { background:rgba(232,242,248,.7); }
+.ob-account-menu__moderate { color:#d26084 !important; }
+.ob-account-menu__signout { margin-top:3px; border-top:1px solid rgba(83,106,121,.08); border-radius:0 0 9px 9px; color:#8a606e; }
+
+.ob-account-mobile { display:none; margin:0 0 12px; padding:13px; border:1px solid rgba(83,106,121,.12); border-radius:14px; background:rgba(255,255,255,.58); }
+.ob-account-mobile__identity { display:grid; grid-template-columns:40px minmax(0,1fr); gap:10px; align-items:center; }
+.ob-account-mobile__avatar { width:40px; height:40px; display:grid; place-items:center; border-radius:50%; background:linear-gradient(135deg,#eaf6ff,#fff0f5); font-size:19px; }
+.ob-account-mobile__identity div { min-width:0; }
+.ob-account-mobile__welcome,.ob-account-mobile__role { display:block; color:var(--ob-muted,#7b7f84); font:500 .58rem/1.2 "DM Sans",sans-serif; text-transform:uppercase; letter-spacing:.08em; }
+.ob-account-mobile__name { display:block; margin:2px 0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--ob-text,#34383d); font:600 .78rem/1.25 "DM Sans",sans-serif; }
+.ob-account-mobile__actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; margin-top:11px; }
+.ob-account-mobile__actions a,.ob-account-mobile__actions button { min-height:34px; display:grid; place-items:center; padding:7px 8px; border:1px solid rgba(83,106,121,.10); border-radius:9px; background:rgba(255,255,255,.55); color:var(--ob-text,#34383d); font:600 .63rem/1.15 "DM Sans",sans-serif; text-decoration:none; cursor:pointer; }
+.ob-account-mobile__moderate { color:#d26084 !important; }
+.ob-account-mobile__signout { color:#8a606e !important; }
+
+html[data-theme="dark"] .ob-account__trigger,body.dark-theme .ob-account__trigger { background:rgba(255,255,255,.04); border-color:rgba(255,255,255,.12); color:rgba(255,255,255,.88); }
+html[data-theme="dark"] .ob-account__avatar,body.dark-theme .ob-account__avatar { background:#22282d; }
+html[data-theme="dark"] .ob-account-menu,body.dark-theme .ob-account-menu { background:rgba(24,28,32,.97); border-color:rgba(255,255,255,.09); }
+html[data-theme="dark"] .ob-account-menu__identity,body.dark-theme .ob-account-menu__identity { border-color:rgba(255,255,255,.08); }
+html[data-theme="dark"] .ob-account-menu__identity strong,html[data-theme="dark"] .ob-account-menu > a,html[data-theme="dark"] .ob-account-menu__signout,
+body.dark-theme .ob-account-menu__identity strong,body.dark-theme .ob-account-menu > a,body.dark-theme .ob-account-menu__signout { color:rgba(255,255,255,.88); }
+html[data-theme="dark"] .ob-account-menu__identity small,body.dark-theme .ob-account-menu__identity small { color:rgba(255,255,255,.52); }
+html[data-theme="dark"] .ob-account-menu > a:hover,html[data-theme="dark"] .ob-account-menu__signout:hover,
+body.dark-theme .ob-account-menu > a:hover,body.dark-theme .ob-account-menu__signout:hover { background:rgba(255,255,255,.055); }
+html[data-theme="dark"] .ob-account-mobile,body.dark-theme .ob-account-mobile { background:rgba(255,255,255,.035); border-color:rgba(255,255,255,.09); }
+html[data-theme="dark"] .ob-account-mobile__name,body.dark-theme .ob-account-mobile__name { color:rgba(255,255,255,.9); }
+html[data-theme="dark"] .ob-account-mobile__actions a,html[data-theme="dark"] .ob-account-mobile__actions button,
+body.dark-theme .ob-account-mobile__actions a,body.dark-theme .ob-account-mobile__actions button { background:rgba(255,255,255,.035); border-color:rgba(255,255,255,.08); color:rgba(255,255,255,.84); }
+
+@media (max-width:980px) {
+  .ob-account--desktop { display:none !important; }
+  .ob-account-mobile:not([hidden]) { display:block; }
+}
+@media (min-width:981px) {
+  .ob-account--desktop:not([hidden]) { display:block; }
+}
+@media (max-width:520px) {
+  .ob-account-mobile { padding:11px; }
+  .ob-account-mobile__actions { grid-template-columns:1fr 1fr; }
+}
