@@ -100,7 +100,7 @@
   // show a clear success state even when the auth provider uses a code-based
   // callback that does not expose type=signup in the final URL.
   const authConfirmRedirectUrl = () => `${window.location.origin}/community.html?confirmed=1`;
-  const authRecoveryRedirectUrl = () => `${window.location.origin}/community.html`;
+  const authRecoveryRedirectUrl = () => `${window.location.origin}/community.html?recovery=1`;
 
   const authReturnType = (() => {
     try {
@@ -124,6 +124,33 @@
     /[A-Z]/.test(value) &&
     /\d/.test(value) &&
     /[^A-Za-z0-9]/.test(value);
+
+  const isRecoveryReturn = () => {
+    try { return new URLSearchParams(window.location.search).get("recovery") === "1"; }
+    catch (_) { return false; }
+  };
+
+  const clearRecoveryMarker = () => {
+    try {
+      const cleanUrl = new URL(window.location.href);
+      cleanUrl.searchParams.delete("recovery");
+      window.history.replaceState({}, "", `${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`);
+    } catch (_) {}
+  };
+
+  const wirePasswordToggles = (root) => {
+    root.querySelectorAll(".community-password-toggle").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = button.closest(".community-password-field")?.querySelector("input");
+        if (!input) return;
+        const showing = input.type === "text";
+        input.type = showing ? "password" : "text";
+        button.textContent = showing ? "Show" : "Hide";
+        button.setAttribute("aria-label", showing ? "Show password" : "Hide password");
+        button.setAttribute("aria-pressed", String(!showing));
+      });
+    });
+  };
 
   const memberFromUser = (user) => ({
     userId: user?.id || "",
@@ -462,7 +489,16 @@
       <p class="community-modal__intro">Create a new password for your Blossom Community account.</p>
       <form class="community-form" id="communityRecoveryForm">
         <label>New password
-          <input name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="Create a secure password">
+          <span class="community-password-field">
+            <input name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="Create a secure password">
+            <button class="community-password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+          </span>
+        </label>
+        <label>Confirm new password
+          <span class="community-password-field">
+            <input name="confirmPassword" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="Re-enter your new password">
+            <button class="community-password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+          </span>
         </label>
         <div class="community-auth-guidance">
           <p class="community-auth-guidance__item"><span aria-hidden="true">◇</span><span>Use 8+ characters with lowercase, uppercase, a number, and a symbol.</span></p>
@@ -474,11 +510,18 @@
         </div>
       </form>`;
     const form = wrapper.querySelector("form");
+    wirePasswordToggles(wrapper);
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const password = String(new FormData(form).get("password") || "");
+      const formData = new FormData(form);
+      const password = String(formData.get("password") || "");
+      const confirmPassword = String(formData.get("confirmPassword") || "");
       if (!passwordLooksValid(password)) {
         showFormStatus(form, "Password must have 8+ characters with lowercase, uppercase, a number, and a symbol.", "error");
+        return;
+      }
+      if (password !== confirmPassword) {
+        showFormStatus(form, "The passwords do not match. Please try again.", "error");
         return;
       }
       const submit = form.querySelector('[type="submit"]');
@@ -488,6 +531,7 @@
         const { error } = await withTimeout(db.auth.updateUser({ password }), 10000, "Password update timed out");
         if (error) throw error;
         showFormStatus(form, "Password updated 🌸 You can continue using your account.", "success");
+        clearRecoveryMarker();
         setTimeout(() => closeModal(), 1000);
       } catch (error) {
         showFormStatus(form, safeText(error?.message || "We could not update your password.", 180), "error");
@@ -572,7 +616,10 @@
           <input name="displayName" maxlength="30" autocomplete="nickname" placeholder="e.g. Blossom PH">
         </label>
         <label>Password
-          <input name="password" type="password" minlength="8" maxlength="128" required>
+          <span class="community-password-field">
+            <input name="password" type="password" minlength="8" maxlength="128" required>
+            <button class="community-password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+          </span>
         </label>
         <div class="community-auth-guidance community-auth-signup-only" aria-label="Account requirements">
           <p class="community-auth-guidance__item"><span aria-hidden="true">◇</span><span><strong>Password:</strong> 8+ characters with lowercase, uppercase, a number, and a symbol.</span></p>
@@ -588,6 +635,7 @@
       </form>`;
 
     const form = wrapper.querySelector("form");
+    wirePasswordToggles(wrapper);
     const submit = wrapper.querySelector(".community-auth-submit");
     const intro = wrapper.querySelector(".community-auth-intro");
     const displayNameInput = form.elements.displayName;
@@ -2286,7 +2334,9 @@
         setChatState("preview", "Sign in to join live Blossom Chat.");
       }
 
-      if (shouldShowVerifiedWelcome()) {
+      if (isRecoveryReturn() && currentSession?.user) {
+        setTimeout(() => renderPasswordRecovery(), 120);
+      } else if (shouldShowVerifiedWelcome()) {
         setTimeout(() => renderVerifiedWelcome(), 120);
       }
 
