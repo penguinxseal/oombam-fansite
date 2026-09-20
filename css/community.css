@@ -8095,3 +8095,82 @@ body.dark-theme.page-community .garden-actions .garden-link {
   .page-community .garden-actions .garden-link,
   .page-community .garden-actions .garden-gc-link{width:100% !important}
 }
+
+/* =========================================================
+   v20.5.2 — Community UI polish
+   - centered garden CTA pair with explicit light/dark states
+   - unified blue auth primary actions
+   - compact mobile account/nav drawer
+   ========================================================= */
+.page-community .garden-actions{
+  display:flex !important; align-items:center !important; justify-content:center !important;
+  gap:18px !important; flex-wrap:wrap !important; width:100% !important;
+  margin:18px auto 0 !important;
+}
+.page-community .garden-actions .garden-link,
+.page-community .garden-actions .garden-gc-link{
+  flex:0 0 auto !important; min-height:42px !important; margin:0 !important;
+  padding:0 20px !important; line-height:1 !important;
+}
+.page-community .garden-actions .garden-link:visited{color:#567657 !important}
+.page-community .garden-actions .garden-gc-link:visited{color:#93435d !important}
+.page-community .garden-actions .garden-gc-link:hover{background:#fff4f8 !important;border-color:rgba(229,123,156,.64) !important;color:#873b54 !important}
+.page-community .garden-actions .garden-link:focus-visible{outline:3px solid rgba(105,145,112,.22);outline-offset:3px}
+.page-community .garden-actions .garden-gc-link:focus-visible{outline:3px solid rgba(229,123,156,.24);outline-offset:3px}
+html[data-theme="dark"] .page-community .garden-actions .garden-link,
+body.dark-theme.page-community .garden-actions .garden-link,
+html[data-theme="dark"] .page-community .garden-actions .garden-link:visited,
+body.dark-theme.page-community .garden-actions .garden-link:visited{background:rgba(126,166,132,.12) !important;color:#c3ddc1 !important;border-color:rgba(163,202,167,.36) !important}
+html[data-theme="dark"] .page-community .garden-actions .garden-gc-link,
+body.dark-theme.page-community .garden-actions .garden-gc-link,
+html[data-theme="dark"] .page-community .garden-actions .garden-gc-link:visited,
+body.dark-theme.page-community .garden-actions .garden-gc-link:visited{background:rgba(242,154,181,.10) !important;color:#f4bdd0 !important;border-color:rgba(242,154,181,.34) !important}
+html[data-theme="dark"] .page-community .garden-actions .garden-gc-link:hover,
+body.dark-theme.page-community .garden-actions .garden-gc-link:hover{background:rgba(242,154,181,.16) !important;color:#ffd6e2 !important}
+@media(max-width:600px){.page-community .garden-actions{gap:10px !important;width:min(100%,280px) !important}.page-community .garden-actions .garden-link,.page-community .garden-actions .garden-gc-link{width:100% !important}}
+
+/* One primary action language throughout Community authentication. */
+.page-community .community-form__primary,
+.page-community .community-form__primary.is-signin,
+.page-community .community-auth-submit,
+.page-community .community-header-auth__button.is-primary,
+.page-community .community-mobile-auth__button.is-primary{
+  border:1px solid rgba(86,153,190,.34) !important;
+  background:linear-gradient(135deg,#dcecf3,#c6e0eb) !important;
+  color:#315d70 !important;
+  box-shadow:none !important;
+}
+.page-community .community-form__primary:hover,
+.page-community .community-form__primary.is-signin:hover,
+.page-community .community-auth-submit:hover,
+.page-community .community-header-auth__button.is-primary:hover,
+.page-community .community-mobile-auth__button.is-primary:hover{
+  background:linear-gradient(135deg,#d1e6ef,#b9d9e6) !important;
+  color:#244f62 !important;
+  border-color:rgba(75,143,181,.48) !important;
+}
+.page-community .community-form__primary:focus-visible,
+.page-community .community-auth-submit:focus-visible{outline:3px solid rgba(85,155,209,.20);outline-offset:2px}
+.page-community .community-form__primary:disabled,.page-community .community-auth-submit:disabled{opacity:.52;cursor:not-allowed;transform:none}
+html[data-theme="dark"] .page-community .community-form__primary,
+body.dark-theme.page-community .community-form__primary,
+html[data-theme="dark"] .page-community .community-auth-submit,
+body.dark-theme.page-community .community-auth-submit,
+html[data-theme="dark"] .page-community .community-header-auth__button.is-primary,
+body.dark-theme.page-community .community-header-auth__button.is-primary,
+html[data-theme="dark"] .page-community .community-mobile-auth__button.is-primary,
+body.dark-theme.page-community .community-mobile-auth__button.is-primary{
+  background:linear-gradient(135deg,#385967,#456b7a) !important;color:#f5fbfd !important;border-color:rgba(181,218,232,.28) !important;
+}
+
+/* Compact mobile drawer: preserve touch targets, reduce wasted width/height. */
+@media(max-width:760px){
+  .page-community .ob-mobile-menu__panel{width:min(74vw,292px) !important;right:10px !important;padding:8px !important;border-radius:16px !important}
+  .page-community .ob-mobile-nav__link,.page-community .ob-mobile-nav__parent-link{min-height:40px !important;padding:8px 10px !important;font-size:.72rem !important}
+  .page-community .ob-mobile-nav__parent-row{grid-template-columns:minmax(0,1fr) 38px !important}
+  .page-community .ob-mobile-nav__toggle{width:38px !important;min-height:40px !important}
+  .page-community .ob-mobile-submenu__link,.page-community .ob-mobile-submenu__disabled{min-height:36px !important;margin-left:9px !important;padding:7px 8px 7px 12px !important;font-size:.70rem !important}
+  .page-community .community-mobile-auth{gap:6px !important;margin:0 0 9px !important;padding:0 1px 9px !important}
+  .page-community .community-mobile-auth__button{min-height:36px !important;padding:7px 8px !important;font-size:.69rem !important}
+}
+@media(max-width:430px){.page-community .ob-mobile-menu__panel{width:min(74vw,282px) !important}}
