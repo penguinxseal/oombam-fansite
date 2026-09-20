@@ -1905,3 +1905,10 @@ body.dark-theme .ob-account-mobile__actions a,body.dark-theme .ob-account-mobile
   font-weight: 600 !important;
   line-height: 1.15 !important;
 }
+
+/* v20.4.6 — homepage auth show/hide password control */
+.page-home .home-password-field { position: relative; display: block; }
+.page-home .home-password-field input { padding-right: 62px; }
+.page-home .home-password-toggle { position:absolute; right:10px; top:50%; transform:translateY(-50%); border:0; background:transparent; color:#b74c6b; font:600 .68rem/1 var(--ob-ui-font); cursor:pointer; padding:7px 4px; }
+.page-home .home-password-toggle:hover { text-decoration:underline; }
+body.dark-theme.page-home .home-password-toggle { color:#f0a5ba; }
