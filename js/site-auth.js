@@ -123,8 +123,8 @@
     const display = shortName(profile?.displayName || session.user.user_metadata?.display_name || "Blossom");
     const avatar = safe(profile?.avatar || "🌸", 4) || "🌸";
     document.querySelectorAll('[data-nav-key="welcome"]').forEach(link => {
-      link.textContent = `Welcome ${display} 🌸`;
-      link.title = `Welcome ${profile?.displayName || display}`;
+      link.textContent = `Welcome, ${display} 🌸`;
+      link.title = `Welcome, ${profile?.displayName || display}`;
     });
     desktop.querySelector(".ob-account__avatar").textContent = avatar;
     desktop.querySelector(".ob-account-menu__avatar").textContent = avatar;
