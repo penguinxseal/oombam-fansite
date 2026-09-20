@@ -8013,3 +8013,29 @@ body.page-community .community-hero > .hero-overlay.hero-text-only .garden-link 
 .page-community .community-password-toggle:hover { text-decoration: underline; }
 html[data-theme="dark"] .page-community .community-password-toggle,
 body.dark-theme.page-community .community-password-toggle { color: #f0a5ba; }
+
+/* =========================================================
+   v20.5.0 — Auth polish + public GC CTA
+   ========================================================= */
+.community-form__primary.is-signin {
+  background: linear-gradient(135deg, #dcebf3, #c9e1ec) !important;
+  border-color: rgba(78, 126, 145, .24) !important;
+  color: #24424a !important;
+  box-shadow: 0 10px 24px rgba(66, 112, 132, .13) !important;
+}
+.community-form__primary.is-signin:hover { background: linear-gradient(135deg, #d2e6ef, #bddae6) !important; }
+.garden-actions { display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:14px; }
+.garden-actions .garden-link { margin:0; }
+.garden-gc-link {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  min-height:38px; padding:8px 14px; border:1px solid rgba(229,123,156,.38);
+  border-radius:999px; background:rgba(255,248,251,.72); color:#9f4964;
+  font-size:.76rem; font-weight:700; text-decoration:none;
+  transition:transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.garden-gc-link:hover { transform:translateY(-1px); background:#fff5f9; border-color:rgba(229,123,156,.62); }
+.garden-gc-link:focus-visible { outline:3px solid rgba(229,123,156,.25); outline-offset:3px; }
+.garden-gc-x { font-size:1rem; color:#202329; }
+html[data-theme="dark"] .garden-gc-link { background:rgba(242,154,181,.09); color:#f1b0c4; border-color:rgba(242,154,181,.28); }
+html[data-theme="dark"] .garden-gc-x { color:#f7f3f5; }
+@media (max-width:600px) { .garden-actions { flex-direction:column; } .garden-gc-link { width:min(100%,260px); } }
