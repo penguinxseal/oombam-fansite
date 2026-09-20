@@ -1974,3 +1974,96 @@ html[data-theme="dark"] .page-home .blossoms-home-actions .blossoms-home-link {
   .page-home .blossoms-home-actions .blossoms-home-link,
   .page-home .blossoms-home-actions .blossoms-home-gc{width:100%}
 }
+
+/* =========================================================
+   v20.5.4 — COMPACT MOBILE NAVIGATION
+   Mobile-only sizing pass. Keeps the v20.5.3 CTA alignment fix intact.
+========================================================= */
+@media (max-width: 600px) {
+  .ob-mobile-menu__panel {
+    right: 10px;
+    width: min(68vw, 292px);
+    max-width: calc(100vw - 28px);
+    max-height: min(82dvh, 660px);
+    padding: 7px;
+    border-radius: 16px;
+    scrollbar-width: thin;
+  }
+
+  .ob-mobile-nav__link,
+  .ob-mobile-nav__parent-link {
+    min-height: 44px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: .69rem;
+    letter-spacing: .045em;
+  }
+
+  .ob-mobile-nav__parent-row {
+    grid-template-columns: minmax(0, 1fr) 38px;
+  }
+
+  .ob-mobile-nav__toggle {
+    width: 38px;
+    min-height: 44px;
+    border-radius: 8px;
+  }
+
+  .ob-mobile-submenu__link,
+  .ob-mobile-submenu__disabled {
+    min-height: 40px;
+    margin-left: 8px;
+    padding: 7px 8px 7px 12px;
+    gap: 6px;
+    font-size: .66rem;
+    line-height: 1.2;
+  }
+
+  .ob-account-mobile {
+    margin: 0 0 7px;
+    padding: 8px;
+    border-radius: 11px;
+  }
+
+  .ob-account-mobile__identity {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .ob-account-mobile__avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
+
+  .ob-account-mobile__welcome,
+  .ob-account-mobile__role {
+    font-size: .50rem;
+    letter-spacing: .065em;
+  }
+
+  .ob-account-mobile__name {
+    margin: 1px 0;
+    font-size: .70rem;
+  }
+
+  .ob-account-mobile__actions {
+    gap: 5px;
+    margin-top: 7px;
+  }
+
+  .ob-account-mobile__actions a,
+  .ob-account-mobile__actions button {
+    min-height: 32px;
+    padding: 6px;
+    border-radius: 8px;
+    font-size: .58rem !important;
+  }
+}
+
+@media (max-width: 600px) and (orientation: landscape) {
+  .ob-mobile-menu__panel {
+    width: min(64vw, 300px);
+    max-height: 78dvh;
+  }
+}
