@@ -200,7 +200,7 @@
       ? shortDisplayName(currentMember.displayName)
       : "";
     welcomeNavLinks().forEach((link) => {
-      link.textContent = signedInName ? `Welcome ${signedInName} 🌸` : "Welcome 🌸";
+      link.textContent = signedInName ? `Welcome, ${signedInName} 🌸` : "Welcome 🌸";
       link.title = signedInName ? `Welcome ${currentMember.displayName}` : "Welcome";
       link.setAttribute("aria-label", signedInName
         ? `Welcome ${currentMember.displayName}. Go to the home section.`
@@ -659,6 +659,7 @@
       passwordInput.autocomplete = mode === "signup" ? "new-password" : "current-password";
       passwordInput.placeholder = mode === "signup" ? "Create a secure password" : "Enter your password";
       submit.textContent = mode === "signup" ? "Join Community 🌸" : "Sign In 🌸";
+      submit.classList.toggle("is-signin", mode === "signin");
       intro.textContent = mode === "signup"
         ? "Join the community to send letters, leave Blossom Wall messages, and take part in Blossom Chat."
         : "Welcome back, Blossom. Sign in to continue sharing, chatting, and growing with the community.";
@@ -2260,6 +2261,20 @@
         }
       });
 
+      // Register recovery detection before getSession(). Supabase can emit
+      // PASSWORD_RECOVERY while it is processing the URL, so registering only
+      // after getSession() can miss the event on fast redirects.
+      let recoveryEventSeen = false;
+      db.auth.onAuthStateChange((event, session) => {
+        if (event !== "PASSWORD_RECOVERY") return;
+        recoveryEventSeen = true;
+        currentSession = session || currentSession;
+        setTimeout(() => {
+          updateAuthUI();
+          renderPasswordRecovery();
+        }, 0);
+      });
+
       const { data: { session }, error: sessionError } = await withTimeout(
         db.auth.getSession(),
         9000,
@@ -2280,13 +2295,13 @@
         currentSession = session || null;
 
         if (event === "PASSWORD_RECOVERY") {
+          recoveryEventSeen = true;
           try {
             if (currentSession?.user) { await ensureMemberProfile(currentSession.user); await refreshCommunityAdminAccess(); }
           } catch (error) {
             console.error("Blossom profile recovery sync failed:", error);
           }
           updateAuthUI();
-          setTimeout(() => renderPasswordRecovery(), 0);
           return;
         }
 
@@ -2334,7 +2349,7 @@
         setChatState("preview", "Sign in to join live Blossom Chat.");
       }
 
-      if (isRecoveryReturn() && currentSession?.user) {
+      if (isRecoveryReturn() && currentSession?.user && !recoveryEventSeen) {
         setTimeout(() => renderPasswordRecovery(), 120);
       } else if (shouldShowVerifiedWelcome()) {
         setTimeout(() => renderVerifiedWelcome(), 120);
