@@ -8005,3 +8005,11 @@ body.page-community .community-hero > .hero-overlay.hero-text-only .garden-link 
     margin-top: 12px !important;
   }
 }
+
+/* v20.4.8 — accessible show/hide password control */
+.page-community .community-password-field { position: relative; display: block; }
+.page-community .community-password-field input { padding-right: 62px; }
+.page-community .community-password-toggle { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: 0; background: transparent; color: #b74c6b; font: 600 .68rem/1 "DM Sans", sans-serif; cursor: pointer; padding: 7px 4px; }
+.page-community .community-password-toggle:hover { text-decoration: underline; }
+html[data-theme="dark"] .page-community .community-password-toggle,
+body.dark-theme.page-community .community-password-toggle { color: #f0a5ba; }
