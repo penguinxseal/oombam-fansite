@@ -1912,3 +1912,15 @@ body.dark-theme .ob-account-mobile__actions a,body.dark-theme .ob-account-mobile
 .page-home .home-password-toggle { position:absolute; right:10px; top:50%; transform:translateY(-50%); border:0; background:transparent; color:#b74c6b; font:600 .68rem/1 var(--ob-ui-font); cursor:pointer; padding:7px 4px; }
 .page-home .home-password-toggle:hover { text-decoration:underline; }
 body.dark-theme.page-home .home-password-toggle { color:#f0a5ba; }
+
+/* =========================================================
+   v20.5.0 — Home auth polish
+   ========================================================= */
+.page-home .home-auth-primary.is-signin {
+  background:linear-gradient(135deg,#dcebf3,#c9e1ec);
+  border-color:rgba(78,126,145,.24);
+  color:#24424a;
+  box-shadow:0 10px 24px rgba(66,112,132,.13);
+}
+.page-home .home-auth-primary.is-signin:hover { background:linear-gradient(135deg,#d2e6ef,#bddae6); }
+html[data-theme="dark"] .page-home .home-auth-primary.is-signin { background:linear-gradient(135deg,#385967,#456b7a); color:#fff; border-color:rgba(181,218,232,.24); }
