@@ -8039,3 +8039,59 @@ body.dark-theme.page-community .community-password-toggle { color: #f0a5ba; }
 html[data-theme="dark"] .garden-gc-link { background:rgba(242,154,181,.09); color:#f1b0c4; border-color:rgba(242,154,181,.28); }
 html[data-theme="dark"] .garden-gc-x { color:#f7f3f5; }
 @media (max-width:600px) { .garden-actions { flex-direction:column; } .garden-gc-link { width:min(100%,260px); } }
+
+/* =========================================================
+   v20.5.1 — Community garden CTA alignment
+   ========================================================= */
+.page-community .garden-actions {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:12px !important;
+  flex-wrap:wrap !important;
+  margin-top:18px !important;
+}
+.page-community .garden-actions .garden-link,
+.page-community .garden-actions .garden-gc-link {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:8px !important;
+  min-height:40px !important;
+  padding:9px 16px !important;
+  border-radius:999px !important;
+  font-size:.76rem !important;
+  font-weight:700 !important;
+  line-height:1 !important;
+  text-decoration:none !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  white-space:nowrap !important;
+}
+.page-community .garden-actions .garden-link {
+  color:#678866 !important;
+  border:1px solid rgba(105,145,112,.38) !important;
+  background:rgba(247,252,247,.78) !important;
+  text-shadow:none !important;
+}
+.page-community .garden-actions .garden-link:hover {
+  transform:translateY(-1px);
+  background:#f4faf4 !important;
+  border-color:rgba(105,145,112,.62) !important;
+}
+.page-community .garden-actions .garden-gc-link {
+  border:1px solid rgba(229,123,156,.38) !important;
+  background:rgba(255,248,251,.72) !important;
+  color:#9f4964 !important;
+}
+html[data-theme="dark"] .page-community .garden-actions .garden-link,
+body.dark-theme.page-community .garden-actions .garden-link {
+  background:rgba(126,166,132,.10) !important;
+  color:#b9d4b8 !important;
+  border-color:rgba(151,190,156,.30) !important;
+}
+@media(max-width:600px){
+  .page-community .garden-actions{flex-direction:column !important;width:min(100%,280px);margin-left:auto !important;margin-right:auto !important}
+  .page-community .garden-actions .garden-link,
+  .page-community .garden-actions .garden-gc-link{width:100% !important}
+}
