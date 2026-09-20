@@ -506,7 +506,7 @@
         <p class="community-form__status" aria-live="polite"></p>
         <div class="community-form__actions">
           <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
-          <button class="community-form__primary" type="submit">Update Password</button>
+          <button class="community-form__primary" type="submit">Update Password 🌸</button>
         </div>
       </form>`;
     const form = wrapper.querySelector("form");
@@ -555,7 +555,7 @@
         <p class="community-form__status" aria-live="polite"></p>
         <div class="community-form__actions">
           <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
-          <button class="community-form__primary" type="submit">Send Reset Link</button>
+          <button class="community-form__primary" type="submit">Send Reset Link 🌸</button>
         </div>
       </form>`;
     const form = wrapper.querySelector("form");
