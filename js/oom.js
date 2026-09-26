@@ -200,21 +200,36 @@
   photoBases.forEach((base, i) => fragment.appendChild(makePhoto(base, i, true)));
   track.appendChild(fragment);
 
-  function firstSetWidth() { return track.scrollWidth / 2; }
-  function normalizeScroll() {
-    const width = firstSetWidth();
-    if (!width) return;
-    while (viewport.scrollLeft >= width) viewport.scrollLeft -= width;
-    while (viewport.scrollLeft < 0) viewport.scrollLeft += width;
+  function firstSetWidth() {
+    const duplicateStart = track.children[photoBases.length];
+    return duplicateStart ? duplicateStart.offsetLeft : track.scrollWidth / 2;
   }
 
+  // v20.5.2: drive the strip with transform instead of scrollLeft.
+  // Mobile browsers can quantize/cancel tiny scripted scrollLeft changes during touch handling;
+  // translate3d keeps autoplay smooth and uses the same position model for touch, pen and mouse.
+  let offset = 0;
   let previous = performance.now();
+  let dragStartOffset = 0;
+  let touchIdentifier = null;
+
+  function normalizeOffset() {
+    const width = firstSetWidth();
+    if (!width) return;
+    offset = ((offset % width) + width) % width;
+  }
+
+  function renderTrack() {
+    track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+  }
+
   function animate(now) {
     const dt = Math.min(50, now - previous);
     previous = now;
     if (!paused && !dragging && !reduceMotion.matches && document.visibilityState === "visible") {
-      viewport.scrollLeft += 0.032 * dt; // ~32px/sec: visible but calm continuous movement
-      normalizeScroll();
+      offset += 0.032 * dt; // ~32px/sec
+      normalizeOffset();
+      renderTrack();
     }
     requestAnimationFrame(animate);
   }
@@ -223,53 +238,84 @@
   const pause = () => { paused = true; clearTimeout(resumeTimer); };
   const resumeSoon = (delay = 650) => {
     clearTimeout(resumeTimer);
-    resumeTimer = setTimeout(() => { paused = false; }, delay);
+    resumeTimer = setTimeout(() => { paused = false; previous = performance.now(); }, delay);
   };
 
-  // Unified Pointer Events: mouse, touch and pen all drag the same track.
-  viewport.addEventListener("pointerdown", (event) => {
-    if (event.button !== undefined && event.button !== 0) return;
+  function beginDrag(clientX) {
     dragging = true;
     dragDistance = 0;
     pause();
     viewport.classList.add("is-dragging");
-    pointerStart = event.clientX;
-    scrollStart = viewport.scrollLeft;
-    viewport.setPointerCapture?.(event.pointerId);
-  });
+    pointerStart = clientX;
+    dragStartOffset = offset;
+  }
 
-  viewport.addEventListener("pointermove", (event) => {
+  function moveDrag(clientX) {
     if (!dragging) return;
-    const delta = event.clientX - pointerStart;
+    const delta = clientX - pointerStart;
     dragDistance = Math.max(dragDistance, Math.abs(delta));
-    viewport.scrollLeft = scrollStart - delta;
-    normalizeScroll();
-  });
+    offset = dragStartOffset - delta;
+    normalizeOffset();
+    renderTrack();
+  }
 
-  function endDrag(event) {
+  function finishDrag() {
     if (!dragging) return;
     dragging = false;
+    touchIdentifier = null;
     viewport.classList.remove("is-dragging");
-    if (event?.pointerId !== undefined && viewport.hasPointerCapture?.(event.pointerId)) {
-      viewport.releasePointerCapture(event.pointerId);
-    }
+    normalizeOffset();
+    renderTrack();
     resumeSoon();
   }
-  viewport.addEventListener("pointerup", endDrag);
-  viewport.addEventListener("pointercancel", endDrag);
-  viewport.addEventListener("lostpointercapture", () => {
-    if (dragging) { dragging = false; viewport.classList.remove("is-dragging"); resumeSoon(); }
-  });
 
-  // Keyboard scrolling remains available without permanently pausing autoplay.
+  // Pointer Events cover modern desktop/tablet/mobile browsers.
+  viewport.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    beginDrag(event.clientX);
+    try { viewport.setPointerCapture(event.pointerId); } catch (_) {}
+  });
+  viewport.addEventListener("pointermove", (event) => moveDrag(event.clientX));
+  viewport.addEventListener("pointerup", (event) => {
+    try { if (viewport.hasPointerCapture?.(event.pointerId)) viewport.releasePointerCapture(event.pointerId); } catch (_) {}
+    finishDrag();
+  });
+  viewport.addEventListener("pointercancel", finishDrag);
+  viewport.addEventListener("lostpointercapture", finishDrag);
+
+  // Touch fallback for older iOS/WebKit builds where Pointer Events are incomplete.
+  if (!("PointerEvent" in window)) {
+    viewport.addEventListener("touchstart", (event) => {
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+      touchIdentifier = touch.identifier;
+      beginDrag(touch.clientX);
+    }, { passive: true });
+    viewport.addEventListener("touchmove", (event) => {
+      const touch = Array.from(event.changedTouches).find(t => t.identifier === touchIdentifier);
+      if (touch) moveDrag(touch.clientX);
+    }, { passive: true });
+    viewport.addEventListener("touchend", finishDrag, { passive: true });
+    viewport.addEventListener("touchcancel", finishDrag, { passive: true });
+  }
+
+  // Keyboard arrows remain available as an accessibility control.
   viewport.addEventListener("keydown", (event) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
     event.preventDefault();
     pause();
-    viewport.scrollBy({ left: event.key === "ArrowRight" ? 260 : -260, behavior: "smooth" });
-    window.setTimeout(normalizeScroll, 350);
+    offset += event.key === "ArrowRight" ? 260 : -260;
+    normalizeOffset();
+    renderTrack();
     resumeSoon(900);
   });
+
+  // Recalculate seamlessly after rotation/tablet resize.
+  window.addEventListener("resize", () => {
+    normalizeOffset();
+    renderTrack();
+  }, { passive: true });
+
   if (!lightbox) return;
   const lightboxImage = lightbox.querySelector("[data-lightbox-image]");
   const closeButton = lightbox.querySelector("[data-lightbox-close]");
@@ -303,4 +349,143 @@
     if (event.key === "ArrowLeft") setLightboxImage(activeIndex - 1);
     if (event.key === "ArrowRight") setLightboxImage(activeIndex + 1);
   });
+})();
+
+/* ==========================================================
+   OOM SPECIAL COMMUNITY ACCESS · v20.6.0
+   ========================================================== */
+(() => {
+  "use strict";
+  const config = window.OOMBAM_COMMUNITY_CONFIG || {};
+  if (!config.supabaseUrl || !config.supabaseAnonKey || !window.supabase?.createClient) return;
+
+  const openButton = document.querySelector("[data-oom-access-open]");
+  const label = document.querySelector("[data-oom-access-label]");
+  const modal = document.querySelector("[data-oom-access-modal]");
+  const form = document.querySelector("[data-oom-access-form]");
+  const codeInput = document.querySelector("[data-oom-access-code]");
+  const toggle = document.querySelector("[data-oom-access-toggle]");
+  const submit = document.querySelector("[data-oom-access-submit]");
+  const status = document.querySelector("[data-oom-access-status]");
+  if (!openButton || !modal || !form || !codeInput || !submit || !status) return;
+
+  const endpoint = `${config.supabaseUrl.replace(/\/$/, "")}/functions/v1/artist-access-login`;
+  const persistent = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false },
+  });
+  const verifier = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: "oom-special-access-verifier" },
+  });
+
+  let lastFocus = null;
+  let verifiedExistingOom = false;
+  const setStatus = (message = "", success = false) => {
+    status.textContent = message;
+    status.classList.toggle("is-success", success);
+  };
+  const profileIsOom = (p) => p?.role === "artist" && p?.artist_identity === "oom" && p?.artist_access_status === "active" && (!p?.artist_access_expires_at || new Date(p.artist_access_expires_at) > new Date());
+
+  async function readOomProfile(client, userId) {
+    const { data, error } = await client.from("community_profiles")
+      .select("role,artist_identity,artist_access_status,artist_access_expires_at")
+      .eq("user_id", userId).maybeSingle();
+    if (error) return null;
+    return data;
+  }
+
+  async function detectExistingOom() {
+    try {
+      const { data: { session } } = await persistent.auth.getSession();
+      if (!session?.user?.id) return;
+      const profile = await readOomProfile(persistent, session.user.id);
+      if (profileIsOom(profile)) {
+        verifiedExistingOom = true;
+        label.textContent = "Enter Community";
+        openButton.querySelector("span[aria-hidden='true']").textContent = "🌼";
+      }
+    } catch (_) { /* keep the private entry in its default state */ }
+  }
+
+  function openModal() {
+    if (verifiedExistingOom) { window.location.href = "community.html"; return; }
+    lastFocus = document.activeElement;
+    setStatus("");
+    codeInput.value = "";
+    codeInput.type = "password";
+    toggle && (toggle.textContent = "Show");
+    modal.hidden = false;
+    document.body.classList.add("oom-access-open");
+    requestAnimationFrame(() => codeInput.focus());
+  }
+  function closeModal() {
+    if (submit.disabled) return;
+    modal.hidden = true;
+    document.body.classList.remove("oom-access-open");
+    codeInput.value = "";
+    setStatus("");
+    lastFocus?.focus?.();
+  }
+
+  openButton.addEventListener("click", openModal);
+  modal.querySelectorAll("[data-oom-access-close]").forEach(el => el.addEventListener("click", closeModal));
+  document.addEventListener("keydown", e => { if (!modal.hidden && e.key === "Escape") closeModal(); });
+  toggle?.addEventListener("click", () => {
+    const show = codeInput.type === "password";
+    codeInput.type = show ? "text" : "password";
+    toggle.textContent = show ? "Hide" : "Show";
+    toggle.setAttribute("aria-label", `${show ? "Hide" : "Show"} recovery code`);
+    toggle.setAttribute("aria-pressed", String(show));
+    codeInput.focus();
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const credential = codeInput.value.trim();
+    if (!credential) { setStatus("Enter the private recovery code."); codeInput.focus(); return; }
+
+    submit.disabled = true;
+    submit.textContent = "Verifying…";
+    setStatus("");
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "apikey": config.supabaseAnonKey },
+        body: JSON.stringify({ credential }),
+      });
+      const payload = await response.json().catch(() => ({}));
+      codeInput.value = ""; // never retain the recovery credential after the request
+      if (!response.ok || !payload?.access_token || !payload?.refresh_token) throw new Error("invalid-access");
+
+      // Verify the returned Artist identity in a non-persistent client first. This prevents
+      // an ordinary member/admin browser session from being replaced by a Bam or invalid Artist session.
+      const { data: verified, error: verifySessionError } = await verifier.auth.setSession({
+        access_token: payload.access_token,
+        refresh_token: payload.refresh_token,
+      });
+      if (verifySessionError || !verified?.user?.id) throw new Error("invalid-session");
+      const profile = await readOomProfile(verifier, verified.user.id);
+      if (!profileIsOom(profile)) {
+        await verifier.auth.signOut().catch(() => {});
+        throw new Error("wrong-artist");
+      }
+
+      const { error: persistError } = await persistent.auth.setSession({
+        access_token: payload.access_token,
+        refresh_token: payload.refresh_token,
+      });
+      if (persistError) throw new Error("session-persist-failed");
+      await verifier.auth.signOut().catch(() => {});
+      setStatus("Access confirmed. Opening the Blossom Community…", true);
+      window.setTimeout(() => { window.location.href = "community.html"; }, 350);
+    } catch (error) {
+      codeInput.value = "";
+      setStatus(error?.message === "wrong-artist" ? "This access code isn't valid for Oom's private access." : "We couldn't verify this private access code. Please try again.");
+      codeInput.focus();
+    } finally {
+      submit.disabled = false;
+      submit.textContent = "Enter Community";
+    }
+  });
+
+  detectExistingOom();
 })();
