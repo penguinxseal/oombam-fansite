@@ -3,7 +3,7 @@
 
   const PHOTO_PATH = "assets/images/oom/";
   // Exact base filenames from Oom_Solo.zip, ordered oldest to newest.
-  // The loader prefers .webp and automatically falls back to .jpg.
+  // Repository filenames follow the supplied Oom_Solo.zip source: .jpg.
   const photoBases = [
   "Oom_Oct2024_Solo (1)",
   "Oom_Oct2024_Solo (2)",
@@ -170,9 +170,10 @@
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let paused = false, dragging = false, pointerStart = 0, scrollStart = 0, resumeTimer = 0;
+  let dragDistance = 0;
   let activeIndex = 0;
 
-  function photoURL(base, ext = "webp") { return `${PHOTO_PATH}${base}.${ext}`; }
+  function photoURL(base) { return `${PHOTO_PATH}${base}.jpg`; }
 
   function makePhoto(base, index, duplicate = false) {
     const figure = document.createElement("figure");
@@ -190,12 +191,6 @@
     img.loading = index < 8 && !duplicate ? "eager" : "lazy";
     img.decoding = "async";
     img.src = photoURL(base);
-    img.dataset.jpgFallback = photoURL(base, "jpg");
-    img.addEventListener("error", () => {
-      if (img.dataset.jpgFallback && img.src !== new URL(img.dataset.jpgFallback, document.baseURI).href) {
-        img.src = img.dataset.jpgFallback;
-      }
-    }, { once: true });
     button.appendChild(img); figure.appendChild(button); return figure;
   }
 
@@ -209,15 +204,16 @@
   function normalizeScroll() {
     const width = firstSetWidth();
     if (!width) return;
-    if (viewport.scrollLeft >= width) viewport.scrollLeft -= width;
-    else if (viewport.scrollLeft < 0) viewport.scrollLeft += width;
+    while (viewport.scrollLeft >= width) viewport.scrollLeft -= width;
+    while (viewport.scrollLeft < 0) viewport.scrollLeft += width;
   }
 
   let previous = performance.now();
   function animate(now) {
-    const dt = Math.min(40, now - previous); previous = now;
-    if (!paused && !dragging && !reduceMotion.matches) {
-      viewport.scrollLeft += 0.025 * dt; // ~25 px/second: slow editorial movement
+    const dt = Math.min(50, now - previous);
+    previous = now;
+    if (!paused && !dragging && !reduceMotion.matches && document.visibilityState === "visible") {
+      viewport.scrollLeft += 0.032 * dt; // ~32px/sec: visible but calm continuous movement
       normalizeScroll();
     }
     requestAnimationFrame(animate);
@@ -225,28 +221,55 @@
   requestAnimationFrame(animate);
 
   const pause = () => { paused = true; clearTimeout(resumeTimer); };
-  const resumeSoon = () => { clearTimeout(resumeTimer); resumeTimer = setTimeout(() => { paused = false; }, 1200); };
-  viewport.addEventListener("mouseenter", pause);
-  viewport.addEventListener("mouseleave", () => { if (!dragging) paused = false; });
-  viewport.addEventListener("focusin", pause);
-  viewport.addEventListener("focusout", resumeSoon);
-  viewport.addEventListener("touchstart", pause, { passive: true });
-  viewport.addEventListener("touchend", resumeSoon, { passive: true });
+  const resumeSoon = (delay = 650) => {
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => { paused = false; }, delay);
+  };
 
+  // Unified Pointer Events: mouse, touch and pen all drag the same track.
   viewport.addEventListener("pointerdown", (event) => {
-    if (event.pointerType === "touch") return;
-    dragging = true; pause(); viewport.classList.add("is-dragging");
-    pointerStart = event.clientX; scrollStart = viewport.scrollLeft;
+    if (event.button !== undefined && event.button !== 0) return;
+    dragging = true;
+    dragDistance = 0;
+    pause();
+    viewport.classList.add("is-dragging");
+    pointerStart = event.clientX;
+    scrollStart = viewport.scrollLeft;
     viewport.setPointerCapture?.(event.pointerId);
   });
+
   viewport.addEventListener("pointermove", (event) => {
     if (!dragging) return;
-    viewport.scrollLeft = scrollStart - (event.clientX - pointerStart); normalizeScroll();
+    const delta = event.clientX - pointerStart;
+    dragDistance = Math.max(dragDistance, Math.abs(delta));
+    viewport.scrollLeft = scrollStart - delta;
+    normalizeScroll();
   });
-  const endDrag = () => { dragging = false; viewport.classList.remove("is-dragging"); resumeSoon(); };
+
+  function endDrag(event) {
+    if (!dragging) return;
+    dragging = false;
+    viewport.classList.remove("is-dragging");
+    if (event?.pointerId !== undefined && viewport.hasPointerCapture?.(event.pointerId)) {
+      viewport.releasePointerCapture(event.pointerId);
+    }
+    resumeSoon();
+  }
   viewport.addEventListener("pointerup", endDrag);
   viewport.addEventListener("pointercancel", endDrag);
+  viewport.addEventListener("lostpointercapture", () => {
+    if (dragging) { dragging = false; viewport.classList.remove("is-dragging"); resumeSoon(); }
+  });
 
+  // Keyboard scrolling remains available without permanently pausing autoplay.
+  viewport.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    pause();
+    viewport.scrollBy({ left: event.key === "ArrowRight" ? 260 : -260, behavior: "smooth" });
+    window.setTimeout(normalizeScroll, 350);
+    resumeSoon(900);
+  });
   if (!lightbox) return;
   const lightboxImage = lightbox.querySelector("[data-lightbox-image]");
   const closeButton = lightbox.querySelector("[data-lightbox-close]");
@@ -257,7 +280,6 @@
   function setLightboxImage(index) {
     activeIndex = (index + photoBases.length) % photoBases.length;
     lightboxImage.src = photoURL(photoBases[activeIndex]);
-    lightboxImage.onerror = () => { lightboxImage.onerror = null; lightboxImage.src = photoURL(photoBases[activeIndex], "jpg"); };
   }
   function openLightbox(index, trigger) {
     lastFocus = trigger; setLightboxImage(index); lightbox.hidden = false; document.body.classList.add("oom-lightbox-open"); pause(); closeButton?.focus();
@@ -266,6 +288,7 @@
     lightbox.hidden = true; document.body.classList.remove("oom-lightbox-open"); resumeSoon(); lastFocus?.focus?.();
   }
   track.addEventListener("click", (event) => {
+    if (dragDistance > 8) { event.preventDefault(); dragDistance = 0; return; }
     const button = event.target.closest(".oom-filmstrip__button");
     if (!button || button.closest('[aria-hidden="true"]')) return;
     openLightbox(Number(button.dataset.index), button);
