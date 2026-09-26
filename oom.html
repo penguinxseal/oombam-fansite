@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Great+Vibes&amp;family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="css/oom.css?v=24.9" rel="stylesheet"/><link href="css/Global.css?v=20.4.3" rel="stylesheet"/>
+<link href="css/oom.css?v=20.6.0" rel="stylesheet"/><link href="css/Global.css?v=20.4.3" rel="stylesheet"/>
 </head>
 <body class="ob-global page-oom" data-active-nav="oom" data-page-title="Oom Eisaya">
 <header class="ob-header" id="siteHeader">
@@ -264,16 +264,42 @@
 </nav>
 </div>
 <p class="ob-footer__message">Always with OomBam 🩵🌸</p>
+<div class="oom-private-access-wrap">
+<button class="oom-private-access-link" type="button" data-oom-access-open aria-haspopup="dialog">
+<span aria-hidden="true">🔒</span><span data-oom-access-label>Private Access</span>
+</button>
+</div>
 </div>
 <div class="ob-footer__bottom">
 <p>© 2026 OomBam Blossoms Together.</p>
 </div>
 </footer>
 </main>
+<div class="oom-access-modal" data-oom-access-modal hidden>
+  <div class="oom-access-modal__backdrop" data-oom-access-close></div>
+  <section class="oom-access-card" role="dialog" aria-modal="true" aria-labelledby="oomAccessTitle" aria-describedby="oomAccessDescription" tabindex="-1">
+    <button class="oom-access-card__close" type="button" data-oom-access-close aria-label="Close private access">×</button>
+    <div class="oom-access-card__mark" aria-hidden="true">🌼</div>
+    <p class="oom-access-card__eyebrow">SPECIAL COMMUNITY ACCESS</p>
+    <h2 id="oomAccessTitle">Oom Eisaya</h2>
+    <p id="oomAccessDescription" class="oom-access-card__intro">Private access to the Blossom Community.</p>
+    <form class="oom-access-form" data-oom-access-form novalidate>
+      <label for="oomRecoveryCode">Recovery code</label>
+      <div class="oom-access-field">
+        <input id="oomRecoveryCode" data-oom-access-code type="password" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" required aria-describedby="oomAccessStatus"/>
+        <button type="button" class="oom-access-visibility" data-oom-access-toggle aria-label="Show recovery code" aria-pressed="false">Show</button>
+      </div>
+      <button class="oom-access-submit" data-oom-access-submit type="submit">Enter Community</button>
+      <p class="oom-access-status" id="oomAccessStatus" data-oom-access-status role="status" aria-live="polite"></p>
+    </form>
+    <p class="oom-access-card__note">For Oom's private community access only.</p>
+  </section>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/community-config.js?v=2.1"></script>
 <script src="js/site-auth.js?v=20.4.3"></script>
 <script src="js/script.js?v=20.4.0"></script>
-<script src="js/oom.js?v=20.5.0"></script></body>
+<script src="js/oom.js?v=20.6.0"></script></body>
 </html>
