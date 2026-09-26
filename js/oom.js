@@ -336,7 +336,9 @@
   track.addEventListener("click", (event) => {
     if (dragDistance > 8) { event.preventDefault(); dragDistance = 0; return; }
     const button = event.target.closest(".oom-filmstrip__button");
-    if (!button || button.closest('[aria-hidden="true"]')) return;
+    if (!button) return;
+    // Both halves of the seamless loop represent real archive photos. The cloned
+    // half is hidden from the accessibility tree, but it must remain clickable.
     openLightbox(Number(button.dataset.index), button);
   });
   closeButton?.addEventListener("click", closeLightbox);
