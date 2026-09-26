@@ -118,6 +118,8 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let paused = false, dragging = false, pointerStart = 0, scrollStart = 0, resumeTimer = 0;
   let dragDistance = 0;
+  let pressedArchiveButton = null;
+  let suppressArchiveClick = false;
   let activeIndex = 0;
 
   function photoURL(base) { return `${PHOTO_PATH}${base}.jpg`; }
@@ -219,13 +221,25 @@
   // Pointer Events cover modern desktop/tablet/mobile browsers.
   viewport.addEventListener("pointerdown", (event) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
+    // Pointer capture makes the browser's later desktop click target the viewport,
+    // not the photo button. Remember the actual photo pressed so a true click can
+    // still open the lightbox while a drag remains a drag.
+    pressedArchiveButton = event.target.closest(".bam-filmstrip__button");
+    suppressArchiveClick = false;
     beginDrag(event.clientX);
     try { viewport.setPointerCapture(event.pointerId); } catch (_) {}
   });
   viewport.addEventListener("pointermove", (event) => moveDrag(event.clientX));
   viewport.addEventListener("pointerup", (event) => {
+    const clickedButton = pressedArchiveButton;
+    const wasClick = event.pointerType === "mouse" && clickedButton && dragDistance <= 8;
     try { if (viewport.hasPointerCapture?.(event.pointerId)) viewport.releasePointerCapture(event.pointerId); } catch (_) {}
     finishDrag();
+    pressedArchiveButton = null;
+    if (wasClick) {
+      suppressArchiveClick = true;
+      openLightbox(Number(clickedButton.dataset.index), clickedButton);
+    }
   });
   viewport.addEventListener("pointercancel", finishDrag);
   viewport.addEventListener("lostpointercapture", finishDrag);
@@ -281,6 +295,7 @@
     lightbox.hidden = true; document.body.classList.remove("bam-lightbox-open"); resumeSoon(); lastFocus?.focus?.();
   }
   track.addEventListener("click", (event) => {
+    if (suppressArchiveClick) { suppressArchiveClick = false; event.preventDefault(); return; }
     if (dragDistance > 8) { event.preventDefault(); dragDistance = 0; return; }
     const button = event.target.closest(".bam-filmstrip__button");
     if (!button) return;
@@ -305,7 +320,7 @@
    ========================================================== */
 (() => {
   "use strict";
-  const config = window.BAMBAM_COMMUNITY_CONFIG || {};
+  const config = window.OOMBAM_COMMUNITY_CONFIG || {};
   if (!config.supabaseUrl || !config.supabaseAnonKey || !window.supabase?.createClient) return;
 
   const openButton = document.querySelector("[data-bam-access-open]");
