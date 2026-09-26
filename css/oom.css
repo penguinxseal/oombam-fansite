@@ -2428,3 +2428,74 @@ html[data-theme="dark"] .oom-filmstrip__item { background: rgba(255,255,255,.06)
 @media (prefers-reduced-motion: reduce) {
   .oom-filmstrip__image { transition: none; }
 }
+
+/* ==========================================================
+   OOM SOLO ARCHIVE · v20.5.1 interaction + social icon patch
+   ========================================================== */
+body.page-oom .socials.socials--brand-icons {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+body.page-oom .socials.socials--brand-icons a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+}
+body.page-oom .socials.socials--brand-icons .social-brand-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(45, 92, 120, .18);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .52);
+  color: #315c73;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+body.page-oom .socials.socials--brand-icons .social-brand-icon svg {
+  width: 21px;
+  height: 21px;
+  display: block;
+}
+body.page-oom .socials.socials--brand-icons .social-brand-icon--rednote {
+  width: 58px;
+  border-radius: 999px;
+  font-size: .73rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+body.page-oom .socials.socials--brand-icons a:hover .social-brand-icon,
+body.page-oom .socials.socials--brand-icons a:focus-visible .social-brand-icon {
+  transform: translateY(-2px);
+  border-color: rgba(194, 145, 31, .48);
+  background: rgba(255, 247, 205, .78);
+}
+body.page-oom .socials.socials--brand-icons small {
+  font-size: .72rem;
+  color: var(--muted, #657786);
+}
+html[data-theme="dark"] body.page-oom .socials.socials--brand-icons .social-brand-icon {
+  background: rgba(255,255,255,.055);
+  border-color: rgba(255,255,255,.16);
+  color: #d8eaf3;
+}
+.oom-filmstrip__viewport {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: pan-y pinch-zoom;
+}
+.oom-filmstrip__viewport.is-dragging,
+.oom-filmstrip__viewport.is-dragging * { cursor: grabbing !important; }
+.oom-filmstrip__image {
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: none;
+}
+@media (max-width: 760px) {
+  body.page-oom .socials.socials--brand-icons { gap: 12px 8px; }
+  body.page-oom .socials.socials--brand-icons .social-brand-icon { width: 44px; height: 44px; }
+  body.page-oom .socials.socials--brand-icons .social-brand-icon--rednote { width: 54px; }
+}
