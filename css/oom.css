@@ -2518,9 +2518,10 @@ html[data-theme="dark"] body.page-oom .socials.socials--brand-icons .social-bran
 /* ==========================================================
    OOM SPECIAL COMMUNITY ACCESS · v20.6.0
    ========================================================== */
-.oom-private-access-wrap { margin-top: .75rem; text-align: center; }
-.oom-private-access-link { appearance:none; border:0; background:transparent; color:inherit; opacity:.58; font:inherit; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; padding:.35rem .55rem; display:inline-flex; gap:.35rem; align-items:center; }
-.oom-private-access-link:hover,.oom-private-access-link:focus-visible { opacity:1; text-decoration:underline; text-underline-offset:4px; }
+.oom-private-access-link { appearance:none; border:0; color:inherit; font:inherit; font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; cursor:pointer; display:inline-flex; gap:.34rem; align-items:center; }
+.oom-private-access-link--portrait { position:absolute; z-index:5; top:14px; right:14px; padding:.48rem .68rem; border:1px solid rgba(255,255,255,.42); border-radius:999px; color:#fff; background:rgba(24,36,43,.34); box-shadow:0 4px 18px rgba(16,27,33,.10); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); opacity:.78; transition:opacity .2s ease, background .2s ease, transform .2s ease; }
+.oom-private-access-link--portrait:hover,.oom-private-access-link--portrait:focus-visible { opacity:1; background:rgba(24,36,43,.52); transform:translateY(-1px); outline:none; }
+@media (max-width:760px) { .oom-private-access-link--portrait { top:11px; right:11px; padding:.42rem .58rem; font-size:.61rem; } }
 .oom-access-modal[hidden] { display:none !important; }
 .oom-access-modal { position:fixed; inset:0; z-index:10000; display:grid; place-items:center; padding:20px; }
 .oom-access-modal__backdrop { position:absolute; inset:0; background:rgba(12,22,28,.56); backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px); }
