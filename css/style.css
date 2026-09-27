@@ -16307,3 +16307,21 @@ body.dark-theme .sakura-clip-card__caption{color:#bac2c8}
     font-size:.43rem !important;
   }
 }
+
+
+/* v20.11.2 — Moments social photo credits */
+#momentsGalleryCredit {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.18rem;
+}
+#momentsGalleryCredit a {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 0.16em;
+}
+#momentsGalleryCredit a:hover,
+#momentsGalleryCredit a:focus-visible {
+  text-decoration: underline;
+}
