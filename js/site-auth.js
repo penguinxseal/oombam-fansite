@@ -17,6 +17,7 @@
   let session = null;
   let profile = null;
   let isAdmin = false;
+  let isArtist = false;
 
   const headerActions = document.querySelector(".ob-header__actions");
   const mobilePanel = document.querySelector(".ob-mobile-menu__panel");
@@ -36,6 +37,7 @@
         <div><strong class="ob-account-menu__name">Blossom</strong><small class="ob-account-menu__role">Blossom Member</small></div>
       </div>
       <a href="community.html?account=1">My Account</a>
+      <a class="ob-account-menu__artist" href="community.html?artist=1" hidden>Artist Inbox</a>
       <a class="ob-account-menu__moderate" href="community.html?moderate=1" hidden>Admin Hub</a>
       <button class="ob-account-menu__signout" type="button">Sign Out</button>
     </div>`;
@@ -51,6 +53,7 @@
     </div>
     <div class="ob-account-mobile__actions">
       <a href="community.html?account=1">My Account</a>
+      <a class="ob-account-mobile__artist" href="community.html?artist=1" hidden>Artist Inbox</a>
       <a class="ob-account-mobile__moderate" href="community.html?moderate=1" hidden>Admin Hub</a>
       <button class="ob-account-mobile__signout" type="button">Sign Out</button>
     </div>`;
@@ -88,10 +91,13 @@
   async function loadProfile(user) {
     const fallback = safe(user?.user_metadata?.display_name || user?.email?.split("@")[0] || "Blossom", 30);
     try {
-      const { data } = await db.from("community_profiles").select("display_name, avatar").eq("user_id", user.id).maybeSingle();
-      profile = { displayName: safe(data?.display_name || fallback, 30), avatar: safe(data?.avatar || "🌸", 4) || "🌸" };
+      const { data } = await db.from("community_profiles").select("display_name, avatar, role, artist_identity, artist_access_status, artist_access_expires_at").eq("user_id", user.id).maybeSingle();
+      profile = { displayName: safe(data?.display_name || fallback, 30), avatar: safe(data?.avatar || "🌸", 4) || "🌸", role: safe(data?.role || "member", 12), artistIdentity: safe(data?.artist_identity || "", 8), artistAccessStatus: safe(data?.artist_access_status || "", 12), artistAccessExpiresAt: data?.artist_access_expires_at || null };
+      const artistExpiry = profile.artistAccessExpiresAt ? new Date(profile.artistAccessExpiresAt).getTime() : null;
+      isArtist = profile.role === "artist" && profile.artistAccessStatus === "active" && (!artistExpiry || artistExpiry > Date.now());
     } catch (_) {
-      profile = { displayName: fallback, avatar: "🌸" };
+      profile = { displayName: fallback, avatar: "🌸", role: "member", artistIdentity: "" };
+      isArtist = false;
     }
     try {
       const { data } = await db.rpc("is_community_admin");
@@ -129,11 +135,13 @@
     desktop.querySelector(".ob-account__avatar").textContent = avatar;
     desktop.querySelector(".ob-account-menu__avatar").textContent = avatar;
     desktop.querySelector(".ob-account-menu__name").textContent = profile?.displayName || display;
-    desktop.querySelector(".ob-account-menu__role").textContent = isAdmin ? "Community Admin" : "Blossom Member";
+    desktop.querySelector(".ob-account-menu__role").textContent = isAdmin ? "Community Admin" : isArtist ? "ARTIST" : "Blossom Member";
+    desktop.querySelector(".ob-account-menu__artist").hidden = !isArtist;
     desktop.querySelector(".ob-account-menu__moderate").hidden = !isAdmin;
     mobile.querySelector(".ob-account-mobile__avatar").textContent = avatar;
     mobile.querySelector(".ob-account-mobile__name").textContent = `${profile?.displayName || display} 🌸`;
-    mobile.querySelector(".ob-account-mobile__role").textContent = isAdmin ? "Community Admin" : "Blossom Member";
+    mobile.querySelector(".ob-account-mobile__role").textContent = isAdmin ? "Community Admin" : isArtist ? "ARTIST" : "Blossom Member";
+    mobile.querySelector(".ob-account-mobile__artist").hidden = !isArtist;
     mobile.querySelector(".ob-account-mobile__moderate").hidden = !isAdmin;
   }
 
@@ -141,6 +149,7 @@
     session = nextSession || null;
     profile = null;
     isAdmin = false;
+    isArtist = false;
     if (session?.user) await loadProfile(session.user);
     render();
   }
