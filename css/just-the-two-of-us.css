@@ -3224,4 +3224,102 @@ body.page-fulfill > .ob-site-search {
     border-radius: 0 !important;
   }
 }
-\n\n/* =========================================================\n   JUST THE TWO OF US v22.6 — CREDITS & SOURCES\n   Consolidated official-source attribution before site footer.\n========================================================= */\n.fulfill-credits {\n  width: 100%;\n  padding: clamp(42px, 5vw, 76px) 0 clamp(34px, 4vw, 60px);\n  border-top: 1px solid rgba(255,255,255,.10);\n}\n\n.fulfill-credits__inner {\n  width: min(1180px, calc(100% - 64px));\n  margin: 0 auto;\n}\n\n.fulfill-credits__heading {\n  display: flex;\n  align-items: end;\n  justify-content: space-between;\n  gap: 24px;\n  padding-bottom: 18px;\n  border-bottom: 1px solid rgba(255,255,255,.12);\n}\n\n.fulfill-credits__heading .section-kicker {\n  margin: 0 0 5px;\n  order: 2;\n  max-width: 360px;\n  text-align: right;\n}\n\n.fulfill-credits__heading h2 {\n  margin: 0;\n  font-size: clamp(1.65rem, 2.6vw, 2.65rem);\n  line-height: 1;\n  font-weight: 500;\n  letter-spacing: -.025em;\n}\n\n.fulfill-credits__intro {\n  max-width: 760px;\n  margin: 22px 0 30px;\n  color: var(--text-soft, rgba(255,255,255,.72));\n  font-size: clamp(.94rem, 1.2vw, 1.04rem);\n  line-height: 1.75;\n}\n\n.fulfill-credits__groups {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 20px 52px;\n}\n\n.fulfill-credits__group {\n  min-width: 0;\n}\n\n.fulfill-credits__group h3 {\n  margin: 0 0 12px;\n  color: var(--text-main, #fff);\n  font-size: .78rem;\n  line-height: 1.3;\n  font-weight: 700;\n  letter-spacing: .13em;\n  text-transform: uppercase;\n}\n\n.fulfill-credits__links {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px 18px;\n}\n\n.fulfill-credits__links a {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  color: inherit;\n  font-size: .94rem;\n  line-height: 1.45;\n  text-decoration: none;\n  border-bottom: 1px solid rgba(255,255,255,.28);\n  transition: opacity .2s ease, border-color .2s ease;\n}\n\n.fulfill-credits__links a:hover,\n.fulfill-credits__links a:focus-visible {\n  opacity: .72;\n  border-bottom-color: currentColor;\n}\n\n.fulfill-credits__note {\n  margin: 30px 0 0;\n  padding-top: 18px;\n  border-top: 1px solid rgba(255,255,255,.08);\n  color: var(--text-soft, rgba(255,255,255,.58));\n  font-size: .78rem;\n  line-height: 1.65;\n}\n\n/* Tablet */\n@media (min-width: 761px) and (max-width: 1100px) {\n  .fulfill-credits {\n    padding: 48px 0 42px;\n  }\n\n  .fulfill-credits__inner {\n    width: min(100% - 48px, 920px);\n  }\n\n  .fulfill-credits__groups {\n    gap: 22px 34px;\n  }\n}\n\n/* Mobile */\n@media (max-width: 760px) {\n  .fulfill-credits {\n    padding: 36px 0 30px;\n  }\n\n  .fulfill-credits__inner {\n    width: calc(100% - 36px);\n  }\n\n  .fulfill-credits__heading {\n    display: block;\n    padding-bottom: 15px;\n  }\n\n  .fulfill-credits__heading .section-kicker {\n    margin: 0 0 8px;\n    max-width: none;\n    text-align: left;\n  }\n\n  .fulfill-credits__heading h2 {\n    font-size: clamp(1.55rem, 8vw, 2rem);\n  }\n\n  .fulfill-credits__intro {\n    margin: 18px 0 25px;\n    font-size: .92rem;\n    line-height: 1.65;\n  }\n\n  .fulfill-credits__groups {\n    grid-template-columns: 1fr;\n    gap: 26px;\n  }\n\n  .fulfill-credits__links {\n    display: grid;\n    grid-template-columns: 1fr;\n    gap: 9px;\n  }\n\n  .fulfill-credits__links a {\n    width: fit-content;\n    max-width: 100%;\n    font-size: .92rem;\n  }\n\n  .fulfill-credits__note {\n    margin-top: 26px;\n    padding-top: 16px;\n    font-size: .75rem;\n  }\n}\n
+\n\n
+
+
+/* =========================================================
+   JUST THE TWO OF US v22.7 — QUIET OFFICIAL SOURCES
+   Compact attribution beneath The Fulfill Collection.
+========================================================= */
+.collection-sources {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,.10);
+  color: rgba(255,255,255,.52);
+}
+
+.collection-sources__label {
+  margin: 0 0 7px;
+  color: rgba(255,255,255,.58);
+  font-size: .52rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.collection-sources__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0;
+  font-size: .62rem;
+  line-height: 1.55;
+}
+
+.collection-sources__links > span {
+  white-space: nowrap;
+}
+
+.collection-sources a {
+  color: rgba(255,255,255,.70);
+  text-decoration: none;
+  text-underline-offset: 3px;
+  transition: color .18s ease, opacity .18s ease;
+}
+
+.collection-sources a:hover,
+.collection-sources a:focus-visible {
+  color: #f0a2b8;
+  text-decoration: underline;
+}
+
+.collection-sources__note {
+  max-width: 390px;
+  margin: 7px 0 0;
+  color: rgba(255,255,255,.38);
+  font-size: .54rem;
+  line-height: 1.5;
+}
+
+/* Light theme keeps the credit visible without increasing its weight. */
+body:not(.dark-theme) .collection-sources {
+  border-top-color: rgba(48,42,44,.12);
+  color: rgba(48,42,44,.54);
+}
+body:not(.dark-theme) .collection-sources__label { color: rgba(48,42,44,.58); }
+body:not(.dark-theme) .collection-sources a { color: rgba(48,42,44,.72); }
+body:not(.dark-theme) .collection-sources__note { color: rgba(48,42,44,.46); }
+
+/* Tablet: collection becomes a two-column grid, then credits span its width. */
+@media (max-width: 980px) {
+  .collection-sources {
+    margin-top: 16px;
+    padding-top: 13px;
+  }
+  .collection-sources__links { gap: 4px 16px; }
+  .collection-sources__note { max-width: 560px; }
+}
+
+/* Mobile: compact three-line colophon below the final collection card. */
+@media (max-width: 700px) and (orientation: portrait) {
+  .collection-sources {
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+  .collection-sources__label {
+    margin-bottom: 6px;
+    font-size: .50rem;
+  }
+  .collection-sources__links {
+    display: grid;
+    gap: 2px;
+    font-size: .61rem;
+  }
+  .collection-sources__note {
+    margin-top: 6px;
+    max-width: 34rem;
+    font-size: .53rem;
+    line-height: 1.45;
+  }
+}
