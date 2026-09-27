@@ -823,7 +823,7 @@
     const worth=[byTitle("PODKAZZ EP.14"),byTitle("You Know Me EP.27"),byTitle("Blooming with You Interview")].filter(Boolean);
     const top=document.createElement("div"); top.className="interviews-editorial-top";
     const heroCard=document.createElement("article"); heroCard.className="interviews-hero"; heroCard.style.setProperty("--hero-image",`url('${interviewThumb(hero)}')`);
-    heroCard.innerHTML=`<div class="interviews-hero__shade"></div><div class="interviews-hero__copy"><span class="interviews-kicker">Featured Interview</span><p>Oom &amp; Bam open up about life and learning to love themselves.</p><h3>Dear Myself EP.38</h3><small>YOUTUBE · LONG-FORM</small></div>`;
+    heroCard.innerHTML=`<div class="interviews-hero__shade"></div><div class="interviews-hero__copy"><span class="interviews-kicker">Featured Interview</span><p>Oom &amp; Bam open up about life and learning to love themselves.</p><small>DEAR MYSELF EP.38 · YOUTUBE · LONG-FORM</small></div>`;
     heroCard.querySelector('.interviews-hero__copy').append(makeButton("interviews-watch-button","▶  WATCH INTERVIEW",hero));
     const worthBox=document.createElement("aside"); worthBox.className="interviews-worth"; worthBox.innerHTML='<div class="interviews-section-head"><h3>Worth Watching</h3><button type="button" data-go-long>SEE ALL →</button></div>';
     worth.forEach(item=>worthBox.append(createThumbCard(item,"is-compact"))); worthBox.querySelector('[data-go-long]').onclick=()=>setInterviewFilter('long'); top.append(heroCard,worthBox); interviewsAllView.append(top);
