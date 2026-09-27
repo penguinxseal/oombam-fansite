@@ -37,6 +37,7 @@
         <div><strong class="ob-account-menu__name">Blossom</strong><small class="ob-account-menu__role">Blossom Member</small></div>
       </div>
       <a href="community.html?account=1">My Account</a>
+      <a class="ob-account-menu__letters" href="community.html?letters=1">My Letters</a>
       <a class="ob-account-menu__artist" href="community.html?artist=1" hidden>Artist Inbox</a>
       <a class="ob-account-menu__moderate" href="community.html?moderate=1" hidden>Admin Hub</a>
       <button class="ob-account-menu__signout" type="button">Sign Out</button>
@@ -53,6 +54,7 @@
     </div>
     <div class="ob-account-mobile__actions">
       <a href="community.html?account=1">My Account</a>
+      <a class="ob-account-mobile__letters" href="community.html?letters=1">My Letters</a>
       <a class="ob-account-mobile__artist" href="community.html?artist=1" hidden>Artist Inbox</a>
       <a class="ob-account-mobile__moderate" href="community.html?moderate=1" hidden>Admin Hub</a>
       <button class="ob-account-mobile__signout" type="button">Sign Out</button>
@@ -149,11 +151,13 @@
     desktop.querySelector(".ob-account-menu__avatar").textContent = avatar;
     desktop.querySelector(".ob-account-menu__name").textContent = profile?.displayName || display;
     desktop.querySelector(".ob-account-menu__role").textContent = isAdmin ? "Community Admin" : isArtist ? "ARTIST" : "Blossom Member";
+    desktop.querySelector(".ob-account-menu__letters").hidden = isArtist;
     desktop.querySelector(".ob-account-menu__artist").hidden = !isArtist;
     desktop.querySelector(".ob-account-menu__moderate").hidden = !isAdmin;
     mobile.querySelector(".ob-account-mobile__avatar").textContent = avatar;
     mobile.querySelector(".ob-account-mobile__name").textContent = `${profile?.displayName || display} 🌸`;
     mobile.querySelector(".ob-account-mobile__role").textContent = isAdmin ? "Community Admin" : isArtist ? "ARTIST" : "Blossom Member";
+    mobile.querySelector(".ob-account-mobile__letters").hidden = isArtist;
     mobile.querySelector(".ob-account-mobile__artist").hidden = !isArtist;
     mobile.querySelector(".ob-account-mobile__moderate").hidden = !isAdmin;
   }
