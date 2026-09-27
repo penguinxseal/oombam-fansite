@@ -8296,3 +8296,51 @@ html[data-theme="dark"] .community-mailbox__list,body.dark-theme .community-mail
 html[data-theme="dark"] .community-mailbox__reader,body.dark-theme .community-mailbox__reader{background:rgba(255,255,255,.018)}
 html[data-theme="dark"] .community-letter-reading__header,html[data-theme="dark"] .community-letter-reading__footer,body.dark-theme .community-letter-reading__header,body.dark-theme .community-letter-reading__footer{border-color:rgba(255,255,255,.1)}
 @media(max-width:760px){.community-mailbox__shell{display:block;min-height:390px;max-height:min(68vh,650px);position:relative}.community-mailbox__list{border-right:0;padding:9px;height:100%;max-height:min(68vh,650px)}.community-mailbox__reader{display:none;padding:20px 17px;min-height:390px}.community-mailbox__reader.is-open{display:block}.community-mailbox__reader.is-open~*{display:none}.community-mailbox__reader.is-open{position:absolute;inset:0;background:var(--community-surface,#fff);z-index:2}.community-mailbox__back{display:block}.community-letter-reading__header{grid-template-columns:1fr;gap:8px}.community-letter-reading__header time{grid-row:2}.community-letter-reading__message{padding:22px 0 24px;line-height:1.76}.community-letter-reading__footer{align-items:flex-start}.community-letter-reading__love-note{text-align:left}}
+
+/* =========================================================
+   v20.10.2 — Artist Inbox responsive reading patch
+   ========================================================= */
+body.page-community .garden-artist-link{
+  appearance:none;-webkit-appearance:none;text-decoration:none;
+  min-height:46px;padding:.72rem 1.15rem;border-radius:999px;
+  border:1px solid rgba(232,153,176,.58);
+  background:linear-gradient(135deg,rgba(232,153,176,.16),rgba(255,255,255,.07));
+  color:inherit;display:inline-flex;align-items:center;justify-content:center;gap:.62rem;
+  font-family:"DM Sans",sans-serif;font-size:.88rem;font-weight:700;line-height:1;
+  box-shadow:0 8px 22px rgba(40,30,35,.08);white-space:nowrap;
+}
+body.page-community .garden-artist-link__icon{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:rgba(255,255,255,.52);font-size:.8rem}
+body.page-community .garden-artist-link__arrow{font-size:1rem;transition:transform .18s ease}
+body.page-community .garden-artist-link:hover .garden-artist-link__arrow{transform:translateX(2px)}
+html[data-theme="dark"] body.page-community .garden-artist-link,body.dark-theme.page-community .garden-artist-link{background:linear-gradient(135deg,rgba(232,153,176,.15),rgba(255,255,255,.035));border-color:rgba(232,153,176,.42)}
+html[data-theme="dark"] body.page-community .garden-artist-link__icon,body.dark-theme.page-community .garden-artist-link__icon{background:rgba(255,255,255,.09)}
+
+/* Keep the mailbox frame fixed; only the list/letter panes scroll. */
+.community-modal__dialog--wide:has(.community-mailbox){overflow:hidden;display:flex;flex-direction:column;max-height:calc(100dvh - 44px)}
+.community-modal__dialog--wide:has(.community-mailbox) #communityModalBody{min-height:0;display:flex;flex:1}
+.community-mailbox{min-height:0;display:flex;flex:1;flex-direction:column;width:100%}
+.community-mailbox__heading{flex:0 0 auto;padding-right:48px;margin-bottom:18px}
+.community-mailbox__shell{flex:1;min-height:0;height:min(66vh,690px);max-height:none}
+.community-mailbox__list,.community-mailbox__reader{min-height:0}
+.community-mailbox__reader{overscroll-behavior:contain}
+.community-letter-reading{padding-bottom:8px}
+
+@media(max-width:760px){
+  .community-modal{padding:8px;align-items:end}
+  .community-modal__dialog--wide:has(.community-mailbox){height:min(88dvh,760px);max-height:min(88dvh,760px);padding:20px 16px 14px;border-radius:22px 22px 14px 14px;overflow:hidden}
+  .community-mailbox__heading{margin-bottom:14px;padding-right:44px}
+  .community-mailbox__heading .community-modal__title{font-size:clamp(2rem,10vw,2.7rem);line-height:1.02}
+  .community-mailbox__heading .community-modal__intro{font-size:.9rem;line-height:1.45;margin-top:10px}
+  .community-mailbox__shell{height:auto;max-height:none;min-height:0;display:block;overflow:hidden}
+  .community-mailbox__list{display:flex;height:100%;max-height:none;overflow:auto;padding:8px}
+  .community-mailbox__reader{display:none;position:static;inset:auto;height:100%;min-height:0;overflow:auto;padding:16px 14px;background:transparent}
+  .community-mailbox__shell.is-reading .community-mailbox__list{display:none}
+  .community-mailbox__shell.is-reading .community-mailbox__reader{display:block}
+  .community-mailbox__preview{padding:14px 15px;gap:6px}
+  .community-mailbox__back{position:sticky;top:0;z-index:2;width:max-content;padding:7px 10px;margin:-5px 0 12px -5px;border-radius:999px;background:var(--community-surface,#fff);box-shadow:0 3px 12px rgba(0,0,0,.08);opacity:.9}
+  html[data-theme="dark"] .community-mailbox__back,body.dark-theme .community-mailbox__back{background:#20282c}
+  .community-letter-reading__message{font-size:.96rem;line-height:1.7;padding:20px 0 22px}
+  .community-letter-reading__message p,.community-letter-reading__message div{margin-bottom:1.15em}
+  body.page-community .garden-actions{display:grid;grid-template-columns:1fr;gap:10px;width:min(100%,320px);margin-inline:auto}
+  body.page-community .garden-artist-link,body.page-community .garden-link,body.page-community .garden-gc-link{width:100%;box-sizing:border-box}
+}
