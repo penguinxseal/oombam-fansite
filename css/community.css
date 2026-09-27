@@ -8246,3 +8246,28 @@ body.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy 
 html[data-theme="dark"] .message-card__delete,body.dark-theme .message-card__delete{background:rgba(18,20,22,.86);color:#e194a8}
 html[data-theme="dark"] .community-artist-letter__header,html[data-theme="dark"] .community-artist-letter__footer,body.dark-theme .community-artist-letter__header,body.dark-theme .community-artist-letter__footer{border-color:rgba(255,255,255,.1)}
 @media(max-width:640px){.community-artist-letter{padding:17px 16px}.community-artist-letter__message{padding:17px 0 19px;line-height:1.72}.community-artist-letter__footer{gap:12px}.community-my-letter__footer{align-items:flex-start}.message-card__admin-actions{right:10px;top:10px}}
+
+/* =========================================================
+   v20.10.0 — RICH FAN LETTERS
+========================================================= */
+.community-letter-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:2px 0 0;padding:7px;border:1px solid rgba(125,125,125,.2);border-bottom:0;border-radius:12px 12px 0 0;background:rgba(255,255,255,.38)}
+.community-letter-toolbar button{width:34px;height:32px;display:grid;place-items:center;border:1px solid rgba(125,125,125,.18);border-radius:8px;background:rgba(255,255,255,.62);color:inherit;font:600 .78rem/1 "DM Sans",sans-serif;cursor:pointer}
+.community-letter-toolbar button:hover,.community-letter-toolbar button:focus-visible{border-color:rgba(218,112,145,.5);background:rgba(232,153,176,.1);outline:none}
+.community-letter-toolbar__divider{width:1px;height:24px;margin:0 2px;background:rgba(125,125,125,.2)}
+.community-letter-editor{min-height:180px;max-height:360px;overflow:auto;padding:15px 16px;border:1px solid rgba(125,125,125,.25);border-radius:0 0 12px 12px;background:rgba(255,255,255,.48);color:inherit;font:400 .94rem/1.7 "DM Sans",sans-serif;outline:none;white-space:pre-wrap;overflow-wrap:anywhere}
+.community-letter-editor:focus{border-color:rgba(99,151,175,.55);box-shadow:0 0 0 3px rgba(99,151,175,.08)}
+.community-letter-editor:empty:before{content:attr(data-placeholder);color:currentColor;opacity:.52;pointer-events:none}
+.community-letter-emoji{margin-top:7px}
+.community-artist-letter{padding:24px 26px;gap:0}
+.community-artist-letter__header{gap:0;padding-bottom:15px}
+.community-artist-letter__top{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:18px;line-height:1.35}
+.community-artist-letter__top time{white-space:nowrap;text-align:right}
+.community-artist-letter__recipient{margin-top:13px}
+.community-artist-letter__message{padding:22px 0 24px;white-space:normal;line-height:1.78}
+.community-letter-rich__paragraph{margin:0 0 1.05em;line-height:1.78;overflow-wrap:anywhere}
+.community-letter-rich__paragraph:last-child{margin-bottom:0}
+.community-letter-rich__paragraph[style*="justify"]{text-justify:inter-word}
+.community-artist-letter__footer{padding-top:16px}
+html[data-theme="dark"] .community-letter-toolbar,body.dark-theme .community-letter-toolbar{background:rgba(255,255,255,.025);border-color:rgba(255,255,255,.11)}
+html[data-theme="dark"] .community-letter-toolbar button,body.dark-theme .community-letter-toolbar button,html[data-theme="dark"] .community-letter-editor,body.dark-theme .community-letter-editor{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.9)}
+@media(max-width:640px){.community-letter-editor{min-height:160px}.community-artist-letter{padding:18px 16px}.community-artist-letter__top{column-gap:10px}.community-letter-toolbar button{width:32px;height:31px}}
