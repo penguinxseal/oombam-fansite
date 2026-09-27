@@ -894,47 +894,79 @@
 
   const markRate = (key) => storage.set(key, Date.now());
 
+  const COMMUNITY_EMOJIS = [
+    "🌸","🌼","🌷","🌹","🌻","🌺","💐","🌿","✨","⭐","🎀","🎁","🎉","🎊",
+    "❤️","🩷","🧡","💛","💚","🩵","💙","💜","🤍","💕","💖","💗","💓","💞","💘","💝",
+    "🥰","😍","😊","🥹","😂","😭","🤭","🥳","😘","☺️","🫶","👏","🙌","👍","💪","🙏",
+    "🐧","🦭","🐰","🐱","🍀","🌈","☀️","🌙","🔥","💫"
+  ];
+
+  function insertEmojiAtCursor(textarea, emoji, maxLength) {
+    if (!textarea) return;
+    const start = Number.isInteger(textarea.selectionStart) ? textarea.selectionStart : textarea.value.length;
+    const end = Number.isInteger(textarea.selectionEnd) ? textarea.selectionEnd : start;
+    const next = `${textarea.value.slice(0, start)}${emoji}${textarea.value.slice(end)}`.slice(0, maxLength);
+    textarea.value = next;
+    const cursor = Math.min(start + emoji.length, next.length);
+    textarea.focus();
+    try { textarea.setSelectionRange(cursor, cursor); } catch (_) {}
+  }
+
+  function attachComposerEmojiPicker(form, textareaName, maxLength) {
+    const textarea = form?.elements?.[textareaName];
+    if (!textarea) return;
+    const wrap = document.createElement("div");
+    wrap.className = "community-composer-emoji";
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "community-composer-emoji__toggle";
+    toggle.textContent = "😊 Add emoji";
+    toggle.setAttribute("aria-expanded", "false");
+    const picker = document.createElement("div");
+    picker.className = "community-composer-emoji__picker";
+    picker.hidden = true;
+    COMMUNITY_EMOJIS.forEach((emoji) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = emoji;
+      button.setAttribute("aria-label", `Insert ${emoji}`);
+      button.addEventListener("click", () => insertEmojiAtCursor(textarea, emoji, maxLength));
+      picker.append(button);
+    });
+    toggle.addEventListener("click", () => {
+      picker.hidden = !picker.hidden;
+      toggle.setAttribute("aria-expanded", picker.hidden ? "false" : "true");
+    });
+    wrap.append(toggle, picker);
+    textarea.insertAdjacentElement("afterend", wrap);
+  }
+
+  async function invokeCommunityModeration(body) {
+    if (!hasSupabaseConfig) throw new Error("Community moderation service is not configured.");
+    const { data, error } = await db.functions.invoke("community-moderation", { body });
+    if (error) throw error;
+    if (!data?.success) throw new Error(data?.error || "Community action failed.");
+    return data;
+  }
+
   async function submitLetter(payload) {
     if (hasSupabaseConfig) {
-      const { error } = await db.from("community_letters").insert({
-        recipient: payload.recipient,
-        display_name: payload.displayName,
-        country_code: payload.countryCode || null,
-        message: payload.message
-      });
-      if (error) throw error;
-      return;
+      return invokeCommunityModeration({ action: "submit-letter", ...payload });
     }
-
     const preview = storage.get(KEYS.letters, []);
-    preview.unshift({
-      id: crypto.randomUUID?.() || `${Date.now()}`,
-      ...payload,
-      status: "pending",
-      created_at: new Date().toISOString()
-    });
+    preview.unshift({ id: crypto.randomUUID?.() || `${Date.now()}`, ...payload, status: "pending", created_at: new Date().toISOString() });
     storage.set(KEYS.letters, preview.slice(0, 50));
+    return { success: true, moderation: "pending" };
   }
 
   async function submitWallMessage(payload) {
     if (hasSupabaseConfig) {
-      const { error } = await db.from("blossom_messages").insert({
-        display_name: payload.displayName,
-        country_code: payload.countryCode || null,
-        message: payload.message
-      });
-      if (error) throw error;
-      return;
+      return invokeCommunityModeration({ action: "submit-wall", ...payload });
     }
-
     const preview = storage.get(KEYS.wall, []);
-    preview.unshift({
-      id: crypto.randomUUID?.() || `${Date.now()}`,
-      ...payload,
-      status: "pending",
-      created_at: new Date().toISOString()
-    });
+    preview.unshift({ id: crypto.randomUUID?.() || `${Date.now()}`, ...payload, status: "pending", created_at: new Date().toISOString() });
     storage.set(KEYS.wall, preview.slice(0, 50));
+    return { success: true, moderation: "pending" };
   }
 
   function renderLetterForm(recipient = "OomBam") {
@@ -946,7 +978,7 @@
     wrapper.innerHTML = `
       <p class="community-modal__eyebrow">FAN LETTER</p>
       <h2 class="community-modal__title" id="communityModalTitle">Write to ${recipient}</h2>
-      <p class="community-modal__intro">Your letter will be submitted for moderation before it can appear in the community.</p>
+      <p class="community-modal__intro">Your letter will be checked automatically for Community safety before delivery.</p>
       <form class="community-form" id="communityLetterForm">
         <div class="community-form__row">
           <label>Display name
@@ -1001,11 +1033,12 @@
         <p class="community-form__status" aria-live="polite"></p>
         <div class="community-form__actions">
           <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
-          <button class="community-form__primary" type="submit">Submit for Review 🌸</button>
+          <button class="community-form__primary" type="submit">Submit 🌸</button>
         </div>
       </form>`;
 
     const form = wrapper.querySelector("form");
+    attachComposerEmojiPicker(form, "message", 1500);
     const memberName = currentMember?.displayName || getProfile()?.displayName || "";
     if (memberName && form.elements.displayName) {
       form.elements.displayName.value = memberName;
@@ -1036,16 +1069,16 @@
       showFormStatus(form, "Submitting…");
 
       try {
-        await submitLetter(payload);
+        const result = await submitLetter(payload);
         markRate(KEYS.lastSubmit);
         form.reset();
-        showFormStatus(
-          form,
-          hasSupabaseConfig
-            ? "Submitted! 🌸 Your letter is now waiting for moderator review."
-            : "Saved in preview mode. Connect Supabase to send this to the shared moderation queue.",
-          "success"
-        );
+        const moderation = result?.moderation || "pending";
+        const message = moderation === "approved"
+          ? "Sent! 🌸 Your letter has been delivered."
+          : moderation === "rejected"
+            ? "This letter could not be submitted because it did not meet the Community Guidelines."
+            : "Submitted 🌸 Your letter needs a quick moderator review.";
+        showFormStatus(form, message, moderation === "rejected" ? "error" : "success");
       } catch (error) {
         console.error(error);
         showFormStatus(form, "We could not submit your letter right now. Please try again.", "error");
@@ -1066,7 +1099,7 @@
     wrapper.innerHTML = `
       <p class="community-modal__eyebrow">BLOSSOM WALL</p>
       <h2 class="community-modal__title" id="communityModalTitle">Leave a Message 🌸</h2>
-      <p class="community-modal__intro">${isCommunityArtist() ? "Your Artist message will be published directly to the Blossom Wall." : "Short community notes are reviewed before they appear on the Blossom Wall."}</p>
+      <p class="community-modal__intro">${isCommunityArtist() ? "Your Artist message will be published directly to the Blossom Wall." : "Messages are checked automatically for Community safety before they appear on the Blossom Wall."}</p>
       <form class="community-form" id="communityMessageForm">
         <div class="community-form__row">
           <label>Display name
@@ -1120,11 +1153,12 @@
         <p class="community-form__status" aria-live="polite"></p>
         <div class="community-form__actions">
           <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
-          <button class="community-form__primary" type="submit">${isCommunityArtist() ? "Publish to Wall 🌸" : "Submit for Review 🌸"}</button>
+          <button class="community-form__primary" type="submit">${isCommunityArtist() ? "Publish to Wall 🌸" : "Submit 🌸"}</button>
         </div>
       </form>`;
 
     const form = wrapper.querySelector("form");
+    attachComposerEmojiPicker(form, "message", 280);
     const memberName = currentMember?.displayName || getProfile()?.displayName || "";
     if (memberName && form.elements.displayName) {
       form.elements.displayName.value = memberName;
@@ -1154,16 +1188,17 @@
       showFormStatus(form, "Submitting…");
 
       try {
-        await submitWallMessage(payload);
+        const result = await submitWallMessage(payload);
         markRate(KEYS.lastSubmit);
         form.reset();
-        showFormStatus(
-          form,
-          hasSupabaseConfig
-            ? (isCommunityArtist() ? "Published! 🌸 Your Artist message is now on the Blossom Wall." : "Submitted! 🌸 Your message is waiting for moderator review.")
-            : "Saved in preview mode. Connect Supabase to send this to the shared moderation queue.",
-          "success"
-        );
+        const moderation = result?.moderation || (isCommunityArtist() ? "approved" : "pending");
+        const message = moderation === "approved"
+          ? (isCommunityArtist() ? "Published! 🌸 Your Artist message is now on the Blossom Wall." : "Published! 🌸 Your message is now on the Blossom Wall.")
+          : moderation === "rejected"
+            ? "This message could not be published because it did not meet the Community Guidelines."
+            : "Submitted 🌸 Your message needs a quick moderator review.";
+        showFormStatus(form, message, moderation === "rejected" ? "error" : "success");
+        if (moderation === "approved") await refreshWallPreview();
       } catch (error) {
         console.error(error);
         showFormStatus(form, "We could not submit your message right now. Please try again.", "error");
@@ -1393,6 +1428,25 @@
     message.textContent = safeMultiline(item.message, 280);
 
     content.append(meta, message);
+    if (isCommunityAdmin() && item.id) {
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "chat-message__delete";
+      del.textContent = "Delete";
+      del.setAttribute("aria-label", "Delete chat message");
+      del.addEventListener("click", async () => {
+        if (!window.confirm("Delete this chat message? This action cannot be undone.")) return;
+        del.disabled = true;
+        try {
+          await invokeCommunityModeration({ action: "admin-delete-chat", id: item.id });
+          row.remove();
+        } catch (error) {
+          del.disabled = false;
+          window.alert(safeText(error?.message || "Could not delete this chat message.", 180));
+        }
+      });
+      content.append(del);
+    }
     row.append(avatar, content);
     return row;
   }
@@ -1474,7 +1528,7 @@
     appendChatMessage(item);
   }
 
-  const CHAT_EMOJIS = ["🌸","💖","🥹","😂","😭","😍","🥰","✨","🐧","🦭","💛","🩷","💙","💚","🤍","🙌","👏","🫶","🔥","🎉","💕","💐","🌷","🌼"];
+  const CHAT_EMOJIS = COMMUNITY_EMOJIS;
 
   function insertChatEmoji(emoji) {
     if (!chatInput) return;
@@ -2164,12 +2218,7 @@
     if (!["approved", "rejected", "pending"].includes(nextStatus)) {
       throw new Error("Invalid moderation status.");
     }
-    const cfg = ADMIN_TABLES[kind];
-    const { error } = await db
-      .from(cfg.table)
-      .update({ status: nextStatus })
-      .eq("id", id);
-    if (error) throw error;
+    await invokeCommunityModeration({ action: "admin-status", kind, id, status: nextStatus });
     if (kind === "wall") await refreshWallPreview();
   }
 
@@ -2234,6 +2283,26 @@
       });
       actions.append(button);
     });
+
+    if (kind === "wall" && currentStatus === "approved") {
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "delete";
+      del.textContent = "Delete";
+      del.addEventListener("click", async () => {
+        if (!window.confirm("Delete this Blossom Wall post? This action cannot be undone.")) return;
+        del.disabled = true;
+        try {
+          await invokeCommunityModeration({ action: "admin-delete-wall", id: item.id });
+          await refreshWallPreview();
+          await reload();
+        } catch (error) {
+          del.disabled = false;
+          window.alert(safeText(error?.message || "Could not delete this post.", 180));
+        }
+      });
+      actions.append(del);
+    }
 
     article.append(top, message, actions);
     return article;
