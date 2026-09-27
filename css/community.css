@@ -8377,3 +8377,40 @@ html[data-theme="dark"] body.page-community .garden-artist-link__icon,body.dark-
     margin-top:0;
   }
 }
+
+/* =========================================================
+   v20.10.4 — Mobile mailbox persistent back navigation
+   Back control sits outside the independently scrolling letter pane.
+   ========================================================= */
+.community-mailbox__reading-stage{display:contents}
+@media(max-width:760px){
+  .community-mailbox__reading-stage{display:none;height:100%;min-height:0;grid-template-rows:auto minmax(0,1fr)}
+  .community-mailbox__shell.is-reading .community-mailbox__reading-stage{display:grid}
+  .community-mailbox__shell.is-reading .community-mailbox__list{display:none}
+  .community-mailbox__back{
+    display:inline-flex;
+    position:static;
+    align-items:center;
+    justify-self:start;
+    margin:0 14px 8px;
+    padding:8px 4px;
+    border:0;
+    border-radius:0;
+    background:transparent!important;
+    box-shadow:none;
+    font-size:.82rem;
+    line-height:1.2;
+    opacity:.76;
+  }
+  .community-mailbox__reader{
+    display:none;
+    position:static;
+    height:auto;
+    min-height:0;
+    overflow:auto;
+    padding:0 14px 18px;
+    background:transparent;
+    overscroll-behavior:contain;
+  }
+  .community-mailbox__reader.is-open{display:block}
+}
