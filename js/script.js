@@ -1543,6 +1543,24 @@
           }
         }
       ]
+    },
+    {
+      key: "september",
+      eyebrow: "SEPTEMBER 2026",
+      title: "September Spotlight",
+      intro: "September brought another run of shared appearances for OomBam, spanning awards, fashion and beauty events, a world premiere, and a charity concert.",
+      note: "New stages. Shared moments ♡",
+      image: "assets/images/2026/September/OB_September_2026.jpg",
+      alt: "OomBam during September 2026 activities",
+      creditText: "OomBam · September 2026",
+      creditHref: "",
+      events: [
+        { date: "Sep", title: "Y Entertainment Awards 2026", summary: "Y Entertainment Awards 2026." },
+        { date: "Sep", title: "MChoice & Mint Awards 2026", summary: "MChoice & Mint Awards 2026." },
+        { date: "Sep", title: "The Touch Preventive Blueprint", summary: "The Touch Preventive Blueprint." },
+        { date: "Sep", title: "Gala World Premiere", summary: "Gala World Premiere." },
+        { date: "Sep", title: "Nineentertain 24th Anniversary Charity Concert", summary: "Nineentertain 24th Anniversary Charity Concert." }
+      ]
     }
   ];
 
@@ -1816,12 +1834,14 @@
     gallerySwipeSurface.style.touchAction = "pan-y";
 
     gallerySwipeSurface.addEventListener("pointerdown", (event) => {
+      if (event.target.closest("a")) return;
       if (!activeGalleryPhotos.length || event.pointerType === "mouse") return;
       galleryPointerStartX = event.clientX;
       galleryPointerStartY = event.clientY;
     });
 
     gallerySwipeSurface.addEventListener("pointerup", (event) => {
+      if (event.target.closest("a")) { galleryPointerStartX = null; galleryPointerStartY = null; return; }
       if (galleryPointerStartX == null || galleryPointerStartY == null) return;
       const dx = event.clientX - galleryPointerStartX;
       const dy = event.clientY - galleryPointerStartY;
@@ -1836,12 +1856,14 @@
     });
 
     gallerySwipeSurface.addEventListener("touchstart", (event) => {
+      if (event.target.closest("a")) return;
       if (!activeGalleryPhotos.length || event.touches.length !== 1) return;
       galleryTouchStartX = event.touches[0].clientX;
       galleryTouchStartY = event.touches[0].clientY;
     }, { passive: true });
 
     gallerySwipeSurface.addEventListener("touchend", (event) => {
+      if (event.target.closest("a")) { galleryTouchStartX = null; galleryTouchStartY = null; return; }
       if (galleryTouchStartX == null || galleryTouchStartY == null || !event.changedTouches.length) return;
       const touch = event.changedTouches[0];
       const dx = touch.clientX - galleryTouchStartX;
@@ -1851,6 +1873,14 @@
       advanceFromSwipe(dx, dy);
     }, { passive: true });
   }
+
+
+  // v20.11.4 — Keep social credit links independent from gallery swipe/click handling.
+  galleryCredit?.addEventListener("click", (event) => {
+    const link = event.target.closest("a");
+    if (!link) return;
+    event.stopPropagation();
+  });
 
   const updateNavButtons = (month) => {
     if (!prevButton || !nextButton) return;
