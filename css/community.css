@@ -8271,3 +8271,28 @@ html[data-theme="dark"] .community-artist-letter__header,html[data-theme="dark"]
 html[data-theme="dark"] .community-letter-toolbar,body.dark-theme .community-letter-toolbar{background:rgba(255,255,255,.025);border-color:rgba(255,255,255,.11)}
 html[data-theme="dark"] .community-letter-toolbar button,body.dark-theme .community-letter-toolbar button,html[data-theme="dark"] .community-letter-editor,body.dark-theme .community-letter-editor{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.9)}
 @media(max-width:640px){.community-letter-editor{min-height:160px}.community-artist-letter{padding:18px 16px}.community-artist-letter__top{column-gap:10px}.community-letter-toolbar button{width:32px;height:31px}}
+
+/* =========================================================
+   v20.10.1 — Artist mailbox + My Letters polish
+   ========================================================= */
+.community-mailbox{gap:.75rem}
+.community-mailbox__heading{padding:0 2px 4px}
+.community-mailbox__shell{display:grid;grid-template-columns:minmax(210px,30%) minmax(0,1fr);min-height:430px;max-height:min(66vh,690px);border:1px solid rgba(125,125,125,.16);border-radius:22px;overflow:hidden;background:rgba(255,255,255,.28)}
+.community-mailbox__list{overflow:auto;padding:10px;border-right:1px solid rgba(125,125,125,.15);display:flex;flex-direction:column;gap:7px;scrollbar-gutter:stable}
+.community-mailbox__preview{width:100%;text-align:left;border:1px solid transparent;border-radius:15px;padding:13px 14px;background:transparent;color:inherit;display:grid;gap:5px;cursor:pointer;font:inherit;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+.community-mailbox__preview:hover{background:rgba(232,153,176,.08);transform:translateY(-1px)}
+.community-mailbox__preview.is-active{background:rgba(232,153,176,.12);border-color:rgba(204,104,133,.24)}
+.community-mailbox__preview strong{font-size:.91rem}.community-mailbox__preview span{font-size:.7rem;opacity:.62}.community-mailbox__preview em{font-size:.79rem;line-height:1.45;font-style:normal;opacity:.78}.community-mailbox__preview small{font-size:.7rem;color:#a24f68;font-weight:700}
+.community-mailbox__reader{overflow:auto;padding:26px 30px;scrollbar-gutter:stable;background:rgba(255,255,255,.2)}
+.community-mailbox__back{display:none;border:0;background:transparent;color:inherit;font:inherit;font-size:.8rem;padding:0 0 14px;cursor:pointer;opacity:.72}
+.community-letter-reading{max-width:760px;margin:0 auto;display:grid;gap:0}
+.community-letter-reading__header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:start;padding-bottom:18px;border-bottom:1px solid rgba(125,125,125,.16)}
+.community-letter-reading__header time{font-size:.76rem;white-space:nowrap;opacity:.65}.community-letter-reading__to{margin:0;font-family:"DM Sans",sans-serif;font-weight:700;font-size:1rem}.community-letter-status{display:inline-block;margin-top:7px;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;opacity:.62}
+.community-letter-reading__message{padding:28px 2px 30px;font-size:1rem;line-height:1.82;overflow-wrap:anywhere}
+.community-letter-reading__message p,.community-letter-reading__message div{margin-top:0;margin-bottom:1.05em}.community-letter-reading__message p:last-child,.community-letter-reading__message div:last-child{margin-bottom:0}
+.community-letter-reading__footer{padding-top:18px;border-top:1px solid rgba(125,125,125,.16);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:.82rem}.community-letter-reading__love-note{margin:10px 0 0;text-align:right;font-size:.72rem;opacity:.65}
+html[data-theme="dark"] .community-mailbox__shell,body.dark-theme .community-mailbox__shell{background:rgba(255,255,255,.025);border-color:rgba(255,255,255,.11)}
+html[data-theme="dark"] .community-mailbox__list,body.dark-theme .community-mailbox__list{border-color:rgba(255,255,255,.09)}
+html[data-theme="dark"] .community-mailbox__reader,body.dark-theme .community-mailbox__reader{background:rgba(255,255,255,.018)}
+html[data-theme="dark"] .community-letter-reading__header,html[data-theme="dark"] .community-letter-reading__footer,body.dark-theme .community-letter-reading__header,body.dark-theme .community-letter-reading__footer{border-color:rgba(255,255,255,.1)}
+@media(max-width:760px){.community-mailbox__shell{display:block;min-height:390px;max-height:min(68vh,650px);position:relative}.community-mailbox__list{border-right:0;padding:9px;height:100%;max-height:min(68vh,650px)}.community-mailbox__reader{display:none;padding:20px 17px;min-height:390px}.community-mailbox__reader.is-open{display:block}.community-mailbox__reader.is-open~*{display:none}.community-mailbox__reader.is-open{position:absolute;inset:0;background:var(--community-surface,#fff);z-index:2}.community-mailbox__back{display:block}.community-letter-reading__header{grid-template-columns:1fr;gap:8px}.community-letter-reading__header time{grid-row:2}.community-letter-reading__message{padding:22px 0 24px;line-height:1.76}.community-letter-reading__footer{align-items:flex-start}.community-letter-reading__love-note{text-align:left}}
