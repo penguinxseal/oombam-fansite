@@ -8222,3 +8222,27 @@ body.page-community .community-hero > .hero-overlay.hero-text-only .garden-copy 
 .chat-message__delete{margin-top:5px;padding:4px 8px;font-size:.58rem;opacity:.72}
 .chat-message:hover .chat-message__delete,.chat-message__delete:focus-visible{opacity:1}
 @media (max-width:640px){.community-composer-emoji__picker{grid-template-columns:repeat(7,minmax(28px,1fr));}.chat-message__delete{opacity:.9}}
+
+
+/* =========================================================
+   v20.9.1 — Artist letter polish + admin cleanup controls
+   ========================================================= */
+.community-artist-inbox{gap:18px}
+.community-artist-letter{padding:22px 24px;gap:0;border-radius:20px}
+.community-artist-letter__header{display:grid;gap:12px;padding-bottom:17px;border-bottom:1px solid rgba(125,125,125,.14)}
+.community-artist-letter__top{font-size:.7rem;letter-spacing:.11em}
+.community-artist-letter__recipient{margin:0;font-family:"DM Sans",sans-serif;font-size:.9rem;font-weight:650;letter-spacing:.01em;opacity:.84}
+.community-artist-letter__message{margin:0;padding:20px 0 22px;white-space:pre-wrap;line-height:1.78;font-size:1rem;overflow-wrap:anywhere}
+.community-artist-letter__footer{padding-top:16px;border-top:1px solid rgba(125,125,125,.14);font-size:.82rem}
+.community-artist-letter__sender{font-weight:650}
+.community-artist-love{flex:0 0 auto}
+.community-my-letter__footer{align-items:center}
+.community-my-letter__status{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.community-letter-delete,.message-card__delete{border:1px solid rgba(210,95,125,.34);background:rgba(224,116,145,.08);color:#b85f78;border-radius:999px;padding:7px 11px;cursor:pointer;font:600 .72rem/1 "DM Sans",sans-serif}
+.community-letter-delete:hover,.message-card__delete:hover{background:rgba(224,116,145,.15)}
+.message-card{position:relative}
+.message-card__admin-actions{position:absolute;right:14px;top:12px;z-index:3}
+.message-card__delete{padding:6px 10px;font-size:.66rem;background:rgba(255,255,255,.82);backdrop-filter:blur(7px)}
+html[data-theme="dark"] .message-card__delete,body.dark-theme .message-card__delete{background:rgba(18,20,22,.86);color:#e194a8}
+html[data-theme="dark"] .community-artist-letter__header,html[data-theme="dark"] .community-artist-letter__footer,body.dark-theme .community-artist-letter__header,body.dark-theme .community-artist-letter__footer{border-color:rgba(255,255,255,.1)}
+@media(max-width:640px){.community-artist-letter{padding:17px 16px}.community-artist-letter__message{padding:17px 0 19px;line-height:1.72}.community-artist-letter__footer{gap:12px}.community-my-letter__footer{align-items:flex-start}.message-card__admin-actions{right:10px;top:10px}}
