@@ -8344,3 +8344,36 @@ html[data-theme="dark"] body.page-community .garden-artist-link__icon,body.dark-
   body.page-community .garden-actions{display:grid;grid-template-columns:1fr;gap:10px;width:min(100%,320px);margin-inline:auto}
   body.page-community .garden-artist-link,body.page-community .garden-link,body.page-community .garden-gc-link{width:100%;box-sizing:border-box}
 }
+
+/* =========================================================
+   v20.10.3 — Mobile mailbox navigation placement fix
+   Back navigation belongs to the reader chrome, never the letter card.
+   ========================================================= */
+@media(max-width:760px){
+  .community-mailbox__reader{
+    padding:14px 14px 18px;
+    scroll-padding-top:0;
+  }
+  .community-mailbox__back{
+    position:static;
+    top:auto;
+    z-index:auto;
+    display:inline-flex;
+    align-items:center;
+    width:auto;
+    margin:0 0 14px 0;
+    padding:7px 10px;
+    border-radius:999px;
+    box-shadow:none;
+    background:transparent;
+    line-height:1.2;
+  }
+  html[data-theme="dark"] .community-mailbox__back,
+  body.dark-theme .community-mailbox__back{
+    background:transparent;
+  }
+  .community-letter-reading{
+    clear:both;
+    margin-top:0;
+  }
+}
