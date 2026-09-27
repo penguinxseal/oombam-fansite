@@ -218,8 +218,16 @@
   const mobileAdmin = document.getElementById("communityMobileAdmin");
   const headerAuth = document.getElementById("communityHeaderAuth");
   const mobileAuth = document.getElementById("communityMobileAuth");
+  const artistInboxButton = document.getElementById("communityArtistInbox");
 
   let communityAdminAccess = false;
+
+  const isCommunityArtist = () => {
+    if (!currentMember || currentMember.role !== "artist" || currentMember.artistAccessStatus !== "active") return false;
+    if (!currentMember.artistAccessExpiresAt) return true;
+    const expires = new Date(currentMember.artistAccessExpiresAt).getTime();
+    return Number.isFinite(expires) && expires > Date.now();
+  };
 
   const isCommunityAdmin = () => communityAdminAccess === true;
 
@@ -244,6 +252,7 @@
   const updateHeaderAuthControls = () => {
     const signedIn = Boolean(currentSession?.user?.id);
     const admin = signedIn && isCommunityAdmin();
+    const artist = signedIn && isCommunityArtist();
 
     [headerAuth, mobileAuth].forEach((el) => {
       if (el) el.hidden = false;
@@ -269,9 +278,14 @@
 
     [headerAdmin, mobileAdmin].forEach((button) => {
       if (!button) return;
-      button.hidden = !admin;
+      button.hidden = !admin || artist;
       button.disabled = !authReady || authInitFailed;
     });
+
+    if (artistInboxButton) {
+      artistInboxButton.hidden = !artist;
+      artistInboxButton.disabled = !authReady || authInitFailed;
+    }
   };
 
   const ensureMemberProfile = async (user) => {
@@ -282,7 +296,7 @@
 
     const { data: existing, error: readError } = await db
       .from("community_profiles")
-      .select("user_id, display_name, avatar, country_code, role")
+      .select("user_id, display_name, avatar, country_code, role, artist_identity, artist_access_status, artist_access_expires_at")
       .eq("user_id", user.id)
       .maybeSingle();
 
@@ -296,7 +310,7 @@
           display_name: fallbackName,
           avatar: fallback.avatar || "🌸"
         })
-        .select("user_id, display_name, avatar, country_code, role")
+        .select("user_id, display_name, avatar, country_code, role, artist_identity, artist_access_status, artist_access_expires_at")
         .single();
       if (insertError) throw insertError;
       currentMember = {
@@ -305,7 +319,10 @@
         displayName: created.display_name,
         avatar: created.avatar || "🌸",
         countryCode: created.country_code || "",
-        role: created.role || "member"
+        role: created.role || "member",
+        artistIdentity: created.artist_identity || "",
+        artistAccessStatus: created.artist_access_status || null,
+        artistAccessExpiresAt: created.artist_access_expires_at || null
       };
     } else {
       currentMember = {
@@ -314,14 +331,18 @@
         displayName: existing.display_name,
         avatar: existing.avatar || "🌸",
         countryCode: existing.country_code || "",
-        role: existing.role || "member"
+        role: existing.role || "member",
+        artistIdentity: existing.artist_identity || "",
+        artistAccessStatus: existing.artist_access_status || null,
+        artistAccessExpiresAt: existing.artist_access_expires_at || null
       };
     }
 
     storage.set(KEYS.profile, {
       displayName: currentMember.displayName,
       avatar: currentMember.avatar,
-      role: currentMember.role || "member"
+      role: currentMember.role || "member",
+      artistIdentity: currentMember.artistIdentity || ""
     });
     setKnownAccount(true);
     return currentMember;
@@ -334,7 +355,9 @@
 
   const updateAuthUI = () => {
     if (currentSession?.user && currentMember?.displayName) {
-      if (authSummary) authSummary.textContent = `Welcome back, ${currentMember.displayName} 🌸 You're signed in and ready to join the community.`;
+      if (authSummary) authSummary.textContent = isCommunityArtist()
+        ? `Welcome, ${currentMember.displayName}. Your Artist Community access is active.`
+        : `Welcome back, ${currentMember.displayName} 🌸 You're signed in and ready to join the community.`;
       if (authButton) {
         authButton.textContent = "Account";
         authButton.classList.add("is-signed-in");
@@ -379,6 +402,8 @@
         <span class="community-account-role-label" hidden>Role</span><strong class="community-account-role" hidden></strong>
       </div>
       <div class="community-form__actions">
+        <button class="community-form__primary community-artist-inbox-account" type="button" hidden>Artist Inbox 💌</button>
+        <button class="community-form__secondary community-my-letters" type="button">My Letters</button>
         <button class="community-form__secondary" type="button" data-community-close>Close</button>
         <button class="community-form__primary community-signout" type="button">Sign Out</button>
       </div>`;
@@ -386,14 +411,25 @@
     wrapper.querySelector("#communityModalTitle").textContent = `Welcome back, ${currentMember.displayName} 🌸`;
     wrapper.querySelector(".community-account-email").textContent = currentMember.email;
     wrapper.querySelector(".community-account-name").textContent = currentMember.displayName;
-    if (isCommunityAdmin()) {
+    if (isCommunityAdmin() || isCommunityArtist()) {
       const roleLabel = wrapper.querySelector(".community-account-role-label");
       const roleValue = wrapper.querySelector(".community-account-role");
       if (roleLabel && roleValue) {
         roleLabel.hidden = false;
         roleValue.hidden = false;
-        roleValue.textContent = "Community Admin";
+        roleValue.textContent = isCommunityAdmin() ? "Community Admin" : "ARTIST";
       }
+    }
+
+    const accountArtistInbox = wrapper.querySelector(".community-artist-inbox-account");
+    if (accountArtistInbox) {
+      accountArtistInbox.hidden = !isCommunityArtist();
+      accountArtistInbox.addEventListener("click", renderArtistInbox);
+    }
+    const myLettersButton = wrapper.querySelector(".community-my-letters");
+    if (myLettersButton) {
+      myLettersButton.hidden = isCommunityArtist();
+      myLettersButton.addEventListener("click", renderMyLetters);
     }
 
     wrapper.querySelector(".community-signout")?.addEventListener("click", async () => {
@@ -1030,7 +1066,7 @@
     wrapper.innerHTML = `
       <p class="community-modal__eyebrow">BLOSSOM WALL</p>
       <h2 class="community-modal__title" id="communityModalTitle">Leave a Message 🌸</h2>
-      <p class="community-modal__intro">Short community notes are reviewed before they appear on the Blossom Wall.</p>
+      <p class="community-modal__intro">${isCommunityArtist() ? "Your Artist message will be published directly to the Blossom Wall." : "Short community notes are reviewed before they appear on the Blossom Wall."}</p>
       <form class="community-form" id="communityMessageForm">
         <div class="community-form__row">
           <label>Display name
@@ -1084,7 +1120,7 @@
         <p class="community-form__status" aria-live="polite"></p>
         <div class="community-form__actions">
           <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
-          <button class="community-form__primary" type="submit">Submit for Review 🌸</button>
+          <button class="community-form__primary" type="submit">${isCommunityArtist() ? "Publish to Wall 🌸" : "Submit for Review 🌸"}</button>
         </div>
       </form>`;
 
@@ -1124,7 +1160,7 @@
         showFormStatus(
           form,
           hasSupabaseConfig
-            ? "Submitted! 🌸 Your message is waiting for moderator review."
+            ? (isCommunityArtist() ? "Published! 🌸 Your Artist message is now on the Blossom Wall." : "Submitted! 🌸 Your message is waiting for moderator review.")
             : "Saved in preview mode. Connect Supabase to send this to the shared moderation queue.",
           "success"
         );
@@ -1496,7 +1532,9 @@
       return;
     }
 
-    const profile = getProfile();
+    const profile = isCommunityArtist()
+      ? { displayName: currentMember.displayName, avatar: currentMember.avatar || (currentMember.artistIdentity === "oom" ? "🌼" : "🌸") }
+      : getProfile();
     if (!profile?.displayName) {
       renderProfileForm(() => handleChatSubmit(new Event("submit")));
       return;
@@ -1544,7 +1582,7 @@
       requireParticipationAuth(() => chatInput?.focus());
       return;
     }
-    if (!getProfile()?.displayName) {
+    if (!isCommunityArtist() && !getProfile()?.displayName) {
       chatInput.blur();
       renderProfileForm();
     }
@@ -1976,6 +2014,105 @@
   });
 
 
+  /* ======================================================
+     ARTIST COMMUNITY — private inbox + Seen with Love
+  ====================================================== */
+  const artistRecipientLabel = () => currentMember?.artistIdentity === "oom" ? "Oom" : "Bam";
+
+  const artistDate = (value) => {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? "" : new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(date);
+  };
+
+  async function renderArtistInbox() {
+    if (!isCommunityArtist() || !db) return;
+    const artistName = artistRecipientLabel();
+    const wrapper = document.createElement("div");
+    wrapper.className = "community-artist-panel";
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">PRIVATE ARTIST COMMUNITY</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Letters for ${artistName} 💌</h2>
+      <p class="community-modal__intro">Approved letters addressed to you, plus letters shared with OomBam. Seen with Love is private between the Artist and the letter sender.</p>
+      <div class="community-artist-inbox" id="communityArtistInboxList"><p class="community-artist-empty">Loading your letters…</p></div>`;
+    openModal(wrapper, { wide: true });
+    const list = wrapper.querySelector("#communityArtistInboxList");
+    try {
+      const { data: letters, error } = await db.from("community_letters")
+        .select("id, recipient, display_name, country_code, message, created_at")
+        .eq("status", "approved")
+        .in("recipient", [artistName, "OomBam"])
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      if (!letters?.length) {
+        list.innerHTML = `<p class="community-artist-empty">No approved letters are waiting here yet. 🌸</p>`;
+        return;
+      }
+      const ids = letters.map(x => x.id);
+      const { data: reactions, error: reactionError } = await db.from("letter_artist_reactions")
+        .select("letter_id, reaction, created_at")
+        .in("letter_id", ids);
+      if (reactionError) throw reactionError;
+      const seen = new Set((reactions || []).map(x => x.letter_id));
+      list.replaceChildren(...letters.map(letter => {
+        const card = document.createElement("article");
+        card.className = "community-artist-letter";
+        const flag = flagFromCountry(letter.country_code);
+        card.innerHTML = `
+          <div class="community-artist-letter__top"><span>TO ${safeText(letter.recipient, 12).toUpperCase()}</span><time>${artistDate(letter.created_at)}</time></div>
+          <p class="community-artist-letter__message"></p>
+          <div class="community-artist-letter__footer"><span>— ${safeText(letter.display_name || "Blossom", 40)} ${flag}</span><button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button></div>`;
+        card.querySelector(".community-artist-letter__message").textContent = safeMultiline(letter.message, 5000);
+        const love = card.querySelector(".community-artist-love");
+        love.addEventListener("click", async () => {
+          love.disabled = true;
+          love.textContent = "Sending love…";
+          const { error: loveError } = await db.from("letter_artist_reactions").insert({ letter_id: letter.id, artist_user_id: currentSession.user.id, reaction: "seen_with_love" });
+          if (loveError) { love.disabled = false; love.textContent = "♡ Seen with Love"; console.error("Artist reaction failed:", loveError); return; }
+          love.textContent = "♥ Seen with Love";
+          card.classList.add("is-loved");
+        });
+        if (seen.has(letter.id)) card.classList.add("is-loved");
+        return card;
+      }));
+    } catch (error) {
+      console.error("Artist inbox failed:", error);
+      list.innerHTML = `<p class="community-admin-error">Your Artist Inbox could not be loaded right now. Please try again.</p>`;
+    }
+  }
+
+  async function renderMyLetters() {
+    if (!currentSession?.user || !db) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "community-artist-panel";
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">MY LETTERS</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Letters you’ve sent 💌</h2>
+      <p class="community-modal__intro">Your submitted letters and any private Seen with Love acknowledgement from Oom or Bam.</p>
+      <div class="community-artist-inbox" id="communityMyLettersList"><p class="community-artist-empty">Loading your letters…</p></div>`;
+    openModal(wrapper, { wide: true });
+    const list = wrapper.querySelector("#communityMyLettersList");
+    try {
+      const { data: letters, error } = await db.from("community_letters")
+        .select("id, recipient, message, status, created_at")
+        .eq("user_id", currentSession.user.id)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      if (!letters?.length) { list.innerHTML = `<p class="community-artist-empty">You haven’t sent a letter yet. 🌸</p>`; return; }
+      const ids = letters.map(x => x.id);
+      const { data: reactions } = await db.from("letter_artist_reactions").select("letter_id, artist_user_id, reaction, created_at").in("letter_id", ids);
+      const reactionMap = new Map();
+      (reactions || []).forEach(r => { const arr = reactionMap.get(r.letter_id) || []; arr.push(r); reactionMap.set(r.letter_id, arr); });
+      list.replaceChildren(...letters.map(letter => {
+        const card = document.createElement("article"); card.className = "community-artist-letter community-my-letter";
+        const loves = reactionMap.get(letter.id) || [];
+        const loveText = loves.length ? (letter.recipient === "OomBam" && loves.length > 1 ? "♥ Seen with Love by both Artists" : "♥ Seen with Love") : "";
+        card.innerHTML = `<div class="community-artist-letter__top"><span>TO ${safeText(letter.recipient,12).toUpperCase()}</span><time>${artistDate(letter.created_at)}</time></div><p class="community-artist-letter__message"></p><div class="community-artist-letter__footer"><span class="community-letter-status">${safeText(letter.status || "pending", 12)}</span>${loveText ? `<strong class="community-letter-love">${loveText}</strong>` : ""}</div>`;
+        card.querySelector(".community-artist-letter__message").textContent = safeMultiline(letter.message, 5000);
+        return card;
+      }));
+    } catch (error) { console.error("My Letters failed:", error); list.innerHTML = `<p class="community-admin-error">Your letters could not be loaded right now.</p>`; }
+  }
+
   /* -----------------------------------------------------
      ADMIN MODERATION — visible only to Supabase admin role
      RLS remains the source of truth for authorization.
@@ -2200,6 +2337,7 @@
     mobileSignup?.addEventListener("click", () => renderAuthGate("signup"));
     mobileSignin?.addEventListener("click", () => renderAuthGate("signin"));
     headerAdmin?.addEventListener("click", renderAdminModeration);
+    artistInboxButton?.addEventListener("click", renderArtistInbox);
     mobileAdmin?.addEventListener("click", renderAdminModeration);
     headerSignout?.addEventListener("click", () => signOutBlossom(headerSignout));
     mobileSignout?.addEventListener("click", () => signOutBlossom(mobileSignout));
@@ -2336,6 +2474,18 @@
       setChatState("connecting", currentSession?.user
         ? "Connecting to the live Blossom community…"
         : "Sign in to join live Blossom Chat.");
+
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("artist") === "1" && isCommunityArtist()) {
+          setTimeout(renderArtistInbox, 80);
+          params.delete("artist");
+          const next = `${window.location.pathname}${params.toString() ? `?${params}` : ""}${window.location.hash}`;
+          window.history.replaceState({}, "", next);
+        } else if (params.get("account") === "1" && currentSession?.user) {
+          setTimeout(renderAuthAccount, 80);
+        }
+      } catch (_) {}
 
       await Promise.allSettled([
         withTimeout(refreshWallPreview(), 7000, "Blossom Wall load timed out"),
