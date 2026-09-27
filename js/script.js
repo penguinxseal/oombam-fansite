@@ -1217,7 +1217,8 @@
           image: "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM.jpg",
           imageAlt: "Oom and Bam at their first fan meeting in Taipei in May 2026",
           creditText: "Photo: @OomBam_CH3",
-          creditHref: "https://x.com/OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3?s=20",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" }],
           detail: {
             eyebrow: "06 MAY 2026",
             title: "OomBam 1st Fan Meeting in Taipei",
@@ -1245,7 +1246,8 @@
           image: "assets/images/2026/May/PoemCherry/Oom_Poem_Cherry.jpg",
           imageAlt: "Oom and Bam at the POEM x Cherry Khemupsorn TRÈS CHÉRIE event",
           creditText: "Photo: @OomBam_CH3",
-          creditHref: "https://x.com/OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3?s=20",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" }],
           detail: {
             eyebrow: "14 MAY 2026",
             title: "TRÈS CHÉRIE — POEM x Cherry Khemupsorn",
@@ -1285,7 +1287,8 @@
           image: "assets/images/2026/June/fullfill_PRT/OB_fullfill_PRT.jpg",
           imageAlt: "Oom and Bam during the Fulfill press tour in June 2026",
           creditText: "Photo: @OomBam_CH3",
-          creditHref: "https://x.com/OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3?s=20",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" }],
           detail: {
             eyebrow: "05 JUNE 2026",
             title: "Fulfill Press Tour",
@@ -1309,7 +1312,8 @@
           image: "assets/images/2026/June/Thai_Content/OB_Thai_Content.jpg",
           imageAlt: "Oom and Bam in Channel 3 Thailand content with the Fulfill cast",
           creditText: "Photo: @OomBam_CH3",
-          creditHref: "https://x.com/OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3?s=20",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" }],
           detail: {
             eyebrow: "09 JUNE 2026",
             title: "CH3 Thailand Content",
@@ -1390,8 +1394,9 @@
           summary: "A relaxed conversation gave viewers a closer look at OomBam’s natural exchanges beyond Fulfill.",
           image: "assets/images/2026/June/Armchair/OB_armchair.jpg",
           imageAlt: "Oom and Bam during the ARMCHAIR feature in June 2026",
-          creditText: "Photo: @oombam_ch3",
-          creditHref: "https://www.instagram.com/oombam_ch3/",
+          creditText: "Photo: @OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3?s=20",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" }],
           detail: {
             eyebrow: "16 JUNE 2026",
             title: "OomBam on ARMCHAIR",
@@ -1511,10 +1516,10 @@
           image: "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai.jpg",
           imageAlt: "Oom and Bam at their first fansign in Shanghai in August 2026",
           creditText: "Photos: @OomBam_CH3 / @HyyNov_ · fan photos used with permission",
-          creditHref: "https://x.com/OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3?s=20",
           creditLinks: [
-            { label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" },
-            { label: "@HyyNov_", href: "https://x.com/HyyNov_" }
+            { label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" },
+            { label: "@HyyNov_", href: "https://x.com/HyyNov_?s=20" }
           ],
           creditSuffix: " · fan photos used with permission",
           detail: {
@@ -1542,6 +1547,33 @@
   ];
 
   const monthMap = new Map(MOMENTS_MONTHS.map((month, index) => [month.key, { ...month, index }]));
+
+
+  // v20.11.3 — Moments month rail: keep five cards visible on tablet/desktop.
+  const momentsRail = document.querySelector(".moments-magazine-strip");
+  const momentsPrev = document.querySelector(".moments-carousel-nav--prev");
+  const momentsNext = document.querySelector(".moments-carousel-nav--next");
+  let momentsRailIndex = 0;
+
+  const updateMomentsRail = () => {
+    if (!momentsRail) return;
+    const desktopRail = window.matchMedia("(min-width: 761px)").matches;
+    if (!desktopRail) {
+      momentsRailIndex = 0;
+      momentsRail.classList.remove("is-shifted");
+      if (momentsPrev) momentsPrev.disabled = true;
+      if (momentsNext) momentsNext.disabled = true;
+      return;
+    }
+    momentsRail.classList.toggle("is-shifted", momentsRailIndex === 1);
+    if (momentsPrev) momentsPrev.disabled = momentsRailIndex === 0;
+    if (momentsNext) momentsNext.disabled = momentsRailIndex === 1;
+  };
+
+  momentsPrev?.addEventListener("click", () => { momentsRailIndex = 0; updateMomentsRail(); });
+  momentsNext?.addEventListener("click", () => { momentsRailIndex = 1; updateMomentsRail(); });
+  window.addEventListener("resize", updateMomentsRail, { passive: true });
+  updateMomentsRail();
 
   const modal = document.getElementById("momentsModal");
   const modalEyebrow = document.getElementById("momentsModalEyebrow");
