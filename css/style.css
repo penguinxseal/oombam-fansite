@@ -16272,3 +16272,38 @@ body.dark-theme .sakura-clip-card__caption{color:#bac2c8}
 @media (orientation:landscape) and (max-height:650px) {
   .page-home .media-soundtrack-tile { grid-template-rows:minmax(0,82%) minmax(52px,18%) !important; }
 }
+
+
+/* =========================================================
+   HOMEPAGE 20.11 — MEDIA BORDER + CREDIT POLISH
+   Uniform thumbnail framing; preserve full long photobook credits.
+========================================================= */
+.page-home .media-mag-trigger,
+.page-home .media-soundtrack-tile {
+  border:1px solid rgba(255,255,255,.82) !important;
+  box-sizing:border-box;
+}
+.page-home .media-soundtrack-tile {
+  border-radius:8px !important;
+  overflow:hidden !important;
+}
+.page-home #media-fulfill,
+.page-home #media-sakura {
+  grid-template-rows:minmax(0,1fr) auto !important;
+}
+.page-home #media-fulfill .media-mag-credit,
+.page-home #media-sakura .media-mag-credit {
+  min-height:24px !important;
+  padding:0 3px;
+  white-space:normal !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+  line-height:1.28 !important;
+  overflow-wrap:anywhere;
+}
+@media (max-width:760px){
+  .page-home #media-fulfill .media-mag-credit,
+  .page-home #media-sakura .media-mag-credit {
+    font-size:.43rem !important;
+  }
+}
