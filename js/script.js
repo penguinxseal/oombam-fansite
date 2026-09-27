@@ -1210,9 +1210,28 @@
       creditHref: "https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
       events: [
         {
-          date: "03 May",
+          date: "06 May",
           title: "OomBam 1st Fan Meeting in Taipei",
-          summary: "A standout month-defining milestone and an early international fan meeting for the pair."
+          summary: "OomBam’s first Taipei fan meeting brought the duo together with fans during Fulfill’s broadcast run.",
+        // v20.11.1 verified repository paths from GitHub screenshots
+          image: "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM.jpg",
+          imageAlt: "Oom and Bam at their first fan meeting in Taipei in May 2026",
+          creditText: "Photo: @OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3",
+          detail: {
+            eyebrow: "06 MAY 2026",
+            title: "OomBam 1st Fan Meeting in Taipei",
+            narrativeParts: [
+              "OomBam held their first fan meeting in Taipei in May 2026, bringing the duo together with fans while Fulfill: The Series was still airing.",
+              "The event centered on fan interaction and shared moments with Oom and Bam, adding an early international milestone to their journey as a pair."
+            ],
+            note: "From the screen to Taipei ♡",
+            galleries: { pair: [
+              "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM.jpg",
+              "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM_2.jpg",
+              "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM_3.jpg"
+            ] }
+          }
         },
         {
           date: "08 May",
@@ -1222,7 +1241,24 @@
         {
           date: "14 May",
           title: "Tres Cherie POEM x CHERRY KHEMUPSORN",
-          summary: "A notable joint appearance that extended the month beyond core series promotion."
+          summary: "A joint appearance around the TRÈS CHÉRIE collection, where fashion and sustainability shared the spotlight.",
+          image: "assets/images/2026/May/PoemCherry/Oom_Poem_Cherry.jpg",
+          imageAlt: "Oom and Bam at the POEM x Cherry Khemupsorn TRÈS CHÉRIE event",
+          creditText: "Photo: @OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3",
+          detail: {
+            eyebrow: "14 MAY 2026",
+            title: "TRÈS CHÉRIE — POEM x Cherry Khemupsorn",
+            narrativeParts: [
+              "OomBam appeared at the TRÈS CHÉRIE showcase from POEM and Cherry Khemupsorn, a collection built around sustainable fashion, deadstock fabrics, Thai textiles and timeless design.",
+              "The appearance gave the month another shared public moment beyond Fulfill promotions, placing Oom and Bam in a fashion-focused setting together."
+            ],
+            note: "A shared moment in fashion ♡",
+            galleries: { pair: [
+              "assets/images/2026/May/PoemCherry/Oom_Poem_Cherry.jpg",
+              "assets/images/2026/May/PoemCherry/Bam_Poem_Cherry.jpg"
+            ] }
+          }
         },
         {
           date: "19 May",
@@ -1245,12 +1281,48 @@
         {
           date: "05 Jun",
           title: "Fulfill Press Tour",
-          summary: "Shared promotion continued as the series approached its final chapter."
+          summary: "OomBam connected with media as Fulfill approached its final episode.",
+          image: "assets/images/2026/June/fullfill_PRT/OB_fullfill_PRT.jpg",
+          imageAlt: "Oom and Bam during the Fulfill press tour in June 2026",
+          creditText: "Photo: @OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3",
+          detail: {
+            eyebrow: "05 JUNE 2026",
+            title: "Fulfill Press Tour",
+            narrativeParts: [
+              "Oom Eisaya and Bam Saralee took part in the Fulfill Press Tour in June 2026 as their first GL series together approached its final episode.",
+              "Across appearances with Thairath Ent., Khaosod Live, Channel 3’s ข่าวสามสี and SUDSAPDA LIVE, they reflected on working on Fulfill and shared their appreciation for one another as on-screen partners."
+            ],
+            note: "One story, told from many stages ♡",
+            galleries: { pair: [
+              "assets/images/2026/June/fullfill_PRT/OB_fullfill_PRT.jpg",
+              "assets/images/2026/June/fullfill_PRT/OB_fullfill_PRT_2.jpg",
+              "assets/images/2026/June/fullfill_PRT/OB_fullfill_PRT_3.jpg",
+              "assets/images/2026/June/fullfill_PRT/OB_fullfill_PRT_4.jpg"
+            ] }
+          }
         },
         {
           date: "09 Jun",
           title: "CH3 Thailand Content",
-          summary: "Official content kept OomBam visible during the final weeks of the drama’s run."
+          summary: "OomBam joined their Fulfill co-stars for playful Channel 3 and 3Plus content.",
+          image: "assets/images/2026/June/Thai_Content/OB_Thai_Content.jpg",
+          imageAlt: "Oom and Bam in Channel 3 Thailand content with the Fulfill cast",
+          creditText: "Photo: @OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3",
+          detail: {
+            eyebrow: "09 JUNE 2026",
+            title: "CH3 Thailand Content",
+            narrativeParts: [
+              "OomBam joined their fellow Fulfill: The Series cast members for a fun CH3Thailand and 3Plus feature in June 2026.",
+              "Playful activities and interactive games highlighted the cast’s easy dynamic and offered another look at Oom and Bam together beyond their roles in the series."
+            ],
+            note: "Off screen, still in sync ♡",
+            galleries: { pair: [
+              "assets/images/2026/June/Thai_Content/OB_Thai_Content.jpg",
+              "assets/images/2026/June/Thai_Content/OB_Thai_Content_2.jpg"
+            ] }
+          }
         },
         {
           date: "11 Jun",
@@ -1260,12 +1332,76 @@
         {
           date: "12 Jun",
           title: "Fulfill Final Episode",
-          summary: "The emotional center of June and the clearest turning point from series run to post-series momentum."
+          summary: "The sold-out finale celebration brought OomBam and Blossoms together at SiamPic Hall.",
+          image: "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%281%29.webp",
+          imageAlt: "Oom and Bam at the Fulfill Final Episode event in June 2026",
+          creditText: "Photos: @oombam_ch3 · @oomeisaya · @bbam_s",
+          creditHref: "https://www.instagram.com/oombam_ch3/",
+          detail: {
+            eyebrow: "12 JUNE 2026",
+            title: "Fulfill Final Episode with OomBam",
+            narrativeParts: [
+              "OomBam celebrated the finale of Fulfill: The Series at SiamPic Hall, Siam Square One. The sold-out event brought OomBam and Blossoms together to watch the final episode and celebrate the closing chapter of their first GL series together.",
+              "The gathering featured a special show, exclusive talk, interactive games and fan activities, alongside Group Photo and all-seat Hi-Bye benefits — a fitting shared celebration of the Fulfill journey."
+            ],
+            note: "One chapter closes. The journey continues ♡",
+            galleries: { pair: [
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%281%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%282%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%283%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%284%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%285%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%286%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%287%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%288%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%289%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2810%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2811%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2812%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2813%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2814%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2815%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2816%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2817%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2818%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2819%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2820%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2821%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2822%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2823%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2824%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2825%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2826%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2827%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2828%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2829%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2830%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2831%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2832%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2833%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2834%29.webp",
+              "assets/images/2026/June/Fulfill_Final/OB_FulFill_Final%20%2835%29.webp"
+            ] }
+          }
         },
         {
           date: "16 Jun",
           title: "ARMCHAIR Feature",
-          summary: "A post-finale appearance that showed the pairing continuing beyond the screen."
+          summary: "A relaxed conversation gave viewers a closer look at OomBam’s natural exchanges beyond Fulfill.",
+          image: "assets/images/2026/June/Armchair/OB_armchair.jpg",
+          imageAlt: "Oom and Bam during the ARMCHAIR feature in June 2026",
+          creditText: "Photo: @oombam_ch3",
+          creditHref: "https://www.instagram.com/oombam_ch3/",
+          detail: {
+            eyebrow: "16 JUNE 2026",
+            title: "OomBam on ARMCHAIR",
+            narrativeParts: [
+              "Oom Eisaya and Bam Saralee appeared in ARMCHAIR’s ‘คุยเล่นเอาจริง’ EP.31 on June 16, 2026.",
+              "The relaxed conversation let the two actresses share stories and candid moments from their experiences together, giving viewers a closer look at their playful dynamic beyond Ai-Oon and Pa-Fun."
+            ],
+            note: "Candid conversations, familiar chemistry ♡",
+            galleries: { pair: ["assets/images/2026/June/Armchair/OB_armchair.jpg"] }
+          }
         }
       ]
     },
@@ -1371,7 +1507,30 @@
         {
           date: "15 Aug",
           title: "1st Fansign in Shanghai",
-          summary: "An important fan-facing overseas event that deepened their connection with international supporters."
+          summary: "OomBam met fans in Shanghai for their first fansign in the city, extending their post-Fulfill journey overseas.",
+          image: "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai.jpg",
+          imageAlt: "Oom and Bam at their first fansign in Shanghai in August 2026",
+          creditText: "Photos: @OomBam_CH3 / @HyyNov_ · fan photos used with permission",
+          creditHref: "https://x.com/OomBam_CH3",
+          detail: {
+            eyebrow: "15 AUGUST 2026",
+            title: "OomBam 1st Fansign in Shanghai",
+            narrativeParts: [
+              "OomBam held their first fansign in Shanghai on August 15, 2026, bringing the Thai GL duo together with fans for a special signing and interaction event after Fulfill.",
+              "Beyond the formal activities, fans celebrated Oom and Bam’s playful exchanges, smiles and comfortable dynamic — another overseas moment reflecting their growing international reach."
+            ],
+            note: "So happy, so fulfilled — Shanghai ♡",
+            galleries: { pair: [
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_2.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_3.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_4.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_5.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_6.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_7.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_8.jpg"
+            ] }
+          }
         }
       ]
     }
