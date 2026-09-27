@@ -1325,11 +1325,6 @@
           }
         },
         {
-          date: "11 Jun",
-          title: "Vlog Release",
-          summary: "A lighter, more casual release that added a personal layer to the month’s schedule."
-        },
-        {
           date: "12 Jun",
           title: "Fulfill Final Episode",
           summary: "The sold-out finale celebration brought OomBam and Blossoms together at SiamPic Hall.",
@@ -1337,6 +1332,11 @@
           imageAlt: "Oom and Bam at the Fulfill Final Episode event in June 2026",
           creditText: "Photos: @oombam_ch3 · @oomeisaya · @bbam_s",
           creditHref: "https://www.instagram.com/oombam_ch3/",
+          creditLinks: [
+            { label: "@oombam_ch3", href: "https://www.instagram.com/oombam_ch3/" },
+            { label: "@oomeisaya", href: "https://www.instagram.com/oomeisaya/" },
+            { label: "@bbam_s", href: "https://www.instagram.com/bbam_s/" }
+          ],
           detail: {
             eyebrow: "12 JUNE 2026",
             title: "Fulfill Final Episode with OomBam",
@@ -1512,6 +1512,11 @@
           imageAlt: "Oom and Bam at their first fansign in Shanghai in August 2026",
           creditText: "Photos: @OomBam_CH3 / @HyyNov_ · fan photos used with permission",
           creditHref: "https://x.com/OomBam_CH3",
+          creditLinks: [
+            { label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" },
+            { label: "@HyyNov_", href: "https://x.com/HyyNov_" }
+          ],
+          creditSuffix: " · fan photos used with permission",
           detail: {
             eyebrow: "15 AUGUST 2026",
             title: "OomBam 1st Fansign in Shanghai",
@@ -1670,8 +1675,33 @@
       galleryCounter.textContent = `${current} of ${total}`;
     }
     if (galleryCredit) {
-      galleryCredit.textContent = (activeGalleryEvent.creditText || "Photo: @dewy_photo").replace("Photo:", "Photo ·");
-      galleryCredit.href = activeGalleryEvent.creditHref || "#";
+      galleryCredit.replaceChildren();
+      const links = activeGalleryEvent.creditLinks || [];
+      const prefix = document.createElement("span");
+      prefix.textContent = links.length ? (links.length > 1 ? "Photos · " : "Photo · ") : "";
+      galleryCredit.append(prefix);
+
+      if (links.length) {
+        links.forEach((item, linkIndex) => {
+          if (linkIndex) galleryCredit.append(document.createTextNode(" · "));
+          const link = document.createElement("a");
+          link.href = item.href;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = `${item.label} ↗`;
+          galleryCredit.append(link);
+        });
+        if (activeGalleryEvent.creditSuffix) {
+          galleryCredit.append(document.createTextNode(activeGalleryEvent.creditSuffix));
+        }
+      } else {
+        const link = document.createElement("a");
+        link.href = activeGalleryEvent.creditHref || "#";
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = `${(activeGalleryEvent.creditText || "Photo: @dewy_photo").replace(/^Photos?:\s*/, "")} ↗`;
+        galleryCredit.append(link);
+      }
     }
   };
 
