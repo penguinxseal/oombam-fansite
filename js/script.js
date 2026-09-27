@@ -777,10 +777,9 @@
       container.append(img); return;
     }
     if (item.platform === "TikTok") {
-      const frame=document.createElement("iframe"); frame.className="interview-media-preview__tiktok";
-      frame.src=`https://www.tiktok.com/player/v1/${tiktokIdFromUrl(item.url)}?autoplay=0&loop=0&controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0&music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=0`;
-      frame.title=""; frame.loading="lazy"; frame.tabIndex=-1; frame.setAttribute("aria-hidden","true");
-      container.append(frame); return;
+      const poster=document.createElement("span"); poster.className="interview-media-preview__external interview-media-preview__external--tiktok";
+      poster.innerHTML='<span class="external-media-mark">♪</span><span class="external-media-copy"><b>@oombam_ch3</b><small>WATCH ON TIKTOK ↗</small></span>';
+      container.append(poster); return;
     }
     const fallback=document.createElement("span"); fallback.className="interview-media-preview__platform"; fallback.textContent=item.platform;
     container.append(fallback);
@@ -789,7 +788,7 @@
 
   function watchInterview(item) {
     if (!item) return;
-    if (item.platform === "X") window.open(item.url, "_blank", "noopener,noreferrer");
+    if (item.platform === "X" || item.platform === "TikTok") window.open(item.url, "_blank", "noopener,noreferrer");
     else openInterviewPlayer(item);
   }
 
@@ -824,7 +823,7 @@
     const worth=[byTitle("PODKAZZ EP.14"),byTitle("You Know Me EP.27"),byTitle("Blooming with You Interview")].filter(Boolean);
     const top=document.createElement("div"); top.className="interviews-editorial-top";
     const heroCard=document.createElement("article"); heroCard.className="interviews-hero"; heroCard.style.setProperty("--hero-image",`url('${interviewThumb(hero)}')`);
-    heroCard.innerHTML=`<div class="interviews-hero__shade"></div><div class="interviews-hero__copy"><span class="interviews-kicker">Featured Interview</span><h3>If You Can’t Take It Anymore, Just Cry</h3><p>Oom &amp; Bam open up about life and learning to love themselves.</p><small>DEAR MYSELF EP.38 · YOUTUBE · LONG-FORM</small></div>`;
+    heroCard.innerHTML=`<div class="interviews-hero__shade"></div><div class="interviews-hero__copy"><span class="interviews-kicker">Featured Interview</span><p>Oom &amp; Bam open up about life and learning to love themselves.</p><h3>Dear Myself EP.38</h3><small>YOUTUBE · LONG-FORM</small></div>`;
     heroCard.querySelector('.interviews-hero__copy').append(makeButton("interviews-watch-button","▶  WATCH INTERVIEW",hero));
     const worthBox=document.createElement("aside"); worthBox.className="interviews-worth"; worthBox.innerHTML='<div class="interviews-section-head"><h3>Worth Watching</h3><button type="button" data-go-long>SEE ALL →</button></div>';
     worth.forEach(item=>worthBox.append(createThumbCard(item,"is-compact"))); worthBox.querySelector('[data-go-long]').onclick=()=>setInterviewFilter('long'); top.append(heroCard,worthBox); interviewsAllView.append(top);
@@ -867,32 +866,14 @@
      Homepage Vlogs Archive — in-page modal
   ----------------------------------------------------- */
   const VLOG_ITEMS = [
-  {
-    "title": "OomBam Vlog: Practicing for Their Honeymoon in Hong Kong",
-    "platform": "YouTube",
-    "url": "https://www.youtube.com/watch?v=uld1-ODX768"
-  },
-  {
-    "title": "Mini Vlog: A Merit-Making Trip That Feels More Like a Date?!",
-    "platform": "X",
-    "url": "https://x.com/OomBam_CH3/status/2063893796656427286/video/1"
-  },
-  {
-    "title": "Ending the Year on a Warm Note with the ‘New Year Pajama Party’",
-    "platform": "YouTube",
-    "url": "https://www.youtube.com/watch?v=5waayw1E2yA"
-  },
-  {
-    "title": "OomBam: Horseback Riding Is Just an Excuse, But… I Want You in Every Universe",
-    "platform": "YouTube",
-    "url": "https://www.youtube.com/watch?v=9gYJCDoVlqE"
-  },
-  {
-    "title": "OomBam: Step Dance (Love)",
-    "platform": "YouTube",
-    "url": "https://www.youtube.com/watch?v=epGazWVi2hk"
-  }
-];
+    {"title":"Practicing for Their Honeymoon in Hong Kong","platform":"YouTube","url":"https://www.youtube.com/watch?v=uld1-ODX768"},
+    {"title":"Mini Vlog: A Merit-Making Trip That Feels More Like a Date?!","platform":"X","url":"https://x.com/OomBam_CH3/status/2063893796656427286/video/1"},
+    {"title":"Ending the Year on a Warm Note with the ‘New Year Pajama Party’","platform":"YouTube","url":"https://www.youtube.com/watch?v=5waayw1E2yA"},
+    {"title":"Horseback Riding Is Just an Excuse, But… I Want You in Every Universe","platform":"YouTube","url":"https://www.youtube.com/watch?v=9gYJCDoVlqE"},
+    {"title":"Step Dance ( Love )","platform":"YouTube","url":"https://www.youtube.com/watch?v=epGazWVi2hk"},
+    {"title":"Children’s Day at our house... what a chaotic mess","platform":"YouTube","url":"https://youtu.be/M1YMvsFnCck?si=jWjZCoNqhXWtXfOG"},
+    {"title":"What kind of archery is this that it’s so sweet?","platform":"YouTube","url":"https://www.youtube.com/watch?v=m1I2iHH_amw&list=PLDIqVRSvaz9Jzz3KrDM2RX0j0OMokb97P"}
+  ];
 
   const vlogsModal = document.getElementById("vlogsModal");
   const vlogsGrid = document.getElementById("vlogsGrid");
@@ -907,35 +888,24 @@
   let vlogsLastFocus = null;
   let vlogsScrollY = 0;
 
-  function buildVlogCard(item) {
-    const card = document.createElement("article");
-    card.className = "vlog-card";
-
-    const platform = document.createElement("span");
-    platform.className = `vlog-platform vlog-platform--${item.platform.toLowerCase()}`;
-    platform.textContent = item.platform;
-
-    const title = document.createElement("h3");
-    title.textContent = item.title;
-
-    const action = document.createElement("button");
-    action.type = "button";
-    action.className = "vlog-card__action";
-    action.textContent = item.platform === "X" ? "Open on X ↗" : "Watch →";
-
-    if (item.platform === "X") {
-      action.addEventListener("click", () => window.open(item.url, "_blank", "noopener,noreferrer"));
-    } else {
-      action.addEventListener("click", () => openVlogPlayer(item));
-    }
-
-    card.append(platform, title, action);
-    return card;
+  const vlogThumb = (item) => item.platform === "YouTube" ? `https://i.ytimg.com/vi/${youtubeIdFromUrl(item.url)}/maxresdefault.jpg` : "";
+  function buildVlogMediaCard(item, cls="") {
+    const card=document.createElement("button"); card.type="button"; card.className=`vlog-media-card ${cls}`;
+    const media=document.createElement("span"); media.className="vlog-media-card__media";
+    if(item.platform==="YouTube"){ const img=document.createElement("img"); img.src=vlogThumb(item); img.alt=""; img.loading="lazy"; img.onerror=()=>{img.onerror=null;img.src=`https://i.ytimg.com/vi/${youtubeIdFromUrl(item.url)}/hqdefault.jpg`}; media.append(img); }
+    else { const ext=document.createElement("span"); ext.className="vlog-external-cover"; ext.innerHTML='<b>𝕏</b><small>WATCH ORIGINAL VIDEO ↗</small>'; media.append(ext); }
+    const badge=document.createElement("span"); badge.className="vlog-media-card__badge"; badge.textContent=item.platform; media.append(badge);
+    const title=document.createElement("strong"); title.textContent=item.title; card.append(media,title);
+    card.onclick=()=> item.platform==="X" ? window.open(item.url,"_blank","noopener,noreferrer") : openVlogPlayer(item); return card;
   }
-
   function renderVlogs() {
-    if (!vlogsGrid) return;
-    vlogsGrid.replaceChildren(...VLOG_ITEMS.map(buildVlogCard));
+    if (!vlogsGrid) return; vlogsGrid.className="vlogs-editorial"; vlogsGrid.replaceChildren();
+    const hero=VLOG_ITEMS[0], rest=VLOG_ITEMS.slice(1);
+    const top=document.createElement("section"); top.className="vlogs-editorial-top";
+    const heroCard=document.createElement("article"); heroCard.className="vlogs-hero"; heroCard.style.setProperty("--vlog-hero",`url('${vlogThumb(hero)}')`);
+    heroCard.innerHTML='<div class="vlogs-hero__shade"></div><div class="vlogs-hero__copy"><span>FEATURED VLOG</span><h3>Practicing for Their Honeymoon in Hong Kong</h3><small>YOUTUBE · OOMBAM VLOG</small><button type="button">▶ WATCH VLOG</button></div>'; heroCard.querySelector("button").onclick=()=>openVlogPlayer(hero);
+    const picks=document.createElement("aside"); picks.className="vlogs-picks"; picks.innerHTML='<h3>More to Watch</h3>'; rest.slice(0,3).forEach(i=>picks.append(buildVlogMediaCard(i,"is-compact"))); top.append(heroCard,picks);
+    const archive=document.createElement("section"); archive.className="vlogs-archive"; archive.innerHTML='<div class="vlogs-archive-head"><div><h3>Vlog Archive</h3><p>Trips, activities, celebrations, and little memories with Oom &amp; Bam.</p></div></div>'; const grid=document.createElement("div"); grid.className="vlogs-media-grid"; rest.forEach(i=>grid.append(buildVlogMediaCard(i))); archive.append(grid); vlogsGrid.append(top,archive);
   }
 
   function resetVlogPlayer() {
