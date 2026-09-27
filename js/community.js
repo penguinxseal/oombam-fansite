@@ -2227,128 +2227,90 @@
     if (!isCommunityArtist() || !db) return;
     const artistName = artistRecipientLabel();
     const wrapper = document.createElement("div");
-    wrapper.className = "community-artist-panel";
+    wrapper.className = "community-artist-panel community-mailbox";
     wrapper.innerHTML = `
-      <p class="community-modal__eyebrow">PRIVATE ARTIST COMMUNITY</p>
-      <h2 class="community-modal__title" id="communityModalTitle">Letters for ${artistName} 💌</h2>
-      <p class="community-modal__intro">Approved letters addressed to you, plus letters shared with OomBam. Seen with Love is private between the Artist and the letter sender.</p>
-      <div class="community-artist-inbox" id="communityArtistInboxList"><p class="community-artist-empty">Loading your letters…</p></div>`;
+      <div class="community-mailbox__heading">
+        <p class="community-modal__eyebrow">ARTIST INBOX</p>
+        <h2 class="community-modal__title" id="communityModalTitle">Letters for ${artistName} 💌</h2>
+        <p class="community-modal__intro">Messages from Blossoms, gathered here just for you.</p>
+      </div>
+      <div class="community-mailbox__shell" id="communityArtistInboxList"><p class="community-artist-empty">Loading your letters…</p></div>`;
     openModal(wrapper, { wide: true });
-    const list = wrapper.querySelector("#communityArtistInboxList");
+    const shell = wrapper.querySelector("#communityArtistInboxList");
     try {
       const { data: letters, error } = await db.from("community_letters")
         .select("id, recipient, display_name, country_code, message, message_format, created_at")
-        .eq("status", "approved")
-        .in("recipient", [artistName, "OomBam"])
-        .order("created_at", { ascending: false });
+        .eq("status", "approved").in("recipient", [artistName, "OomBam"]).order("created_at", { ascending: false });
       if (error) throw error;
-      if (!letters?.length) {
-        list.innerHTML = `<p class="community-artist-empty">No approved letters are waiting here yet. 🌸</p>`;
-        return;
-      }
+      if (!letters?.length) { shell.innerHTML = `<p class="community-artist-empty">No letters are waiting here yet. 🌸</p>`; return; }
       const ids = letters.map(x => x.id);
-      const { data: reactions, error: reactionError } = await db.from("letter_artist_reactions")
-        .select("letter_id, reaction, created_at")
-        .in("letter_id", ids);
+      const { data: reactions, error: reactionError } = await db.from("letter_artist_reactions").select("letter_id, reaction, created_at").in("letter_id", ids);
       if (reactionError) throw reactionError;
       const seen = new Set((reactions || []).map(x => x.letter_id));
-      list.replaceChildren(...letters.map(letter => {
-        const card = document.createElement("article");
-        card.className = "community-artist-letter";
+      shell.innerHTML = `<aside class="community-mailbox__list" aria-label="Letters"></aside><section class="community-mailbox__reader" aria-live="polite"></section>`;
+      const list = shell.querySelector(".community-mailbox__list");
+      const reader = shell.querySelector(".community-mailbox__reader");
+      const renderLetter = (letter, button) => {
+        list.querySelectorAll(".community-mailbox__preview").forEach(x => x.classList.toggle("is-active", x === button));
         const flag = flagFromCountry(letter.country_code);
         const recipientLabel = letter.recipient === "OomBam" ? "Oom & Bam" : letter.recipient;
-        card.innerHTML = `
-          <header class="community-artist-letter__header">
-            <div class="community-artist-letter__top"><span>TO ${safeText(letter.recipient, 12).toUpperCase()}</span><time>${artistDate(letter.created_at)}</time></div>
-            <p class="community-artist-letter__recipient">To ${safeText(recipientLabel, 20)} ${letter.recipient === "OomBam" ? "🌼 🌸" : letter.recipient === "Oom" ? "🌼" : "🌸"}</p>
-          </header>
-          <div class="community-artist-letter__message"></div>
-          <footer class="community-artist-letter__footer">
-            <span class="community-artist-letter__sender">— ${safeText(letter.display_name || "Blossom", 40)}${flag ? ` · ${flag}` : ""}</span>
-            <button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button>
-          </footer>`;
-        appendFormattedLetter(card.querySelector(".community-artist-letter__message"), letter.message_format, letter.message);
-        const love = card.querySelector(".community-artist-love");
-        love.addEventListener("click", async () => {
-          love.disabled = true;
-          love.textContent = "Sending love…";
+        reader.innerHTML = `
+          <button type="button" class="community-mailbox__back">← Back to letters</button>
+          <article class="community-letter-reading ${seen.has(letter.id) ? "is-loved" : ""}">
+            <header class="community-letter-reading__header">
+              <div><p class="community-letter-reading__to">To ${safeText(recipientLabel,20)} ${letter.recipient === "OomBam" ? "🌼 🌸" : letter.recipient === "Oom" ? "🌼" : "🌸"}</p></div>
+              <time>${artistDate(letter.created_at)}</time>
+            </header>
+            <div class="community-letter-reading__message"></div>
+            <footer class="community-letter-reading__footer">
+              <span>— ${safeText(letter.display_name || "Blossom",40)}${flag ? ` · ${flag}` : ""}</span>
+              <button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button>
+            </footer>
+            <p class="community-letter-reading__love-note" ${seen.has(letter.id) ? "" : "hidden"}>The sender will know you saw their letter. 🌸</p>
+          </article>`;
+        appendFormattedLetter(reader.querySelector(".community-letter-reading__message"), letter.message_format, letter.message);
+        reader.classList.add("is-open");
+        reader.querySelector(".community-mailbox__back")?.addEventListener("click", () => reader.classList.remove("is-open"));
+        const love = reader.querySelector(".community-artist-love");
+        love?.addEventListener("click", async () => {
+          love.disabled = true; love.textContent = "Sending love…";
           const { error: loveError } = await db.from("letter_artist_reactions").insert({ letter_id: letter.id, artist_user_id: currentSession.user.id, reaction: "seen_with_love" });
           if (loveError) { love.disabled = false; love.textContent = "♡ Seen with Love"; console.error("Artist reaction failed:", loveError); return; }
-          love.textContent = "♥ Seen with Love";
-          card.classList.add("is-loved");
+          seen.add(letter.id); love.textContent = "♥ Seen with Love";
+          reader.querySelector(".community-letter-reading")?.classList.add("is-loved");
+          const note = reader.querySelector(".community-letter-reading__love-note"); if (note) note.hidden = false;
+          button?.classList.add("is-loved");
         });
-        if (seen.has(letter.id)) card.classList.add("is-loved");
-        return card;
-      }));
-    } catch (error) {
-      console.error("Artist inbox failed:", error);
-      list.innerHTML = `<p class="community-admin-error">Your Artist Inbox could not be loaded right now. Please try again.</p>`;
-    }
+      };
+      letters.forEach((letter, index) => {
+        const recipientLabel = letter.recipient === "OomBam" ? "Oom & Bam" : `For ${letter.recipient}`;
+        const preview = document.createElement("button"); preview.type="button"; preview.className=`community-mailbox__preview${seen.has(letter.id)?" is-loved":""}`;
+        const excerpt = safeText((letter.message || "").replace(/\s+/g," ").trim(), 86);
+        preview.innerHTML = `<strong>${safeText(letter.display_name || "Blossom",40)}</strong><span>${safeText(recipientLabel,20)} · ${artistDate(letter.created_at)}</span><em>${excerpt}${(letter.message||"").length>86?"…":""}</em>${seen.has(letter.id)?"<small>♥ Seen with Love</small>":""}`;
+        preview.addEventListener("click", () => renderLetter(letter, preview)); list.appendChild(preview);
+        if (index === 0) renderLetter(letter, preview);
+      });
+    } catch (error) { console.error("Artist inbox failed:", error); shell.innerHTML = `<p class="community-admin-error">Your Artist Inbox could not be loaded right now. Please try again.</p>`; }
   }
 
   async function renderMyLetters() {
-    if (!currentSession?.user || !db) return;
-    const wrapper = document.createElement("div");
-    wrapper.className = "community-artist-panel";
-    wrapper.innerHTML = `
-      <p class="community-modal__eyebrow">MY LETTERS</p>
-      <h2 class="community-modal__title" id="communityModalTitle">Letters you’ve sent 💌</h2>
-      <p class="community-modal__intro">Your submitted letters and any private Seen with Love acknowledgement from Oom or Bam.</p>
-      <div class="community-artist-inbox" id="communityMyLettersList"><p class="community-artist-empty">Loading your letters…</p></div>`;
-    openModal(wrapper, { wide: true });
-    const list = wrapper.querySelector("#communityMyLettersList");
+    if (!currentSession?.user || !db || isCommunityArtist()) return;
+    const wrapper = document.createElement("div"); wrapper.className="community-artist-panel community-mailbox";
+    wrapper.innerHTML = `<div class="community-mailbox__heading"><p class="community-modal__eyebrow">MY LETTERS</p><h2 class="community-modal__title" id="communityModalTitle">Letters you’ve sent 💌</h2><p class="community-modal__intro">Your letters, delivery status, and private Seen with Love acknowledgements.</p></div><div class="community-mailbox__shell" id="communityMyLettersList"><p class="community-artist-empty">Loading your letters…</p></div>`;
+    openModal(wrapper,{wide:true}); const shell=wrapper.querySelector("#communityMyLettersList");
     try {
-      const { data: letters, error } = await db.from("community_letters")
-        .select("id, recipient, message, message_format, status, created_at")
-        .eq("user_id", currentSession.user.id)
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      if (!letters?.length) { list.innerHTML = `<p class="community-artist-empty">You haven’t sent a letter yet. 🌸</p>`; return; }
-      const ids = letters.map(x => x.id);
-      const { data: reactions } = await db.from("letter_artist_reactions").select("letter_id, artist_user_id, reaction, created_at").in("letter_id", ids);
-      const artistIds = [...new Set((reactions || []).map(r => r.artist_user_id).filter(Boolean))];
-      const artistNames = new Map();
-      await Promise.all(artistIds.map(async (artistId) => {
-        const { data: identity } = await db.rpc("community_artist_identity", { check_user_id: artistId });
-        if (identity === "oom") artistNames.set(artistId, "Oom");
-        if (identity === "bam") artistNames.set(artistId, "Bam");
-      }));
-      const reactionMap = new Map();
-      (reactions || []).forEach(r => { const arr = reactionMap.get(r.letter_id) || []; arr.push(r); reactionMap.set(r.letter_id, arr); });
-      list.replaceChildren(...letters.map(letter => {
-        const card = document.createElement("article"); card.className = "community-artist-letter community-my-letter";
-        const loves = reactionMap.get(letter.id) || [];
-        const seenBy = [...new Set(loves.map(r => artistNames.get(r.artist_user_id)).filter(Boolean))];
-        const loveText = seenBy.length ? `♥ Seen with Love by ${seenBy.join(" & ")}` : "";
-        const recipientLabel = letter.recipient === "OomBam" ? "Oom & Bam" : letter.recipient;
-        card.innerHTML = `
-          <header class="community-artist-letter__header">
-            <div class="community-artist-letter__top"><span>TO ${safeText(letter.recipient,12).toUpperCase()}</span><time>${artistDate(letter.created_at)}</time></div>
-            <p class="community-artist-letter__recipient">To ${safeText(recipientLabel,20)}</p>
-          </header>
-          <div class="community-artist-letter__message"></div>
-          <footer class="community-artist-letter__footer community-my-letter__footer">
-            <div class="community-my-letter__status"><span class="community-letter-status">${safeText(letter.status || "pending", 12)}</span>${loveText ? `<strong class="community-letter-love">${loveText}</strong>` : ""}</div>
-            <button type="button" class="community-letter-delete">Delete Letter</button>
-          </footer>`;
-        appendFormattedLetter(card.querySelector(".community-artist-letter__message"), letter.message_format, letter.message);
-        card.querySelector(".community-letter-delete").addEventListener("click", async () => {
-          if (!window.confirm("Delete this letter? This action cannot be undone.")) return;
-          const button = card.querySelector(".community-letter-delete");
-          button.disabled = true;
-          try {
-            await invokeCommunityModeration({ action: "delete-own-letter", id: letter.id });
-            card.remove();
-            if (!list.querySelector(".community-my-letter")) list.innerHTML = `<p class="community-artist-empty">You haven’t sent a letter yet. 🌸</p>`;
-          } catch (error) {
-            button.disabled = false;
-            window.alert(safeText(error?.message || "Could not delete this letter.", 180));
-          }
-        });
-        return card;
-      }));
-    } catch (error) { console.error("My Letters failed:", error); list.innerHTML = `<p class="community-admin-error">Your letters could not be loaded right now.</p>`; }
+      const {data:letters,error}=await db.from("community_letters").select("id, recipient, message, message_format, status, created_at").eq("user_id",currentSession.user.id).order("created_at",{ascending:false});
+      if(error) throw error; if(!letters?.length){shell.innerHTML=`<p class="community-artist-empty">You haven’t sent a letter yet. 🌸</p>`;return;}
+      const ids=letters.map(x=>x.id); const {data:reactions}=await db.from("letter_artist_reactions").select("letter_id, artist_user_id, reaction, created_at").in("letter_id",ids);
+      const artistIds=[...new Set((reactions||[]).map(r=>r.artist_user_id).filter(Boolean))], artistNames=new Map();
+      await Promise.all(artistIds.map(async id=>{const {data}=await db.rpc("community_artist_identity",{check_user_id:id});if(data==="oom")artistNames.set(id,"Oom");if(data==="bam")artistNames.set(id,"Bam");}));
+      const reactionMap=new Map();(reactions||[]).forEach(r=>{const a=reactionMap.get(r.letter_id)||[];a.push(r);reactionMap.set(r.letter_id,a);});
+      shell.innerHTML=`<aside class="community-mailbox__list" aria-label="My letters"></aside><section class="community-mailbox__reader" aria-live="polite"></section>`; const list=shell.querySelector(".community-mailbox__list"),reader=shell.querySelector(".community-mailbox__reader");
+      const renderLetter=(letter,button)=>{list.querySelectorAll(".community-mailbox__preview").forEach(x=>x.classList.toggle("is-active",x===button));const seenBy=[...new Set((reactionMap.get(letter.id)||[]).map(r=>artistNames.get(r.artist_user_id)).filter(Boolean))];const recipientLabel=letter.recipient==="OomBam"?"Oom & Bam":letter.recipient;reader.innerHTML=`<button type="button" class="community-mailbox__back">← Back to letters</button><article class="community-letter-reading"><header class="community-letter-reading__header"><div><p class="community-letter-reading__to">To ${safeText(recipientLabel,20)}</p><span class="community-letter-status">${safeText(letter.status||"pending",12)}</span></div><time>${artistDate(letter.created_at)}</time></header><div class="community-letter-reading__message"></div><footer class="community-letter-reading__footer"><strong>${seenBy.length?`♥ Seen with Love by ${seenBy.join(" & ")}`:"Awaiting a Seen with Love 🌸"}</strong><button type="button" class="community-letter-delete">Delete Letter</button></footer></article>`;appendFormattedLetter(reader.querySelector(".community-letter-reading__message"),letter.message_format,letter.message);reader.classList.add("is-open");reader.querySelector(".community-mailbox__back")?.addEventListener("click",()=>reader.classList.remove("is-open"));reader.querySelector(".community-letter-delete")?.addEventListener("click",async()=>{if(!window.confirm("Delete this letter? This action cannot be undone."))return;try{await invokeCommunityModeration({action:"delete-own-letter",id:letter.id});button.remove();reader.innerHTML=`<p class="community-artist-empty">Letter deleted. 🌸</p>`;}catch(e){window.alert(safeText(e?.message||"Could not delete this letter.",180));}});};
+      letters.forEach((letter,index)=>{const seenBy=[...new Set((reactionMap.get(letter.id)||[]).map(r=>artistNames.get(r.artist_user_id)).filter(Boolean))];const preview=document.createElement("button");preview.type="button";preview.className="community-mailbox__preview";const recipientLabel=letter.recipient==="OomBam"?"Oom & Bam":letter.recipient;const excerpt=safeText((letter.message||"").replace(/\s+/g," ").trim(),86);preview.innerHTML=`<strong>To ${safeText(recipientLabel,20)}</strong><span>${artistDate(letter.created_at)} · ${safeText(letter.status||"pending",12)}</span><em>${excerpt}${(letter.message||"").length>86?"…":""}</em>${seenBy.length?`<small>♥ Seen with Love by ${seenBy.join(" & ")}</small>`:""}`;preview.addEventListener("click",()=>renderLetter(letter,preview));list.appendChild(preview);if(index===0)renderLetter(letter,preview);});
+    }catch(error){console.error("My Letters failed:",error);shell.innerHTML=`<p class="community-admin-error">Your letters could not be loaded right now.</p>`;}
   }
+
 
   /* -----------------------------------------------------
      ADMIN MODERATION — visible only to Supabase admin role
@@ -2748,7 +2710,12 @@
 
       try {
         const params = new URLSearchParams(window.location.search);
-        if (params.get("artist") === "1" && isCommunityArtist()) {
+        if (params.get("letters") === "1" && currentSession?.user && !isCommunityArtist()) {
+          setTimeout(renderMyLetters, 80);
+          params.delete("letters");
+          const next = `${window.location.pathname}${params.toString() ? `?${params}` : ""}${window.location.hash}`;
+          window.history.replaceState({}, "", next);
+        } else if (params.get("artist") === "1" && isCommunityArtist()) {
           setTimeout(renderArtistInbox, 80);
           params.delete("artist");
           const next = `${window.location.pathname}${params.toString() ? `?${params}` : ""}${window.location.hash}`;
@@ -2778,16 +2745,19 @@
 
       // Global account menu deep-links: keep account/moderation available from every page.
       const accessParams = new URLSearchParams(window.location.search);
-      if (currentSession?.user && accessParams.get("account") === "1") {
+      if (currentSession?.user && accessParams.get("letters") === "1" && !isCommunityArtist()) {
+        setTimeout(() => renderMyLetters(), 160);
+      } else if (currentSession?.user && accessParams.get("account") === "1") {
         setTimeout(() => renderAuthAccount(), 160);
       } else if (currentSession?.user && accessParams.get("moderate") === "1" && isCommunityAdmin()) {
         setTimeout(() => renderAdminModeration(), 160);
       }
-      if (accessParams.has("account") || accessParams.has("moderate")) {
+      if (accessParams.has("account") || accessParams.has("moderate") || accessParams.has("letters")) {
         try {
           const cleanUrl = new URL(window.location.href);
           cleanUrl.searchParams.delete("account");
           cleanUrl.searchParams.delete("moderate");
+          cleanUrl.searchParams.delete("letters");
           window.history.replaceState({}, "", `${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`);
         } catch (_) {}
       }
