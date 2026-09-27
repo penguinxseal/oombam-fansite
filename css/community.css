@@ -8414,3 +8414,27 @@ html[data-theme="dark"] body.page-community .garden-artist-link__icon,body.dark-
   }
   .community-mailbox__reader.is-open{display:block}
 }
+
+
+/* =========================================================
+   v20.10.5 — Mobile mailbox permanent navigation separation
+   Exactly one Back control lives in reading-stage chrome.
+   ========================================================= */
+@media(max-width:760px){
+  .community-mailbox__reading-stage{
+    overflow:hidden;
+  }
+  .community-mailbox__reading-stage > .community-mailbox__back{
+    flex:0 0 auto;
+    margin:0 14px 10px;
+    padding:7px 4px 9px;
+  }
+  .community-mailbox__reading-stage > .community-mailbox__reader{
+    min-height:0;
+    height:100%;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:0 14px 20px;
+  }
+  .community-mailbox__reader > .community-mailbox__back{display:none!important;}
+}
