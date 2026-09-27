@@ -750,6 +750,7 @@
 
   const interviewsModal = document.getElementById("interviewsModal");
   const interviewsGrid = document.getElementById("interviewsGrid");
+  const interviewsAllView = document.getElementById("interviewsAllView");
   const interviewsView = document.getElementById("interviewsView");
   const interviewPlayerView = document.getElementById("interviewPlayerView");
   const interviewPlayerShell = document.getElementById("interviewPlayerShell");
@@ -761,156 +762,92 @@
   const interviewClosers = [...document.querySelectorAll("[data-interviews-close]")];
   let interviewsLastFocus = null;
   let interviewsScrollY = 0;
+  let archiveLimit = 8;
+  let archiveQuery = "";
+  let archiveSort = "original";
 
-  const youtubeIdFromUrl = (url) => {
-    try {
-      const parsed = new URL(url);
-      if (parsed.hostname.includes("youtu.be")) return parsed.pathname.slice(1);
-      return parsed.searchParams.get("v");
-    } catch (_) {
-      return "";
-    }
-  };
+  const youtubeIdFromUrl = (url) => { try { const parsed = new URL(url); if (parsed.hostname.includes("youtu.be")) return parsed.pathname.slice(1); return parsed.searchParams.get("v"); } catch (_) { return ""; } };
+  const tiktokIdFromUrl = (url) => { const match = String(url).match(/\/video\/(\d+)/); return match ? match[1] : ""; };
+  const interviewCategoryLabel = (category) => ({ long: "Long-form", quick: "Quick Interview", features: "Feature" }[category] || "Interview");
+  const interviewThumb = (item) => item.platform === "YouTube" ? `https://i.ytimg.com/vi/${youtubeIdFromUrl(item.url)}/hqdefault.jpg` : "assets/images/OomBam_interview.png";
+  const byTitle = (needle) => INTERVIEW_ITEMS.find(item => item.title.includes(needle));
 
-  const tiktokIdFromUrl = (url) => {
-    const match = String(url).match(/\/video\/(\d+)/);
-    return match ? match[1] : "";
-  };
+  function watchInterview(item) {
+    if (!item) return;
+    if (item.platform === "X") window.open(item.url, "_blank", "noopener,noreferrer");
+    else openInterviewPlayer(item);
+  }
 
-  const interviewCategoryLabel = (category) => ({
-    long: "Long-form",
-    quick: "Quick Interview",
-    features: "Feature"
-  }[category] || "Interview");
+  function makeButton(className, text, item) {
+    const button = document.createElement("button"); button.type="button"; button.className=className; button.textContent=text;
+    button.addEventListener("click", () => watchInterview(item)); return button;
+  }
 
   function buildInterviewCard(item) {
-    const card = document.createElement("article");
-    card.className = "interview-card";
-    card.dataset.category = item.category;
-
-    const top = document.createElement("div");
-    top.className = "interview-card__top";
-
-    const platform = document.createElement("span");
-    platform.className = `interview-platform interview-platform--${item.platform.toLowerCase()}`;
-    platform.textContent = item.platform;
-
-    const category = document.createElement("span");
-    category.className = "interview-card__category";
-    category.textContent = interviewCategoryLabel(item.category);
-
-    top.append(platform, category);
-
-    const title = document.createElement("h3");
-    title.textContent = item.title;
-
-    const action = document.createElement("button");
-    action.type = "button";
-    action.className = "interview-card__action";
-    action.textContent = item.platform === "X" ? "Open on X ↗" : "Watch →";
-
-    if (item.platform === "X") {
-      action.addEventListener("click", () => window.open(item.url, "_blank", "noopener,noreferrer"));
-    } else {
-      action.addEventListener("click", () => openInterviewPlayer(item));
-    }
-
-    card.append(top, title, action);
-    return card;
+    const card=document.createElement("article"); card.className="interview-card"; card.dataset.category=item.category;
+    const top=document.createElement("div"); top.className="interview-card__top";
+    const platform=document.createElement("span"); platform.className=`interview-platform interview-platform--${item.platform.toLowerCase()}`; platform.textContent=item.platform;
+    const category=document.createElement("span"); category.className="interview-card__category"; category.textContent=interviewCategoryLabel(item.category); top.append(platform,category);
+    const title=document.createElement("h3"); title.textContent=item.title;
+    card.append(top,title,makeButton("interview-card__action",item.platform === "X" ? "Open on X ↗" : "Watch →",item)); return card;
   }
 
-  function renderInterviews(filter = "all") {
-    if (!interviewsGrid) return;
-    const visible = filter === "all"
-      ? INTERVIEW_ITEMS
-      : INTERVIEW_ITEMS.filter((item) => item.category === filter);
-    interviewsGrid.replaceChildren(...visible.map(buildInterviewCard));
+  function createThumbCard(item, cls="") {
+    const card=document.createElement("button"); card.type="button"; card.className=`interview-thumb-card ${cls}`; card.setAttribute("aria-label",`Watch ${item.title}`);
+    const media=document.createElement("span"); media.className="interview-thumb-card__media";
+    const img=document.createElement("img"); img.src=interviewThumb(item); img.alt=""; img.loading="lazy"; media.append(img);
+    const badge=document.createElement("span"); badge.className="interview-thumb-card__badge"; badge.textContent=item.platform; media.append(badge);
+    const title=document.createElement("strong"); title.textContent=item.title;
+    const meta=document.createElement("small"); meta.textContent=interviewCategoryLabel(item.category);
+    card.append(media,title,meta); card.addEventListener("click",()=>watchInterview(item)); return card;
   }
 
-  function setInterviewFilter(filter) {
-    interviewTabs.forEach((tab) => {
-      const active = tab.dataset.interviewFilter === filter;
-      tab.classList.toggle("is-active", active);
-      tab.setAttribute("aria-selected", String(active));
-    });
-    renderInterviews(filter);
+  function renderAllInterviews() {
+    if (!interviewsAllView) return;
+    interviewsAllView.replaceChildren();
+    const hero=byTitle("If You Can’t Take It Anymore");
+    const worth=[byTitle("PODKAZZ EP.14"),byTitle("You Know Me EP.27"),byTitle("Blooming with You Interview")].filter(Boolean);
+    const top=document.createElement("div"); top.className="interviews-editorial-top";
+    const heroCard=document.createElement("article"); heroCard.className="interviews-hero"; heroCard.style.setProperty("--hero-image",`url('${interviewThumb(hero)}')`);
+    heroCard.innerHTML=`<div class="interviews-hero__shade"></div><div class="interviews-hero__copy"><span class="interviews-kicker">Featured Interview</span><h3>If You Can’t Take It Anymore, Just Cry</h3><p>Oom &amp; Bam open up about life and learning to love themselves.</p><small>DEAR MYSELF EP.38 · YOUTUBE · LONG-FORM</small></div>`;
+    heroCard.querySelector('.interviews-hero__copy').append(makeButton("interviews-watch-button","▶  WATCH INTERVIEW",hero));
+    const worthBox=document.createElement("aside"); worthBox.className="interviews-worth"; worthBox.innerHTML='<div class="interviews-section-head"><h3>Worth Watching</h3><button type="button" data-go-long>SEE ALL →</button></div>';
+    worth.forEach(item=>worthBox.append(createThumbCard(item,"is-compact"))); worthBox.querySelector('[data-go-long]').onclick=()=>setInterviewFilter('long'); top.append(heroCard,worthBox); interviewsAllView.append(top);
+
+    const mood=document.createElement("section"); mood.className="interviews-moods"; mood.innerHTML='<div class="interviews-section-head"><h3>Explore by Mood</h3><span>Find the kind of conversation you’re in the mood for.</span></div>';
+    const moodGrid=document.createElement("div"); moodGrid.className="interviews-mood-grid";
+    [
+      ["♡","Heart-to-Heart","Thoughtful talks, life, and meaningful stories.",hero],
+      ["✿","Their Journey","OomBam’s journey and special moments.",byTitle("You Know Me EP.27")],
+      ["⌁","Fun & Chaotic","Games, challenges, and lighthearted chats.",byTitle("Fun Interview & Games")],
+      ["▣","Behind the Scenes","Fulfill, production, and candid moments.",byTitle("Blessing Ceremony")]
+    ].forEach(([icon,title,desc,item])=>{ const b=document.createElement('button'); b.type='button'; b.className='interviews-mood-card'; b.style.setProperty('--mood-image',`url('${interviewThumb(item)}')`); b.innerHTML=`<span>${icon}</span><strong>${title}</strong><small>${desc}</small><i>→</i>`; b.onclick=()=>watchInterview(item); moodGrid.append(b); }); mood.append(moodGrid); interviewsAllView.append(mood);
+
+    const quickItems=INTERVIEW_ITEMS.filter(i=>i.category==='quick'||i.platform==='TikTok');
+    const quick=document.createElement('section'); quick.className='interviews-quick'; quick.innerHTML='<div class="interviews-section-head"><div><h3>Quick Watch</h3><span>Little conversations &amp; moments you can watch anytime.</span></div><button type="button" data-go-quick>VIEW ALL →</button></div>';
+    const rail=document.createElement('div'); rail.className='interviews-quick-rail'; quickItems.forEach(i=>rail.append(createThumbCard(i,'is-quick'))); quick.append(rail); quick.querySelector('[data-go-quick]').onclick=()=>setInterviewFilter('quick'); interviewsAllView.append(quick);
+
+    const archive=document.createElement('section'); archive.className='interviews-archive'; archive.innerHTML=`<div class="interviews-section-head interviews-archive-head"><div><h3>From the Archive</h3><span>A complete collection of interviews.</span></div><div class="interviews-archive-tools"><label class="interviews-search">⌕ <input type="search" placeholder="Search interviews…" value="${archiveQuery.replace(/"/g,'&quot;')}"></label><select aria-label="Sort interviews"><option value="original">Curated</option><option value="az">A–Z</option></select><button type="button" class="interviews-surprise">✦ Surprise Me</button></div></div><div class="interviews-archive-grid"></div>`;
+    const grid=archive.querySelector('.interviews-archive-grid');
+    let items=INTERVIEW_ITEMS.filter(i=>i!==hero && i.title.toLowerCase().includes(archiveQuery.toLowerCase())); if(archiveSort==='az') items=[...items].sort((a,b)=>a.title.localeCompare(b.title));
+    items.slice(0,archiveLimit).forEach(i=>grid.append(createThumbCard(i,'is-archive')));
+    if(items.length>archiveLimit){ const more=document.createElement('button'); more.type='button'; more.className='interviews-load-more'; more.textContent='LOAD MORE'; more.onclick=()=>{archiveLimit+=8;renderAllInterviews()}; archive.append(more); }
+    archive.querySelector('input').addEventListener('input',e=>{archiveQuery=e.target.value;archiveLimit=8;renderAllInterviews(); requestAnimationFrame(()=>interviewsAllView.querySelector('.interviews-search input')?.focus());});
+    const select=archive.querySelector('select'); select.value=archiveSort; select.onchange=e=>{archiveSort=e.target.value;renderAllInterviews()};
+    archive.querySelector('.interviews-surprise').onclick=()=>watchInterview(INTERVIEW_ITEMS[Math.floor(Math.random()*INTERVIEW_ITEMS.length)]); interviewsAllView.append(archive);
   }
 
-  function resetInterviewPlayer() {
-    if (interviewPlayerShell) interviewPlayerShell.replaceChildren();
-    if (interviewPlayerView) interviewPlayerView.hidden = true;
-    if (interviewsView) interviewsView.hidden = false;
+  function renderInterviews(filter="all") {
+    if (!interviewsGrid || !interviewsAllView) return;
+    if(filter==='all'){ interviewsGrid.hidden=true; interviewsAllView.hidden=false; renderAllInterviews(); return; }
+    interviewsAllView.hidden=true; interviewsGrid.hidden=false; interviewsGrid.replaceChildren(...INTERVIEW_ITEMS.filter(i=>i.category===filter).map(buildInterviewCard));
   }
-
-  function openInterviewPlayer(item) {
-    if (!interviewPlayerShell || !interviewPlayerView || !interviewsView) return;
-    interviewPlayerShell.replaceChildren();
-
-    const iframe = document.createElement("iframe");
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-    iframe.referrerPolicy = "strict-origin-when-cross-origin";
-    iframe.allowFullscreen = true;
-    iframe.loading = "lazy";
-    iframe.title = item.title;
-
-    if (item.platform === "YouTube") {
-      const id = youtubeIdFromUrl(item.url);
-      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
-      iframe.className = "interview-player-frame interview-player-frame--youtube";
-    } else if (item.platform === "TikTok") {
-      const id = tiktokIdFromUrl(item.url);
-      iframe.src = `https://www.tiktok.com/player/v1/${id}?autoplay=0&loop=0`;
-      iframe.className = "interview-player-frame interview-player-frame--tiktok";
-    }
-
-    interviewPlayerShell.append(iframe);
-    interviewPlayerTitle.textContent = item.title;
-    interviewPlayerPlatform.textContent = `${item.platform} • ${interviewCategoryLabel(item.category)}`;
-    interviewPlayerOriginal.href = item.url;
-    interviewPlayerOriginal.textContent = `Open on ${item.platform} ↗`;
-
-    interviewsView.hidden = true;
-    interviewPlayerView.hidden = false;
-    interviewPlayerView.scrollIntoView({ block: "start" });
-  }
-
-  function openInterviewsModal() {
-    if (!interviewsModal) return;
-    interviewsLastFocus = document.activeElement;
-    interviewsScrollY = window.scrollY || 0;
-    resetInterviewPlayer();
-    setInterviewFilter("all");
-    interviewsModal.classList.add("is-open");
-    interviewsModal.setAttribute("aria-hidden", "false");
-    body.classList.add("interviews-open");
-    requestAnimationFrame(() => interviewsModal.querySelector(".interviews-modal__close")?.focus({ preventScroll: true }));
-  }
-
-  function closeInterviewsModal() {
-    if (!interviewsModal) return;
-    interviewsModal.classList.remove("is-open");
-    interviewsModal.setAttribute("aria-hidden", "true");
-    body.classList.remove("interviews-open");
-    resetInterviewPlayer();
-    window.scrollTo(0, interviewsScrollY);
-    interviewsLastFocus?.focus?.({ preventScroll: true });
-  }
-
-  interviewOpeners.forEach((button) => button.addEventListener("click", openInterviewsModal));
-  interviewClosers.forEach((button) => button.addEventListener("click", closeInterviewsModal));
-  interviewTabs.forEach((tab) => tab.addEventListener("click", () => setInterviewFilter(tab.dataset.interviewFilter)));
-  document.querySelector("[data-interview-back]")?.addEventListener("click", resetInterviewPlayer);
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && interviewsModal?.classList.contains("is-open")) {
-      closeInterviewsModal();
-    }
-  });
-
-  renderInterviews("all");
-
-
-
+  function setInterviewFilter(filter){ interviewTabs.forEach(tab=>{const active=tab.dataset.interviewFilter===filter;tab.classList.toggle('is-active',active);tab.setAttribute('aria-selected',String(active));}); renderInterviews(filter); }
+  function resetInterviewPlayer(){ if(interviewPlayerShell)interviewPlayerShell.replaceChildren(); if(interviewPlayerView)interviewPlayerView.hidden=true; if(interviewsView)interviewsView.hidden=false; }
+  function openInterviewPlayer(item){ if(!interviewPlayerShell||!interviewPlayerView||!interviewsView)return; interviewPlayerShell.replaceChildren(); const iframe=document.createElement('iframe'); iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';iframe.referrerPolicy='strict-origin-when-cross-origin';iframe.allowFullscreen=true;iframe.loading='lazy';iframe.title=item.title; if(item.platform==='YouTube'){iframe.src=`https://www.youtube-nocookie.com/embed/${youtubeIdFromUrl(item.url)}?rel=0`;iframe.className='interview-player-frame interview-player-frame--youtube';}else if(item.platform==='TikTok'){iframe.src=`https://www.tiktok.com/player/v1/${tiktokIdFromUrl(item.url)}?autoplay=0&loop=0`;iframe.className='interview-player-frame interview-player-frame--tiktok';} interviewPlayerShell.append(iframe);interviewPlayerTitle.textContent=item.title;interviewPlayerPlatform.textContent=`${item.platform} • ${interviewCategoryLabel(item.category)}`;interviewPlayerOriginal.href=item.url;interviewPlayerOriginal.textContent=`Open on ${item.platform} ↗`;interviewsView.hidden=true;interviewPlayerView.hidden=false;interviewPlayerView.scrollIntoView({block:'start'}); }
+  function openInterviewsModal(){ if(!interviewsModal)return;interviewsLastFocus=document.activeElement;interviewsScrollY=window.scrollY||0;resetInterviewPlayer();setInterviewFilter('all');interviewsModal.classList.add('is-open');interviewsModal.setAttribute('aria-hidden','false');body.classList.add('interviews-open');requestAnimationFrame(()=>interviewsModal.querySelector('.interviews-modal__close')?.focus({preventScroll:true})); }
+  function closeInterviewsModal(){if(!interviewsModal)return;interviewsModal.classList.remove('is-open');interviewsModal.setAttribute('aria-hidden','true');body.classList.remove('interviews-open');resetInterviewPlayer();window.scrollTo(0,interviewsScrollY);interviewsLastFocus?.focus?.({preventScroll:true});}
+  interviewOpeners.forEach(b=>b.addEventListener('click',openInterviewsModal)); interviewClosers.forEach(b=>b.addEventListener('click',closeInterviewsModal)); interviewTabs.forEach(tab=>tab.addEventListener('click',()=>setInterviewFilter(tab.dataset.interviewFilter))); document.querySelector('[data-interview-back]')?.addEventListener('click',resetInterviewPlayer); document.addEventListener('keydown',e=>{if(e.key==='Escape'&&interviewsModal?.classList.contains('is-open'))closeInterviewsModal();}); renderInterviews('all');
   /* -----------------------------------------------------
      Homepage Vlogs Archive — in-page modal
   ----------------------------------------------------- */
