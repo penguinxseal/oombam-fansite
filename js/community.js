@@ -1283,6 +1283,35 @@
     blossom.textContent = "🌸";
 
     card.append(quote, message, author, date, blossom);
+
+    if (isCommunityAdmin() && item.id) {
+      const adminActions = document.createElement("div");
+      adminActions.className = "message-card__admin-actions";
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "message-card__delete";
+      del.textContent = "Delete";
+      del.addEventListener("click", async () => {
+        if (!window.confirm("Delete this Blossom Wall post? This action cannot be undone.")) return;
+        del.disabled = true;
+        try {
+          await invokeCommunityModeration({ action: "admin-delete-wall", id: item.id });
+          const inWallModal = Boolean(card.closest("#communityWallList"));
+          card.remove();
+          await refreshWallPreview();
+          if (inWallModal) {
+            const remaining = document.querySelectorAll("#communityWallList .message-card").length;
+            const intro = document.querySelector("#communityWallIntro");
+            if (intro) intro.textContent = remaining ? `${remaining} approved message${remaining === 1 ? "" : "s"} from the community.` : "No approved community messages are currently published.";
+          }
+        } catch (error) {
+          del.disabled = false;
+          window.alert(safeText(error?.message || "Could not delete this post.", 180));
+        }
+      });
+      adminActions.append(del);
+      card.append(adminActions);
+    }
     return card;
   }
 
@@ -2111,10 +2140,17 @@
         const card = document.createElement("article");
         card.className = "community-artist-letter";
         const flag = flagFromCountry(letter.country_code);
+        const recipientLabel = letter.recipient === "OomBam" ? "Oom & Bam" : letter.recipient;
         card.innerHTML = `
-          <div class="community-artist-letter__top"><span>TO ${safeText(letter.recipient, 12).toUpperCase()}</span><time>${artistDate(letter.created_at)}</time></div>
-          <p class="community-artist-letter__message"></p>
-          <div class="community-artist-letter__footer"><span>— ${safeText(letter.display_name || "Blossom", 40)} ${flag}</span><button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button></div>`;
+          <header class="community-artist-letter__header">
+            <div class="community-artist-letter__top"><span>TO ${safeText(letter.recipient, 12).toUpperCase()}</span><time>${artistDate(letter.created_at)}</time></div>
+            <p class="community-artist-letter__recipient">To ${safeText(recipientLabel, 20)} ${letter.recipient === "OomBam" ? "🌼 🌸" : letter.recipient === "Oom" ? "🌼" : "🌸"}</p>
+          </header>
+          <div class="community-artist-letter__message"></div>
+          <footer class="community-artist-letter__footer">
+            <span class="community-artist-letter__sender">— ${safeText(letter.display_name || "Blossom", 40)}${flag ? ` · ${flag}` : ""}</span>
+            <button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button>
+          </footer>`;
         card.querySelector(".community-artist-letter__message").textContent = safeMultiline(letter.message, 5000);
         const love = card.querySelector(".community-artist-love");
         love.addEventListener("click", async () => {
@@ -2154,14 +2190,45 @@
       if (!letters?.length) { list.innerHTML = `<p class="community-artist-empty">You haven’t sent a letter yet. 🌸</p>`; return; }
       const ids = letters.map(x => x.id);
       const { data: reactions } = await db.from("letter_artist_reactions").select("letter_id, artist_user_id, reaction, created_at").in("letter_id", ids);
+      const artistIds = [...new Set((reactions || []).map(r => r.artist_user_id).filter(Boolean))];
+      const artistNames = new Map();
+      await Promise.all(artistIds.map(async (artistId) => {
+        const { data: identity } = await db.rpc("community_artist_identity", { check_user_id: artistId });
+        if (identity === "oom") artistNames.set(artistId, "Oom");
+        if (identity === "bam") artistNames.set(artistId, "Bam");
+      }));
       const reactionMap = new Map();
       (reactions || []).forEach(r => { const arr = reactionMap.get(r.letter_id) || []; arr.push(r); reactionMap.set(r.letter_id, arr); });
       list.replaceChildren(...letters.map(letter => {
         const card = document.createElement("article"); card.className = "community-artist-letter community-my-letter";
         const loves = reactionMap.get(letter.id) || [];
-        const loveText = loves.length ? (letter.recipient === "OomBam" && loves.length > 1 ? "♥ Seen with Love by both Artists" : "♥ Seen with Love") : "";
-        card.innerHTML = `<div class="community-artist-letter__top"><span>TO ${safeText(letter.recipient,12).toUpperCase()}</span><time>${artistDate(letter.created_at)}</time></div><p class="community-artist-letter__message"></p><div class="community-artist-letter__footer"><span class="community-letter-status">${safeText(letter.status || "pending", 12)}</span>${loveText ? `<strong class="community-letter-love">${loveText}</strong>` : ""}</div>`;
+        const seenBy = [...new Set(loves.map(r => artistNames.get(r.artist_user_id)).filter(Boolean))];
+        const loveText = seenBy.length ? `♥ Seen with Love by ${seenBy.join(" & ")}` : "";
+        const recipientLabel = letter.recipient === "OomBam" ? "Oom & Bam" : letter.recipient;
+        card.innerHTML = `
+          <header class="community-artist-letter__header">
+            <div class="community-artist-letter__top"><span>TO ${safeText(letter.recipient,12).toUpperCase()}</span><time>${artistDate(letter.created_at)}</time></div>
+            <p class="community-artist-letter__recipient">To ${safeText(recipientLabel,20)}</p>
+          </header>
+          <div class="community-artist-letter__message"></div>
+          <footer class="community-artist-letter__footer community-my-letter__footer">
+            <div class="community-my-letter__status"><span class="community-letter-status">${safeText(letter.status || "pending", 12)}</span>${loveText ? `<strong class="community-letter-love">${loveText}</strong>` : ""}</div>
+            <button type="button" class="community-letter-delete">Delete Letter</button>
+          </footer>`;
         card.querySelector(".community-artist-letter__message").textContent = safeMultiline(letter.message, 5000);
+        card.querySelector(".community-letter-delete").addEventListener("click", async () => {
+          if (!window.confirm("Delete this letter? This action cannot be undone.")) return;
+          const button = card.querySelector(".community-letter-delete");
+          button.disabled = true;
+          try {
+            await invokeCommunityModeration({ action: "delete-own-letter", id: letter.id });
+            card.remove();
+            if (!list.querySelector(".community-my-letter")) list.innerHTML = `<p class="community-artist-empty">You haven’t sent a letter yet. 🌸</p>`;
+          } catch (error) {
+            button.disabled = false;
+            window.alert(safeText(error?.message || "Could not delete this letter.", 180));
+          }
+        });
         return card;
       }));
     } catch (error) { console.error("My Letters failed:", error); list.innerHTML = `<p class="community-admin-error">Your letters could not be loaded right now.</p>`; }
@@ -2283,6 +2350,25 @@
       });
       actions.append(button);
     });
+
+    if (kind === "letters") {
+      const delLetter = document.createElement("button");
+      delLetter.type = "button";
+      delLetter.className = "delete";
+      delLetter.textContent = "Delete";
+      delLetter.addEventListener("click", async () => {
+        if (!window.confirm("Delete this Fan Letter? This action cannot be undone.")) return;
+        delLetter.disabled = true;
+        try {
+          await invokeCommunityModeration({ action: "admin-delete-letter", id: item.id });
+          await reload();
+        } catch (error) {
+          delLetter.disabled = false;
+          window.alert(safeText(error?.message || "Could not delete this letter.", 180));
+        }
+      });
+      actions.append(delLetter);
+    }
 
     if (kind === "wall" && currentStatus === "approved") {
       const del = document.createElement("button");
