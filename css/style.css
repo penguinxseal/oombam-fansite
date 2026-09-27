@@ -16454,3 +16454,30 @@ body.dark-theme .sakura-clip-card__caption{color:#bac2c8}
 body:not(.dark-theme) .interviews-hero__shade{background:linear-gradient(90deg,rgba(24,22,24,.91),rgba(24,22,24,.64) 44%,rgba(24,22,24,.08) 78%)}body:not(.dark-theme) .interviews-worth{border-color:rgba(31,31,35,.14);background:rgba(31,31,35,.025)}body:not(.dark-theme) .interviews-mood-card{border-color:rgba(31,31,35,.12)}body:not(.dark-theme) .interviews-archive{border-color:rgba(31,31,35,.12)}body:not(.dark-theme) .interviews-search,body:not(.dark-theme) .interviews-archive-tools select{border-color:rgba(31,31,35,.16);background:#f5f3f3;color:#29272a}
 @media(max-width:1000px){.interviews-editorial-top{grid-template-columns:1fr}.interviews-worth{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.interviews-worth .interviews-section-head{grid-column:1/-1}.interview-thumb-card.is-compact{display:block;margin:0}.interviews-mood-grid{grid-template-columns:repeat(2,1fr)}.interviews-archive-grid{grid-template-columns:repeat(3,1fr)}.interviews-archive-head{align-items:flex-start;flex-direction:column}.interviews-archive-tools{width:100%;flex-wrap:wrap}.interviews-search{flex:1}}
 @media(max-width:650px){.interviews-all{gap:15px}.interviews-hero{min-height:360px;background-position:62% center}.interviews-hero__shade{background:linear-gradient(0deg,rgba(12,14,18,.96) 0%,rgba(12,14,18,.64) 55%,rgba(12,14,18,.12) 100%)}.interviews-hero__copy{justify-content:flex-end;width:100%;min-height:360px;padding:20px}.interviews-hero h3{font-size:27px}.interviews-worth{display:block}.interview-thumb-card.is-compact{display:grid;grid-template-columns:96px 1fr;margin-top:10px}.interviews-mood-grid{grid-template-columns:1fr 1fr}.interviews-mood-card{min-height:128px;padding:13px}.interviews-mood-card strong,.interviews-mood-card small{max-width:90%}.interviews-quick-rail{grid-auto-columns:155px}.interviews-archive-grid{grid-template-columns:1fr 1fr}.interviews-archive-tools{display:grid;grid-template-columns:1fr 1fr}.interviews-search{grid-column:1/-1;min-width:0}.interviews-section-head h3{font-size:20px}}
+
+/* Interviews editorial media-cover refinement — 2026-09-28 */
+.interviews-hero{
+  background-position:center center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+.interviews-hero__shade{
+  background:linear-gradient(90deg,rgba(10,11,14,.90) 0%,rgba(10,11,14,.70) 42%,rgba(10,11,14,.18) 72%,rgba(10,11,14,.05) 100%);
+}
+.interview-thumb-card__media{overflow:hidden;background:#111318;isolation:isolate}
+.interview-thumb-card__media>img{width:100%;height:100%;object-fit:cover;display:block}
+.interview-media-preview__tiktok{position:absolute;inset:-18% 0 0;width:100%;height:136%;border:0;pointer-events:none;background:#111318}
+.interview-media-preview__platform{position:absolute;inset:0;display:grid;place-items:center;font:700 1.4rem/1 var(--font-sans);letter-spacing:.12em;color:rgba(255,255,255,.55);background:linear-gradient(135deg,#202329,#111318)}
+.interviews-mood-card{position:relative;overflow:hidden;background:#15171b!important;isolation:isolate}
+.interviews-mood-card::before{display:none!important}
+.interviews-mood-card__media{position:absolute;inset:0;z-index:0;overflow:hidden;background:#111318}
+.interviews-mood-card__media img{width:100%;height:100%;object-fit:cover;display:block}
+.interviews-mood-card__media .interview-media-preview__tiktok{position:absolute}
+.interviews-mood-card__media::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,12,15,.78),rgba(11,12,15,.30));pointer-events:none}
+.interviews-mood-card__copy{position:relative;z-index:2;display:flex;flex-direction:column;width:100%;height:100%;text-align:left}
+.interviews-mood-card__copy>span:first-child{font-size:1.1rem;margin-bottom:auto}
+.interviews-mood-card__copy strong,.interviews-mood-card__copy small,.interviews-mood-card__copy i{position:relative;z-index:2}
+.interviews-mood-card__copy i{position:absolute;right:12px;bottom:12px}
+.interviews-quick-rail .interview-thumb-card__media{aspect-ratio:16/9}
+.interviews-archive-grid .interview-thumb-card__media{aspect-ratio:16/9}
+@media (max-width:760px){.interviews-hero__shade{background:linear-gradient(0deg,rgba(10,11,14,.94) 0%,rgba(10,11,14,.50) 58%,rgba(10,11,14,.08) 100%)}}
