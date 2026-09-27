@@ -2257,7 +2257,6 @@
         const flag = flagFromCountry(letter.country_code);
         const recipientLabel = letter.recipient === "OomBam" ? "Oom & Bam" : letter.recipient;
         reader.innerHTML = `
-          <button type="button" class="community-mailbox__back">← Back to letters</button>
           <article class="community-letter-reading ${seen.has(letter.id) ? "is-loved" : ""}">
             <header class="community-letter-reading__header">
               <div><p class="community-letter-reading__to">To ${safeText(recipientLabel,20)} ${letter.recipient === "OomBam" ? "🌼 🌸" : letter.recipient === "Oom" ? "🌼" : "🌸"}</p></div>
