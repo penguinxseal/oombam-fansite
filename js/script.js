@@ -769,7 +769,22 @@
   const youtubeIdFromUrl = (url) => { try { const parsed = new URL(url); if (parsed.hostname.includes("youtu.be")) return parsed.pathname.slice(1); return parsed.searchParams.get("v"); } catch (_) { return ""; } };
   const tiktokIdFromUrl = (url) => { const match = String(url).match(/\/video\/(\d+)/); return match ? match[1] : ""; };
   const interviewCategoryLabel = (category) => ({ long: "Long-form", quick: "Quick Interview", features: "Feature" }[category] || "Interview");
-  const interviewThumb = (item) => item.platform === "YouTube" ? `https://i.ytimg.com/vi/${youtubeIdFromUrl(item.url)}/hqdefault.jpg` : "assets/images/OomBam_interview.png";
+  const interviewThumb = (item) => item.platform === "YouTube" ? `https://i.ytimg.com/vi/${youtubeIdFromUrl(item.url)}/maxresdefault.jpg` : "";
+  const addMediaPreview = (container, item) => {
+    if (item.platform === "YouTube") {
+      const img=document.createElement("img"); img.src=interviewThumb(item); img.alt=""; img.loading="lazy";
+      img.onerror=()=>{ img.onerror=null; img.src=`https://i.ytimg.com/vi/${youtubeIdFromUrl(item.url)}/hqdefault.jpg`; };
+      container.append(img); return;
+    }
+    if (item.platform === "TikTok") {
+      const frame=document.createElement("iframe"); frame.className="interview-media-preview__tiktok";
+      frame.src=`https://www.tiktok.com/player/v1/${tiktokIdFromUrl(item.url)}?autoplay=0&loop=0&controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0&music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=0`;
+      frame.title=""; frame.loading="lazy"; frame.tabIndex=-1; frame.setAttribute("aria-hidden","true");
+      container.append(frame); return;
+    }
+    const fallback=document.createElement("span"); fallback.className="interview-media-preview__platform"; fallback.textContent=item.platform;
+    container.append(fallback);
+  };
   const byTitle = (needle) => INTERVIEW_ITEMS.find(item => item.title.includes(needle));
 
   function watchInterview(item) {
@@ -795,7 +810,7 @@
   function createThumbCard(item, cls="") {
     const card=document.createElement("button"); card.type="button"; card.className=`interview-thumb-card ${cls}`; card.setAttribute("aria-label",`Watch ${item.title}`);
     const media=document.createElement("span"); media.className="interview-thumb-card__media";
-    const img=document.createElement("img"); img.src=interviewThumb(item); img.alt=""; img.loading="lazy"; media.append(img);
+    addMediaPreview(media,item);
     const badge=document.createElement("span"); badge.className="interview-thumb-card__badge"; badge.textContent=item.platform; media.append(badge);
     const title=document.createElement("strong"); title.textContent=item.title;
     const meta=document.createElement("small"); meta.textContent=interviewCategoryLabel(item.category);
@@ -821,7 +836,7 @@
       ["✿","Their Journey","OomBam’s journey and special moments.",byTitle("You Know Me EP.27")],
       ["⌁","Fun & Chaotic","Games, challenges, and lighthearted chats.",byTitle("Fun Interview & Games")],
       ["▣","Behind the Scenes","Fulfill, production, and candid moments.",byTitle("Blessing Ceremony")]
-    ].forEach(([icon,title,desc,item])=>{ const b=document.createElement('button'); b.type='button'; b.className='interviews-mood-card'; b.style.setProperty('--mood-image',`url('${interviewThumb(item)}')`); b.innerHTML=`<span>${icon}</span><strong>${title}</strong><small>${desc}</small><i>→</i>`; b.onclick=()=>watchInterview(item); moodGrid.append(b); }); mood.append(moodGrid); interviewsAllView.append(mood);
+    ].forEach(([icon,title,desc,item])=>{ const b=document.createElement('button'); b.type='button'; b.className='interviews-mood-card'; const media=document.createElement('span'); media.className='interviews-mood-card__media'; addMediaPreview(media,item); b.append(media); const copy=document.createElement('span'); copy.className='interviews-mood-card__copy'; copy.innerHTML=`<span>${icon}</span><strong>${title}</strong><small>${desc}</small><i>→</i>`; b.append(copy); b.onclick=()=>watchInterview(item); moodGrid.append(b); }); mood.append(moodGrid); interviewsAllView.append(mood);
 
     const quickItems=INTERVIEW_ITEMS.filter(i=>i.category==='quick'||i.platform==='TikTok');
     const quick=document.createElement('section'); quick.className='interviews-quick'; quick.innerHTML='<div class="interviews-section-head"><div><h3>Quick Watch</h3><span>Little conversations &amp; moments you can watch anytime.</span></div><button type="button" data-go-quick>VIEW ALL →</button></div>';
@@ -1489,8 +1504,8 @@
       note: "New stages. Shared moments ♡",
       image: "assets/images/2026/September/OB_September_2026.jpg",
       alt: "OomBam during September 2026 activities",
-      creditText: "OomBam · September 2026",
-      creditHref: "",
+      creditText: "@oombam_ch3 · Instagram",
+      creditHref: "https://www.instagram.com/p/DdL0Iq2mROy/",
       events: [
         { date: "Sep", title: "Y Entertainment Awards 2026", summary: "Y Entertainment Awards 2026." },
         { date: "Sep", title: "MChoice & Mint Awards 2026", summary: "MChoice & Mint Awards 2026." },
