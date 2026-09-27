@@ -2067,3 +2067,24 @@ html[data-theme="dark"] .page-home .blossoms-home-actions .blossoms-home-link {
     max-height: 78dvh;
   }
 }
+
+/* =========================================================
+   v20.10.0 — GLOBAL RESPONSIVE WELCOME NAME
+   Protects WELCOME, and the blossom; only the display name truncates.
+========================================================= */
+.ob-nav__link[data-nav-key="welcome"].ob-welcome-link {
+  display:inline-flex; align-items:center; justify-content:flex-start; gap:.32em;
+  min-width:0; max-width:clamp(118px, 14vw, 210px); overflow:visible;
+}
+.ob-welcome-prefix,.ob-welcome-flower { flex:0 0 auto; white-space:nowrap; }
+.ob-welcome-name { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ob-welcome-flower { line-height:1; }
+.page-home .ob-nav__link[data-nav-key="welcome"].ob-welcome-link { max-width:clamp(118px, 14vw, 210px); overflow:visible; text-overflow:clip; }
+@media (max-width:1180px) {
+  .ob-nav { gap:clamp(10px,1vw,16px); }
+  .ob-nav__link[data-nav-key="welcome"].ob-welcome-link { max-width:145px; }
+}
+@media (max-width:980px) {
+  .ob-mobile-nav__link[data-nav-key="welcome"].ob-welcome-link { max-width:100%; display:flex; }
+  .ob-mobile-nav__link[data-nav-key="welcome"] .ob-welcome-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+}
