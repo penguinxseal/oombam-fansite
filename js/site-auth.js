@@ -83,10 +83,26 @@
   desktop.querySelector(".ob-account-menu__signout").addEventListener("click", e => signOut(e.currentTarget));
   mobile.querySelector(".ob-account-mobile__signout").addEventListener("click", e => signOut(e.currentTarget));
 
-  const shortName = (value = "") => {
-    const name = safe(value, 30) || "Blossom";
-    return name.length > 14 ? `${name.slice(0, 13)}…` : name;
-  };
+  const shortName = (value = "") => safe(value, 30) || "Blossom";
+
+  function renderWelcome(link, name) {
+    const fullName = safe(name, 30) || "Blossom";
+    link.replaceChildren();
+    link.classList.add("ob-welcome-link");
+    const prefix = document.createElement("span");
+    prefix.className = "ob-welcome-prefix";
+    prefix.textContent = "WELCOME,";
+    const username = document.createElement("span");
+    username.className = "ob-welcome-name";
+    username.textContent = fullName;
+    const flower = document.createElement("span");
+    flower.className = "ob-welcome-flower";
+    flower.textContent = "🌸";
+    flower.setAttribute("aria-hidden", "true");
+    link.append(prefix, username, flower);
+    link.title = `Welcome, ${fullName}`;
+    link.setAttribute("aria-label", `Welcome, ${fullName}`);
+  }
 
   async function loadProfile(user) {
     const fallback = safe(user?.user_metadata?.display_name || user?.email?.split("@")[0] || "Blossom", 30);
@@ -121,17 +137,14 @@
     mobile.hidden = !signedIn;
 
     if (!signedIn) {
-      document.querySelectorAll('[data-nav-key="welcome"]').forEach(link => { link.textContent = "Welcome 🌸"; link.title = "Welcome"; });
+      document.querySelectorAll('[data-nav-key="welcome"]').forEach(link => { link.classList.remove("ob-welcome-link"); link.textContent = "Welcome 🌸"; link.title = "Welcome"; link.removeAttribute("aria-label"); });
       if (!shouldShowSignedOutEntry) closeMenu();
       return;
     }
 
     const display = shortName(profile?.displayName || session.user.user_metadata?.display_name || "Blossom");
     const avatar = safe(profile?.avatar || "🌸", 4) || "🌸";
-    document.querySelectorAll('[data-nav-key="welcome"]').forEach(link => {
-      link.textContent = `Welcome, ${display} 🌸`;
-      link.title = `Welcome, ${profile?.displayName || display}`;
-    });
+    document.querySelectorAll('[data-nav-key="welcome"]').forEach(link => renderWelcome(link, profile?.displayName || display));
     desktop.querySelector(".ob-account__avatar").textContent = avatar;
     desktop.querySelector(".ob-account-menu__avatar").textContent = avatar;
     desktop.querySelector(".ob-account-menu__name").textContent = profile?.displayName || display;
