@@ -969,6 +969,110 @@
     return { success: true, moderation: "pending" };
   }
 
+  const LETTER_FORMAT_VERSION = 1;
+
+  function letterPlainText(editor) {
+    return String(editor?.innerText || "").replace(/\u00a0/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+  }
+
+  function letterInlineRuns(node, state = { b:false, i:false, u:false }, out = []) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.nodeValue || "";
+      if (text) out.push({ text, ...(state.b ? {b:true}:{}), ...(state.i ? {i:true}:{}), ...(state.u ? {u:true}:{}) });
+      return out;
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE) return out;
+    const tag = node.tagName.toLowerCase();
+    if (tag === "br") { out.push({ text:"\n", ...(state.b?{b:true}:{}), ...(state.i?{i:true}:{}), ...(state.u?{u:true}:{}) }); return out; }
+    const next = { b: state.b || tag === "b" || tag === "strong", i: state.i || tag === "i" || tag === "em", u: state.u || tag === "u" };
+    [...node.childNodes].forEach(child => letterInlineRuns(child, next, out));
+    return out;
+  }
+
+  function serializeLetterFormat(editor) {
+    const blocks = [];
+    const nodes = [...editor.childNodes];
+    const pushBlock = (node, align = "left") => {
+      const runs = letterInlineRuns(node).filter(run => run.text);
+      if (runs.length) blocks.push({ align: ["left","center","right","justify"].includes(align) ? align : "left", runs });
+    };
+    let loose = document.createElement("span");
+    const flushLoose = () => { if (loose.childNodes.length) { pushBlock(loose, "left"); loose = document.createElement("span"); } };
+    nodes.forEach(node => {
+      if (node.nodeType === Node.ELEMENT_NODE && ["div","p"].includes(node.tagName.toLowerCase())) {
+        flushLoose();
+        pushBlock(node, (node.style.textAlign || "left").toLowerCase());
+      } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName.toLowerCase() === "br") {
+        flushLoose();
+      } else loose.appendChild(node.cloneNode(true));
+    });
+    flushLoose();
+    return { version: LETTER_FORMAT_VERSION, blocks: blocks.slice(0, 80) };
+  }
+
+  function appendFormattedLetter(container, format, fallback) {
+    container.replaceChildren();
+    const blocks = format && format.version === LETTER_FORMAT_VERSION && Array.isArray(format.blocks) ? format.blocks : null;
+    if (!blocks?.length) { container.textContent = safeMultiline(fallback, 5000); return; }
+    blocks.forEach(block => {
+      const p = document.createElement("p");
+      p.className = "community-letter-rich__paragraph";
+      p.style.textAlign = ["left","center","right","justify"].includes(block.align) ? block.align : "left";
+      (Array.isArray(block.runs) ? block.runs : []).forEach(run => {
+        let node = document.createTextNode(String(run.text || ""));
+        if (run.u) { const el=document.createElement("u"); el.append(node); node=el; }
+        if (run.i) { const el=document.createElement("em"); el.append(node); node=el; }
+        if (run.b) { const el=document.createElement("strong"); el.append(node); node=el; }
+        p.append(node);
+      });
+      container.append(p);
+    });
+  }
+
+  function insertEmojiInRichEditor(editor, emoji, maxLength = 1500) {
+    if (!editor || letterPlainText(editor).length + emoji.length > maxLength) return;
+    editor.focus();
+    document.execCommand("insertText", false, emoji);
+    editor.dispatchEvent(new Event("input", { bubbles:true }));
+  }
+
+  function setupRichLetterEditor(form) {
+    const editor = form.querySelector("[data-letter-editor]");
+    const hidden = form.elements.message;
+    const count = form.querySelector("[data-letter-count]");
+    if (!editor || !hidden) return;
+    const sync = () => {
+      let plain = letterPlainText(editor);
+      if (plain.length > 1500) {
+        document.execCommand("undo");
+        plain = letterPlainText(editor).slice(0,1500);
+      }
+      hidden.value = plain;
+      if (count) count.textContent = `${plain.length} / 1,500`;
+    };
+    editor.addEventListener("input", sync);
+    editor.addEventListener("paste", (event) => {
+      event.preventDefault();
+      const text = (event.clipboardData?.getData("text/plain") || "").slice(0, Math.max(0,1500-letterPlainText(editor).length));
+      document.execCommand("insertText", false, text);
+    });
+    form.querySelectorAll("[data-letter-command]").forEach(button => button.addEventListener("mousedown", e => e.preventDefault()));
+    form.querySelectorAll("[data-letter-command]").forEach(button => button.addEventListener("click", () => {
+      editor.focus();
+      document.execCommand(button.dataset.letterCommand, false, null);
+      sync();
+    }));
+    const emojiWrap = document.createElement("div");
+    emojiWrap.className = "community-composer-emoji community-letter-emoji";
+    const toggle = document.createElement("button"); toggle.type="button"; toggle.className="community-emoji-toggle"; toggle.textContent="😊"; toggle.setAttribute("aria-label","Add emoji");
+    const palette = document.createElement("div"); palette.className="community-emoji-palette"; palette.hidden=true;
+    COMMUNITY_EMOJIS.forEach(emoji => { const b=document.createElement("button"); b.type="button"; b.textContent=emoji; b.addEventListener("click",()=>{insertEmojiInRichEditor(editor,emoji); palette.hidden=true;}); palette.append(b); });
+    toggle.addEventListener("click",()=>{palette.hidden=!palette.hidden;}); emojiWrap.append(toggle,palette); editor.insertAdjacentElement("afterend",emojiWrap);
+    form._letterFormat = () => serializeLetterFormat(editor);
+    form._resetLetterEditor = () => { editor.innerHTML=""; hidden.value=""; sync(); };
+    sync();
+  }
+
   function renderLetterForm(recipient = "OomBam") {
     if (AUTH_REQUIRED && !isSignedIn()) {
       requireParticipationAuth(() => renderLetterForm(recipient));
@@ -1025,10 +1129,20 @@
             </select>
           </label>
         </div>
-        <label>Your letter
-          <textarea name="message" maxlength="1500" required placeholder="Share a little love, encouragement, or thanks…"></textarea>
-        </label>
-        <p class="community-form__help">Maximum 1,500 characters. Please avoid private information.</p>
+        <label>Your letter</label>
+        <div class="community-letter-toolbar" role="toolbar" aria-label="Letter formatting">
+          <button type="button" data-letter-command="bold" aria-label="Bold"><strong>B</strong></button>
+          <button type="button" data-letter-command="italic" aria-label="Italic"><em>I</em></button>
+          <button type="button" data-letter-command="underline" aria-label="Underline"><u>U</u></button>
+          <span class="community-letter-toolbar__divider" aria-hidden="true"></span>
+          <button type="button" data-letter-command="justifyLeft" aria-label="Align left">≡←</button>
+          <button type="button" data-letter-command="justifyCenter" aria-label="Align center">≡</button>
+          <button type="button" data-letter-command="justifyRight" aria-label="Align right">→≡</button>
+          <button type="button" data-letter-command="justifyFull" aria-label="Justify">☰</button>
+        </div>
+        <div class="community-letter-editor" data-letter-editor contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Share a little love, encouragement, or thanks…"></div>
+        <textarea name="message" hidden></textarea>
+        <p class="community-form__help"><span data-letter-count>0 / 1,500</span> characters. Please avoid private information.</p>
         <input type="hidden" name="recipient" value="${recipient}">
         <p class="community-form__status" aria-live="polite"></p>
         <div class="community-form__actions">
@@ -1038,7 +1152,7 @@
       </form>`;
 
     const form = wrapper.querySelector("form");
-    attachComposerEmojiPicker(form, "message", 1500);
+    setupRichLetterEditor(form);
     const memberName = currentMember?.displayName || getProfile()?.displayName || "";
     if (memberName && form.elements.displayName) {
       form.elements.displayName.value = memberName;
@@ -1056,7 +1170,8 @@
         recipient: safeText(data.get("recipient"), 20),
         displayName: safeText(data.get("displayName"), 40),
         countryCode: safeText(data.get("countryCode"), 8),
-        message: safeMultiline(data.get("message"), 1500)
+        message: safeMultiline(data.get("message"), 1500),
+        messageFormat: form._letterFormat ? form._letterFormat() : null
       };
 
       if (!payload.displayName || payload.message.length < 3) {
@@ -1072,6 +1187,7 @@
         const result = await submitLetter(payload);
         markRate(KEYS.lastSubmit);
         form.reset();
+        form._resetLetterEditor?.();
         const moderation = result?.moderation || "pending";
         const message = moderation === "approved"
           ? "Sent! 🌸 Your letter has been delivered."
@@ -2121,7 +2237,7 @@
     const list = wrapper.querySelector("#communityArtistInboxList");
     try {
       const { data: letters, error } = await db.from("community_letters")
-        .select("id, recipient, display_name, country_code, message, created_at")
+        .select("id, recipient, display_name, country_code, message, message_format, created_at")
         .eq("status", "approved")
         .in("recipient", [artistName, "OomBam"])
         .order("created_at", { ascending: false });
@@ -2151,7 +2267,7 @@
             <span class="community-artist-letter__sender">— ${safeText(letter.display_name || "Blossom", 40)}${flag ? ` · ${flag}` : ""}</span>
             <button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button>
           </footer>`;
-        card.querySelector(".community-artist-letter__message").textContent = safeMultiline(letter.message, 5000);
+        appendFormattedLetter(card.querySelector(".community-artist-letter__message"), letter.message_format, letter.message);
         const love = card.querySelector(".community-artist-love");
         love.addEventListener("click", async () => {
           love.disabled = true;
@@ -2183,7 +2299,7 @@
     const list = wrapper.querySelector("#communityMyLettersList");
     try {
       const { data: letters, error } = await db.from("community_letters")
-        .select("id, recipient, message, status, created_at")
+        .select("id, recipient, message, message_format, status, created_at")
         .eq("user_id", currentSession.user.id)
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -2215,7 +2331,7 @@
             <div class="community-my-letter__status"><span class="community-letter-status">${safeText(letter.status || "pending", 12)}</span>${loveText ? `<strong class="community-letter-love">${loveText}</strong>` : ""}</div>
             <button type="button" class="community-letter-delete">Delete Letter</button>
           </footer>`;
-        card.querySelector(".community-artist-letter__message").textContent = safeMultiline(letter.message, 5000);
+        appendFormattedLetter(card.querySelector(".community-artist-letter__message"), letter.message_format, letter.message);
         card.querySelector(".community-letter-delete").addEventListener("click", async () => {
           if (!window.confirm("Delete this letter? This action cannot be undone.")) return;
           const button = card.querySelector(".community-letter-delete");
