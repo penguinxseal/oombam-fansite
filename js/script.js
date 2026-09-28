@@ -1040,45 +1040,7 @@
   const currentYear = document.getElementById("currentYear");
   if (currentYear) currentYear.textContent = new Date().getFullYear();
 
-  /* -----------------------------------------------------
-     Homepage event countdown — safe on pages without it
-  ----------------------------------------------------- */
-  const eventCountdown = document.getElementById("eventCountdown");
-  const countdownDays = document.getElementById("countdownDays");
-  const countdownHours = document.getElementById("countdownHours");
-  const countdownMinutes = document.getElementById("countdownMinutes");
-  const countdownSeconds = document.getElementById("countdownSeconds");
-  const countdownStatus = document.getElementById("countdownStatus");
 
-  if (eventCountdown && countdownDays && countdownHours && countdownMinutes && countdownSeconds) {
-    const targetTime = new Date("2026-08-15T00:00:00+08:00").getTime();
-    const pad = (n) => String(n).padStart(2, "0");
-
-    const updateCountdown = () => {
-      const remaining = targetTime - Date.now();
-      if (remaining <= 0) {
-        countdownDays.textContent = "00";
-        countdownHours.textContent = "00";
-        countdownMinutes.textContent = "00";
-        countdownSeconds.textContent = "00";
-        if (countdownStatus) countdownStatus.textContent = "OOMBAM • Shanghai Private Event";
-        return false;
-      }
-      const SECOND = 1000, MINUTE = 60000, HOUR = 3600000, DAY = 86400000;
-      countdownDays.textContent = pad(Math.floor(remaining / DAY));
-      countdownHours.textContent = pad(Math.floor((remaining % DAY) / HOUR));
-      countdownMinutes.textContent = pad(Math.floor((remaining % HOUR) / MINUTE));
-      countdownSeconds.textContent = pad(Math.floor((remaining % MINUTE) / SECOND));
-      if (countdownStatus) countdownStatus.textContent = "Shanghai Private Event • August 15, 2026 • Shanghai, China";
-      return true;
-    };
-
-    if (updateCountdown()) {
-      const timer = window.setInterval(() => {
-        if (!updateCountdown()) window.clearInterval(timer);
-      }, 1000);
-    }
-  }
 })();
 
 
