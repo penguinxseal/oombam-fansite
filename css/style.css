@@ -16606,3 +16606,67 @@ body:not(.dark-theme) .interviews-hero__shade{background:linear-gradient(90deg,r
 @media (max-width:420px) {
   .page-home .media-magazine-strip { width:88%; }
 }
+
+/* =========================================================
+   HOMEPAGE 20.11.9 — MEDIA RESPONSIVE FOOTPRINT
+   Match the proven Moments card footprint on tablet/mobile.
+   Desktop geometry remains untouched.
+========================================================= */
+@media (min-width:761px) and (max-width:1180px) {
+  .page-home .media-magazine-strip {
+    width:100% !important;
+    grid-template-columns:repeat(3, minmax(0, 180px)) !important;
+    justify-content:center !important;
+    gap:14px !important;
+  }
+}
+
+@media (max-width:760px) {
+  .page-home .media-magazine-strip {
+    width:100% !important;
+    grid-template-columns:repeat(2, minmax(0, min(38vw, 285px))) !important;
+    justify-content:center !important;
+    gap:12px !important;
+  }
+}
+
+@media (max-width:420px) {
+  .page-home .media-magazine-strip {
+    width:100% !important;
+    grid-template-columns:min(76vw, 285px) !important;
+    justify-content:center !important;
+  }
+}
+
+
+/* =========================================================
+   HOMEPAGE 20.11.10 — COMPACT MEDIA ON TABLET + MOBILE
+   Desktop stays locked. Smaller portrait cards match the
+   visual footprint of Moments without changing Media flow.
+========================================================= */
+@media (min-width:761px) and (max-width:1180px) {
+  .page-home .media-magazine-strip {
+    width:100% !important;
+    grid-template-columns:repeat(3, 150px) !important;
+    justify-content:center !important;
+    column-gap:18px !important;
+    row-gap:24px !important;
+  }
+}
+
+@media (max-width:760px) {
+  .page-home .media-magazine-strip {
+    width:100% !important;
+    grid-template-columns:repeat(2, 142px) !important;
+    justify-content:center !important;
+    column-gap:14px !important;
+    row-gap:22px !important;
+  }
+}
+
+@media (max-width:360px) {
+  .page-home .media-magazine-strip {
+    grid-template-columns:repeat(2, minmax(0, 132px)) !important;
+    column-gap:10px !important;
+  }
+}
