@@ -16541,3 +16541,10 @@ body:not(.dark-theme) .interviews-hero__shade{background:linear-gradient(90deg,r
   #vlogsGrid.vlogs-editorial .vlogs-hero__copy small{font-size:8px!important;}
   #vlogsGrid.vlogs-editorial .vlogs-hero__copy button{margin-top:8px!important;padding:9px 13px!important;font-size:9px!important;}
 }
+
+/* Launch stabilization v20.11.6 — quiet What's Next state */
+.page-home .upcoming-event--quiet .event-name{max-width:320px;line-height:1.25}
+.page-home .upcoming-event--quiet .event-subtitle{margin-bottom:0}
+@media (min-width: 761px) and (max-width: 1180px){
+  .page-home .upcoming-event--quiet{margin-top:66px}
+}
