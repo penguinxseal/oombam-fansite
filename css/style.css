@@ -432,7 +432,7 @@ button {
   z-index: -3;
 
   background-image:
-    url("../assets/images/hero-banner.jpg");
+    url("../assets/images/hero-banner-web.webp");
 
   background-repeat: no-repeat;
   background-position: center center;
@@ -1945,7 +1945,7 @@ body.dark-theme
   }
 
   .hero-background {
-    background-image: url("../assets/images/hero-banner.jpg");
+    background-image: url("../assets/images/hero-banner-web.webp");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 61% center;
@@ -16547,4 +16547,62 @@ body:not(.dark-theme) .interviews-hero__shade{background:linear-gradient(90deg,r
 .page-home .upcoming-event--quiet .event-subtitle{margin-bottom:0}
 @media (min-width: 761px) and (max-width: 1180px){
   .page-home .upcoming-event--quiet{margin-top:66px}
+}
+\n\n/* =========================================================
+   HOMEPAGE 20.11.8 — STABILIZATION: MEDIA GEOMETRY + LOAD
+   One exterior geometry for all six Media tiles.
+========================================================= */
+.page-home .media-magazine-strip {
+  align-items:start;
+}
+.page-home .media-mag-card {
+  width:100%;
+  min-width:0;
+}
+.page-home .media-mag-trigger,
+.page-home .media-soundtrack-tile {
+  width:100% !important;
+  aspect-ratio:3 / 5 !important;
+  height:auto !important;
+  min-height:0 !important;
+  box-sizing:border-box !important;
+}
+.page-home .media-soundtrack-tile {
+  display:grid !important;
+  grid-template-rows:minmax(0,80%) minmax(0,20%) !important;
+}
+.page-home .media-soundtrack-player,
+.page-home .media-soundtrack-player iframe {
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+}
+
+/* Tablet: preserve the grid but reduce visual weight. */
+@media (min-width:761px) and (max-width:1180px) {
+  .page-home .media-magazine-strip {
+    width:86%;
+    margin-inline:auto;
+    gap:14px;
+  }
+  .page-home .media-mag-trigger,
+  .page-home .media-soundtrack-tile {
+    aspect-ratio:3 / 5 !important;
+  }
+}
+
+/* Mobile: smaller centered cards; retain vertical/catalog behavior. */
+@media (max-width:760px) {
+  .page-home .media-magazine-strip {
+    width:90%;
+    margin-inline:auto;
+    gap:12px;
+  }
+  .page-home .media-mag-trigger,
+  .page-home .media-soundtrack-tile {
+    aspect-ratio:3 / 5 !important;
+  }
+}
+@media (max-width:420px) {
+  .page-home .media-magazine-strip { width:88%; }
 }
