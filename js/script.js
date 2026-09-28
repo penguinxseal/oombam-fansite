@@ -745,6 +745,12 @@
     "category": "features",
     "platform": "YouTube",
     "url": "https://www.youtube.com/watch?v=BenfzXARvqo"
+  },
+  {
+    "title": "Did they live happily ever after? | I talked to Oom and Bam about the series Fullfill!",
+    "category": "long",
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=PmKK4UBLYFs"
   }
 ];
 
@@ -781,8 +787,9 @@
       poster.innerHTML='<span class="external-media-mark">♪</span><span class="external-media-copy"><b>@oombam_ch3</b><small>WATCH ON TIKTOK ↗</small></span>';
       container.append(poster); return;
     }
-    const fallback=document.createElement("span"); fallback.className="interview-media-preview__platform"; fallback.textContent=item.platform;
-    container.append(fallback);
+    const poster=document.createElement("span"); poster.className="interview-media-preview__external interview-media-preview__external--x";
+    poster.innerHTML='<span class="external-media-mark">𝕏</span><span class="external-media-copy"><b>Original post</b><small>VIEW ON X ↗</small></span>';
+    container.append(poster);
   };
   const byTitle = (needle) => INTERVIEW_ITEMS.find(item => item.title.includes(needle));
 
