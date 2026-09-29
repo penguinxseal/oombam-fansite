@@ -1439,18 +1439,18 @@
       key: "september",
       eyebrow: "SEPTEMBER 2026",
       title: "September Spotlight",
-      intro: "September brought another run of shared appearances for OomBam, spanning awards, fashion and beauty events, a world premiere, and a charity concert.",
+      intro: "September’s schedule spans shared appearances for OomBam across awards, fashion and beauty events, a world premiere, and a charity concert.",
       note: "New stages. Shared moments ♡",
       image: "assets/images/2026/September/OB_September_2026.jpg",
       alt: "OomBam during September 2026 activities",
       creditText: "@oombam_ch3 · Instagram",
       creditHref: "https://www.instagram.com/p/DdL0Iq2mROy/",
       events: [
-        { date: "Sep", title: "Y Entertainment Awards 2026", summary: "Y Entertainment Awards 2026." },
-        { date: "Sep", title: "MChoice & Mint Awards 2026", summary: "MChoice & Mint Awards 2026." },
-        { date: "Sep", title: "The Touch Preventive Blueprint", summary: "The Touch Preventive Blueprint." },
-        { date: "Sep", title: "Gala World Premiere", summary: "Gala World Premiere." },
-        { date: "Sep", title: "Nineentertain 24th Anniversary Charity Concert", summary: "Nineentertain 24th Anniversary Charity Concert." }
+        { date: "03 Sep", title: "Y Entertainment Awards 2026", summary: "Y Entertainment Awards 2026." },
+        { date: "12 Sep", title: "MChoice & Mint Awards 2026", summary: "MChoice & Mint Awards 2026." },
+        { date: "18 Sep", title: "The Touch Preventive Blueprint", summary: "The Touch Preventive Blueprint." },
+        { date: "28 Sep", title: "Gala World Premiere", summary: "Gala World Premiere." },
+        { date: "30 Sep", title: "Nineentertain 24th Anniversary Charity Concert", summary: "Nineentertain 24th Anniversary Charity Concert." }
       ]
     }
   ];
@@ -2068,7 +2068,7 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
       description:'A curated collection of the little scenes that made us pause, replay, and quietly go “oh.” Intimate clips from the Fulfill journey, gathered in the order they bloomed.',
       credit:'Scan: emjoy · Blooming With You Photobook · @oombam_ch3',
       creditUrl:'https://www.instagram.com/oombam_ch3?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==',
-      actions:[['View original post','https://www.instagram.com/p/DZ4aDRWRzDy/']],
+      actions:[],
       clips:[
         {videoId:'mFQnngiXaS0', caption:'One question, instant nostalgia. Their origin story gets a very soft replay.'},
         {videoId:'HgD8sHxSv0c', caption:'Episode one said “start gently” and apparently meant this gently.'},
@@ -2080,7 +2080,7 @@ const storyModal=document.getElementById("storyModal"),storyReader=document.getE
         {videoId:'WiIJDRnHBfk', caption:'The story ended; the giggles absolutely did not. One last peek behind the curtain.'}
       ]
     },
-    rabbit: { eyebrow:'Fan Perspective', title:'Rabbit Hole', image:'assets/images/RabbitHole.jpg', description:'A closer look through the eyes of fans: recurring details, parallels, gestures, interactions, and the little things that made Blossoms look twice.', credit:'Photo: @jzornphotoholic', creditUrl:'https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==', actions:[['View photographer','https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==']], note:'Rabbit Hole presents fan observations and interpretations as perspectives, not statements of fact about Oom or Bam.' },
+    rabbit: { eyebrow:'Fan Perspective', title:'Rabbit Hole', image:'assets/images/RabbitHole.jpg', description:'A closer look through the eyes of fans: recurring details, parallels, gestures, interactions, and the little things that made Blossoms look twice.', credit:'Photo: @jzornphotoholic', creditUrl:'https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==', actions:[], note:'Rabbit Hole presents fan observations and interpretations as perspectives, not statements of fact about Oom or Bam.' },
     soundtrack: { eyebrow:'Soundtrack', title:'Soundtrack and Music Archive', image:'', videoId:'RHnPq3Z0A8c', playlistIds:'RHnPq3Z0A8c,CKclkO6HHrY,O4Aigpyt4Uc', description:'The official Fulfill soundtrack, performed by Oom Eisaya and Bam Saralee.', credit:'Official soundtrack · YouTube', actions:[['Oom Eisaya — Fulfill OST ↗','https://youtu.be/RHnPq3Z0A8c?si=doOy3CnVHBzP7ASw'],['Bam Saralee — Fulfill OST ↗','https://youtu.be/CKclkO6HHrY?si=vwnpGo217i5dTE7D'],['Bam Saralee — Music ↗','https://youtu.be/O4Aigpyt4Uc?si=_w3Y3V3ckyL2xthU']] }
   };
   const img=modal.querySelector('#mediaDetailImage'), eye=modal.querySelector('#mediaDetailEyebrow'), title=modal.querySelector('#mediaDetailTitle'), desc=modal.querySelector('#mediaDetailDescription'), actions=modal.querySelector('#mediaDetailActions'), credit=modal.querySelector('#mediaDetailCredit'), note=modal.querySelector('#mediaDetailNote'), collection=modal.querySelector('#mediaDetailCollection');
