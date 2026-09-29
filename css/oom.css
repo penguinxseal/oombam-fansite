@@ -2385,7 +2385,7 @@ body.page-oom .socials a > span { font-size: 1rem; }
 }
 .oom-solo-archive__heading { padding: 0 4px 18px; }
 .oom-solo-archive__heading .section-label { margin-bottom: 5px; }
-.oom-solo-archive__heading h2 { margin: 0; font-size: clamp(1.2rem,2vw,1.75rem); letter-spacing: .13em; font-weight: 600; }
+.oom-solo-archive__heading h2 { margin: 0; font-family: var(--font-display); font-size: clamp(1.8rem, 2.4vw, 2.45rem); line-height: 1.08; letter-spacing: 0; font-weight: 500; }
 .oom-filmstrip { position: relative; }
 .oom-filmstrip__viewport { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; cursor: grab; touch-action: pan-y; overscroll-behavior-x: contain; }
 .oom-filmstrip__viewport::-webkit-scrollbar { display: none; }
