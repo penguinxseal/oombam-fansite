@@ -1,0 +1,2874 @@
+"use strict";
+
+// Community Hardening v20.11.13a — Phase 1 hotfix
+
+(() => {
+  if (!document.body.classList.contains("page-community")) return;
+
+  const config = window.OOMBAM_COMMUNITY_CONFIG || {};
+  const hasSupabaseConfig = Boolean(
+    config.supabaseUrl &&
+    config.supabaseAnonKey &&
+    window.supabase?.createClient
+  );
+
+  const storage = {
+    get(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (_) {
+        return fallback;
+      }
+    },
+    set(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); } catch (_) {}
+    }
+  };
+
+  const KEYS = {
+    letters: "oombam-community-preview-letters",
+    wall: "oombam-community-preview-wall",
+    chat: "oombam-community-preview-chat",
+    profile: "oombam-community-preview-profile",
+    lastWallSubmit: "oombam-community-last-wall-submit",
+    wallHistory: "oombam-community-wall-history",
+    lastLetterSubmit: "oombam-community-last-letter-submit",
+    letterHistory: "oombam-community-letter-history",
+    lastChat: "oombam-community-last-chat",
+    authPreview: "oombam-community-auth-preview"
+  };
+
+  const AUTH_REQUIRED = config.requireAuthForParticipation === true;
+
+  const safeText = (value = "", max = 5000) =>
+    String(value).replace(/\s+/g, " ").trim().slice(0, max);
+
+  const safeMultiline = (value = "", max = 5000) =>
+    String(value).replace(/\r/g, "").trim().slice(0, max);
+
+  const formatMonth = (dateValue = new Date()) => {
+    const d = new Date(dateValue);
+    if (Number.isNaN(d.getTime())) return "";
+    return new Intl.DateTimeFormat("en", { month: "long", year: "numeric" }).format(d);
+  };
+
+  const flagFromCountry = (country) => {
+    const code = safeText(country, 8).toUpperCase();
+    if (code === "OTHER") return "🌍";
+    if (!/^[A-Z]{2}$/.test(code)) return "";
+    return String.fromCodePoint(...[...code].map(c => 127397 + c.charCodeAt()));
+  };
+
+  let db = null;
+  let realtimeChannel = null;
+
+  const chatStatus = document.getElementById("communityChatStatus");
+  const chatStatusText = document.getElementById("communityChatStatusText");
+  const chatNote = document.getElementById("communityChatNote");
+  const chatWindow = document.getElementById("communityChatWindow");
+  const chatForm = document.getElementById("communityChatForm");
+  const chatEmojiButton = document.getElementById("communityChatEmojiButton");
+  const chatEmojiPicker = document.getElementById("communityChatEmojiPicker");
+  const chatInput = document.getElementById("communityChatInput");
+  const messageGrid = document.getElementById("blossomMessageGrid");
+  const authSummary = document.getElementById("communityAuthSummary");
+  const authButton = document.getElementById("communityAuthButton");
+  const authSignoutButton = document.getElementById("communityAuthSignout");
+
+  const setChatState = (state, note = "") => {
+    if (chatStatus) {
+      chatStatus.classList.remove("is-preview", "is-live", "is-error");
+      chatStatus.classList.add(`is-${state}`);
+    }
+    if (chatStatusText) {
+      chatStatusText.textContent =
+        state === "live" ? "LIVE" :
+        state === "preview" ? "PREVIEW" :
+        state === "error" ? "OFFLINE" : "CONNECTING";
+    }
+    if (chatNote) chatNote.textContent = note;
+  };
+
+
+  let currentSession = null;
+  let currentMember = null;
+  let authInitFailed = false;
+  let authReady = false;
+
+  const AUTH_KNOWN_ACCOUNT_KEY = "oombam-community-known-account";
+  const AUTH_PENDING_CONFIRM_KEY = "oombam-community-pending-confirmation";
+  const AUTH_WELCOME_SHOWN_KEY = "oombam-community-welcome-shown";
+
+  // Production custom-domain auth destinations.
+  // Confirmation carries a short marker so the Community page can always
+  // show a clear success state even when the auth provider uses a code-based
+  // callback that does not expose type=signup in the final URL.
+  const authConfirmRedirectUrl = () => `${window.location.origin}/community.html?confirmed=1`;
+  const authRecoveryRedirectUrl = () => `${window.location.origin}/community.html?recovery=1`;
+
+  const authReturnType = (() => {
+    try {
+      const queryType = new URLSearchParams(window.location.search).get("type");
+      const hashType = new URLSearchParams(window.location.hash.replace(/^#/, "")).get("type");
+      return queryType || hashType || "";
+    } catch (_) {
+      return "";
+    }
+  })();
+
+  const withTimeout = (promise, ms = 8000, message = "Request timed out") =>
+    Promise.race([
+      promise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error(message)), ms))
+    ]);
+
+  const passwordLooksValid = (value = "") =>
+    value.length >= 8 &&
+    /[a-z]/.test(value) &&
+    /[A-Z]/.test(value) &&
+    /\d/.test(value) &&
+    /[^A-Za-z0-9]/.test(value);
+
+  const isRecoveryReturn = () => {
+    try { return new URLSearchParams(window.location.search).get("recovery") === "1"; }
+    catch (_) { return false; }
+  };
+
+  const clearRecoveryMarker = () => {
+    try {
+      const cleanUrl = new URL(window.location.href);
+      cleanUrl.searchParams.delete("recovery");
+      window.history.replaceState({}, "", `${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`);
+    } catch (_) {}
+  };
+
+  const wirePasswordToggles = (root) => {
+    root.querySelectorAll(".community-password-toggle").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = button.closest(".community-password-field")?.querySelector("input");
+        if (!input) return;
+        const showing = input.type === "text";
+        input.type = showing ? "password" : "text";
+        button.textContent = showing ? "Show" : "Hide";
+        button.setAttribute("aria-label", showing ? "Show password" : "Hide password");
+        button.setAttribute("aria-pressed", String(!showing));
+      });
+    });
+  };
+
+  const memberFromUser = (user) => ({
+    userId: user?.id || "",
+    email: safeText(user?.email || "", 120),
+    displayName: safeText(user?.user_metadata?.display_name || "", 30),
+    avatar: safeText(user?.user_metadata?.avatar || "🌸", 4) || "🌸"
+  });
+
+  const setKnownAccount = (value = true) => {
+    try {
+      if (value) localStorage.setItem(AUTH_KNOWN_ACCOUNT_KEY, "1");
+      else localStorage.removeItem(AUTH_KNOWN_ACCOUNT_KEY);
+    } catch (_) {}
+  };
+
+  const hasKnownAccount = () => {
+    try { return localStorage.getItem(AUTH_KNOWN_ACCOUNT_KEY) === "1"; }
+    catch (_) { return false; }
+  };
+
+  const setPendingConfirmation = (payload) => {
+    try { localStorage.setItem(AUTH_PENDING_CONFIRM_KEY, JSON.stringify(payload)); } catch (_) {}
+  };
+
+  const getPendingConfirmation = () => {
+    try {
+      const raw = localStorage.getItem(AUTH_PENDING_CONFIRM_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) { return null; }
+  };
+
+  const clearPendingConfirmation = () => {
+    try { localStorage.removeItem(AUTH_PENDING_CONFIRM_KEY); } catch (_) {}
+  };
+
+  const welcomeNavLinks = () => [
+    ...document.querySelectorAll('[data-nav-key="welcome"]')
+  ];
+
+  const shortDisplayName = (value = "") => {
+    const name = safeText(value, 30) || "Blossom";
+    return name.length > 14 ? `${name.slice(0, 13)}…` : name;
+  };
+
+  const updateWelcomeNavigation = () => {
+    const signedInName = currentSession?.user && currentMember?.displayName
+      ? shortDisplayName(currentMember.displayName)
+      : "";
+    welcomeNavLinks().forEach((link) => {
+      link.textContent = signedInName ? `Welcome, ${signedInName} 🌸` : "Welcome 🌸";
+      link.title = signedInName ? `Welcome ${currentMember.displayName}` : "Welcome";
+      link.setAttribute("aria-label", signedInName
+        ? `Welcome ${currentMember.displayName}. Go to the home section.`
+        : "Welcome. Go to the home section.");
+    });
+  };
+
+  const headerSignup = document.getElementById("communityHeaderSignup");
+  const headerSignin = document.getElementById("communityHeaderSignin");
+  const mobileSignup = document.getElementById("communityMobileSignup");
+  const mobileSignin = document.getElementById("communityMobileSignin");
+  const headerSignout = document.getElementById("communityHeaderSignout");
+  const mobileSignout = document.getElementById("communityMobileSignout");
+  const headerAdmin = document.getElementById("communityHeaderAdmin");
+  const mobileAdmin = document.getElementById("communityMobileAdmin");
+  const headerAuth = document.getElementById("communityHeaderAuth");
+  const mobileAuth = document.getElementById("communityMobileAuth");
+  const artistInboxButton = document.getElementById("communityArtistInbox");
+
+  let communityAdminAccess = false;
+
+  const isCommunityArtist = () => {
+    if (!currentMember || currentMember.role !== "artist" || currentMember.artistAccessStatus !== "active") return false;
+    if (!currentMember.artistAccessExpiresAt) return true;
+    const expires = new Date(currentMember.artistAccessExpiresAt).getTime();
+    return Number.isFinite(expires) && expires > Date.now();
+  };
+
+  const isCommunityAdmin = () => communityAdminAccess === true;
+
+  const refreshCommunityAdminAccess = async () => {
+    if (!db || !currentSession?.user?.id) {
+      communityAdminAccess = false;
+      return false;
+    }
+
+    const { data, error } = await db.rpc("is_community_admin");
+    if (error) {
+      communityAdminAccess = false;
+      console.error("Community admin check failed:", error);
+      return false;
+    }
+
+    communityAdminAccess = data === true;
+    if (currentMember) currentMember.role = communityAdminAccess ? "admin" : (currentMember.role || "member");
+    return communityAdminAccess;
+  };
+
+  const updateHeaderAuthControls = () => {
+    const signedIn = Boolean(currentSession?.user?.id);
+    const admin = signedIn && isCommunityAdmin();
+    const artist = signedIn && isCommunityArtist();
+
+    [headerAuth, mobileAuth].forEach((el) => {
+      if (el) el.hidden = false;
+    });
+
+    [headerSignup, mobileSignup].forEach((button) => {
+      if (!button) return;
+      button.hidden = signedIn;
+      button.disabled = authInitFailed || !hasSupabaseConfig || !authReady;
+    });
+
+    [headerSignin, mobileSignin].forEach((button) => {
+      if (!button) return;
+      button.hidden = signedIn;
+      button.disabled = authInitFailed || !hasSupabaseConfig || !authReady;
+    });
+
+    [headerSignout, mobileSignout].forEach((button) => {
+      if (!button) return;
+      button.hidden = !signedIn;
+      button.disabled = !authReady;
+    });
+
+    [headerAdmin, mobileAdmin].forEach((button) => {
+      if (!button) return;
+      button.hidden = !admin || artist;
+      button.disabled = !authReady || authInitFailed;
+    });
+
+    if (artistInboxButton) {
+      artistInboxButton.hidden = !artist;
+      artistInboxButton.disabled = !authReady || authInitFailed;
+    }
+  };
+
+  const ensureMemberProfile = async (user) => {
+    if (!db || !user) return null;
+
+    const fallback = memberFromUser(user);
+    const fallbackName = fallback.displayName || safeText((fallback.email.split("@")[0] || "Blossom"), 30);
+
+    const { data: existing, error: readError } = await db
+      .from("community_profiles")
+      .select("user_id, display_name, avatar, country_code, role, artist_identity, artist_access_status, artist_access_expires_at")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (readError) throw readError;
+
+    if (!existing) {
+      const { data: created, error: insertError } = await db
+        .from("community_profiles")
+        .insert({
+          user_id: user.id,
+          display_name: fallbackName,
+          avatar: fallback.avatar || "🌸"
+        })
+        .select("user_id, display_name, avatar, country_code, role, artist_identity, artist_access_status, artist_access_expires_at")
+        .single();
+      if (insertError) throw insertError;
+      currentMember = {
+        userId: created.user_id,
+        email: fallback.email,
+        displayName: created.display_name,
+        avatar: created.avatar || "🌸",
+        countryCode: created.country_code || "",
+        role: created.role || "member",
+        artistIdentity: created.artist_identity || "",
+        artistAccessStatus: created.artist_access_status || null,
+        artistAccessExpiresAt: created.artist_access_expires_at || null
+      };
+    } else {
+      currentMember = {
+        userId: existing.user_id,
+        email: fallback.email,
+        displayName: existing.display_name,
+        avatar: existing.avatar || "🌸",
+        countryCode: existing.country_code || "",
+        role: existing.role || "member",
+        artistIdentity: existing.artist_identity || "",
+        artistAccessStatus: existing.artist_access_status || null,
+        artistAccessExpiresAt: existing.artist_access_expires_at || null
+      };
+    }
+
+    storage.set(KEYS.profile, {
+      displayName: currentMember.displayName,
+      avatar: currentMember.avatar,
+      role: currentMember.role || "member",
+      artistIdentity: currentMember.artistIdentity || ""
+    });
+    setKnownAccount(true);
+    return currentMember;
+  };
+
+  const isSignedIn = () => {
+    if (!AUTH_REQUIRED) return true;
+    return Boolean(currentSession?.user?.id);
+  };
+
+  const updateAuthUI = () => {
+    if (currentSession?.user && currentMember?.displayName) {
+      if (authSummary) authSummary.textContent = isCommunityArtist()
+        ? `Welcome, ${currentMember.displayName}. Your Artist Community access is active.`
+        : `Welcome back, ${currentMember.displayName} 🌸 You're signed in and ready to join the community.`;
+      if (authButton) {
+        authButton.textContent = "Account";
+        authButton.classList.add("is-signed-in");
+        authButton.disabled = false;
+      }
+      if (authSignoutButton) {
+        authSignoutButton.hidden = false;
+        authSignoutButton.disabled = false;
+      }
+    } else {
+      if (authSummary) authSummary.textContent = authInitFailed
+        ? "Community access could not connect. Please refresh and try again."
+        : "Leave a letter. Share a message. Join the conversation.";
+      if (authButton) {
+        authButton.textContent = authInitFailed ? "Try Again" : "Join / Sign In";
+        authButton.classList.remove("is-signed-in");
+        authButton.disabled = !authReady && !authInitFailed;
+      }
+      if (authSignoutButton) {
+        authSignoutButton.hidden = true;
+        authSignoutButton.disabled = true;
+      }
+    }
+    updateWelcomeNavigation();
+    updateHeaderAuthControls();
+  };
+
+  const renderAuthAccount = () => {
+    if (!currentSession?.user || !currentMember) {
+      renderAuthGate("signin");
+      return;
+    }
+
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM ACCOUNT</p>
+      <h2 class="community-modal__title" id="communityModalTitle"></h2>
+      <p class="community-modal__intro">Your Blossom Community account is active.</p>
+      <div class="community-account-card">
+        <span>Email</span><strong class="community-account-email"></strong>
+        <span>Display name</span><strong class="community-account-name"></strong>
+        <span class="community-account-role-label" hidden>Role</span><strong class="community-account-role" hidden></strong>
+      </div>
+      <div class="community-form__actions">
+        <button class="community-form__primary community-artist-inbox-account" type="button" hidden>Artist Inbox 💌</button>
+        <button class="community-form__secondary community-my-letters" type="button">My Letters</button>
+        <button class="community-form__secondary" type="button" data-community-close>Close</button>
+        <button class="community-form__primary community-signout" type="button">Sign Out</button>
+      </div>`;
+
+    wrapper.querySelector("#communityModalTitle").textContent = `Welcome back, ${currentMember.displayName} 🌸`;
+    wrapper.querySelector(".community-account-email").textContent = currentMember.email;
+    wrapper.querySelector(".community-account-name").textContent = currentMember.displayName;
+    if (isCommunityAdmin() || isCommunityArtist()) {
+      const roleLabel = wrapper.querySelector(".community-account-role-label");
+      const roleValue = wrapper.querySelector(".community-account-role");
+      if (roleLabel && roleValue) {
+        roleLabel.hidden = false;
+        roleValue.hidden = false;
+        roleValue.textContent = isCommunityAdmin() ? "Community Admin" : "ARTIST";
+      }
+    }
+
+    const accountArtistInbox = wrapper.querySelector(".community-artist-inbox-account");
+    if (accountArtistInbox) {
+      accountArtistInbox.hidden = !isCommunityArtist();
+      accountArtistInbox.addEventListener("click", renderArtistInbox);
+    }
+    const myLettersButton = wrapper.querySelector(".community-my-letters");
+    if (myLettersButton) {
+      myLettersButton.hidden = isCommunityArtist();
+      myLettersButton.addEventListener("click", renderMyLetters);
+    }
+
+    wrapper.querySelector(".community-signout")?.addEventListener("click", async () => {
+      const button = wrapper.querySelector(".community-signout");
+      button.disabled = true;
+      try {
+        const { error } = await withTimeout(db.auth.signOut(), 8000, "Sign out timed out");
+        if (error) throw error;
+        currentSession = null;
+        currentMember = null;
+        try { localStorage.removeItem(KEYS.profile); } catch (_) {}
+        updateAuthUI();
+        closeModal();
+      } catch (error) {
+        console.error("Blossom sign out:", error);
+        button.disabled = false;
+      }
+    });
+
+    openModal(wrapper);
+  };
+
+  const renderSignupSuccess = (email, displayName = "") => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "community-auth-success";
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM COMMUNITY ACCESS</p>
+      <div class="community-auth-success__icon" aria-hidden="true">✉️</div>
+      <h2 class="community-modal__title" id="communityModalTitle">Check your inbox 🌸</h2>
+      <p class="community-modal__intro">We sent a confirmation email to <strong class="community-auth-success__email"></strong>.</p>
+      <div class="community-auth-success__note">
+        <strong>One little step before you bloom with us.</strong>
+        <span>Confirm your Blossom account within <strong>10 minutes</strong>, then return to the Community page.</span>
+      </div>
+      <p class="community-form__status" aria-live="polite"></p>
+      <div class="community-form__actions">
+        <button class="community-form__secondary community-auth-resend" type="button">Resend Email</button>
+        <button class="community-form__primary" type="button" data-community-close>Got it 🌸</button>
+      </div>`;
+    wrapper.querySelector(".community-auth-success__email").textContent = email;
+
+    const resend = wrapper.querySelector(".community-auth-resend");
+    resend.addEventListener("click", async () => {
+      resend.disabled = true;
+      const status = wrapper.querySelector(".community-form__status");
+      status.textContent = "Sending a new confirmation email…";
+      status.classList.remove("is-success", "is-error");
+      try {
+        const { error } = await withTimeout(db.auth.resend({
+          type: "signup",
+          email,
+          options: { emailRedirectTo: authConfirmRedirectUrl() }
+        }), 10000, "Resend timed out");
+        if (error) throw error;
+        status.textContent = "Sent 🌸 Please use the newest confirmation email within 10 minutes.";
+        status.classList.add("is-success");
+      } catch (error) {
+        status.textContent = safeText(error?.message || "We could not resend the email. Please try again.", 180);
+        status.classList.add("is-error");
+      } finally {
+        resend.disabled = false;
+      }
+    });
+
+    openModal(wrapper);
+  };
+
+  const renderVerifiedWelcome = () => {
+    if (!currentSession?.user || !currentMember) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "community-auth-success";
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">WELCOME, BLOSSOM</p>
+      <div class="community-auth-success__icon" aria-hidden="true">🌸</div>
+      <h2 class="community-modal__title" id="communityModalTitle"></h2>
+      <p class="community-modal__intro">Your email is confirmed and your Blossom Community account is ready.</p>
+      <div class="community-auth-success__note">
+        <strong>You’re officially part of the garden.</strong>
+        <span>You can now send letters, leave Blossom Wall messages, and join Blossom Chat.</span>
+      </div>
+      <div class="community-form__actions">
+        <button class="community-form__primary" type="button" data-community-close>Enter the Community 🌸</button>
+      </div>`;
+    wrapper.querySelector("#communityModalTitle").textContent = `Welcome, ${currentMember.displayName} 🌸`;
+    openModal(wrapper);
+  };
+
+  const renderPasswordRecovery = () => {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM ACCOUNT</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Choose a new password</h2>
+      <p class="community-modal__intro">Create a new password for your Blossom Community account.</p>
+      <form class="community-form" id="communityRecoveryForm">
+        <label>New password
+          <span class="community-password-field">
+            <input name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="Create a secure password">
+            <button class="community-password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+          </span>
+        </label>
+        <label>Confirm new password
+          <span class="community-password-field">
+            <input name="confirmPassword" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="Re-enter your new password">
+            <button class="community-password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+          </span>
+        </label>
+        <div class="community-auth-guidance">
+          <p class="community-auth-guidance__item"><span aria-hidden="true">◇</span><span>Use 8+ characters with lowercase, uppercase, a number, and a symbol.</span></p>
+        </div>
+        <p class="community-form__status" aria-live="polite"></p>
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
+          <button class="community-form__primary" type="submit">Update Password 🌸</button>
+        </div>
+      </form>`;
+    const form = wrapper.querySelector("form");
+    wirePasswordToggles(wrapper);
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const password = String(formData.get("password") || "");
+      const confirmPassword = String(formData.get("confirmPassword") || "");
+      if (!passwordLooksValid(password)) {
+        showFormStatus(form, "Password must have 8+ characters with lowercase, uppercase, a number, and a symbol.", "error");
+        return;
+      }
+      if (password !== confirmPassword) {
+        showFormStatus(form, "The passwords do not match. Please try again.", "error");
+        return;
+      }
+      const submit = form.querySelector('[type="submit"]');
+      submit.disabled = true;
+      showFormStatus(form, "Updating your password…");
+      try {
+        const { error } = await withTimeout(db.auth.updateUser({ password }), 10000, "Password update timed out");
+        if (error) throw error;
+        showFormStatus(form, "Password updated 🌸 You can continue using your account.", "success");
+        clearRecoveryMarker();
+        setTimeout(() => closeModal(), 1000);
+      } catch (error) {
+        showFormStatus(form, safeText(error?.message || "We could not update your password.", 180), "error");
+      } finally {
+        submit.disabled = false;
+      }
+    });
+    openModal(wrapper);
+  };
+
+  const renderForgotPassword = (prefillEmail = "") => {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM ACCOUNT</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Reset your password</h2>
+      <p class="community-modal__intro">Enter the email connected to your Blossom account. We’ll send a secure reset link.</p>
+      <form class="community-form" id="communityForgotForm">
+        <label>Email address
+          <input name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" required placeholder="you@example.com">
+        </label>
+        <p class="community-form__status" aria-live="polite"></p>
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
+          <button class="community-form__primary" type="submit">Send Reset Link 🌸</button>
+        </div>
+      </form>`;
+    const form = wrapper.querySelector("form");
+    form.elements.email.value = safeText(prefillEmail, 120);
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = safeText(new FormData(form).get("email"), 120).toLowerCase();
+      const submit = form.querySelector('[type="submit"]');
+      submit.disabled = true;
+      showFormStatus(form, "Sending your reset link…");
+      try {
+        const { error } = await withTimeout(db.auth.resetPasswordForEmail(email, {
+          redirectTo: authRecoveryRedirectUrl()
+        }), 10000, "Password reset request timed out");
+        if (error) throw error;
+        showFormStatus(form, "Reset link sent 🌸 Check your inbox and follow the link within 10 minutes.", "success");
+      } catch (error) {
+        showFormStatus(form, safeText(error?.message || "We could not send the reset link.", 180), "error");
+      } finally {
+        submit.disabled = false;
+      }
+    });
+    openModal(wrapper);
+  };
+
+  const renderAuthGate = (initialMode = "signup", onSuccess) => {
+    if (typeof initialMode === "function") {
+      onSuccess = initialMode;
+      initialMode = "signup";
+    }
+    if (!hasSupabaseConfig || !db || authInitFailed) {
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = `
+        <p class="community-modal__eyebrow">BLOSSOM COMMUNITY</p>
+        <h2 class="community-modal__title" id="communityModalTitle">Community access unavailable</h2>
+        <p class="community-modal__intro">We could not connect to Blossom Community Access right now. Please refresh and try again.</p>
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Close</button>
+        </div>`;
+      openModal(wrapper);
+      return;
+    }
+
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM COMMUNITY ACCESS</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Grow with us 🌸</h2>
+      <p class="community-modal__intro community-auth-intro"></p>
+      <div class="community-auth-tabs" role="tablist" aria-label="Blossom account access">
+        <button class="community-auth-tab" type="button" data-auth-mode="signup" role="tab">Join Community</button>
+        <button class="community-auth-tab" type="button" data-auth-mode="signin" role="tab">Sign In</button>
+      </div>
+      <form class="community-form" id="communityAuthForm">
+        <label>Email address
+          <input name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" required placeholder="you@example.com">
+        </label>
+        <label class="community-auth-signup-only">Display name
+          <input name="displayName" maxlength="30" autocomplete="nickname" placeholder="e.g. Blossom PH">
+        </label>
+        <label>Password
+          <span class="community-password-field">
+            <input name="password" type="password" minlength="8" maxlength="128" required>
+            <button class="community-password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+          </span>
+        </label>
+        <div class="community-auth-guidance community-auth-signup-only" aria-label="Account requirements">
+          <p class="community-auth-guidance__item"><span aria-hidden="true">◇</span><span><strong>Password:</strong> 8+ characters with lowercase, uppercase, a number, and a symbol.</span></p>
+          <p class="community-auth-guidance__item"><span aria-hidden="true">♡</span><span>Your email stays private and is never shown on Community posts.</span></p>
+          <p class="community-auth-guidance__item community-auth-confirm-note"><span aria-hidden="true">✉</span><span>After joining, confirm your Blossom account from the email we send within <strong>10 minutes</strong>.</span></p>
+        </div>
+        <button class="community-auth-forgot" type="button">Forgot password?</button>
+        <p class="community-form__status" aria-live="polite"></p>
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
+          <button class="community-form__primary community-auth-submit" type="submit"></button>
+        </div>
+      </form>`;
+
+    const form = wrapper.querySelector("form");
+    wirePasswordToggles(wrapper);
+    const submit = wrapper.querySelector(".community-auth-submit");
+    const intro = wrapper.querySelector(".community-auth-intro");
+    const displayNameInput = form.elements.displayName;
+    const passwordInput = form.elements.password;
+    const forgot = wrapper.querySelector(".community-auth-forgot");
+    let mode = initialMode === "signin" ? "signin" : "signup";
+
+    const setMode = (nextMode) => {
+      mode = nextMode === "signin" ? "signin" : "signup";
+      wrapper.querySelectorAll("[data-auth-mode]").forEach((button) => {
+        const active = button.dataset.authMode === mode;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-selected", String(active));
+        button.tabIndex = active ? 0 : -1;
+      });
+      wrapper.querySelectorAll(".community-auth-signup-only").forEach((el) => {
+        el.hidden = mode !== "signup";
+      });
+      displayNameInput.required = mode === "signup";
+      forgot.hidden = mode !== "signin";
+      passwordInput.autocomplete = mode === "signup" ? "new-password" : "current-password";
+      passwordInput.placeholder = mode === "signup" ? "Create a secure password" : "Enter your password";
+      submit.textContent = mode === "signup" ? "Join Community 🌸" : "Sign In 🌸";
+      submit.classList.toggle("is-signin", mode === "signin");
+      intro.textContent = mode === "signup"
+        ? "Join the community to send letters, leave Blossom Wall messages, and take part in Blossom Chat."
+        : "Welcome back, Blossom. Sign in to continue sharing, chatting, and growing with the community.";
+      showFormStatus(form, "");
+    };
+
+    wrapper.querySelectorAll("[data-auth-mode]").forEach((button) => {
+      button.addEventListener("click", () => setMode(button.dataset.authMode));
+    });
+    forgot.addEventListener("click", () => renderForgotPassword(form.elements.email.value));
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const email = safeText(data.get("email"), 120).toLowerCase();
+      const displayName = safeText(data.get("displayName"), 30);
+      const password = String(data.get("password") || "");
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showFormStatus(form, "Please enter a valid email address.", "error");
+        return;
+      }
+      if (mode === "signup" && !displayName) {
+        showFormStatus(form, "Please choose a display name.", "error");
+        return;
+      }
+      if (mode === "signup" && !passwordLooksValid(password)) {
+        showFormStatus(form, "Password must have 8+ characters with lowercase, uppercase, a number, and a symbol.", "error");
+        return;
+      }
+
+      submit.disabled = true;
+      showFormStatus(form, mode === "signup" ? "Creating your Blossom account…" : "Signing you in…");
+
+      try {
+        if (mode === "signup") {
+          const { data: result, error } = await withTimeout(db.auth.signUp({
+            email,
+            password,
+            options: {
+              emailRedirectTo: authConfirmRedirectUrl(),
+              data: { display_name: displayName, avatar: "🌸" }
+            }
+          }), 12000, "Sign up is taking longer than expected. Please check your connection and try again.");
+          if (error) throw error;
+          setKnownAccount(true);
+          setPendingConfirmation({ email, displayName, createdAt: Date.now() });
+
+          if (result.session?.user) {
+            currentSession = result.session;
+            await ensureMemberProfile(result.session.user);
+            await refreshCommunityAdminAccess();
+            clearPendingConfirmation();
+            updateAuthUI();
+            closeModal();
+            renderVerifiedWelcome();
+            onSuccess?.();
+          } else {
+            renderSignupSuccess(email, displayName);
+          }
+        } else {
+          const { data: result, error } = await withTimeout(
+            db.auth.signInWithPassword({ email, password }),
+            12000,
+            "Sign in is taking longer than expected. Please check your connection and try again."
+          );
+          if (error) throw error;
+          currentSession = result.session;
+          setKnownAccount(true);
+          await ensureMemberProfile(result.user);
+          await refreshCommunityAdminAccess();
+          updateAuthUI();
+          closeModal();
+
+          const pending = getPendingConfirmation();
+          if (pending && pending.email?.toLowerCase() === email) {
+            clearPendingConfirmation();
+            renderVerifiedWelcome();
+          }
+          onSuccess?.();
+        }
+      } catch (error) {
+        console.error("Blossom Auth:", error);
+        const message = safeText(error?.message || "We could not complete that request. Please try again.", 220);
+        showFormStatus(form, message, "error");
+      } finally {
+        submit.disabled = false;
+      }
+    });
+
+    setMode(mode);
+    openModal(wrapper);
+  };
+
+  const requireParticipationAuth = (onSuccess) => {
+    if (!AUTH_REQUIRED || isSignedIn()) {
+      onSuccess?.();
+      return true;
+    }
+    renderAuthGate("signup", onSuccess);
+    return false;
+  };
+
+  const createModalShell = () => {
+    let modal = document.getElementById("communityModal");
+    if (modal) return modal;
+
+    modal = document.createElement("div");
+    modal.id = "communityModal";
+    modal.className = "community-modal";
+    modal.hidden = true;
+    modal.innerHTML = `
+      <div class="community-modal__backdrop" data-community-close></div>
+      <section class="community-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="communityModalTitle">
+        <button class="community-modal__close" type="button" aria-label="Close" data-community-close>×</button>
+        <div id="communityModalBody"></div>
+      </section>`;
+    document.body.append(modal);
+
+    modal.addEventListener("click", (event) => {
+      if (event.target.closest("[data-community-close]")) closeModal();
+    });
+
+    return modal;
+  };
+
+  let modalScrollY = 0;
+
+  const lockModalScroll = () => {
+    modalScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${modalScrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    document.body.classList.add("community-modal-open");
+  };
+
+  const unlockModalScroll = () => {
+    document.body.classList.remove("community-modal-open");
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    window.scrollTo(0, modalScrollY);
+  };
+
+  const openModal = (content, { wide = false } = {}) => {
+    const modal = createModalShell();
+    const dialog = modal.querySelector(".community-modal__dialog");
+    const body = modal.querySelector("#communityModalBody");
+    dialog.classList.toggle("community-modal__dialog--wide", wide);
+    body.replaceChildren();
+    if (typeof content === "string") body.innerHTML = content;
+    else body.append(content);
+
+    lockModalScroll();
+    modal.hidden = false;
+
+    // Desktop can receive keyboard focus immediately.
+    // On iPhone/iPad, auto-focusing an input can trigger Safari viewport zoom/shift.
+    const touchLike = window.matchMedia?.("(hover: none), (pointer: coarse)")?.matches;
+    if (!touchLike) {
+      requestAnimationFrame(() => {
+        modal.querySelector("input, textarea, select, button:not(.community-modal__close)")?.focus({ preventScroll: true });
+      });
+    }
+  };
+
+  const closeModal = () => {
+    const modal = document.getElementById("communityModal");
+    if (!modal || modal.hidden) return;
+    modal.hidden = true;
+    unlockModalScroll();
+  };
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeModal();
+  });
+
+  const statusLine = (form) => form.querySelector(".community-form__status");
+
+  const showFormStatus = (form, message, type = "") => {
+    const el = statusLine(form);
+    if (!el) return;
+    el.textContent = message;
+    el.classList.remove("is-success", "is-error");
+    if (type) el.classList.add(`is-${type}`);
+  };
+
+  const isRateLimited = (key, minimumMs) => {
+    const last = Number(storage.get(key, 0)) || 0;
+    return Date.now() - last < minimumMs;
+  };
+
+  const markRate = (key) => storage.set(key, Date.now());
+
+  const COMMUNITY_LIMITS = {
+    wallCooldownMs: 5 * 60 * 1000,
+    wallDailyMax: 5,
+    letterCooldownMs: 24 * 60 * 60 * 1000
+  };
+
+  const normalizeSubmission = (value = "") =>
+    String(value).normalize("NFKC").toLowerCase()
+      .replace(/[\u200B-\u200D\uFEFF]/g, "")
+      .replace(/\s+/g, " ").trim();
+
+  const submissionFingerprint = (value = "") =>
+    normalizeSubmission(value)
+      .replace(/https?:\/\/\S+|www\.\S+/gi, " ")
+      .replace(/[^\p{L}\p{N}]+/gu, "");
+
+  const containsClickableUrl = (value = "") =>
+    /(?:https?:\/\/|www\.|(?:[a-z0-9-]+\.)+(?:com|net|org|io|co|me|app|site|xyz|ph|th)\b)/i.test(String(value));
+
+  const looksLikeSpam = (value = "") => {
+    const normalized = normalizeSubmission(value);
+    if (/(.)\1{11,}/u.test(normalized)) return true;
+    const tokens = normalized.split(/\s+/).filter(Boolean);
+    if (tokens.length >= 8) {
+      const counts = new Map();
+      for (const token of tokens) counts.set(token, (counts.get(token) || 0) + 1);
+      if ([...counts.values()].some(count => count >= 6)) return true;
+    }
+    return false;
+  };
+
+  // Phase 1: curated multilingual rules for severe/targeted abuse.
+  // Mild profanity is intentionally not treated the same as targeted abuse.
+  const BLOCKED_LANGUAGE = [
+    /\b(?:kill\s+yourself|kys|go\s+die|rape\s+you)\b/iu,
+    /\b(?:n[i1]gg(?:er|a)|f[a@]gg(?:ot)?|ch[i1]nk)\b/iu,
+    /\b(?:putang\s*ina\s*mo|tang\s*ina\s*mo|gago\s*ka|bobo\s*ka|mamatay\s*ka)\b/iu,
+    /(?:ไปตายซะ|มึงตาย|อีเหี้ย|ไอ้เหี้ย)/u,
+    /\b(?:mati\s+aja|bunuh\s+diri|anjing\s+lu|bangsat\s+lu)\b/iu,
+    /(?:đi\s+chết|mày\s+chết|đồ\s+chó)/iu,
+    /(?:죽어|꺼져|씨발년|씨발놈)/u,
+    /(?:死ね|くたばれ)/u,
+    /(?:去死|你去死|操你妈|操你媽)/u
+  ];
+
+  const assessSubmission = (type, value = "") => {
+    const message = safeMultiline(value, type === "letter" ? 1500 : 280);
+    if (!message) return { ok: false, reason: "empty" };
+    if (type === "letter" && containsClickableUrl(message)) return { ok: false, reason: "letter-url" };
+    if (looksLikeSpam(message)) return { ok: false, reason: "spam-pattern" };
+    const normalized = normalizeSubmission(message);
+    if (BLOCKED_LANGUAGE.some(rule => rule.test(normalized))) return { ok: false, reason: "blocked-language" };
+    return { ok: true, fingerprint: submissionFingerprint(message) };
+  };
+
+  const recentHistory = (key, windowMs) => {
+    const cutoff = Date.now() - windowMs;
+    return (storage.get(key, []) || []).filter(item => Number(item?.at) >= cutoff);
+  };
+
+  const rememberSubmission = (key, fingerprint, keepMs = 24 * 60 * 60 * 1000) => {
+    const history = recentHistory(key, keepMs);
+    history.push({ at: Date.now(), fingerprint });
+    storage.set(key, history.slice(-20));
+  };
+
+  const hasRecentDuplicate = (key, fingerprint, windowMs) =>
+    Boolean(fingerprint && recentHistory(key, windowMs).some(item => item.fingerprint === fingerprint));
+
+  const wallDailyCount = () => recentHistory(KEYS.wallHistory, 24 * 60 * 60 * 1000).length;
+
+
+  const COMMUNITY_EMOJIS = [
+    "🌸","🌼","🌷","🌹","🌻","🌺","💐","🌿","✨","⭐","🎀","🎁","🎉","🎊",
+    "❤️","🩷","🧡","💛","💚","🩵","💙","💜","🤍","💕","💖","💗","💓","💞","💘","💝",
+    "🥰","😍","😊","🥹","😂","😭","🤭","🥳","😘","☺️","🫶","👏","🙌","👍","💪","🙏",
+    "🐧","🦭","🐰","🐱","🍀","🌈","☀️","🌙","🔥","💫"
+  ];
+
+  function insertEmojiAtCursor(textarea, emoji, maxLength) {
+    if (!textarea) return;
+    const start = Number.isInteger(textarea.selectionStart) ? textarea.selectionStart : textarea.value.length;
+    const end = Number.isInteger(textarea.selectionEnd) ? textarea.selectionEnd : start;
+    const next = `${textarea.value.slice(0, start)}${emoji}${textarea.value.slice(end)}`.slice(0, maxLength);
+    textarea.value = next;
+    const cursor = Math.min(start + emoji.length, next.length);
+    textarea.focus();
+    try { textarea.setSelectionRange(cursor, cursor); } catch (_) {}
+  }
+
+  function attachComposerEmojiPicker(form, textareaName, maxLength) {
+    const textarea = form?.elements?.[textareaName];
+    if (!textarea) return;
+    const wrap = document.createElement("div");
+    wrap.className = "community-composer-emoji";
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "community-composer-emoji__toggle";
+    toggle.textContent = "😊 Add emoji";
+    toggle.setAttribute("aria-expanded", "false");
+    const picker = document.createElement("div");
+    picker.className = "community-composer-emoji__picker";
+    picker.hidden = true;
+    COMMUNITY_EMOJIS.forEach((emoji) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = emoji;
+      button.setAttribute("aria-label", `Insert ${emoji}`);
+      button.addEventListener("click", () => insertEmojiAtCursor(textarea, emoji, maxLength));
+      picker.append(button);
+    });
+    toggle.addEventListener("click", () => {
+      picker.hidden = !picker.hidden;
+      toggle.setAttribute("aria-expanded", picker.hidden ? "false" : "true");
+    });
+    wrap.append(toggle, picker);
+    textarea.insertAdjacentElement("afterend", wrap);
+  }
+
+  async function invokeCommunityModeration(body) {
+    if (!hasSupabaseConfig) throw new Error("Community moderation service is not configured.");
+    const { data, error } = await db.functions.invoke("community-moderation", { body });
+    if (error) throw error;
+    if (!data?.success) throw new Error(data?.error || "Community action failed.");
+    return data;
+  }
+
+  async function submitLetter(payload) {
+    if (hasSupabaseConfig) {
+      return invokeCommunityModeration({ action: "submit-letter", ...payload });
+    }
+    const preview = storage.get(KEYS.letters, []);
+    preview.unshift({ id: crypto.randomUUID?.() || `${Date.now()}`, ...payload, status: "pending", created_at: new Date().toISOString() });
+    storage.set(KEYS.letters, preview.slice(0, 50));
+    return { success: true, moderation: "pending" };
+  }
+
+  async function submitWallMessage(payload) {
+    if (hasSupabaseConfig) {
+      return invokeCommunityModeration({ action: "submit-wall", ...payload });
+    }
+    const preview = storage.get(KEYS.wall, []);
+    preview.unshift({ id: crypto.randomUUID?.() || `${Date.now()}`, ...payload, status: "pending", created_at: new Date().toISOString() });
+    storage.set(KEYS.wall, preview.slice(0, 50));
+    return { success: true, moderation: "pending" };
+  }
+
+  const LETTER_FORMAT_VERSION = 1;
+
+  function letterPlainText(editor) {
+    return String(editor?.innerText || "").replace(/\u00a0/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+  }
+
+  function letterInlineRuns(node, state = { b:false, i:false, u:false }, out = []) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.nodeValue || "";
+      if (text) out.push({ text, ...(state.b ? {b:true}:{}), ...(state.i ? {i:true}:{}), ...(state.u ? {u:true}:{}) });
+      return out;
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE) return out;
+    const tag = node.tagName.toLowerCase();
+    if (tag === "br") { out.push({ text:"\n", ...(state.b?{b:true}:{}), ...(state.i?{i:true}:{}), ...(state.u?{u:true}:{}) }); return out; }
+    const next = { b: state.b || tag === "b" || tag === "strong", i: state.i || tag === "i" || tag === "em", u: state.u || tag === "u" };
+    [...node.childNodes].forEach(child => letterInlineRuns(child, next, out));
+    return out;
+  }
+
+  function serializeLetterFormat(editor) {
+    const blocks = [];
+    const nodes = [...editor.childNodes];
+    const pushBlock = (node, align = "left") => {
+      const runs = letterInlineRuns(node).filter(run => run.text);
+      if (runs.length) blocks.push({ align: ["left","center","right","justify"].includes(align) ? align : "left", runs });
+    };
+    let loose = document.createElement("span");
+    const flushLoose = () => { if (loose.childNodes.length) { pushBlock(loose, "left"); loose = document.createElement("span"); } };
+    nodes.forEach(node => {
+      if (node.nodeType === Node.ELEMENT_NODE && ["div","p"].includes(node.tagName.toLowerCase())) {
+        flushLoose();
+        pushBlock(node, (node.style.textAlign || "left").toLowerCase());
+      } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName.toLowerCase() === "br") {
+        flushLoose();
+      } else loose.appendChild(node.cloneNode(true));
+    });
+    flushLoose();
+    return { version: LETTER_FORMAT_VERSION, blocks: blocks.slice(0, 80) };
+  }
+
+  function appendFormattedLetter(container, format, fallback) {
+    container.replaceChildren();
+    const blocks = format && format.version === LETTER_FORMAT_VERSION && Array.isArray(format.blocks) ? format.blocks : null;
+    if (!blocks?.length) { container.textContent = safeMultiline(fallback, 5000); return; }
+    blocks.forEach(block => {
+      const p = document.createElement("p");
+      p.className = "community-letter-rich__paragraph";
+      p.style.textAlign = ["left","center","right","justify"].includes(block.align) ? block.align : "left";
+      (Array.isArray(block.runs) ? block.runs : []).forEach(run => {
+        let node = document.createTextNode(String(run.text || ""));
+        if (run.u) { const el=document.createElement("u"); el.append(node); node=el; }
+        if (run.i) { const el=document.createElement("em"); el.append(node); node=el; }
+        if (run.b) { const el=document.createElement("strong"); el.append(node); node=el; }
+        p.append(node);
+      });
+      container.append(p);
+    });
+  }
+
+  function insertEmojiInRichEditor(editor, emoji, maxLength = 1500) {
+    if (!editor || letterPlainText(editor).length + emoji.length > maxLength) return;
+    editor.focus();
+    document.execCommand("insertText", false, emoji);
+    editor.dispatchEvent(new Event("input", { bubbles:true }));
+  }
+
+  function setupRichLetterEditor(form) {
+    const editor = form.querySelector("[data-letter-editor]");
+    const hidden = form.elements.message;
+    const count = form.querySelector("[data-letter-count]");
+    if (!editor || !hidden) return;
+    const sync = () => {
+      let plain = letterPlainText(editor);
+      if (plain.length > 1500) {
+        document.execCommand("undo");
+        plain = letterPlainText(editor).slice(0,1500);
+      }
+      hidden.value = plain;
+      if (count) count.textContent = `${plain.length} / 1,500`;
+    };
+    editor.addEventListener("input", sync);
+    editor.addEventListener("paste", (event) => {
+      event.preventDefault();
+      const text = (event.clipboardData?.getData("text/plain") || "").slice(0, Math.max(0,1500-letterPlainText(editor).length));
+      document.execCommand("insertText", false, text);
+    });
+    form.querySelectorAll("[data-letter-command]").forEach(button => button.addEventListener("mousedown", e => e.preventDefault()));
+    form.querySelectorAll("[data-letter-command]").forEach(button => button.addEventListener("click", () => {
+      editor.focus();
+      document.execCommand(button.dataset.letterCommand, false, null);
+      sync();
+    }));
+    const emojiWrap = document.createElement("div");
+    emojiWrap.className = "community-composer-emoji community-letter-emoji";
+    const toggle = document.createElement("button"); toggle.type="button"; toggle.className="community-emoji-toggle"; toggle.textContent="😊"; toggle.setAttribute("aria-label","Add emoji");
+    const palette = document.createElement("div"); palette.className="community-emoji-palette"; palette.hidden=true;
+    COMMUNITY_EMOJIS.forEach(emoji => { const b=document.createElement("button"); b.type="button"; b.textContent=emoji; b.addEventListener("click",()=>{insertEmojiInRichEditor(editor,emoji); palette.hidden=true;}); palette.append(b); });
+    toggle.addEventListener("click",()=>{palette.hidden=!palette.hidden;}); emojiWrap.append(toggle,palette); editor.insertAdjacentElement("afterend",emojiWrap);
+    form._letterFormat = () => serializeLetterFormat(editor);
+    form._resetLetterEditor = () => { editor.innerHTML=""; hidden.value=""; sync(); };
+    sync();
+  }
+
+  function renderLetterForm(recipient = "OomBam") {
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      requireParticipationAuth(() => renderLetterForm(recipient));
+      return;
+    }
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">FAN LETTER</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Write to ${recipient}</h2>
+      <p class="community-modal__intro"><strong>A private space for your words.</strong> Your letter won\'t appear publicly and is intended for Oom and Bam. It will be checked automatically for Community safety before delivery.</p>
+      <form class="community-form" id="communityLetterForm">
+        <div class="community-form__row">
+          <label>Display name
+            <input name="displayName" maxlength="40" autocomplete="nickname" required placeholder="e.g. Blossom PH">
+          </label>
+          <label>Country
+            <select name="countryCode">
+              <option value="">Prefer not to say</option>
+              <optgroup label="Asia">
+                <option value="PH">Philippines 🇵🇭</option>
+                <option value="TH">Thailand 🇹🇭</option>
+                <option value="SG">Singapore 🇸🇬</option>
+                <option value="MY">Malaysia 🇲🇾</option>
+                <option value="ID">Indonesia 🇮🇩</option>
+                <option value="VN">Vietnam 🇻🇳</option>
+                <option value="JP">Japan 🇯🇵</option>
+                <option value="KR">South Korea 🇰🇷</option>
+                <option value="CN">China 🇨🇳</option>
+                <option value="TW">Taiwan 🇹🇼</option>
+                <option value="HK">Hong Kong 🇭🇰</option>
+              </optgroup>
+              <optgroup label="North America">
+                <option value="US">United States 🇺🇸</option>
+                <option value="CA">Canada 🇨🇦</option>
+                <option value="MX">Mexico 🇲🇽</option>
+              </optgroup>
+              <optgroup label="Latin America">
+                <option value="BR">Brazil 🇧🇷</option>
+                <option value="CL">Chile 🇨🇱</option>
+                <option value="AR">Argentina 🇦🇷</option>
+                <option value="PE">Peru 🇵🇪</option>
+                <option value="CO">Colombia 🇨🇴</option>
+              </optgroup>
+              <optgroup label="Europe">
+                <option value="GB">United Kingdom 🇬🇧</option>
+                <option value="ES">Spain 🇪🇸</option>
+                <option value="FR">France 🇫🇷</option>
+                <option value="DE">Germany 🇩🇪</option>
+                <option value="IT">Italy 🇮🇹</option>
+                <option value="PT">Portugal 🇵🇹</option>
+                <option value="NL">Netherlands 🇳🇱</option>
+              </optgroup>
+              <option value="OTHER">Other 🌍</option>
+            </select>
+          </label>
+        </div>
+        <label>Your letter</label>
+        <div class="community-letter-toolbar" role="toolbar" aria-label="Letter formatting">
+          <button type="button" data-letter-command="bold" aria-label="Bold"><strong>B</strong></button>
+          <button type="button" data-letter-command="italic" aria-label="Italic"><em>I</em></button>
+          <button type="button" data-letter-command="underline" aria-label="Underline"><u>U</u></button>
+          <span class="community-letter-toolbar__divider" aria-hidden="true"></span>
+          <button type="button" data-letter-command="justifyLeft" aria-label="Align left">≡←</button>
+          <button type="button" data-letter-command="justifyCenter" aria-label="Align center">≡</button>
+          <button type="button" data-letter-command="justifyRight" aria-label="Align right">→≡</button>
+          <button type="button" data-letter-command="justifyFull" aria-label="Justify">☰</button>
+        </div>
+        <div class="community-letter-editor" data-letter-editor contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Share a little love, encouragement, or thanks…"></div>
+        <textarea name="message" hidden></textarea>
+        <p class="community-form__help"><span data-letter-count>0 / 1,500</span> characters. Please avoid private information.</p>
+        <input type="hidden" name="recipient" value="${recipient}">
+        <p class="community-form__status" aria-live="polite"></p>
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
+          <button class="community-form__primary" type="submit">Submit 🌸</button>
+        </div>
+      </form>`;
+
+    const form = wrapper.querySelector("form");
+    setupRichLetterEditor(form);
+    const memberName = currentMember?.displayName || getProfile()?.displayName || "";
+    if (memberName && form.elements.displayName) {
+      form.elements.displayName.value = memberName;
+      form.elements.displayName.readOnly = AUTH_REQUIRED;
+    }
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (isRateLimited(KEYS.lastLetterSubmit, COMMUNITY_LIMITS.letterCooldownMs)) {
+        showFormStatus(form, "You’ve already sent a Fan Letter today. You can send another one after 24 hours.", "error");
+        return;
+      }
+
+      const data = new FormData(form);
+      const payload = {
+        recipient: safeText(data.get("recipient"), 20),
+        displayName: safeText(data.get("displayName"), 40),
+        countryCode: safeText(data.get("countryCode"), 8),
+        message: safeMultiline(data.get("message"), 1500),
+        messageFormat: form._letterFormat ? form._letterFormat() : null
+      };
+
+      if (!payload.displayName || payload.message.length < 3) {
+        showFormStatus(form, "Please add your display name and letter.", "error");
+        return;
+      }
+
+      const assessment = assessSubmission("letter", payload.message);
+      if (!assessment.ok) {
+        const reasonMessage = assessment.reason === "letter-url"
+          ? "Please remove links from your Fan Letter before sending it."
+          : assessment.reason === "blocked-language"
+            ? "This letter could not be submitted because it may contain language that doesn’t meet the Community Guidelines."
+            : "This letter looks like repeated or automated content. Please revise it and try again.";
+        showFormStatus(form, reasonMessage, "error");
+        return;
+      }
+      if (hasRecentDuplicate(KEYS.letterHistory, assessment.fingerprint, COMMUNITY_LIMITS.letterCooldownMs)) {
+        showFormStatus(form, "This looks very similar to a Fan Letter you’ve already submitted.", "error");
+        return;
+      }
+
+      const submit = form.querySelector('[type="submit"]');
+      submit.disabled = true;
+      showFormStatus(form, "Submitting…");
+
+      try {
+        const result = await submitLetter(payload);
+        if (result?.moderation !== "rejected") {
+          markRate(KEYS.lastLetterSubmit);
+          rememberSubmission(KEYS.letterHistory, assessment.fingerprint);
+        }
+        form.reset();
+        form._resetLetterEditor?.();
+        const moderation = result?.moderation || "pending";
+        const message = moderation === "approved"
+          ? "Sent! 🌸 Your letter has been delivered."
+          : moderation === "rejected"
+            ? "This letter could not be submitted because it did not meet the Community Guidelines."
+            : "Submitted 🌸 Your letter passed the browser checks and is awaiting the Community safety service.";
+        showFormStatus(form, message, moderation === "rejected" ? "error" : "success");
+      } catch (error) {
+        console.error(error);
+        showFormStatus(form, "We could not submit your letter right now. Please try again.", "error");
+      } finally {
+        submit.disabled = false;
+      }
+    });
+
+    openModal(wrapper);
+  }
+
+  function renderMessageForm() {
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      requireParticipationAuth(() => renderMessageForm());
+      return;
+    }
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM WALL</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Leave a Message 🌸</h2>
+      <p class="community-modal__intro">${isCommunityArtist() ? "Your Artist message will be published directly to the Blossom Wall." : "Messages are checked automatically for Community safety before they appear on the Blossom Wall."}</p>
+      <form class="community-form" id="communityMessageForm">
+        <div class="community-form__row">
+          <label>Display name
+            <input name="displayName" maxlength="40" autocomplete="nickname" required placeholder="e.g. Blossom PH">
+          </label>
+          <label>Country
+            <select name="countryCode">
+              <option value="">Prefer not to say</option>
+              <optgroup label="Asia">
+                <option value="PH">Philippines 🇵🇭</option>
+                <option value="TH">Thailand 🇹🇭</option>
+                <option value="SG">Singapore 🇸🇬</option>
+                <option value="MY">Malaysia 🇲🇾</option>
+                <option value="ID">Indonesia 🇮🇩</option>
+                <option value="VN">Vietnam 🇻🇳</option>
+                <option value="JP">Japan 🇯🇵</option>
+                <option value="KR">South Korea 🇰🇷</option>
+                <option value="CN">China 🇨🇳</option>
+                <option value="TW">Taiwan 🇹🇼</option>
+                <option value="HK">Hong Kong 🇭🇰</option>
+              </optgroup>
+              <optgroup label="North America">
+                <option value="US">United States 🇺🇸</option>
+                <option value="CA">Canada 🇨🇦</option>
+                <option value="MX">Mexico 🇲🇽</option>
+              </optgroup>
+              <optgroup label="Latin America">
+                <option value="BR">Brazil 🇧🇷</option>
+                <option value="CL">Chile 🇨🇱</option>
+                <option value="AR">Argentina 🇦🇷</option>
+                <option value="PE">Peru 🇵🇪</option>
+                <option value="CO">Colombia 🇨🇴</option>
+              </optgroup>
+              <optgroup label="Europe">
+                <option value="GB">United Kingdom 🇬🇧</option>
+                <option value="ES">Spain 🇪🇸</option>
+                <option value="FR">France 🇫🇷</option>
+                <option value="DE">Germany 🇩🇪</option>
+                <option value="IT">Italy 🇮🇹</option>
+                <option value="PT">Portugal 🇵🇹</option>
+                <option value="NL">Netherlands 🇳🇱</option>
+              </optgroup>
+              <option value="OTHER">Other 🌍</option>
+            </select>
+          </label>
+        </div>
+        <label>Message
+          <textarea name="message" maxlength="280" required placeholder="Share a little message for OomBam and fellow Blossoms…"></textarea>
+        </label>
+        <p class="community-form__help">Maximum 280 characters. Please keep it kind and public-safe.</p>
+        <p class="community-form__status" aria-live="polite"></p>
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
+          <button class="community-form__primary" type="submit">${isCommunityArtist() ? "Publish to Wall 🌸" : "Submit 🌸"}</button>
+        </div>
+      </form>`;
+
+    const form = wrapper.querySelector("form");
+    attachComposerEmojiPicker(form, "message", 280);
+    const memberName = currentMember?.displayName || getProfile()?.displayName || "";
+    if (memberName && form.elements.displayName) {
+      form.elements.displayName.value = memberName;
+      form.elements.displayName.readOnly = AUTH_REQUIRED;
+    }
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (isRateLimited(KEYS.lastWallSubmit, COMMUNITY_LIMITS.wallCooldownMs)) {
+        showFormStatus(form, "Please wait 5 minutes before posting another Blossom Wall message.", "error");
+        return;
+      }
+      if (wallDailyCount() >= COMMUNITY_LIMITS.wallDailyMax) {
+        showFormStatus(form, "You’ve reached today’s Blossom Wall limit of 5 posts. Please try again tomorrow.", "error");
+        return;
+      }
+
+      const data = new FormData(form);
+      const payload = {
+        displayName: safeText(data.get("displayName"), 40),
+        countryCode: safeText(data.get("countryCode"), 8),
+        message: safeMultiline(data.get("message"), 280)
+      };
+
+      if (!payload.displayName || payload.message.length < 2) {
+        showFormStatus(form, "Please add your display name and message.", "error");
+        return;
+      }
+
+      const assessment = assessSubmission("wall", payload.message);
+      if (!assessment.ok) {
+        showFormStatus(form,
+          assessment.reason === "blocked-language"
+            ? "This message could not be published because it may contain language that doesn’t meet the Community Guidelines."
+            : "This message looks like repeated or automated content. Please revise it and try again.",
+          "error");
+        return;
+      }
+      if (hasRecentDuplicate(KEYS.wallHistory, assessment.fingerprint, 24 * 60 * 60 * 1000)) {
+        showFormStatus(form, "This looks very similar to something you’ve already posted today.", "error");
+        return;
+      }
+
+      const submit = form.querySelector('[type="submit"]');
+      submit.disabled = true;
+      showFormStatus(form, "Submitting…");
+
+      try {
+        const result = await submitWallMessage(payload);
+        if (result?.moderation !== "rejected") {
+          markRate(KEYS.lastWallSubmit);
+          rememberSubmission(KEYS.wallHistory, assessment.fingerprint);
+        }
+        form.reset();
+        const moderation = result?.moderation || (isCommunityArtist() ? "approved" : "pending");
+        const message = moderation === "approved"
+          ? (isCommunityArtist() ? "Published! 🌸 Your Artist message is now on the Blossom Wall." : "Published! 🌸 Your message is now on the Blossom Wall.")
+          : moderation === "rejected"
+            ? "This message could not be published because it did not meet the Community Guidelines."
+            : "Submitted 🌸 Your message needs a quick moderator review.";
+        showFormStatus(form, message, moderation === "rejected" ? "error" : "success");
+        if (moderation === "approved") await refreshWallPreview();
+      } catch (error) {
+        console.error(error);
+        showFormStatus(form, "We could not submit your message right now. Please try again.", "error");
+      } finally {
+        submit.disabled = false;
+      }
+    });
+
+    openModal(wrapper);
+  }
+
+  function renderSubmitMenu() {
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      requireParticipationAuth(() => renderSubmitMenu());
+      return;
+    }
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">COMMUNITY BLOSSOMS</p>
+      <h2 class="community-modal__title" id="communityModalTitle">What would you like to share?</h2>
+      <p class="community-modal__intro">Letters and Blossom Wall messages are active in this release. Fan-art and photo uploads can be added as the next backend phase.</p>
+      <div class="community-choice-grid">
+        <button class="community-choice" type="button" data-choice="letter">
+          <strong>💌 Fan Letter</strong>
+          <span>Write to Oom, Bam, or OomBam.</span>
+        </button>
+        <button class="community-choice" type="button" data-choice="message">
+          <strong>🌸 Blossom Wall</strong>
+          <span>Leave a short community message.</span>
+        </button>
+      </div>`;
+
+    wrapper.addEventListener("click", (event) => {
+      const choice = event.target.closest("[data-choice]")?.dataset.choice;
+      if (choice === "letter") renderLetterRecipientMenu();
+      if (choice === "message") renderMessageForm();
+    });
+
+    openModal(wrapper);
+  }
+
+  function renderLetterRecipientMenu() {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">FAN LETTER</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Choose a recipient</h2>
+      <p class="community-modal__intro">Your selection will be pre-filled in the letter form.</p>
+      <div class="community-choice-grid">
+        <button class="community-choice" type="button" data-recipient-choice="Oom"><strong>Oom 🩵</strong><span>Write to Oom.</span></button>
+        <button class="community-choice" type="button" data-recipient-choice="Bam"><strong>Bam 🌸</strong><span>Write to Bam.</span></button>
+        <button class="community-choice" type="button" data-recipient-choice="OomBam"><strong>OomBam 🩵🌸</strong><span>Write to them together.</span></button>
+      </div>`;
+
+    wrapper.addEventListener("click", (event) => {
+      const recipient = event.target.closest("[data-recipient-choice]")?.dataset.recipientChoice;
+      if (recipient) renderLetterForm(recipient);
+    });
+
+    openModal(wrapper);
+  }
+
+  function createWallCard(item) {
+    const card = document.createElement("article");
+    card.className = "message-card";
+
+    const quote = document.createElement("span");
+    quote.className = "quote-mark";
+    quote.textContent = "“";
+
+    const message = document.createElement("p");
+    message.textContent = safeMultiline(item.message, 280);
+
+    const author = document.createElement("strong");
+    const flag = flagFromCountry(item.country_code || item.countryCode || "");
+    author.textContent = `— ${safeText(item.display_name || item.displayName || "Blossom", 40)}${flag ? ` ${flag}` : ""}`;
+
+    const date = document.createElement("small");
+    date.textContent = formatMonth(item.created_at || new Date());
+
+    const blossom = document.createElement("span");
+    blossom.className = "card-blossom";
+    blossom.textContent = "🌸";
+
+    card.append(quote, message, author, date, blossom);
+
+    if (isCommunityAdmin() && item.id) {
+      const adminActions = document.createElement("div");
+      adminActions.className = "message-card__admin-actions";
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "message-card__delete";
+      del.textContent = "Delete";
+      del.addEventListener("click", async () => {
+        if (!window.confirm("Delete this Blossom Wall post? This action cannot be undone.")) return;
+        del.disabled = true;
+        try {
+          await invokeCommunityModeration({ action: "admin-delete-wall", id: item.id });
+          const inWallModal = Boolean(card.closest("#communityWallList"));
+          card.remove();
+          await refreshWallPreview();
+          if (inWallModal) {
+            const remaining = document.querySelectorAll("#communityWallList .message-card").length;
+            const intro = document.querySelector("#communityWallIntro");
+            if (intro) intro.textContent = remaining ? `${remaining} approved message${remaining === 1 ? "" : "s"} from the community.` : "No approved community messages are currently published.";
+          }
+        } catch (error) {
+          del.disabled = false;
+          window.alert(safeText(error?.message || "Could not delete this post.", 180));
+        }
+      });
+      adminActions.append(del);
+      card.append(adminActions);
+    }
+    return card;
+  }
+
+  async function getApprovedWallMessages() {
+    if (!hasSupabaseConfig) return [];
+
+    const { data, error } = await db
+      .from("blossom_messages")
+      .select("id, display_name, country_code, message, created_at")
+      .eq("status", "approved")
+      .order("created_at", { ascending: false })
+      .limit(30);
+
+    if (error) throw error;
+    return data || [];
+  }
+
+  async function refreshWallPreview() {
+    if (!messageGrid || !hasSupabaseConfig) return;
+    try {
+      const data = await getApprovedWallMessages();
+      if (!data.length) return;
+      messageGrid.replaceChildren(...data.slice(0, 6).map(createWallCard));
+    } catch (error) {
+      console.error("Blossom Wall load failed:", error);
+    }
+  }
+
+  async function renderWallModal() {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM WALL</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Messages from Blossoms</h2>
+      <p class="community-modal__intro" id="communityWallIntro">Loading approved community messages…</p>
+      <div class="community-wall-list" id="communityWallList"></div>`;
+    openModal(wrapper, { wide: true });
+
+    const list = wrapper.querySelector("#communityWallList");
+    const intro = wrapper.querySelector("#communityWallIntro");
+
+    try {
+      const data = await getApprovedWallMessages();
+      if (data.length) {
+        list.replaceChildren(...data.map(createWallCard));
+        intro.textContent = `${data.length} approved message${data.length === 1 ? "" : "s"} from the community.`;
+      } else {
+        const staticCards = [...document.querySelectorAll("#blossomMessageGrid .message-card")];
+        list.replaceChildren(...staticCards.map(card => card.cloneNode(true)));
+        intro.textContent = hasSupabaseConfig
+          ? "No approved backend messages yet, so the launch samples are shown."
+          : "Preview mode: showing the launch samples. Connect Supabase for a shared moderated wall.";
+      }
+    } catch (error) {
+      console.error(error);
+      intro.textContent = "The shared wall could not be loaded right now.";
+    }
+  }
+
+  function getProfile() {
+    return storage.get(KEYS.profile, null);
+  }
+
+  function renderProfileForm(onDone) {
+    const existing = getProfile() || {};
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">BLOSSOM CHAT</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Choose your chat name</h2>
+      <p class="community-modal__intro">Use a public display name only. Please do not include private information.</p>
+      <form class="community-form" id="communityProfileForm">
+        <label>Display name
+          <input name="displayName" maxlength="30" autocomplete="nickname" required value="${safeText(existing.displayName || "", 30).replace(/"/g, "&quot;")}" placeholder="e.g. penguinseal">
+        </label>
+        <label>Avatar
+          <select name="avatar">
+            <option value="🌸">🌸 Blossom</option>
+            <option value="🩵">🩵 Blue heart</option>
+            <option value="🌷">🌷 Tulip</option>
+            <option value="🐧">🐧 Penguin</option>
+            <option value="🦭">🦭 Seal</option>
+          </select>
+        </label>
+        <p class="community-form__status" aria-live="polite"></p>
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
+          <button class="community-form__primary" type="submit">Join Chat</button>
+        </div>
+      </form>`;
+
+    const select = wrapper.querySelector('select[name="avatar"]');
+    if (existing.avatar) select.value = existing.avatar;
+
+    wrapper.querySelector("form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const profile = {
+        displayName: safeText(data.get("displayName"), 30),
+        avatar: safeText(data.get("avatar"), 4) || "🌸"
+      };
+      if (!profile.displayName) return;
+      storage.set(KEYS.profile, profile);
+      closeModal();
+      onDone?.(profile);
+    });
+
+    openModal(wrapper);
+  }
+
+  function formatChatTimestamp(value) {
+    const date = value ? new Date(value) : new Date();
+    if (Number.isNaN(date.getTime())) return "";
+    const now = new Date();
+    const sameDay = date.getFullYear() === now.getFullYear() &&
+      date.getMonth() === now.getMonth() && date.getDate() === now.getDate();
+    const time = new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(date);
+    if (sameDay) return time;
+    const day = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" }).format(date);
+    return `${day} · ${time}`;
+  }
+
+  function createChatMessage(item) {
+    const row = document.createElement("div");
+    row.className = "chat-message";
+    if (item.id) row.dataset.messageId = item.id;
+
+    const avatar = document.createElement("span");
+    avatar.className = "avatar";
+    avatar.textContent = safeText(item.avatar || "🌸", 4);
+
+    const content = document.createElement("div");
+    const meta = document.createElement("div");
+    meta.className = "chat-message__meta";
+    const author = document.createElement("strong");
+    author.textContent = safeText(item.display_name || item.displayName || "Blossom", 30);
+    const timestamp = document.createElement("time");
+    timestamp.className = "chat-message__time";
+    const rawTime = item.created_at || item.createdAt || new Date().toISOString();
+    timestamp.dateTime = rawTime;
+    timestamp.textContent = formatChatTimestamp(rawTime);
+    try { timestamp.title = new Date(rawTime).toLocaleString(); } catch (_) {}
+    meta.append(author, timestamp);
+    const message = document.createElement("p");
+    message.textContent = safeMultiline(item.message, 280);
+
+    content.append(meta, message);
+    if (isCommunityAdmin() && item.id) {
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "chat-message__delete";
+      del.textContent = "Delete";
+      del.setAttribute("aria-label", "Delete chat message");
+      del.addEventListener("click", async () => {
+        if (!window.confirm("Delete this chat message? This action cannot be undone.")) return;
+        del.disabled = true;
+        try {
+          await invokeCommunityModeration({ action: "admin-delete-chat", id: item.id });
+          row.remove();
+        } catch (error) {
+          del.disabled = false;
+          window.alert(safeText(error?.message || "Could not delete this chat message.", 180));
+        }
+      });
+      content.append(del);
+    }
+    row.append(avatar, content);
+    return row;
+  }
+
+  function appendChatMessage(item) {
+    if (!chatWindow) return;
+    if (item.id && chatWindow.querySelector(`[data-message-id="${CSS.escape(String(item.id))}"]`)) return;
+    chatWindow.append(createChatMessage(item));
+    while (chatWindow.children.length > 40) chatWindow.firstElementChild?.remove();
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  async function loadChat() {
+    if (!chatWindow) return;
+
+    if (!hasSupabaseConfig) {
+      const local = storage.get(KEYS.chat, []);
+      local.forEach(appendChatMessage);
+      setChatState("preview", "Preview mode: messages are saved only in this browser until Supabase is connected.");
+      return;
+    }
+
+    try {
+      const { data, error } = await db
+        .from("chat_messages")
+        .select("id, display_name, avatar, message, created_at")
+        .order("created_at", { ascending: true })
+        .limit(40);
+      if (error) throw error;
+
+      if (data?.length) {
+        chatWindow.replaceChildren(...data.map(createChatMessage));
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
+
+      realtimeChannel = db
+        .channel("blossom-chat")
+        .on(
+          "postgres_changes",
+          { event: "INSERT", schema: "public", table: "chat_messages" },
+          payload => appendChatMessage(payload.new)
+        )
+        .subscribe((status) => {
+          if (status === "SUBSCRIBED") {
+            setChatState("live", "Live Blossom Chat is connected. Be kind and keep personal information private.");
+          }
+        });
+    } catch (error) {
+      console.error("Chat connection failed:", error);
+      setChatState("error", "The live chat could not connect. Please try again later.");
+    }
+  }
+
+  async function sendChat(profile, messageText) {
+    const payload = {
+      displayName: profile.displayName,
+      avatar: profile.avatar,
+      message: safeMultiline(messageText, 280)
+    };
+
+    if (hasSupabaseConfig) {
+      const { error } = await db.from("chat_messages").insert({
+        display_name: payload.displayName,
+        avatar: payload.avatar,
+        message: payload.message
+      });
+      if (error) throw error;
+      return;
+    }
+
+    const local = storage.get(KEYS.chat, []);
+    const item = {
+      id: crypto.randomUUID?.() || `${Date.now()}`,
+      ...payload,
+      created_at: new Date().toISOString()
+    };
+    local.push(item);
+    storage.set(KEYS.chat, local.slice(-40));
+    appendChatMessage(item);
+  }
+
+  const CHAT_EMOJIS = COMMUNITY_EMOJIS;
+
+  function insertChatEmoji(emoji) {
+    if (!chatInput) return;
+    const start = Number.isInteger(chatInput.selectionStart) ? chatInput.selectionStart : chatInput.value.length;
+    const end = Number.isInteger(chatInput.selectionEnd) ? chatInput.selectionEnd : start;
+    const next = `${chatInput.value.slice(0, start)}${emoji}${chatInput.value.slice(end)}`.slice(0, 280);
+    chatInput.value = next;
+    const cursor = Math.min(start + emoji.length, next.length);
+    chatInput.focus();
+    try { chatInput.setSelectionRange(cursor, cursor); } catch (_) {}
+  }
+
+  function closeChatEmojiPicker() {
+    if (!chatEmojiPicker || !chatEmojiButton) return;
+    chatEmojiPicker.hidden = true;
+    chatEmojiButton.setAttribute("aria-expanded", "false");
+  }
+
+  function setupChatEmojiPicker() {
+    if (!chatEmojiPicker || !chatEmojiButton) return;
+    chatEmojiPicker.replaceChildren(...CHAT_EMOJIS.map((emoji) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "chat-emoji-picker__item";
+      button.textContent = emoji;
+      button.setAttribute("aria-label", `Insert ${emoji}`);
+      button.addEventListener("click", () => { insertChatEmoji(emoji); closeChatEmojiPicker(); });
+      return button;
+    }));
+    chatEmojiButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const opening = chatEmojiPicker.hidden;
+      chatEmojiPicker.hidden = !opening;
+      chatEmojiButton.setAttribute("aria-expanded", opening ? "true" : "false");
+    });
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".chat-emoji-wrap")) closeChatEmojiPicker();
+    });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeChatEmojiPicker(); });
+  }
+
+  async function handleChatSubmit(event) {
+    event.preventDefault();
+
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      requireParticipationAuth(() => chatInput?.focus());
+      return;
+    }
+
+    const message = safeMultiline(chatInput?.value || "", 280);
+    if (!message) return;
+
+    const assessment = assessSubmission("chat", message);
+    if (!assessment.ok) {
+      if (chatNote) {
+        chatNote.textContent = assessment.reason === "blocked-language"
+          ? "Message not sent. This message may contain language that doesn’t meet our Community Guidelines."
+          : "Message not sent. Please revise repeated or automated-looking content.";
+      }
+      return;
+    }
+
+    if (isRateLimited(KEYS.lastChat, 3000)) {
+      if (chatNote) chatNote.textContent = "Please wait a moment before sending another message.";
+      return;
+    }
+
+    const profile = isCommunityArtist()
+      ? { displayName: currentMember.displayName, avatar: currentMember.avatar || (currentMember.artistIdentity === "oom" ? "🌼" : "🌸") }
+      : getProfile();
+    if (!profile?.displayName) {
+      renderProfileForm(() => handleChatSubmit(new Event("submit")));
+      return;
+    }
+
+    const sendButton = document.getElementById("communityChatSend");
+    if (sendButton) sendButton.disabled = true;
+
+    try {
+      await sendChat(profile, message);
+      markRate(KEYS.lastChat);
+      if (chatInput) chatInput.value = "";
+      if (chatNote) {
+        chatNote.textContent = hasSupabaseConfig
+          ? "Live Blossom Chat is connected. Be kind and keep personal information private."
+          : "Preview mode: messages are saved only in this browser until Supabase is connected.";
+      }
+    } catch (error) {
+      console.error(error);
+      if (chatNote) chatNote.textContent = "Message could not be sent. Please try again.";
+    } finally {
+      if (sendButton) sendButton.disabled = false;
+      chatInput?.focus();
+    }
+  }
+
+  document.addEventListener("click", (event) => {
+    const actionEl = event.target.closest("[data-community-action]");
+    if (!actionEl) return;
+    event.preventDefault();
+
+    const action = actionEl.dataset.communityAction;
+    if (action === "letter") {
+      const recipient = actionEl.dataset.recipient || "OomBam";
+      requireParticipationAuth(() => renderLetterForm(recipient));
+    }
+    if (action === "message") requireParticipationAuth(() => renderMessageForm());
+    if (action === "view-wall") renderWallModal();
+    if (action === "submit-menu") requireParticipationAuth(() => renderSubmitMenu());
+  });
+
+  chatInput?.addEventListener("focus", () => {
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      chatInput.blur();
+      requireParticipationAuth(() => chatInput?.focus());
+      return;
+    }
+    if (!isCommunityArtist() && !getProfile()?.displayName) {
+      chatInput.blur();
+      renderProfileForm();
+    }
+  });
+
+  setupChatEmojiPicker();
+  chatForm?.addEventListener("submit", handleChatSubmit);
+
+
+
+  /* -----------------------------------------------------
+     FAN PROJECT PROPOSALS
+     Preview workflow now; backend/admin queue comes later.
+  ----------------------------------------------------- */
+  const PROJECT_PROPOSAL_KEY = "oombam-community-preview-project-proposals";
+
+  const renderProjectProposalHub = () => {
+    if (AUTH_REQUIRED && !isSignedIn()) {
+      requireParticipationAuth(() => renderProjectProposalHub());
+      return;
+    }
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">FAN PROJECTS</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Propose an Upcoming Project 🌱</h2>
+      <p class="community-modal__intro">
+        Blossoms may suggest future fan projects here. Every proposal will be reviewed by the
+        fansite admins before it can be approved or considered for the official Projects section.
+      </p>
+      <div class="community-proposal-notice">
+        <strong>How it works</strong>
+        <span>Submit idea → Admin review → Approved proposal → Project planning</span>
+      </div>
+      <form class="community-form" id="communityProjectProposalForm">
+        <div class="community-form__row">
+          <label>Display name
+            <input name="displayName" maxlength="40" autocomplete="nickname" required
+                   placeholder="e.g. Blossom PH">
+          </label>
+          <label>Country
+            <select name="countryCode">
+              <option value="">Prefer not to say</option>
+              <optgroup label="Asia">
+                <option value="PH">Philippines 🇵🇭</option>
+                <option value="TH">Thailand 🇹🇭</option>
+                <option value="SG">Singapore 🇸🇬</option>
+                <option value="MY">Malaysia 🇲🇾</option>
+                <option value="ID">Indonesia 🇮🇩</option>
+                <option value="VN">Vietnam 🇻🇳</option>
+                <option value="JP">Japan 🇯🇵</option>
+                <option value="KR">South Korea 🇰🇷</option>
+                <option value="CN">China 🇨🇳</option>
+                <option value="TW">Taiwan 🇹🇼</option>
+                <option value="HK">Hong Kong 🇭🇰</option>
+              </optgroup>
+              <optgroup label="North America">
+                <option value="US">United States 🇺🇸</option>
+                <option value="CA">Canada 🇨🇦</option>
+                <option value="MX">Mexico 🇲🇽</option>
+              </optgroup>
+              <optgroup label="Latin America">
+                <option value="BR">Brazil 🇧🇷</option>
+                <option value="CL">Chile 🇨🇱</option>
+                <option value="AR">Argentina 🇦🇷</option>
+                <option value="PE">Peru 🇵🇪</option>
+                <option value="CO">Colombia 🇨🇴</option>
+              </optgroup>
+              <optgroup label="Europe">
+                <option value="GB">United Kingdom 🇬🇧</option>
+                <option value="ES">Spain 🇪🇸</option>
+                <option value="FR">France 🇫🇷</option>
+                <option value="DE">Germany 🇩🇪</option>
+                <option value="IT">Italy 🇮🇹</option>
+                <option value="PT">Portugal 🇵🇹</option>
+                <option value="NL">Netherlands 🇳🇱</option>
+              </optgroup>
+              <option value="OTHER">Other 🌍</option>
+            </select>
+          </label>
+        </div>
+
+        <label>Project title
+          <input name="title" maxlength="80" required
+                 placeholder="e.g. Birthday food support project">
+        </label>
+
+        <label>Project idea
+          <textarea name="description" maxlength="1200" required
+                    placeholder="Describe the project, purpose, and what you hope the community can do together."></textarea>
+        </label>
+
+        <div class="community-form__row">
+          <label>Suggested timing
+            <input name="timing" maxlength="80"
+                   placeholder="e.g. October 2026 / Bam's birthday">
+          </label>
+          <label>Estimated budget / scale
+            <input name="budget" maxlength="80"
+                   placeholder="Optional">
+          </label>
+        </div>
+
+        <label>Additional notes
+          <textarea name="notes" maxlength="600"
+                    placeholder="Optional: vendor ideas, location, coordination notes, links, etc."></textarea>
+        </label>
+
+        <p class="community-form__help">
+          Submitting a proposal does not mean the project is approved. Fansite admins will review
+          feasibility, timing, safety, permissions, and coordination requirements first.
+        </p>
+
+        <p class="community-form__status" aria-live="polite"></p>
+
+        <div class="community-form__actions">
+          <button class="community-form__secondary" type="button" data-community-close>Cancel</button>
+          <button class="community-form__primary" type="submit">Submit Proposal for Review 🌱</button>
+        </div>
+      </form>`;
+
+    const form = wrapper.querySelector("form");
+    const memberName = currentMember?.displayName || getProfile()?.displayName || "";
+    if (memberName && form.elements.displayName) {
+      form.elements.displayName.value = memberName;
+      form.elements.displayName.readOnly = AUTH_REQUIRED;
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const data = new FormData(form);
+      const proposal = {
+        id: crypto.randomUUID?.() || `${Date.now()}`,
+        displayName: safeText(data.get("displayName"), 40),
+        countryCode: safeText(data.get("countryCode"), 8),
+        title: safeText(data.get("title"), 80),
+        description: safeMultiline(data.get("description"), 1200),
+        timing: safeText(data.get("timing"), 80),
+        budget: safeText(data.get("budget"), 80),
+        notes: safeMultiline(data.get("notes"), 600),
+        status: "pending",
+        created_at: new Date().toISOString()
+      };
+
+      if (!proposal.displayName || !proposal.title || proposal.description.length < 10) {
+        showFormStatus(form, "Please add your display name, project title, and a little more detail.", "error");
+        return;
+      }
+
+      if (hasSupabaseConfig) {
+        showFormStatus(
+          form,
+          "Project proposal backend approval will be connected during the Supabase access-control phase.",
+          "error"
+        );
+        return;
+      }
+
+      const existing = storage.get(PROJECT_PROPOSAL_KEY, []);
+      existing.unshift(proposal);
+      storage.set(PROJECT_PROPOSAL_KEY, existing.slice(0, 30));
+
+      form.reset();
+      showFormStatus(
+        form,
+        "Proposal saved in Preview mode 🌱 Admin review will become active when the backend is connected.",
+        "success"
+      );
+    });
+
+    openModal(wrapper);
+  };
+
+  document.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-project-proposal-open]");
+    if (!trigger) return;
+    event.preventDefault();
+    requireParticipationAuth(() => renderProjectProposalHub());
+  });
+
+
+  /* -----------------------------------------------------
+     FROM THE COMMUNITY — reusable in-page archive
+  ----------------------------------------------------- */
+  const COMMUNITY_GALLERY = {
+    art: {
+      label: "Fan Arts",
+      icon: "🎨",
+      intro: "Illustrations, sketches, edits, and creative work inspired by OomBam.",
+      layout: "visual",
+      items: [
+        {
+          type: "preview",
+          title: "Fan Arts Collection",
+          description: "Approved Fan Arts submissions will appear here.",
+          image: "assets/images/Fan-art.png",
+          status: "approved"
+        }
+      ]
+    },
+    photos: {
+      label: "Fan Photos & Videos",
+      icon: "📷",
+      intro: "Fan-captured photos and videos shared by Blossoms.",
+      layout: "visual",
+      items: [
+        {
+          type: "preview",
+          title: "Fan Photos & Videos Collection",
+          description: "Approved fan photo and video submissions will appear here.",
+          image: "assets/images/Fan-photos.png",
+          status: "approved"
+        }
+      ]
+    },
+    journal: {
+      label: "Blossom Journal",
+      icon: "📖",
+      intro: "A quiet archive for stories, reflections, edits, and little thoughts from Blossoms.",
+      layout: "journal",
+      items: [
+        {
+          type: "preview",
+          title: "Blossom Journal",
+          description: "Approved journal entries and reflections will appear here.",
+          image: "assets/images/Journal-photo.png"
+        }
+      ]
+    }
+  };
+
+  const GALLERY_TABS = [
+    ["all", "All"],
+    ["art", "Fan Arts"],
+    ["photos", "Fan Photos & Videos"],
+    ["journal", "Blossom Journal"]
+  ];
+
+  const MODERATION_STATUS = {
+    pending: {
+      label: "Pending",
+      description: "Waiting for fansite admin review."
+    },
+    approved: {
+      label: "Approved",
+      description: "Approved and ready for publication."
+    },
+    rejected: {
+      label: "Rejected",
+      description: "Not approved for publication."
+    }
+  };
+
+  const makeModerationStatusBar = () => {
+    const bar = document.createElement("div");
+    bar.className = "community-moderation-status";
+    bar.setAttribute("aria-label", "Submission moderation statuses");
+
+    ["pending", "approved", "rejected"].forEach((status) => {
+      const config = MODERATION_STATUS[status];
+      const item = document.createElement("div");
+      item.className = `community-moderation-status__item is-${status}`;
+      item.innerHTML = `
+        <span class="community-moderation-status__dot" aria-hidden="true"></span>
+        <div>
+          <strong>${config.label}</strong>
+          <small>${config.description}</small>
+        </div>`;
+      bar.append(item);
+    });
+
+    return bar;
+  };
+
+
+  const makeGalleryItem = (item, categoryKey) => {
+    const article = document.createElement(item.href ? "a" : "article");
+    article.className = `community-archive-item community-archive-item--${item.type || "visual"}`;
+    if (item.href) {
+      article.href = item.href;
+      article.addEventListener("click", () => closeModal());
+    }
+
+    if (item.image) {
+      const media = document.createElement("div");
+      media.className = "community-archive-item__media";
+      const img = document.createElement("img");
+      img.src = item.image;
+      img.alt = item.title || COMMUNITY_GALLERY[categoryKey]?.label || "Community submission";
+      media.append(img);
+      article.append(media);
+    }
+
+    const body = document.createElement("div");
+    body.className = "community-archive-item__body";
+
+    if (item.meta) {
+      const meta = document.createElement("span");
+      meta.className = "community-archive-item__meta";
+      meta.textContent = item.meta;
+      body.append(meta);
+    }
+
+    const title = document.createElement("h3");
+    title.textContent = item.title || "Community submission";
+    body.append(title);
+
+    if (item.description) {
+      const desc = document.createElement("p");
+      desc.textContent = item.description;
+      body.append(desc);
+    }
+
+    if (item.type === "preview") {
+      const note = document.createElement("span");
+      note.className = "community-archive-item__preview";
+      note.textContent = "Collection ready for approved submissions";
+      body.append(note);
+    }
+
+    article.append(body);
+    return article;
+  };
+
+  const galleryItemsFor = (filter) => {
+    const keys = filter === "all"
+      ? ["art", "photos", "journal"]
+      : [filter];
+
+    return keys.flatMap((key) =>
+      (COMMUNITY_GALLERY[key]?.items || []).map((item) => ({ key, item }))
+    );
+  };
+
+  const renderCommunityArchive = (initialFilter = "all") => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "community-archive";
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">FROM THE COMMUNITY</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Community Gallery</h2>
+      <p class="community-modal__intro community-archive__intro">
+        Browse Fan Arts, Fan Photos & Videos, and the Blossom Journal without leaving this page.
+      </p>
+      <div class="community-archive__tabs" role="tablist" aria-label="Community gallery categories"></div>
+      <div class="community-archive__heading">
+        <div>
+          <span class="community-archive__icon" aria-hidden="true"></span>
+          <h3 class="community-archive__category"></h3>
+        </div>
+        <p class="community-archive__description"></p>
+      </div>
+      <div class="community-archive__grid" id="communityArchiveGrid"></div>
+      <div class="community-archive__footer">
+        <p>Community content shown here is curated and approved before publication.</p>
+        <button class="community-form__primary" data-community-action="submit-menu" type="button">
+          Submit to Community →
+        </button>
+      </div>`;
+
+    const tabs = wrapper.querySelector(".community-archive__tabs");
+    const grid = wrapper.querySelector("#communityArchiveGrid");
+    const categoryTitle = wrapper.querySelector(".community-archive__category");
+    const categoryIcon = wrapper.querySelector(".community-archive__icon");
+    const categoryDescription = wrapper.querySelector(".community-archive__description");
+
+    const setFilter = (filter) => {
+      const valid = filter === "all" || COMMUNITY_GALLERY[filter];
+      const active = valid ? filter : "all";
+
+      tabs.querySelectorAll("[data-gallery-filter]").forEach((button) => {
+        const selected = button.dataset.galleryFilter === active;
+        button.classList.toggle("is-active", selected);
+        button.setAttribute("aria-selected", String(selected));
+        button.tabIndex = selected ? 0 : -1;
+      });
+
+      if (active === "all") {
+        categoryIcon.textContent = "🌸";
+        categoryTitle.textContent = "All Community Collections";
+        categoryDescription.textContent =
+          "A curated view across Fan Arts, Fan Photos & Videos, and the Blossom Journal.";
+      } else {
+        const category = COMMUNITY_GALLERY[active];
+        categoryIcon.textContent = category.icon;
+        categoryTitle.textContent = category.label;
+        categoryDescription.textContent = category.intro;
+      }
+
+      const existingStatus = wrapper.querySelector(".community-moderation-status");
+      if (existingStatus) existingStatus.remove();
+
+      if (active === "art" || active === "photos") {
+        const statusBar = makeModerationStatusBar();
+        grid.before(statusBar);
+      }
+
+      const items = galleryItemsFor(active);
+      grid.className = `community-archive__grid community-archive__grid--${active}`;
+      grid.replaceChildren(...items.map(({ key, item }) => makeGalleryItem(item, key)));
+    };
+
+    GALLERY_TABS.forEach(([key, label]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "community-archive__tab";
+      button.dataset.galleryFilter = key;
+      button.setAttribute("role", "tab");
+      button.textContent = label;
+      button.addEventListener("click", () => setFilter(key));
+      tabs.append(button);
+    });
+
+    wrapper.addEventListener("click", (event) => {
+      const submit = event.target.closest('[data-community-action="submit-menu"]');
+      if (!submit) return;
+      event.preventDefault();
+      requireParticipationAuth(() => renderSubmitMenu());
+    });
+
+    setFilter(initialFilter);
+    openModal(wrapper, { wide: true });
+  };
+
+  document.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-gallery-open]");
+    if (!trigger) return;
+    event.preventDefault();
+    renderCommunityArchive(trigger.dataset.galleryOpen || "all");
+  });
+
+
+  /* ======================================================
+     ARTIST COMMUNITY — private inbox + Seen with Love
+  ====================================================== */
+  const artistRecipientLabel = () => currentMember?.artistIdentity === "oom" ? "Oom" : "Bam";
+
+  const artistDate = (value) => {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? "" : new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(date);
+  };
+
+  async function renderArtistInbox() {
+    if (!isCommunityArtist() || !db) return;
+    const artistName = artistRecipientLabel();
+    const wrapper = document.createElement("div");
+    wrapper.className = "community-artist-panel community-mailbox";
+    wrapper.innerHTML = `
+      <div class="community-mailbox__heading">
+        <p class="community-modal__eyebrow">ARTIST INBOX</p>
+        <h2 class="community-modal__title" id="communityModalTitle">Letters for ${artistName} 💌</h2>
+        <p class="community-modal__intro">Messages from Blossoms, gathered here just for you.</p>
+      </div>
+      <div class="community-mailbox__nav" aria-hidden="true"><button type="button" class="community-mailbox__back">← Back to letters</button></div>
+      <div class="community-mailbox__shell" id="communityArtistInboxList"><p class="community-artist-empty">Loading your letters…</p></div>`;
+    openModal(wrapper, { wide: true });
+    const shell = wrapper.querySelector("#communityArtistInboxList");
+    try {
+      const { data: letters, error } = await db.from("community_letters")
+        .select("id, recipient, display_name, country_code, message, message_format, created_at")
+        .eq("status", "approved").in("recipient", [artistName, "OomBam"]).order("created_at", { ascending: false });
+      if (error) throw error;
+      if (!letters?.length) { shell.innerHTML = `<p class="community-artist-empty">No letters are waiting here yet. 🌸</p>`; return; }
+      const ids = letters.map(x => x.id);
+      const { data: reactions, error: reactionError } = await db.from("letter_artist_reactions").select("letter_id, reaction, created_at").in("letter_id", ids);
+      if (reactionError) throw reactionError;
+      const seen = new Set((reactions || []).map(x => x.letter_id));
+      shell.innerHTML = `<aside class="community-mailbox__list" aria-label="Letters"></aside><div class="community-mailbox__reading-stage"><section class="community-mailbox__reader" aria-live="polite"></section></div>`;
+      const list = shell.querySelector(".community-mailbox__list");
+      const reader = shell.querySelector(".community-mailbox__reader");
+      const backButton = wrapper.querySelector(".community-mailbox__nav .community-mailbox__back");
+      backButton?.addEventListener("click", () => { reader.classList.remove("is-open"); shell.classList.remove("is-reading"); wrapper.classList.remove("is-reading"); });
+      const renderLetter = (letter, button) => {
+        list.querySelectorAll(".community-mailbox__preview").forEach(x => x.classList.toggle("is-active", x === button));
+        const flag = flagFromCountry(letter.country_code);
+        const recipientLabel = letter.recipient === "OomBam" ? "Oom & Bam" : letter.recipient;
+        reader.innerHTML = `
+          <article class="community-letter-reading ${seen.has(letter.id) ? "is-loved" : ""}">
+            <header class="community-letter-reading__header">
+              <div><p class="community-letter-reading__to">To ${safeText(recipientLabel,20)} ${letter.recipient === "OomBam" ? "🌼 🌸" : letter.recipient === "Oom" ? "🌼" : "🌸"}</p></div>
+              <time>${artistDate(letter.created_at)}</time>
+            </header>
+            <div class="community-letter-reading__message"></div>
+            <footer class="community-letter-reading__footer">
+              <span>— ${safeText(letter.display_name || "Blossom",40)}${flag ? ` · ${flag}` : ""}</span>
+              <button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button>
+            </footer>
+            <p class="community-letter-reading__love-note" ${seen.has(letter.id) ? "" : "hidden"}>The sender will know you saw their letter. 🌸</p>
+          </article>`;
+        appendFormattedLetter(reader.querySelector(".community-letter-reading__message"), letter.message_format, letter.message);
+        reader.classList.add("is-open");
+        shell.classList.add("is-reading");
+        wrapper.classList.add("is-reading");
+        const love = reader.querySelector(".community-artist-love");
+        love?.addEventListener("click", async () => {
+          love.disabled = true; love.textContent = "Sending love…";
+          const { error: loveError } = await db.from("letter_artist_reactions").insert({ letter_id: letter.id, artist_user_id: currentSession.user.id, reaction: "seen_with_love" });
+          if (loveError) { love.disabled = false; love.textContent = "♡ Seen with Love"; console.error("Artist reaction failed:", loveError); return; }
+          seen.add(letter.id); love.textContent = "♥ Seen with Love";
+          reader.querySelector(".community-letter-reading")?.classList.add("is-loved");
+          const note = reader.querySelector(".community-letter-reading__love-note"); if (note) note.hidden = false;
+          button?.classList.add("is-loved");
+        });
+      };
+      letters.forEach((letter, index) => {
+        const recipientLabel = letter.recipient === "OomBam" ? "Oom & Bam" : `For ${letter.recipient}`;
+        const preview = document.createElement("button"); preview.type="button"; preview.className=`community-mailbox__preview${seen.has(letter.id)?" is-loved":""}`;
+        const excerpt = safeText((letter.message || "").replace(/\s+/g," ").trim(), 86);
+        preview.innerHTML = `<strong>${safeText(letter.display_name || "Blossom",40)}</strong><span>${safeText(recipientLabel,20)} · ${artistDate(letter.created_at)}</span><em>${excerpt}${(letter.message||"").length>86?"…":""}</em>${seen.has(letter.id)?"<small>♥ Seen with Love</small>":""}`;
+        preview.addEventListener("click", () => renderLetter(letter, preview)); list.appendChild(preview);
+        if (index === 0 && !window.matchMedia("(max-width: 760px)").matches) renderLetter(letter, preview);
+      });
+    } catch (error) { console.error("Artist inbox failed:", error); shell.innerHTML = `<p class="community-admin-error">Your Artist Inbox could not be loaded right now. Please try again.</p>`; }
+  }
+
+  async function renderMyLetters() {
+    if (!currentSession?.user || !db || isCommunityArtist()) return;
+    const wrapper = document.createElement("div"); wrapper.className="community-artist-panel community-mailbox";
+    wrapper.innerHTML = `<div class="community-mailbox__heading"><p class="community-modal__eyebrow">MY LETTERS</p><h2 class="community-modal__title" id="communityModalTitle">Letters you’ve sent 💌</h2><p class="community-modal__intro">Your letters, delivery status, and private Seen with Love acknowledgements.</p></div><div class="community-mailbox__nav" aria-hidden="true"><button type="button" class="community-mailbox__back">← Back to letters</button></div><div class="community-mailbox__shell" id="communityMyLettersList"><p class="community-artist-empty">Loading your letters…</p></div>`;
+    openModal(wrapper,{wide:true}); const shell=wrapper.querySelector("#communityMyLettersList");
+    try {
+      const {data:letters,error}=await db.from("community_letters").select("id, recipient, message, message_format, status, created_at").eq("user_id",currentSession.user.id).order("created_at",{ascending:false});
+      if(error) throw error; if(!letters?.length){shell.innerHTML=`<p class="community-artist-empty">You haven’t sent a letter yet. 🌸</p>`;return;}
+      const ids=letters.map(x=>x.id); const {data:reactions}=await db.from("letter_artist_reactions").select("letter_id, artist_user_id, reaction, created_at").in("letter_id",ids);
+      const artistIds=[...new Set((reactions||[]).map(r=>r.artist_user_id).filter(Boolean))], artistNames=new Map();
+      await Promise.all(artistIds.map(async id=>{const {data}=await db.rpc("community_artist_identity",{check_user_id:id});if(data==="oom")artistNames.set(id,"Oom");if(data==="bam")artistNames.set(id,"Bam");}));
+      const reactionMap=new Map();(reactions||[]).forEach(r=>{const a=reactionMap.get(r.letter_id)||[];a.push(r);reactionMap.set(r.letter_id,a);});
+      shell.innerHTML=`<aside class="community-mailbox__list" aria-label="My letters"></aside><div class="community-mailbox__reading-stage"><section class="community-mailbox__reader" aria-live="polite"></section></div>`; const list=shell.querySelector(".community-mailbox__list"),reader=shell.querySelector(".community-mailbox__reader"),backButton=wrapper.querySelector(".community-mailbox__nav .community-mailbox__back");backButton?.addEventListener("click",()=>{reader.classList.remove("is-open");shell.classList.remove("is-reading");wrapper.classList.remove("is-reading");});
+      const renderLetter=(letter,button)=>{list.querySelectorAll(".community-mailbox__preview").forEach(x=>x.classList.toggle("is-active",x===button));const seenBy=[...new Set((reactionMap.get(letter.id)||[]).map(r=>artistNames.get(r.artist_user_id)).filter(Boolean))];const recipientLabel=letter.recipient==="OomBam"?"Oom & Bam":letter.recipient;reader.innerHTML=`<article class="community-letter-reading"><header class="community-letter-reading__header"><div><p class="community-letter-reading__to">To ${safeText(recipientLabel,20)}</p><span class="community-letter-status">${safeText(letter.status||"pending",12)}</span></div><time>${artistDate(letter.created_at)}</time></header><div class="community-letter-reading__message"></div><footer class="community-letter-reading__footer"><strong>${seenBy.length?`♥ Seen with Love by ${seenBy.join(" & ")}`:"Awaiting a Seen with Love 🌸"}</strong><button type="button" class="community-letter-delete">Delete Letter</button></footer></article>`;appendFormattedLetter(reader.querySelector(".community-letter-reading__message"),letter.message_format,letter.message);reader.classList.add("is-open");shell.classList.add("is-reading");wrapper.classList.add("is-reading");reader.querySelector(".community-letter-delete")?.addEventListener("click",async()=>{if(!window.confirm("Delete this letter? This action cannot be undone."))return;try{await invokeCommunityModeration({action:"delete-own-letter",id:letter.id});button.remove();reader.innerHTML=`<p class="community-artist-empty">Letter deleted. 🌸</p>`;}catch(e){window.alert(safeText(e?.message||"Could not delete this letter.",180));}});};
+      letters.forEach((letter,index)=>{const seenBy=[...new Set((reactionMap.get(letter.id)||[]).map(r=>artistNames.get(r.artist_user_id)).filter(Boolean))];const preview=document.createElement("button");preview.type="button";preview.className="community-mailbox__preview";const recipientLabel=letter.recipient==="OomBam"?"Oom & Bam":letter.recipient;const excerpt=safeText((letter.message||"").replace(/\s+/g," ").trim(),86);preview.innerHTML=`<strong>To ${safeText(recipientLabel,20)}</strong><span>${artistDate(letter.created_at)} · ${safeText(letter.status||"pending",12)}</span><em>${excerpt}${(letter.message||"").length>86?"…":""}</em>${seenBy.length?`<small>♥ Seen with Love by ${seenBy.join(" & ")}</small>`:""}`;preview.addEventListener("click",()=>renderLetter(letter,preview));list.appendChild(preview);if(index===0&&!window.matchMedia("(max-width: 760px)").matches)renderLetter(letter,preview);});
+    }catch(error){console.error("My Letters failed:",error);shell.innerHTML=`<p class="community-admin-error">Your letters could not be loaded right now.</p>`;}
+  }
+
+
+  /* -----------------------------------------------------
+     ADMIN MODERATION — visible only to Supabase admin role
+     RLS remains the source of truth for authorization.
+  ----------------------------------------------------- */
+  const ADMIN_TABLES = {
+    wall: {
+      table: "blossom_messages",
+      label: "Blossom Wall",
+      select: "id, display_name, country_code, message, status, created_at"
+    }
+  };
+
+  const adminDate = (value) => {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    return new Intl.DateTimeFormat("en", {
+      year: "numeric", month: "short", day: "numeric",
+      hour: "numeric", minute: "2-digit"
+    }).format(date);
+  };
+
+  async function fetchAdminQueue(kind, status = "pending") {
+    if (!isCommunityAdmin()) throw new Error("Admin access required.");
+    const cfg = ADMIN_TABLES[kind];
+    if (!cfg) throw new Error("Unknown moderation queue.");
+
+    let query = db
+      .from(cfg.table)
+      .select(cfg.select)
+      .order("created_at", { ascending: false })
+      .limit(100);
+
+    if (["pending", "approved", "rejected"].includes(status)) {
+      query = query.eq("status", status);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return data || [];
+  }
+
+  async function setModerationStatus(kind, id, nextStatus) {
+    if (!isCommunityAdmin()) throw new Error("Admin access required.");
+    if (!["approved", "rejected", "pending"].includes(nextStatus)) {
+      throw new Error("Invalid moderation status.");
+    }
+    await invokeCommunityModeration({ action: "admin-status", kind, id, status: nextStatus });
+    if (kind === "wall") await refreshWallPreview();
+  }
+
+  const makeAdminItem = (item, kind, reload) => {
+    const article = document.createElement("article");
+    article.className = "community-admin-item";
+
+    const top = document.createElement("div");
+    top.className = "community-admin-item__top";
+
+    const metaWrap = document.createElement("div");
+    const title = document.createElement("strong");
+    title.textContent = safeText(item.display_name || "Blossom", 40);
+    const meta = document.createElement("div");
+    meta.className = "community-admin-item__meta";
+    const parts = [];
+    const flag = flagFromCountry(item.country_code || "");
+    if (item.country_code) parts.push(`${safeText(item.country_code, 8)}${flag ? ` ${flag}` : ""}`);
+    if (item.created_at) parts.push(adminDate(item.created_at));
+    parts.forEach((value) => {
+      const span = document.createElement("span");
+      span.textContent = value;
+      meta.append(span);
+    });
+    metaWrap.append(title, meta);
+
+    const badge = document.createElement("span");
+    const currentStatus = safeText(item.status || "pending", 12).toLowerCase();
+    badge.className = `community-admin-badge is-${currentStatus}`;
+    badge.textContent = currentStatus;
+    top.append(metaWrap, badge);
+
+    const message = document.createElement("p");
+    message.className = "community-admin-item__message";
+    message.textContent = safeMultiline(item.message || "", 5000);
+
+    const actions = document.createElement("div");
+    actions.className = "community-admin-actions";
+    const actionDefs = [
+      ["Approve", "approved", "approve"],
+      ["Reject", "rejected", "reject"],
+      ["Move to Pending", "pending", "pending"]
+    ];
+    actionDefs.forEach(([label, status, className]) => {
+      if (currentStatus === status) return;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = className;
+      button.textContent = label;
+      button.addEventListener("click", async () => {
+        const buttons = [...actions.querySelectorAll("button")];
+        buttons.forEach((b) => { b.disabled = true; });
+        try {
+          await setModerationStatus(kind, item.id, status);
+          await reload();
+        } catch (error) {
+          console.error("Community moderation update failed:", error);
+          buttons.forEach((b) => { b.disabled = false; });
+          window.alert(safeText(error?.message || "Could not update this submission.", 180));
+        }
+      });
+      actions.append(button);
+    });
+
+
+    if (kind === "wall" && currentStatus === "approved") {
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "delete";
+      del.textContent = "Delete";
+      del.addEventListener("click", async () => {
+        if (!window.confirm("Delete this Blossom Wall post? This action cannot be undone.")) return;
+        del.disabled = true;
+        try {
+          await invokeCommunityModeration({ action: "admin-delete-wall", id: item.id });
+          await refreshWallPreview();
+          await reload();
+        } catch (error) {
+          del.disabled = false;
+          window.alert(safeText(error?.message || "Could not delete this post.", 180));
+        }
+      });
+      actions.append(del);
+    }
+
+    article.append(top, message, actions);
+    return article;
+  };
+
+  const renderAdminModeration = () => {
+    if (!isCommunityAdmin()) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "community-admin-panel";
+    wrapper.innerHTML = `
+      <p class="community-modal__eyebrow">COMMUNITY ADMIN</p>
+      <h2 class="community-modal__title" id="communityModalTitle">Moderation</h2>
+      <p class="community-modal__intro">Review public Blossom Wall submissions without leaving the Community page. Fan Letters are not available in Admin moderation.</p>
+      <div class="community-admin-toolbar">
+        <div class="community-admin-filters" aria-label="Moderation status">
+          <button class="community-admin-filter is-active" type="button" data-admin-status="pending">Pending</button>
+          <button class="community-admin-filter" type="button" data-admin-status="approved">Approved</button>
+          <button class="community-admin-filter" type="button" data-admin-status="rejected">Rejected</button>
+        </div>
+      </div>
+      <p class="community-admin-summary" id="communityAdminSummary">Loading moderation queue…</p>
+      <div class="community-admin-list" id="communityAdminList"></div>`;
+
+    let activeKind = "wall";
+    let activeStatus = "pending";
+    const list = wrapper.querySelector("#communityAdminList");
+    const summary = wrapper.querySelector("#communityAdminSummary");
+
+    const load = async () => {
+      if (!isCommunityAdmin()) {
+        closeModal();
+        return;
+      }
+      summary.textContent = "Loading moderation queue…";
+      list.replaceChildren();
+      try {
+        const data = await fetchAdminQueue(activeKind, activeStatus);
+        const label = ADMIN_TABLES[activeKind].label;
+        summary.textContent = `${data.length} ${activeStatus} ${label.toLowerCase()} submission${data.length === 1 ? "" : "s"}.`;
+        if (!data.length) {
+          const empty = document.createElement("div");
+          empty.className = "community-admin-empty";
+          empty.textContent = `No ${activeStatus} ${label.toLowerCase()} submissions right now.`;
+          list.append(empty);
+          return;
+        }
+        list.replaceChildren(...data.map((item) => makeAdminItem(item, activeKind, load)));
+      } catch (error) {
+        console.error("Community moderation load failed:", error);
+        summary.textContent = "Moderation queue could not be loaded.";
+        const err = document.createElement("p");
+        err.className = "community-admin-error";
+        err.textContent = safeText(error?.message || "Check your admin permissions and try again.", 200);
+        list.append(err);
+      }
+    };
+    wrapper.querySelectorAll("[data-admin-status]").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeStatus = button.dataset.adminStatus;
+        wrapper.querySelectorAll("[data-admin-status]").forEach((b) => b.classList.toggle("is-active", b === button));
+        load();
+      });
+    });
+
+    openModal(wrapper, { wide: true });
+    load();
+  };
+
+
+  const signOutBlossom = async (button) => {
+    if (button) button.disabled = true;
+    try {
+      const { error } = await withTimeout(db.auth.signOut(), 8000, "Sign out timed out");
+      if (error) throw error;
+      currentSession = null;
+      currentMember = null;
+      try { localStorage.removeItem(KEYS.profile); } catch (_) {}
+      updateAuthUI();
+    } catch (error) {
+      console.error("Blossom sign out:", error);
+      if (button) button.disabled = false;
+    }
+  };
+
+  const wireAuthEntryButtons = () => {
+    headerSignup?.addEventListener("click", () => renderAuthGate("signup"));
+    headerSignin?.addEventListener("click", () => renderAuthGate("signin"));
+    mobileSignup?.addEventListener("click", () => renderAuthGate("signup"));
+    mobileSignin?.addEventListener("click", () => renderAuthGate("signin"));
+    headerAdmin?.addEventListener("click", renderAdminModeration);
+    artistInboxButton?.addEventListener("click", renderArtistInbox);
+    mobileAdmin?.addEventListener("click", renderAdminModeration);
+    headerSignout?.addEventListener("click", () => signOutBlossom(headerSignout));
+    mobileSignout?.addEventListener("click", () => signOutBlossom(mobileSignout));
+    authButton?.addEventListener("click", () => {
+      if (authInitFailed) {
+        window.location.reload();
+        return;
+      }
+      currentSession?.user ? renderAuthAccount() : renderAuthGate("signup");
+    });
+    authSignoutButton?.addEventListener("click", () => signOutBlossom(authSignoutButton));
+  };
+
+  const shouldShowVerifiedWelcome = () => {
+    if (!currentSession?.user || !currentMember) return false;
+    const pending = getPendingConfirmation();
+    const sessionEmail = safeText(currentSession.user.email || "", 120).toLowerCase();
+    const pendingMatches = Boolean(pending && pending.email?.toLowerCase() === sessionEmail);
+    const confirmedMarker = new URLSearchParams(window.location.search).get("confirmed") === "1";
+    const isSignupReturn = authReturnType === "signup" || authReturnType === "email" || confirmedMarker;
+    if (!pendingMatches && !isSignupReturn) return false;
+    try {
+      const alreadyShown = sessionStorage.getItem(AUTH_WELCOME_SHOWN_KEY) === currentSession.user.id;
+      if (alreadyShown) return false;
+      sessionStorage.setItem(AUTH_WELCOME_SHOWN_KEY, currentSession.user.id);
+    } catch (_) {}
+    clearPendingConfirmation();
+
+    // Remove our one-time confirmation marker after it has served its purpose.
+    // This keeps the canonical Community URL clean and prevents confusing repeats.
+    try {
+      const cleanUrl = new URL(window.location.href);
+      cleanUrl.searchParams.delete("confirmed");
+      window.history.replaceState({}, "", `${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`);
+    } catch (_) {}
+
+    return true;
+  };
+
+  async function init() {
+    updateAuthUI();
+    wireAuthEntryButtons();
+
+    if (!hasSupabaseConfig) {
+      authInitFailed = true;
+      authReady = true;
+      updateAuthUI();
+      setChatState("error", "Community access is temporarily unavailable.");
+      return;
+    }
+
+    try {
+      db = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true,
+          flowType: "implicit"
+        }
+      });
+
+      // Register recovery detection before getSession(). Supabase can emit
+      // PASSWORD_RECOVERY while it is processing the URL, so registering only
+      // after getSession() can miss the event on fast redirects.
+      let recoveryEventSeen = false;
+      db.auth.onAuthStateChange((event, session) => {
+        if (event !== "PASSWORD_RECOVERY") return;
+        recoveryEventSeen = true;
+        currentSession = session || currentSession;
+        setTimeout(() => {
+          updateAuthUI();
+          renderPasswordRecovery();
+        }, 0);
+      });
+
+      const { data: { session }, error: sessionError } = await withTimeout(
+        db.auth.getSession(),
+        9000,
+        "Blossom Community Access took too long to load."
+      );
+      if (sessionError) throw sessionError;
+
+      currentSession = session || null;
+      if (currentSession?.user) {
+        await withTimeout(
+          (async () => { await ensureMemberProfile(currentSession.user); await refreshCommunityAdminAccess(); })(),
+          9000,
+          "Your Blossom profile took too long to load."
+        );
+      }
+
+      db.auth.onAuthStateChange(async (event, session) => {
+        currentSession = session || null;
+
+        if (event === "PASSWORD_RECOVERY") {
+          recoveryEventSeen = true;
+          try {
+            if (currentSession?.user) { await ensureMemberProfile(currentSession.user); await refreshCommunityAdminAccess(); }
+          } catch (error) {
+            console.error("Blossom profile recovery sync failed:", error);
+          }
+          updateAuthUI();
+          return;
+        }
+
+        if (currentSession?.user) {
+          try {
+            await ensureMemberProfile(currentSession.user);
+            await refreshCommunityAdminAccess();
+          } catch (error) {
+            console.error("Blossom profile sync failed:", error);
+          }
+          if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED" || event === "INITIAL_SESSION") && !realtimeChannel) {
+            try { await loadChat(); } catch (_) {}
+          }
+        } else {
+          currentMember = null;
+          communityAdminAccess = false;
+          try { localStorage.removeItem(KEYS.profile); } catch (_) {}
+          if (db && realtimeChannel) {
+            db.removeChannel(realtimeChannel);
+            realtimeChannel = null;
+          }
+          if (chatWindow) chatWindow.replaceChildren();
+          setChatState("preview", "Sign in to join live Blossom Chat.");
+        }
+        updateAuthUI();
+      });
+
+      authInitFailed = false;
+      authReady = true;
+      updateAuthUI();
+
+      setChatState("connecting", currentSession?.user
+        ? "Connecting to the live Blossom community…"
+        : "Sign in to join live Blossom Chat.");
+
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("letters") === "1" && currentSession?.user && !isCommunityArtist()) {
+          setTimeout(renderMyLetters, 80);
+          params.delete("letters");
+          const next = `${window.location.pathname}${params.toString() ? `?${params}` : ""}${window.location.hash}`;
+          window.history.replaceState({}, "", next);
+        } else if (params.get("artist") === "1" && isCommunityArtist()) {
+          setTimeout(renderArtistInbox, 80);
+          params.delete("artist");
+          const next = `${window.location.pathname}${params.toString() ? `?${params}` : ""}${window.location.hash}`;
+          window.history.replaceState({}, "", next);
+        } else if (params.get("account") === "1" && currentSession?.user) {
+          setTimeout(renderAuthAccount, 80);
+        }
+      } catch (_) {}
+
+      await Promise.allSettled([
+        withTimeout(refreshWallPreview(), 7000, "Blossom Wall load timed out"),
+        currentSession?.user || !AUTH_REQUIRED
+          ? withTimeout(loadChat(), 9000, "Blossom Chat load timed out")
+          : Promise.resolve()
+      ]);
+
+      if (!currentSession?.user && AUTH_REQUIRED && chatWindow) {
+        chatWindow.replaceChildren();
+        setChatState("preview", "Sign in to join live Blossom Chat.");
+      }
+
+      if (isRecoveryReturn() && currentSession?.user && !recoveryEventSeen) {
+        setTimeout(() => renderPasswordRecovery(), 120);
+      } else if (shouldShowVerifiedWelcome()) {
+        setTimeout(() => renderVerifiedWelcome(), 120);
+      }
+
+      // Global account menu deep-links: keep account/moderation available from every page.
+      const accessParams = new URLSearchParams(window.location.search);
+      if (currentSession?.user && accessParams.get("letters") === "1" && !isCommunityArtist()) {
+        setTimeout(() => renderMyLetters(), 160);
+      } else if (currentSession?.user && accessParams.get("account") === "1") {
+        setTimeout(() => renderAuthAccount(), 160);
+      } else if (currentSession?.user && accessParams.get("moderate") === "1" && isCommunityAdmin()) {
+        setTimeout(() => renderAdminModeration(), 160);
+      }
+      if (accessParams.has("account") || accessParams.has("moderate") || accessParams.has("letters")) {
+        try {
+          const cleanUrl = new URL(window.location.href);
+          cleanUrl.searchParams.delete("account");
+          cleanUrl.searchParams.delete("moderate");
+          cleanUrl.searchParams.delete("letters");
+          window.history.replaceState({}, "", `${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`);
+        } catch (_) {}
+      }
+    } catch (error) {
+      console.error("Blossom Community initialization failed:", error);
+      authInitFailed = true;
+      authReady = true;
+      currentSession = null;
+      currentMember = null;
+      communityAdminAccess = false;
+      updateAuthUI();
+      setChatState("error", "Community access could not connect. Refresh the page and try again.");
+    }
+  }
+
+  init();
+
+  window.addEventListener("beforeunload", () => {
+    if (db && realtimeChannel) db.removeChannel(realtimeChannel);
+  });
+})();
