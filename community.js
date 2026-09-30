@@ -1,5 +1,7 @@
 "use strict";
 
+// Community Hardening v20.11.13a — Phase 1 hotfix
+
 (() => {
   if (!document.body.classList.contains("page-community")) return;
 
@@ -29,7 +31,10 @@
     wall: "oombam-community-preview-wall",
     chat: "oombam-community-preview-chat",
     profile: "oombam-community-preview-profile",
-    lastSubmit: "oombam-community-last-submit",
+    lastWallSubmit: "oombam-community-last-wall-submit",
+    wallHistory: "oombam-community-wall-history",
+    lastLetterSubmit: "oombam-community-last-letter-submit",
+    letterHistory: "oombam-community-letter-history",
     lastChat: "oombam-community-last-chat",
     authPreview: "oombam-community-auth-preview"
   };
@@ -894,6 +899,78 @@
 
   const markRate = (key) => storage.set(key, Date.now());
 
+  const COMMUNITY_LIMITS = {
+    wallCooldownMs: 5 * 60 * 1000,
+    wallDailyMax: 5,
+    letterCooldownMs: 24 * 60 * 60 * 1000
+  };
+
+  const normalizeSubmission = (value = "") =>
+    String(value).normalize("NFKC").toLowerCase()
+      .replace(/[\u200B-\u200D\uFEFF]/g, "")
+      .replace(/\s+/g, " ").trim();
+
+  const submissionFingerprint = (value = "") =>
+    normalizeSubmission(value)
+      .replace(/https?:\/\/\S+|www\.\S+/gi, " ")
+      .replace(/[^\p{L}\p{N}]+/gu, "");
+
+  const containsClickableUrl = (value = "") =>
+    /(?:https?:\/\/|www\.|(?:[a-z0-9-]+\.)+(?:com|net|org|io|co|me|app|site|xyz|ph|th)\b)/i.test(String(value));
+
+  const looksLikeSpam = (value = "") => {
+    const normalized = normalizeSubmission(value);
+    if (/(.)\1{11,}/u.test(normalized)) return true;
+    const tokens = normalized.split(/\s+/).filter(Boolean);
+    if (tokens.length >= 8) {
+      const counts = new Map();
+      for (const token of tokens) counts.set(token, (counts.get(token) || 0) + 1);
+      if ([...counts.values()].some(count => count >= 6)) return true;
+    }
+    return false;
+  };
+
+  // Phase 1: curated multilingual rules for severe/targeted abuse.
+  // Mild profanity is intentionally not treated the same as targeted abuse.
+  const BLOCKED_LANGUAGE = [
+    /\b(?:kill\s+yourself|kys|go\s+die|rape\s+you)\b/iu,
+    /\b(?:n[i1]gg(?:er|a)|f[a@]gg(?:ot)?|ch[i1]nk)\b/iu,
+    /\b(?:putang\s*ina\s*mo|tang\s*ina\s*mo|gago\s*ka|bobo\s*ka|mamatay\s*ka)\b/iu,
+    /(?:ไปตายซะ|มึงตาย|อีเหี้ย|ไอ้เหี้ย)/u,
+    /\b(?:mati\s+aja|bunuh\s+diri|anjing\s+lu|bangsat\s+lu)\b/iu,
+    /(?:đi\s+chết|mày\s+chết|đồ\s+chó)/iu,
+    /(?:죽어|꺼져|씨발년|씨발놈)/u,
+    /(?:死ね|くたばれ)/u,
+    /(?:去死|你去死|操你妈|操你媽)/u
+  ];
+
+  const assessSubmission = (type, value = "") => {
+    const message = safeMultiline(value, type === "letter" ? 1500 : 280);
+    if (!message) return { ok: false, reason: "empty" };
+    if (type === "letter" && containsClickableUrl(message)) return { ok: false, reason: "letter-url" };
+    if (looksLikeSpam(message)) return { ok: false, reason: "spam-pattern" };
+    const normalized = normalizeSubmission(message);
+    if (BLOCKED_LANGUAGE.some(rule => rule.test(normalized))) return { ok: false, reason: "blocked-language" };
+    return { ok: true, fingerprint: submissionFingerprint(message) };
+  };
+
+  const recentHistory = (key, windowMs) => {
+    const cutoff = Date.now() - windowMs;
+    return (storage.get(key, []) || []).filter(item => Number(item?.at) >= cutoff);
+  };
+
+  const rememberSubmission = (key, fingerprint, keepMs = 24 * 60 * 60 * 1000) => {
+    const history = recentHistory(key, keepMs);
+    history.push({ at: Date.now(), fingerprint });
+    storage.set(key, history.slice(-20));
+  };
+
+  const hasRecentDuplicate = (key, fingerprint, windowMs) =>
+    Boolean(fingerprint && recentHistory(key, windowMs).some(item => item.fingerprint === fingerprint));
+
+  const wallDailyCount = () => recentHistory(KEYS.wallHistory, 24 * 60 * 60 * 1000).length;
+
+
   const COMMUNITY_EMOJIS = [
     "🌸","🌼","🌷","🌹","🌻","🌺","💐","🌿","✨","⭐","🎀","🎁","🎉","🎊",
     "❤️","🩷","🧡","💛","💚","🩵","💙","💜","🤍","💕","💖","💗","💓","💞","💘","💝",
@@ -1082,7 +1159,7 @@
     wrapper.innerHTML = `
       <p class="community-modal__eyebrow">FAN LETTER</p>
       <h2 class="community-modal__title" id="communityModalTitle">Write to ${recipient}</h2>
-      <p class="community-modal__intro">Your letter will be checked automatically for Community safety before delivery.</p>
+      <p class="community-modal__intro"><strong>A private space for your words.</strong> Your letter won\'t appear publicly and is intended for Oom and Bam. It will be checked automatically for Community safety before delivery.</p>
       <form class="community-form" id="communityLetterForm">
         <div class="community-form__row">
           <label>Display name
@@ -1160,8 +1237,8 @@
     }
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (isRateLimited(KEYS.lastSubmit, 15000)) {
-        showFormStatus(form, "Please wait a few seconds before submitting again.", "error");
+      if (isRateLimited(KEYS.lastLetterSubmit, COMMUNITY_LIMITS.letterCooldownMs)) {
+        showFormStatus(form, "You’ve already sent a Fan Letter today. You can send another one after 24 hours.", "error");
         return;
       }
 
@@ -1179,13 +1256,31 @@
         return;
       }
 
+      const assessment = assessSubmission("letter", payload.message);
+      if (!assessment.ok) {
+        const reasonMessage = assessment.reason === "letter-url"
+          ? "Please remove links from your Fan Letter before sending it."
+          : assessment.reason === "blocked-language"
+            ? "This letter could not be submitted because it may contain language that doesn’t meet the Community Guidelines."
+            : "This letter looks like repeated or automated content. Please revise it and try again.";
+        showFormStatus(form, reasonMessage, "error");
+        return;
+      }
+      if (hasRecentDuplicate(KEYS.letterHistory, assessment.fingerprint, COMMUNITY_LIMITS.letterCooldownMs)) {
+        showFormStatus(form, "This looks very similar to a Fan Letter you’ve already submitted.", "error");
+        return;
+      }
+
       const submit = form.querySelector('[type="submit"]');
       submit.disabled = true;
       showFormStatus(form, "Submitting…");
 
       try {
         const result = await submitLetter(payload);
-        markRate(KEYS.lastSubmit);
+        if (result?.moderation !== "rejected") {
+          markRate(KEYS.lastLetterSubmit);
+          rememberSubmission(KEYS.letterHistory, assessment.fingerprint);
+        }
         form.reset();
         form._resetLetterEditor?.();
         const moderation = result?.moderation || "pending";
@@ -1193,7 +1288,7 @@
           ? "Sent! 🌸 Your letter has been delivered."
           : moderation === "rejected"
             ? "This letter could not be submitted because it did not meet the Community Guidelines."
-            : "Submitted 🌸 Your letter needs a quick moderator review.";
+            : "Submitted 🌸 Your letter passed the browser checks and is awaiting the Community safety service.";
         showFormStatus(form, message, moderation === "rejected" ? "error" : "success");
       } catch (error) {
         console.error(error);
@@ -1282,8 +1377,12 @@
     }
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (isRateLimited(KEYS.lastSubmit, 15000)) {
-        showFormStatus(form, "Please wait a few seconds before submitting again.", "error");
+      if (isRateLimited(KEYS.lastWallSubmit, COMMUNITY_LIMITS.wallCooldownMs)) {
+        showFormStatus(form, "Please wait 5 minutes before posting another Blossom Wall message.", "error");
+        return;
+      }
+      if (wallDailyCount() >= COMMUNITY_LIMITS.wallDailyMax) {
+        showFormStatus(form, "You’ve reached today’s Blossom Wall limit of 5 posts. Please try again tomorrow.", "error");
         return;
       }
 
@@ -1299,13 +1398,30 @@
         return;
       }
 
+      const assessment = assessSubmission("wall", payload.message);
+      if (!assessment.ok) {
+        showFormStatus(form,
+          assessment.reason === "blocked-language"
+            ? "This message could not be published because it may contain language that doesn’t meet the Community Guidelines."
+            : "This message looks like repeated or automated content. Please revise it and try again.",
+          "error");
+        return;
+      }
+      if (hasRecentDuplicate(KEYS.wallHistory, assessment.fingerprint, 24 * 60 * 60 * 1000)) {
+        showFormStatus(form, "This looks very similar to something you’ve already posted today.", "error");
+        return;
+      }
+
       const submit = form.querySelector('[type="submit"]');
       submit.disabled = true;
       showFormStatus(form, "Submitting…");
 
       try {
         const result = await submitWallMessage(payload);
-        markRate(KEYS.lastSubmit);
+        if (result?.moderation !== "rejected") {
+          markRate(KEYS.lastWallSubmit);
+          rememberSubmission(KEYS.wallHistory, assessment.fingerprint);
+        }
         form.reset();
         const moderation = result?.moderation || (isCommunityArtist() ? "approved" : "pending");
         const message = moderation === "approved"
@@ -1725,6 +1841,16 @@
 
     const message = safeMultiline(chatInput?.value || "", 280);
     if (!message) return;
+
+    const assessment = assessSubmission("chat", message);
+    if (!assessment.ok) {
+      if (chatNote) {
+        chatNote.textContent = assessment.reason === "blocked-language"
+          ? "Message not sent. This message may contain language that doesn’t meet our Community Guidelines."
+          : "Message not sent. Please revise repeated or automated-looking content.";
+      }
+      return;
+    }
 
     if (isRateLimited(KEYS.lastChat, 3000)) {
       if (chatNote) chatNote.textContent = "Please wait a moment before sending another message.";
@@ -2320,11 +2446,6 @@
      RLS remains the source of truth for authorization.
   ----------------------------------------------------- */
   const ADMIN_TABLES = {
-    letters: {
-      table: "community_letters",
-      label: "Fan Letters",
-      select: "id, recipient, display_name, country_code, message, status, created_at"
-    },
     wall: {
       table: "blossom_messages",
       label: "Blossom Wall",
@@ -2383,7 +2504,6 @@
     const meta = document.createElement("div");
     meta.className = "community-admin-item__meta";
     const parts = [];
-    if (kind === "letters" && item.recipient) parts.push(`To: ${safeText(item.recipient, 20)}`);
     const flag = flagFromCountry(item.country_code || "");
     if (item.country_code) parts.push(`${safeText(item.country_code, 8)}${flag ? ` ${flag}` : ""}`);
     if (item.created_at) parts.push(adminDate(item.created_at));
@@ -2432,24 +2552,6 @@
       actions.append(button);
     });
 
-    if (kind === "letters") {
-      const delLetter = document.createElement("button");
-      delLetter.type = "button";
-      delLetter.className = "delete";
-      delLetter.textContent = "Delete";
-      delLetter.addEventListener("click", async () => {
-        if (!window.confirm("Delete this Fan Letter? This action cannot be undone.")) return;
-        delLetter.disabled = true;
-        try {
-          await invokeCommunityModeration({ action: "admin-delete-letter", id: item.id });
-          await reload();
-        } catch (error) {
-          delLetter.disabled = false;
-          window.alert(safeText(error?.message || "Could not delete this letter.", 180));
-        }
-      });
-      actions.append(delLetter);
-    }
 
     if (kind === "wall" && currentStatus === "approved") {
       const del = document.createElement("button");
@@ -2483,12 +2585,8 @@
     wrapper.innerHTML = `
       <p class="community-modal__eyebrow">COMMUNITY ADMIN</p>
       <h2 class="community-modal__title" id="communityModalTitle">Moderation</h2>
-      <p class="community-modal__intro">Review member submissions without leaving the Community page.</p>
+      <p class="community-modal__intro">Review public Blossom Wall submissions without leaving the Community page. Fan Letters are not available in Admin moderation.</p>
       <div class="community-admin-toolbar">
-        <div class="community-admin-tabs" role="tablist" aria-label="Moderation queues">
-          <button class="community-admin-tab is-active" type="button" data-admin-kind="letters">Fan Letters</button>
-          <button class="community-admin-tab" type="button" data-admin-kind="wall">Blossom Wall</button>
-        </div>
         <div class="community-admin-filters" aria-label="Moderation status">
           <button class="community-admin-filter is-active" type="button" data-admin-status="pending">Pending</button>
           <button class="community-admin-filter" type="button" data-admin-status="approved">Approved</button>
@@ -2498,7 +2596,7 @@
       <p class="community-admin-summary" id="communityAdminSummary">Loading moderation queue…</p>
       <div class="community-admin-list" id="communityAdminList"></div>`;
 
-    let activeKind = "letters";
+    let activeKind = "wall";
     let activeStatus = "pending";
     const list = wrapper.querySelector("#communityAdminList");
     const summary = wrapper.querySelector("#communityAdminSummary");
@@ -2531,14 +2629,6 @@
         list.append(err);
       }
     };
-
-    wrapper.querySelectorAll("[data-admin-kind]").forEach((button) => {
-      button.addEventListener("click", () => {
-        activeKind = button.dataset.adminKind;
-        wrapper.querySelectorAll("[data-admin-kind]").forEach((b) => b.classList.toggle("is-active", b === button));
-        load();
-      });
-    });
     wrapper.querySelectorAll("[data-admin-status]").forEach((button) => {
       button.addEventListener("click", () => {
         activeStatus = button.dataset.adminStatus;
