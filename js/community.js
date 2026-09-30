@@ -1,6 +1,6 @@
 "use strict";
 
-// Community Hardening v20.11.13 — Phase 1
+// Community Hardening v20.11.13a — Phase 1 hotfix
 
 (() => {
   if (!document.body.classList.contains("page-community")) return;
@@ -2629,7 +2629,6 @@
         list.append(err);
       }
     };
-    });
     wrapper.querySelectorAll("[data-admin-status]").forEach((button) => {
       button.addEventListener("click", () => {
         activeStatus = button.dataset.adminStatus;
