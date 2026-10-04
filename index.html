@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/style.css?v=20.13.1" rel="stylesheet"/>
+<link href="css/style.css?v=20.13.3" rel="stylesheet"/>
 <link href="css/Global.css?v=20.5.4" rel="stylesheet"/>
 <link rel="preload" as="image" href="assets/images/hero-banner-web.webp" fetchpriority="high"/><style id="blossoms-public-gc-v20-5">
 .page-home .blossoms-home-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px}.page-home .blossoms-home-actions .blossoms-home-link{margin:0}.page-home .blossoms-home-gc{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:8px 14px;border:1px solid rgba(229,123,156,.38);border-radius:999px;background:rgba(255,248,251,.72);color:#9f4964;font-size:.70rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;transition:transform .2s ease,background .2s ease,border-color .2s ease}.page-home .blossoms-home-gc:hover{transform:translateY(-1px);background:#fff5f9;border-color:rgba(229,123,156,.62)}.page-home .blossoms-home-gc:focus-visible{outline:3px solid rgba(229,123,156,.25);outline-offset:3px}.page-home .blossoms-home-gc span:first-child{font-size:1rem;color:#202329}html[data-theme="dark"] .page-home .blossoms-home-gc{background:rgba(242,154,181,.09);color:#f1b0c4;border-color:rgba(242,154,181,.28)}html[data-theme="dark"] .page-home .blossoms-home-gc span:first-child{color:#f7f3f5}@media(max-width:600px){.page-home .blossoms-home-actions{align-items:flex-start;flex-direction:column}}
@@ -267,8 +267,11 @@
 </div>
 <div class="schedule-countdown" data-countdown aria-live="polite">
 <div class="schedule-countdown__head"><span data-countdown-label>STARTS IN</span><span>THAILAND TIME · ICT</span></div>
-<div class="schedule-countdown__clock"><strong data-days>00</strong><span class="countdown-colon">:</span><strong data-hours>00</strong><span class="countdown-colon">:</span><strong data-minutes>00</strong></div>
-<div class="schedule-countdown__units"><span>DAYS</span><span>HRS</span><span>MINS</span></div>
+<div class="schedule-countdown__clock" aria-label="Countdown to next event">
+<div class="countdown-part"><strong data-days>00</strong><span>DAYS</span></div><i>:</i>
+<div class="countdown-part"><strong data-hours>00</strong><span>HRS</span></div><i>:</i>
+<div class="countdown-part"><strong data-minutes>00</strong><span>MINS</span></div>
+</div>
 <p class="schedule-countdown__date" data-countdown-date></p>
 </div>
 </div>
@@ -281,7 +284,6 @@
 <div class="upcoming-update-row" data-schedule-event data-date="2026-10-22" data-person="OOM" data-title="โปรโมท ละคร เก็บแผ่นดิน" data-venue="Maleenont Tower" data-public="true" data-gifts="true"><time datetime="2026-10-22">22 OCT</time><span><b>OOM</b> • โปรโมท ละคร เก็บแผ่นดิน • Maleenont Tower</span><i class="schedule-dots"><em class="status-dot status-public"></em><em class="status-dot status-gifts"></em></i></div>
 <div class="upcoming-update-row" data-schedule-event data-date="2026-10-26" data-time="16:00" data-person="BAM" data-title="EVEANDBOY The Reborn S01 (Ultra Mild)" data-venue="BTS Skywalk &amp; EVEANDBOY, The Underground Siam Square One" data-public="true" data-gifts="true"><time datetime="2026-10-26T16:00:00+07:00">26 OCT</time><span><b>BAM</b> • EVEANDBOY The Reborn S01 (Ultra Mild)</span><i class="schedule-dots"><em class="status-dot status-public"></em><em class="status-dot status-gifts"></em></i></div>
 </div>
-<details class="schedule-archive" data-past-events-wrap hidden><summary><span>Past Events</span><small data-past-count>0</small></summary><div class="schedule-archive__list" data-past-events></div></details>
 <div class="schedule-legend" aria-label="Event guide"><p class="schedule-legend__title">Event Guide</p><p><span class="status-dot status-public"></span><strong>Public / Fan Attendance Encouraged</strong><span class="legend-description">Fans are welcome to join and support the artists around the event area.</span></p><p><span class="status-dot status-private"></span><strong>Private Event</strong><span class="legend-description">No public/fan attendance.</span></p><p><span class="status-dot status-gifts"></span><strong>Gifts Allowed</strong><span class="legend-description">Gifts may be given at the event. Events without a yellow dot do not accept gifts.</span></p></div>
 <p class="schedule-disclaimer">Schedule subject to change. Please refer to official announcements for the latest information.</p>
 </div></div></aside>
@@ -604,7 +606,7 @@ Our Memories</h2><nav class="osd-nav"><button class="osd-nav-item is-active" dat
 <script src="js/community-config.js?v=1.1"></script>
 <script src="js/site-auth.js?v=20.5.4"></script>
 <script src="js/home-auth.js?v=20.5.4"></script>
-<script src="js/script.js?v=20.11.8"></script>
-<script src="js/schedule.js?v=20.13.1"></script>
+<script src="js/script.js?v=20.13.3"></script>
+<script src="js/schedule.js?v=20.13.3"></script>
 </body>
 </html>
