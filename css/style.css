@@ -16670,3 +16670,9 @@ body:not(.dark-theme) .interviews-hero__shade{background:linear-gradient(90deg,r
     column-gap:10px !important;
   }
 }
+
+/* =========================================================
+   OCTOBER 2026 SCHEDULE — v20.12.0
+========================================================= */
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;flex:0 0 8px}.status-public{background:#28d987}.status-private{background:#ef2b2d}.status-gifts{background:#f3c843}.event-status{display:flex;align-items:center;gap:6px;margin-top:8px;color:#7b8790;font-size:.58rem;letter-spacing:.04em}.schedule-dots{display:flex;align-items:center;gap:4px;font-style:normal}.schedule-dots em{display:block}.upcoming-update-row b{font-size:.62rem;letter-spacing:.05em}.schedule-legend{margin-top:18px;padding:14px 0 0;border-top:1px solid rgba(103,140,164,.12);color:#6d7881}.schedule-legend__title{margin:0 0 8px!important;font-size:.58rem!important;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.schedule-legend p:not(.schedule-legend__title){display:flex;align-items:flex-start;gap:7px;margin:5px 0!important;font-size:.58rem!important;line-height:1.45}.schedule-legend p .status-dot{margin-top:3px}.schedule-disclaimer{margin:12px 0 0!important;color:#9aa4aa!important;font-size:.52rem!important;font-style:italic;line-height:1.45}.page-home .upcoming-update-row{grid-template-columns:52px 1fr auto}.page-home .upcoming-update-row span{font-size:.82rem}.page-home .upcoming-panel{height:auto}.page-home .upcoming-content{height:auto}
+@media(max-width:760px){.schedule-legend p:not(.schedule-legend__title){font-size:.62rem!important}.page-home .upcoming-update-row span{font-size:.86rem}}
