@@ -1382,7 +1382,7 @@
           creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" }],
           detail: {
             eyebrow: "30 JULY 2026 · ALIVE PARK HALL, FUTURE PARK",
-            title: "JAEW SAEB FUR X OOMBAM 🌶️✨",
+            title: "Jaew Saeb Fur x OomBam",
             narrativeParts: [
               "A day full of delicious food, laughter, playful teasing, and of course… OomBam being OomBam. 💙💖",
               "On July 30, Oom Eisaya and Bam Saralee brought their irresistible chemistry to JAEW SAEB FUR, turning a food event into another unforgettable OomBam moment. From tasting delicious dishes and joking around with each other to sharing laughs with fans, the whole event was filled with so many cute and chaotic moments. 🥹✨",
