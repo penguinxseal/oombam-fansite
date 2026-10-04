@@ -1769,13 +1769,14 @@
     };
 
     if (hasSupabaseConfig) {
-      const { error } = await db.from("chat_messages").insert({
-        display_name: payload.displayName,
-        avatar: payload.avatar,
+      // Deployment 2: all live Chat writes go through the authenticated
+      // community-moderation Edge Function. Sender identity is derived
+      // server-side from community_profiles; browser identity fields are
+      // intentionally not sent or trusted.
+      return invokeCommunityModeration({
+        action: "submit-chat",
         message: payload.message
       });
-      if (error) throw error;
-      return;
     }
 
     const local = storage.get(KEYS.chat, []);
