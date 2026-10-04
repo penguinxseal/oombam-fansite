@@ -16773,3 +16773,41 @@ body:not(.dark-theme) .interviews-hero__shade{background:linear-gradient(90deg,r
  .page-home .schedule-legend p:not(.schedule-legend__title){grid-template-columns:7px 104px minmax(0,1fr)!important;font-size:.58rem!important}
  .page-home .schedule-legend p strong{font-size:.58rem!important}
 }
+
+/* =========================================================
+   OCTOBER SCHEDULE AUTOMATION — v20.13.0
+   Compact editorial calendar · Thailand time · past archive
+========================================================= */
+@media (min-width: 901px){
+  .page-home .story-grid{align-items:start!important}
+  .page-home .story-panel,.page-home .upcoming-panel{align-self:start!important;height:auto!important}
+  .page-home .compact-upcoming{min-height:0!important;justify-content:flex-start!important}
+}
+.page-home .upcoming-content{padding:42px 34px 30px!important}
+.page-home .upcoming-label{margin:0 0 14px!important}
+.page-home .upcoming-panel h3{margin-bottom:12px!important}
+.page-home .upcoming-event{margin:0!important;padding:0!important}
+.page-home .event-name{font-size:1.12rem!important;line-height:1.18!important}
+.page-home .event-subtitle{max-width:none!important;margin:6px 0 0!important;font-size:.63rem!important;line-height:1.45!important}
+.page-home .event-status{margin-top:6px!important}
+.page-home .schedule-countdown{margin:13px 0 12px;padding:10px 0 9px;border-top:1px solid rgba(103,140,164,.17);border-bottom:1px solid rgba(103,140,164,.17)}
+.page-home .schedule-countdown__head{display:flex;justify-content:space-between;gap:10px;color:#7894a4;font-size:.48rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.page-home .schedule-countdown__clock{display:flex;align-items:center;gap:8px;margin-top:5px;color:#344754;font-family:"Cormorant Garamond",serif}
+.page-home .schedule-countdown__clock strong{font-size:1.55rem;font-weight:600;line-height:1}.page-home .schedule-countdown__clock>span{opacity:.38;font-size:1rem}
+.page-home .schedule-countdown__units{display:grid;grid-template-columns:32px 32px 32px;gap:15px;margin-top:2px;color:#8b9aa4;font-size:.42rem;font-weight:700;letter-spacing:.09em;text-align:center}
+.page-home .schedule-countdown__date{margin:5px 0 0!important;color:#82919a!important;font-size:.48rem!important;letter-spacing:.04em}
+.page-home .has-today-event .upcoming-event{padding:8px 10px!important;margin-inline:-10px!important;border:1px solid rgba(238,181,198,.4);border-radius:10px;background:rgba(255,244,248,.58)}
+.page-home .upcoming-updates{margin-top:0!important;padding-top:0!important}
+.page-home .upcoming-updates-heading{margin-bottom:4px!important}
+.page-home .upcoming-update-row{padding:7px 0!important;gap:7px!important}
+.page-home .upcoming-update-row.is-today{margin:2px -7px;padding:7px!important;border-radius:8px;background:rgba(255,246,217,.62)}
+.schedule-today-badge{display:inline-flex;margin-left:7px;padding:2px 5px;border-radius:999px;background:#fff1b6;color:#75601b;font:800 .42rem/1.2 "DM Sans",sans-serif;letter-spacing:.08em;vertical-align:middle}
+.page-home .schedule-archive{margin-top:7px;border-top:1px solid rgba(103,140,164,.12);border-bottom:1px solid rgba(103,140,164,.12)}
+.page-home .schedule-archive summary{display:flex;align-items:center;justify-content:space-between;padding:7px 0;color:#728b99;cursor:pointer;font-size:.55rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;list-style:none}
+.page-home .schedule-archive summary::-webkit-details-marker{display:none}.page-home .schedule-archive summary small{display:grid;place-items:center;min-width:19px;height:19px;border-radius:50%;background:rgba(116,151,171,.11);font-size:.48rem}
+.page-home .schedule-archive__list .upcoming-update-row{opacity:.58}.page-home .schedule-archive__list .upcoming-update-row time{text-decoration:none}
+.page-home .schedule-legend{margin-top:10px!important;padding-top:9px!important}
+.page-home .schedule-legend p:not(.schedule-legend__title){grid-template-columns:7px 112px minmax(0,1fr)!important;column-gap:7px!important;margin:4px 0!important;font-size:.52rem!important;line-height:1.3!important}
+.page-home .schedule-legend p strong{font-size:.52rem!important}.page-home .schedule-disclaimer{margin-top:6px!important}
+@media(max-width:900px){.page-home .upcoming-content{padding:32px 28px 27px!important}}
+@media(max-width:600px){.page-home .upcoming-content{padding:28px 20px 24px!important}.page-home .schedule-countdown__clock strong{font-size:1.4rem}.page-home .schedule-legend p:not(.schedule-legend__title){grid-template-columns:7px 108px minmax(0,1fr)!important;font-size:.55rem!important}.page-home .schedule-legend p strong{font-size:.55rem!important}}
