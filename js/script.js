@@ -1310,27 +1310,92 @@
       image: "assets/images/2026/July/OB_July_2026.jpeg",
       alt: "OomBam during July 2026 activities",
       creditText: "Scan: emjoy · Blooming With You Photobook · @oombam_ch3",
-      creditHref: "https://www.instagram.com/oombam_ch3?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==",
+      creditHref: "https://www.instagram.com/oombam_ch3",
       events: [
         {
           date: "11 Jul",
-          title: "OOMBAM Blooming With You Photobook Fan Sign",
-          summary: "The defining July milestone, built around a release fans could finally hold and celebrate together."
-        },
-        {
-          date: "11 Jul",
-          title: "Blooming With You Photobook Launch Activities",
-          summary: "Companion activities around the photobook helped turn the day into a full fan-centered moment."
+          title: "Blooming With You Photobook Launch & Fan Sign",
+          summary: "OomBam's first fan sign together turned their first official photobook into a warm, close-up celebration with Blossoms.",
+          image: "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign.webp",
+          imageAlt: "Oom and Bam at the Blooming With You Photobook Launch and Fan Sign",
+          imagePosition: "center center",
+          creditText: "Photo: @OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" }],
+          detail: {
+            eyebrow: "11 JULY 2026",
+            title: "Blooming With You Photobook Launch & Fan Sign",
+            narrativeParts: [
+              "The OOMBAM ‘Blooming With You’ Photobook Launch and Fan Sign was their first fan sign, held on July 11, 2026, at the 8th floor of Maleenont Tower 2 in Bangkok. It brought Oom Eisaya and Bam Saralee together with fans for a close-up celebration of their first official photobook.",
+              "Oom and Bam came on stage to cheers from fans, talked and interacted throughout the event, and spent the main fan-sign session signing photobooks and chatting with fans individually.",
+              "Lucky draws and Polaroid giveaways added to the celebration, while OomBam surprised everyone by singing ‘แนะนำให้เป็นแฟนเรา’ (Recommend Being My Girlfriend) together. The day closed with photos with fans — a fitting final memory for their first fan sign together."
+            ],
+            note: "Their first fan sign — blooming together with Blossoms 🌷",
+            galleries: { pair: [
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign.webp",
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign_2.webp",
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign_3.webp",
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign_4.webp",
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_Launch.webp",
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_Launch_2.webp"
+            ] }
+          }
         },
         {
           date: "21 Jul",
           title: "Thailand Content Market",
-          summary: "An industry-facing appearance that placed OomBam within a broader entertainment spotlight."
+          summary: "A memorable industry day of warm smiles, conversations and OomBam chemistry within Thailand's creative entertainment scene.",
+          image: "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar.webp",
+          imageAlt: "Oom and Bam at Thailand Content Market",
+          imagePosition: "center center",
+          creditText: "Photo: @OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" }],
+          detail: {
+            eyebrow: "21 JULY 2026",
+            title: "OomBam at Thailand Content Market",
+            narrativeParts: [
+              "A memorable day filled with excitement, warm smiles, and inspiring conversations as Oom Eisaya and Bam Saralee brought their wonderful chemistry to the Thailand Content Market. 💙💖",
+              "OomBam joined the event to celebrate Thailand’s creative entertainment industry and connect with fans and industry guests. From sharing their experiences and discussing their work to creating sweet and playful moments together, they made the event even more special. 🥹✨",
+              "Their natural chemistry, genuine friendship, and passion for their projects shone throughout the day, giving fans plenty of unforgettable moments to treasure. OomBam once again proved that wherever they go, they bring warmth, joy, and a little bit of magic with them. 🌟💕"
+            ],
+            note: "Creative conversations. Familiar chemistry. ✨",
+            galleries: { pair: [
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar.webp",
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_2.webp",
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_3.webp",
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_4.webp",
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_5.webp",
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_6.webp"
+            ] }
+          }
         },
         {
           date: "30 Jul",
-          title: "Alive Park Hall, Future Park Event",
-          summary: "Another shared public appearance that kept the month’s momentum going."
+          title: "JAEW SAEB FUR X OOMBAM",
+          summary: "Alive Park Hall, Future Park — delicious food, playful teasing and another wonderfully chaotic OomBam day.",
+          image: "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur.webp",
+          imageAlt: "Oom and Bam at JAEW SAEB FUR X OOMBAM at Alive Park Hall, Future Park",
+          imagePosition: "center center",
+          creditText: "Photo: @OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" }],
+          detail: {
+            eyebrow: "30 JULY 2026 · ALIVE PARK HALL, FUTURE PARK",
+            title: "JAEW SAEB FUR X OOMBAM 🌶️✨",
+            narrativeParts: [
+              "A day full of delicious food, laughter, playful teasing, and of course… OomBam being OomBam. 💙💖",
+              "On July 30, Oom Eisaya and Bam Saralee brought their irresistible chemistry to JAEW SAEB FUR, turning a food event into another unforgettable OomBam moment. From tasting delicious dishes and joking around with each other to sharing laughs with fans, the whole event was filled with so many cute and chaotic moments. 🥹✨",
+              "And the surprises didn’t stop there! OomBam also gave fans exciting updates about their second series, while teasing what’s coming next for them. 👀💕",
+              "Definitely one of those days where the food was saeb, but OomBam was even more saeb. 😂🌶️💐 Thank you for another beautiful memory, OomBam. Until the next adventure! 🤍"
+            ],
+            note: "#JAEWSAEBFURXOOMBAM",
+            galleries: { pair: [
+              "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur.webp",
+              "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur_2.webp",
+              "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur_3.webp"
+            ] }
+          }
         }
       ]
     },
