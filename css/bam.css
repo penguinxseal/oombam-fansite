@@ -2648,3 +2648,6 @@ body.page-bam .portrait-signature { bottom:58px; z-index:3; }
 .solo-schedule-legend--compact>p .status-dot{margin:0!important}
 .solo-schedule-legend--compact small{display:block;margin-top:6px;color:var(--muted);font-size:.55rem;line-height:1.35}
 .solo-schedule-note{margin-top:7px!important}
+
+/* Schedule automation v20.13.0 */
+.solo-schedule-card.is-today{margin-inline:-8px;padding-inline:8px!important;border-radius:9px!important;background:rgba(255,239,245,.56)!important}.schedule-today-badge{display:inline-flex;margin-left:7px;padding:2px 5px;border-radius:999px;background:#f7dce6;color:#855066;font:800 .42rem/1.2 var(--font-body);letter-spacing:.08em}.solo-schedule-archive{grid-column:2;margin-top:8px;border-top:1px solid rgba(69,100,126,.15)}.solo-schedule-archive summary{display:flex;justify-content:space-between;padding:9px 0;color:var(--muted);cursor:pointer;font-size:.58rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;list-style:none}.solo-schedule-archive summary::-webkit-details-marker{display:none}.solo-schedule-archive summary small{font-size:.52rem}.solo-schedule-archive .solo-schedule-card{opacity:.58}@media(max-width:760px){.solo-schedule-archive{grid-column:1}}
