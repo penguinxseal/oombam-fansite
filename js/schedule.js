@@ -1,4 +1,4 @@
-/* OomBam schedule automation v20.13.0 — Thailand time (ICT / UTC+7) */
+/* OomBam schedule automation v20.13.1 — Thailand time (ICT / UTC+7) */
 (() => {
   const THAI_TZ = 'Asia/Bangkok';
   const bootThaiDate = (() => { const d=new Date(); const parts=new Intl.DateTimeFormat('en-CA',{timeZone:THAI_TZ,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d); const g=t=>parts.find(p=>p.type===t)?.value; return `${g('year')}-${g('month')}-${g('day')}`; })();
@@ -78,7 +78,7 @@
       panel.querySelector('[data-hours]').textContent=pad(Math.floor((mins%1440)/60));
       panel.querySelector('[data-minutes]').textContent=pad(mins%60);
     };
-    tick(); setInterval(tick,30000);
+    tick(); setInterval(tick,1000);
   }
   function setupSolo(){ document.querySelectorAll('.updates-section--schedule').forEach(s=>archivePast(s)); }
   const boot=()=>{setupHome();setupSolo(); setInterval(()=>{ if(thaiDateKey()!==bootThaiDate) window.location.reload(); },60000);};
