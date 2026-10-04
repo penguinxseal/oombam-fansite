@@ -16875,3 +16875,161 @@ body.dark-theme.page-home .schedule-legend .legend-description{color:#b7c6cc!imp
 body.dark-theme.page-home .schedule-disclaimer{color:#94a8b2!important}
 @media(max-width:900px){.page-home .schedule-feature-card{grid-template-columns:1fr minmax(125px,.62fr)}.page-home .story-panel{min-height:0!important}}
 @media(max-width:600px){.page-home .schedule-feature-card{grid-template-columns:1fr;gap:9px}.page-home .schedule-countdown{padding:9px 0 0!important;border-left:0!important;border-top:1px solid rgba(105,156,188,.24)!important}.page-home .schedule-countdown__head{display:flex!important;justify-content:space-between!important;text-align:left!important}.page-home .schedule-countdown__head span+span{margin-top:0}.page-home .schedule-countdown__clock{justify-content:flex-start!important}.page-home .schedule-countdown__date{text-align:left}.page-home .schedule-legend p:not(.schedule-legend__title){grid-template-columns:7px 102px minmax(0,1fr)!important}}
+
+/* =========================================================
+   HOMEPAGE CALENDAR — v20.13.3 FINAL RESPONSIVE LOCK
+   Live 4-part countdown; aligned labels; independent cards.
+========================================================= */
+.page-home .story-section{
+  background:transparent!important;
+  overflow:visible!important;
+}
+.page-home .story-grid{
+  align-items:start!important;
+  background:transparent!important;
+}
+.page-home .story-panel,
+.page-home .upcoming-panel{
+  align-self:start!important;
+  height:max-content!important;
+  min-height:0!important;
+}
+.page-home .story-panel{
+  background:#f3faff!important;
+  border-radius:0 0 22px 22px!important;
+}
+.page-home .upcoming-panel{
+  border-radius:0 0 22px 22px!important;
+  overflow:hidden;
+}
+body.dark-theme.page-home .story-panel{background:#202228!important}
+
+/* countdown: every value owns its label, so alignment cannot drift */
+.page-home .schedule-countdown__clock{
+  display:grid!important;
+  grid-template-columns:minmax(36px,1fr) 8px minmax(36px,1fr) 8px minmax(36px,1fr) 8px minmax(36px,1fr)!important;
+  align-items:start!important;
+  width:100%!important;
+  gap:2px!important;
+  margin:7px 0 0!important;
+  font-family:"DM Sans",sans-serif!important;
+}
+.page-home .countdown-part{
+  display:grid;
+  grid-template-rows:auto auto;
+  justify-items:center;
+  min-width:0;
+}
+.page-home .countdown-part strong{
+  display:block;
+  width:100%;
+  color:#243746!important;
+  font:700 1.18rem/1 "DM Sans",sans-serif!important;
+  font-variant-numeric:tabular-nums;
+  text-align:center;
+  letter-spacing:.01em;
+}
+.page-home .countdown-part span{
+  display:block;
+  margin-top:5px;
+  color:#718795!important;
+  font:800 .36rem/1 "DM Sans",sans-serif!important;
+  letter-spacing:.08em;
+  text-align:center;
+}
+.page-home .schedule-countdown__clock>i{
+  align-self:start;
+  padding-top:1px;
+  color:#718795;
+  font:700 1rem/1 "DM Sans",sans-serif;
+  font-style:normal;
+  text-align:center;
+  animation:ob-countdown-pulse 1s steps(1,end) infinite;
+}
+.page-home .schedule-countdown__units{display:none!important}
+body.dark-theme.page-home .countdown-part strong{color:#fff!important}
+body.dark-theme.page-home .countdown-part span,
+body.dark-theme.page-home .schedule-countdown__clock>i{color:#9ab7c6!important}
+
+/* Keep the feature card compact and readable at every width. */
+.page-home .schedule-feature-card{align-items:center!important}
+.page-home .schedule-countdown__date{margin-top:7px!important}
+
+@media (min-width:901px){
+  .page-home .story-grid{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(300px,.42fr)!important;
+  }
+  .page-home .story-panel{margin:0!important}
+  .page-home .upcoming-panel{margin:0!important}
+}
+
+@media (max-width:900px){
+  .page-home .story-grid{align-items:start!important}
+  .page-home .story-panel,.page-home .upcoming-panel{height:auto!important;min-height:0!important}
+  .page-home .schedule-feature-card{grid-template-columns:minmax(0,1.05fr) minmax(180px,.95fr)!important}
+}
+
+@media (max-width:600px){
+  .page-home .schedule-feature-card{grid-template-columns:1fr!important;padding:14px 15px!important}
+  .page-home .schedule-countdown{padding:12px 0 0!important}
+  .page-home .schedule-countdown__head{font-size:.48rem!important}
+  .page-home .schedule-countdown__clock{
+    grid-template-columns:minmax(42px,1fr) 8px minmax(42px,1fr) 8px minmax(42px,1fr) 8px minmax(42px,1fr)!important;
+    gap:1px!important;
+  }
+  .page-home .countdown-part strong{font-size:1.35rem!important}
+  .page-home .countdown-part span{font-size:.39rem!important;margin-top:5px!important}
+  .page-home .schedule-countdown__clock>i{font-size:1rem!important;padding-top:2px!important}
+}
+
+@media (max-width:390px){
+  .page-home .schedule-countdown__clock{
+    grid-template-columns:minmax(36px,1fr) 6px minmax(36px,1fr) 6px minmax(36px,1fr) 6px minmax(36px,1fr)!important;
+  }
+  .page-home .countdown-part strong{font-size:1.18rem!important}
+  .page-home .countdown-part span{font-size:.34rem!important;letter-spacing:.05em!important}
+}
+
+
+/* =========================================================
+   HOMEPAGE CALENDAR — v20.13.3 COMPACT FEATURE + SCROLL
+   Unified editorial panel; compact 3-part ICT countdown.
+========================================================= */
+@media (min-width:901px){
+  .page-home .story-section{background:var(--story-bg,#f3faff)!important;overflow:hidden!important;border-radius:0 0 22px 22px!important}
+  .page-home .story-grid{align-items:stretch!important;background:transparent!important}
+  .page-home .story-panel,.page-home .upcoming-panel{height:auto!important;min-height:0!important;align-self:stretch!important;border-radius:0!important}
+  .page-home .story-panel{background:transparent!important}
+  body.dark-theme.page-home .story-section{--story-bg:#202228}
+  body.dark-theme.page-home .story-panel{background:transparent!important}
+  .page-home .upcoming-update-list{max-height:180px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(116,151,171,.42) transparent;padding-right:4px}
+  .page-home .upcoming-update-list::-webkit-scrollbar{width:4px}.page-home .upcoming-update-list::-webkit-scrollbar-track{background:transparent}.page-home .upcoming-update-list::-webkit-scrollbar-thumb{background:rgba(116,151,171,.42);border-radius:999px}
+}
+.page-home .schedule-feature-card{grid-template-columns:minmax(0,1.35fr) minmax(145px,.65fr)!important;padding:11px 13px!important;gap:12px!important}
+.page-home .schedule-feature-card .event-name{font-size:1rem!important;margin:0 0 5px!important}
+.page-home .schedule-feature-card .event-subtitle{margin:0!important;font-size:.58rem!important}
+.page-home .schedule-feature-card .event-status{margin-top:7px!important}
+.page-home .schedule-countdown{padding:5px 0 5px 12px!important;min-height:0!important}
+.page-home .schedule-countdown__head{font-size:.42rem!important;font-weight:800!important;letter-spacing:.08em!important}
+.page-home .schedule-countdown__head span:first-child::after{content:' (THAILAND TIME · ICT)'}
+.page-home .schedule-countdown__head span+span{display:none!important}
+.page-home .schedule-countdown__clock{grid-template-columns:minmax(38px,1fr) 7px minmax(38px,1fr) 7px minmax(38px,1fr)!important;margin-top:6px!important}
+.page-home .countdown-part strong{font-size:1.25rem!important}.page-home .countdown-part span{margin-top:4px!important;font-size:.36rem!important}
+.page-home .schedule-countdown__date{display:none!important}
+.page-home .upcoming-update-row.is-past{opacity:.42!important;filter:saturate(.55)}
+.page-home .upcoming-update-row.is-past .schedule-today-badge{display:none!important}
+@media(max-width:600px){
+  .page-home .schedule-feature-card{grid-template-columns:minmax(0,1.18fr) minmax(132px,.82fr)!important;gap:9px!important;padding:11px 12px!important}
+  .page-home .schedule-feature-card .event-name{font-size:.88rem!important;line-height:1.15!important}
+  .page-home .schedule-feature-card .event-subtitle{font-size:.52rem!important;line-height:1.35!important}
+  .page-home .schedule-countdown{border-top:0!important;border-left:1px solid rgba(105,156,188,.24)!important;padding:4px 0 4px 9px!important}
+  .page-home .schedule-countdown__head{display:block!important;text-align:center!important;font-size:.36rem!important;white-space:nowrap}
+  .page-home .schedule-countdown__clock{grid-template-columns:minmax(32px,1fr) 5px minmax(32px,1fr) 5px minmax(32px,1fr)!important;gap:1px!important;margin-top:5px!important}
+  .page-home .countdown-part strong{font-size:1.08rem!important}.page-home .countdown-part span{font-size:.31rem!important;margin-top:3px!important}.page-home .schedule-countdown__clock>i{font-size:.8rem!important}
+}
+@media(max-width:430px){
+  .page-home .schedule-feature-card{grid-template-columns:1fr!important}
+  .page-home .schedule-countdown{border-left:0!important;border-top:1px solid rgba(105,156,188,.24)!important;padding:8px 0 0!important}
+  .page-home .schedule-countdown__clock{max-width:210px;margin:6px auto 0!important}
+}
