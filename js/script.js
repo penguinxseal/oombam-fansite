@@ -1052,111 +1052,237 @@
 
   const MOMENTS_MONTHS = [
     {
-      key: "april",
-      eyebrow: "APRIL 2026",
-      title: "The Fulfill Era Begins",
-      intro: "April marked the opening chapter of OomBam’s 2026 journey — moving from introductions and teasers into the official premiere era of Fulfill.",
-      note: "Same people. More memories ♡",
-      image: "assets/images/2026/April/OB_April_2026.jpg",
-      alt: "OomBam during April 2026 activities",
-      creditText: "Photo: @jzornphotoholic",
-      creditHref: "https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
+      key: "october",
+      eyebrow: "OCTOBER 2026",
+      title: "Another Month in Bloom",
+      intro: 'October unfolds with new milestones, meaningful encounters, and moments worth remembering. From fashion and beauty spotlights to shared appearances, Oom and Bam continue to shine in their own ways. At the heart of it all, Bam’s birthday brings a celebration of kindness and giving through a special charity project. A month where individual journeys and shared moments come together, reminding us that every chapter has its own beautiful way of blooming.',
+      image: "assets/images/2026/Oct/OB_Oct_2026.webp",
+      alt: "Oom and Bam sharing a warm moment in October 2026",
+      creditText: "Photo: supplied by the archive",
+      creditHref: "",
+      events: [
+        {date:"01 Oct",title:"Bam · PLEATS PLEASE ISSEY MIYAKE ‘AZURE COLORS’ Pop-up Opening · Central Chidlom"},
+        {date:"08 Oct",title:"Bam · Live DIOR BEAUTY · LINE @DIOR BEAUTY"},
+        {date:"10 Oct",title:"OomBam · Bam’s Heart to Heart Charity Project 2026 · Anuban Thammasala, Bangkok"},
+        {date:"15 Oct",title:"OomBam · Burberry Winter 2026 Cocktail Event · Private"},
+        {date:"22 Oct",title:"Oom · โปรโมท ละคร เก็บแผ่นดิน · Maleenont Tower"},
+        {date:"26 Oct",title:"Bam · EVEANDBOY The Reborn SQ1 (Ultra Mild) · Siam Square One"}
+      ]
+    },
+    {
+      key: "september",
+      eyebrow: "SEPTEMBER 2026",
+      title: "September Spotlight",
+      intro: "September’s schedule spans shared appearances for OomBam across awards, fashion and beauty events, a world premiere, and a charity concert.",
+      note: "New stages. Shared moments ♡",
+      image: "assets/images/2026/September/OB_September_2026.jpg",
+      alt: "OomBam during September 2026 activities",
+      creditText: "@oombam_ch3 · Instagram",
+      creditHref: "https://www.instagram.com/p/DdL0Iq2mROy/",
+      events: [
+        { date: "03 Sep", title: "Y Entertainment Awards 2026", summary: "Y Entertainment Awards 2026." },
+        { date: "12 Sep", title: "MChoice & Mint Awards 2026", summary: "MChoice & Mint Awards 2026." },
+        { date: "18 Sep", title: "The Touch Preventive Blueprint", summary: "The Touch Preventive Blueprint." },
+        { date: "28 Sep", title: "Gala World Premiere", summary: "Gala World Premiere." },
+        { date: "30 Sep", title: "Nineentertain 24th Anniversary Charity Concert", summary: "Nineentertain 24th Anniversary Charity Concert." }
+      ]
+    },
+    {
+      key: "august",
+      eyebrow: "AUGUST 2026",
+      title: "OomBam Goes International",
+      intro: "August became a month of wider visibility and shared milestones for OomBam. From the playful energy of Girls Cup, to the international spotlight of Weibo Gala 2026, and their first Shanghai fansign, the month reflected both their growing presence as a pair and their expanding connection with fans beyond Thailand.",
+      note: "Different stages. Same OomBam ♡",
+      image: "assets/images/2026/August/OB_Aug_2026.jpg",
+      alt: "OomBam during August 2026 activities",
+      creditText: "Photo: @dewy_photo",
+      creditHref: "https://www.instagram.com/dewy_photo?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
       events: [
         {
-          date: "13–17 Apr",
-          title: "Character Introduction Week",
-          summary: "A focused rollout that introduced the series world and helped establish the pairing ahead of premiere week."
+          date: "01 Aug",
+          title: "Girls Cup Presented by MAMA",
+          summary: "Oom and Bam joined the Girls Cup on opposing teams, bringing playful rivalry and their familiar chemistry into a lively shared event.",
+          image: "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%283%29.jpg",
+          imageAlt: "Oom and Bam at Girls Cup Presented by MAMA on August 1, 2026",
+          imagePosition: "center center",
+          creditText: "Photo: @dewy_photo",
+          creditHref: "https://www.instagram.com/dewy_photo?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
+          detail: {
+            eyebrow: "01 AUGUST 2026",
+            title: "Girls Cup Presented by MAMA",
+            narrative: "Girls Cup opened August on a bright, energetic note for OomBam. Taking part on opposite teams — Oom with Team Mint and Bam with Team Peach — they brought playful rivalry and their natural chemistry into a more spontaneous setting. The event gave fans a fun look at their dynamic beyond formal promotional appearances and became a memorable shared moment to start the month.",
+            narrativeParts: [
+              "Girls Cup opened August on a bright, energetic note for OomBam. Taking part on opposite teams — Oom with Team Mint and Bam with Team Peach — they brought playful rivalry and their natural chemistry into a more spontaneous setting.",
+              "The event gave fans a fun look at their dynamic beyond formal promotional appearances and became a memorable shared moment to start the month."
+            ],
+            note: "Playful rivals. Same OomBam ♡",
+            galleries: {
+              pair: [
+                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%283%29.jpg",
+                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%281%29.jpg",
+                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%282%29.jpg",
+                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%284%29.jpg",
+                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%288%29.jpg"
+              ],
+              oom: [
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%281%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%282%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%283%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%284%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%285%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%286%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%288%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%289%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2810%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2811%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2812%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2813%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2814%29.jpg",
+                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2815%29.jpg"
+              ],
+              bam: [
+                "assets/images/2026/August/GirlsCup/Girlscup_Bam_Solo%20%281%29.jpg",
+                "assets/images/2026/August/GirlsCup/Girlscup_Bam_Solo%20%282%29.jpg",
+                "assets/images/2026/August/GirlsCup/Girlscup_Bam_Solo%20%283%29.jpg"
+              ]
+            }
+          }
         },
         {
-          date: "20 Apr",
-          title: "Teaser V5",
-          summary: "A late promotional push that sharpened anticipation for OomBam’s on-screen chapter."
+          date: "08 Aug",
+          title: "Weibo Gala 2026 • Cultural Communication Night",
+          summary: "The defining August highlight and a major international visibility milestone."
         },
         {
-          date: "21 Apr",
-          title: "CH3 Thailand Official Content",
-          summary: "Network-led promotions brought the series into its launch phase and widened attention around the pair."
-        },
-        {
-          date: "24 Apr",
-          title: "Fulfill First Premiere & Press Tour",
-          summary: "The defining milestone of the month, marking the public start of the Fulfill era."
-        },
-        {
-          date: "26 Apr",
-          title: "Post-Premiere Episode 1 Promotions",
-          summary: "Early audience engagement carried the momentum forward immediately after the first broadcast week."
+          date: "15 Aug",
+          title: "1st Fansign in Shanghai",
+          summary: "OomBam met fans in Shanghai for their first fansign in the city, extending their post-Fulfill journey overseas.",
+          image: "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai.jpg",
+          imageAlt: "Oom and Bam at their first fansign in Shanghai in August 2026",
+          creditText: "Photos: @OomBam_CH3 / @HyyNov_ · fan photos used with permission",
+          creditHref: "https://x.com/OomBam_CH3?s=20",
+          creditLinks: [
+            { label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" },
+            { label: "@HyyNov_", href: "https://x.com/HyyNov_?s=20" }
+          ],
+          creditSuffix: " · fan photos used with permission",
+          detail: {
+            eyebrow: "15 AUGUST 2026",
+            title: "OomBam 1st Fansign in Shanghai",
+            narrativeParts: [
+              "OomBam held their first fansign in Shanghai on August 15, 2026, bringing the Thai GL duo together with fans for a special signing and interaction event after Fulfill.",
+              "Beyond the formal activities, fans celebrated Oom and Bam’s playful exchanges, smiles and comfortable dynamic — another overseas moment reflecting their growing international reach."
+            ],
+            note: "So happy, so fulfilled — Shanghai ♡",
+            galleries: { pair: [
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_2.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_3.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_4.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_5.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_6.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_7.jpg",
+              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_8.jpg"
+            ] }
+          }
         }
       ]
     },
     {
-      key: "may",
-      eyebrow: "MAY 2026",
-      title: "From the Screen to the Fans",
-      intro: "May expanded OomBam’s reach through fan-facing appearances and shared public events, led by a major international milestone in Taipei.",
-      note: "From the screen to the fans ♡",
-      image: "assets/images/2026/May/OB_May_2026.jpg",
-      alt: "OomBam during May 2026 activities",
-      creditText: "Photo: @jzornphotoholic",
-      creditHref: "https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
+      key: "july",
+      eyebrow: "JULY 2026",
+      title: "Blooming With You",
+      intro: "July shifted the focus toward fandom and shared memories, with a photobook-centered month that let fans celebrate OomBam in person.",
+      note: "Same people. More memories ♡",
+      image: "assets/images/2026/July/OB_July_2026.jpeg",
+      alt: "OomBam during July 2026 activities",
+      creditText: "Scan: emjoy · Blooming With You Photobook · @oombam_ch3",
+      creditHref: "https://www.instagram.com/oombam_ch3",
       events: [
         {
-          date: "06 May",
-          title: "OomBam 1st Fan Meeting in Taipei",
-          summary: "OomBam’s first Taipei fan meeting brought the duo together with fans during Fulfill’s broadcast run.",
-        // v20.11.1 verified repository paths from GitHub screenshots
-          image: "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM.jpg",
-          imageAlt: "Oom and Bam at their first fan meeting in Taipei in May 2026",
+          date: "11 Jul",
+          title: "Blooming With You Photobook Launch & Fan Sign",
+          summary: "OomBam's first fan sign together turned their first official photobook into a warm, close-up celebration with Blossoms.",
+          image: "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign.webp",
+          imageAlt: "Oom and Bam at the Blooming With You Photobook Launch and Fan Sign",
+          imagePosition: "center center",
           creditText: "Photo: @OomBam_CH3",
-          creditHref: "https://x.com/OomBam_CH3?s=20",
-          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" }],
+          creditHref: "https://x.com/OomBam_CH3",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" }],
           detail: {
-            eyebrow: "06 MAY 2026",
-            title: "OomBam 1st Fan Meeting in Taipei",
+            eyebrow: "11 JULY 2026",
+            title: "Blooming With You Photobook Launch & Fan Sign",
             narrativeParts: [
-              "OomBam held their first fan meeting in Taipei in May 2026, bringing the duo together with fans while Fulfill: The Series was still airing.",
-              "The event centered on fan interaction and shared moments with Oom and Bam, adding an early international milestone to their journey as a pair."
+              "The OOMBAM ‘Blooming With You’ Photobook Launch and Fan Sign was their first fan sign, held on July 11, 2026, at the 8th floor of Maleenont Tower 2 in Bangkok. It brought Oom Eisaya and Bam Saralee together with fans for a close-up celebration of their first official photobook.",
+              "Oom and Bam came on stage to cheers from fans, talked and interacted throughout the event, and spent the main fan-sign session signing photobooks and chatting with fans individually.",
+              "Lucky draws and Polaroid giveaways added to the celebration, while OomBam surprised everyone by singing ‘แนะนำให้เป็นแฟนเรา’ (Recommend Being My Girlfriend) together. The day closed with photos with fans — a fitting final memory for their first fan sign together."
             ],
-            note: "From the screen to Taipei ♡",
+            note: "Their first fan sign — blooming together with Blossoms 🌷",
             galleries: { pair: [
-              "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM.jpg",
-              "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM_2.jpg",
-              "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM_3.jpg"
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign.webp",
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign_2.webp",
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign_3.webp",
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign_4.webp",
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_Launch.webp",
+              "assets/images/2026/July/BWYP_Launch/OB_BWYP_Launch_2.webp"
             ] }
           }
         },
         {
-          date: "08 May",
-          title: "Fulfill EP03 Promotion",
-          summary: "Shared promotional activities kept the series and pairing highly visible during the core broadcast stretch."
-        },
-        {
-          date: "14 May",
-          title: "Tres Cherie POEM x CHERRY KHEMUPSORN",
-          summary: "A joint appearance around the TRÈS CHÉRIE collection, where fashion and sustainability shared the spotlight.",
-          image: "assets/images/2026/May/PoemCherry/Oom_Poem_Cherry.jpg",
-          imageAlt: "Oom and Bam at the POEM x Cherry Khemupsorn TRÈS CHÉRIE event",
+          date: "21 Jul",
+          title: "Thailand Content Market",
+          summary: "A memorable industry day of warm smiles, conversations and OomBam chemistry within Thailand's creative entertainment scene.",
+          image: "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar.webp",
+          imageAlt: "Oom and Bam at Thailand Content Market",
+          imagePosition: "center center",
           creditText: "Photo: @OomBam_CH3",
-          creditHref: "https://x.com/OomBam_CH3?s=20",
-          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" }],
+          creditHref: "https://x.com/OomBam_CH3",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" }],
           detail: {
-            eyebrow: "14 MAY 2026",
-            title: "TRÈS CHÉRIE — POEM x Cherry Khemupsorn",
+            eyebrow: "21 JULY 2026",
+            title: "OomBam at Thailand Content Market",
             narrativeParts: [
-              "OomBam appeared at the TRÈS CHÉRIE showcase from POEM and Cherry Khemupsorn, a collection built around sustainable fashion, deadstock fabrics, Thai textiles and timeless design.",
-              "The appearance gave the month another shared public moment beyond Fulfill promotions, placing Oom and Bam in a fashion-focused setting together."
+              "A memorable day filled with excitement, warm smiles, and inspiring conversations as Oom Eisaya and Bam Saralee brought their wonderful chemistry to the Thailand Content Market. 💙💖",
+              "OomBam joined the event to celebrate Thailand’s creative entertainment industry and connect with fans and industry guests. From sharing their experiences and discussing their work to creating sweet and playful moments together, they made the event even more special. 🥹✨",
+              "Their natural chemistry, genuine friendship, and passion for their projects shone throughout the day, giving fans plenty of unforgettable moments to treasure. OomBam once again proved that wherever they go, they bring warmth, joy, and a little bit of magic with them. 🌟💕"
             ],
-            note: "A shared moment in fashion ♡",
+            note: "Creative conversations. Familiar chemistry. ✨",
             galleries: { pair: [
-              "assets/images/2026/May/PoemCherry/Oom_Poem_Cherry.jpg",
-              "assets/images/2026/May/PoemCherry/Bam_Poem_Cherry.jpg"
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar.webp",
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_2.webp",
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_3.webp",
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_4.webp",
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_5.webp",
+              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_6.webp"
             ] }
           }
         },
         {
-          date: "19 May",
-          title: "Paragon Cineplex Pair Event",
-          summary: "Another shared public event that brought OomBam directly to fans in a cinema setting."
+          date: "30 Jul",
+          title: "JAEW SAEB FUR X OOMBAM",
+          summary: "Alive Park Hall, Future Park — delicious food, playful teasing and another wonderfully chaotic OomBam day.",
+          image: "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur.webp",
+          imageAlt: "Oom and Bam at JAEW SAEB FUR X OOMBAM at Alive Park Hall, Future Park",
+          imagePosition: "center center",
+          creditText: "Photo: @OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" }],
+          detail: {
+            eyebrow: "30 JULY 2026 · ALIVE PARK HALL, FUTURE PARK",
+            title: "Jaew Saeb Fur x OomBam",
+            narrativeParts: [
+              "A day full of delicious food, laughter, playful teasing, and of course… OomBam being OomBam. 💙💖",
+              "On July 30, Oom Eisaya and Bam Saralee brought their irresistible chemistry to JAEW SAEB FUR, turning a food event into another unforgettable OomBam moment. From tasting delicious dishes and joking around with each other to sharing laughs with fans, the whole event was filled with so many cute and chaotic moments. 🥹✨",
+              "And the surprises didn’t stop there! OomBam also gave fans exciting updates about their second series, while teasing what’s coming next for them. 👀💕",
+              "Definitely one of those days where the food was saeb, but OomBam was even more saeb. 😂🌶️💐 Thank you for another beautiful memory, OomBam. Until the next adventure! 🤍"
+            ],
+            note: "#JAEWSAEBFURXOOMBAM",
+            galleries: { pair: [
+              "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur.webp",
+              "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur_2.webp",
+              "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur_3.webp"
+            ] }
+          }
         }
       ]
     },
@@ -1302,238 +1428,112 @@
       ]
     },
     {
-      key: "july",
-      eyebrow: "JULY 2026",
-      title: "Blooming With You",
-      intro: "July shifted the focus toward fandom and shared memories, with a photobook-centered month that let fans celebrate OomBam in person.",
-      note: "Same people. More memories ♡",
-      image: "assets/images/2026/July/OB_July_2026.jpeg",
-      alt: "OomBam during July 2026 activities",
-      creditText: "Scan: emjoy · Blooming With You Photobook · @oombam_ch3",
-      creditHref: "https://www.instagram.com/oombam_ch3",
+      key: "may",
+      eyebrow: "MAY 2026",
+      title: "From the Screen to the Fans",
+      intro: "May expanded OomBam’s reach through fan-facing appearances and shared public events, led by a major international milestone in Taipei.",
+      note: "From the screen to the fans ♡",
+      image: "assets/images/2026/May/OB_May_2026.jpg",
+      alt: "OomBam during May 2026 activities",
+      creditText: "Photo: @jzornphotoholic",
+      creditHref: "https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
       events: [
         {
-          date: "11 Jul",
-          title: "Blooming With You Photobook Launch & Fan Sign",
-          summary: "OomBam's first fan sign together turned their first official photobook into a warm, close-up celebration with Blossoms.",
-          image: "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign.webp",
-          imageAlt: "Oom and Bam at the Blooming With You Photobook Launch and Fan Sign",
-          imagePosition: "center center",
+          date: "06 May",
+          title: "OomBam 1st Fan Meeting in Taipei",
+          summary: "OomBam’s first Taipei fan meeting brought the duo together with fans during Fulfill’s broadcast run.",
+        // v20.11.1 verified repository paths from GitHub screenshots
+          image: "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM.jpg",
+          imageAlt: "Oom and Bam at their first fan meeting in Taipei in May 2026",
           creditText: "Photo: @OomBam_CH3",
-          creditHref: "https://x.com/OomBam_CH3",
-          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" }],
-          detail: {
-            eyebrow: "11 JULY 2026",
-            title: "Blooming With You Photobook Launch & Fan Sign",
-            narrativeParts: [
-              "The OOMBAM ‘Blooming With You’ Photobook Launch and Fan Sign was their first fan sign, held on July 11, 2026, at the 8th floor of Maleenont Tower 2 in Bangkok. It brought Oom Eisaya and Bam Saralee together with fans for a close-up celebration of their first official photobook.",
-              "Oom and Bam came on stage to cheers from fans, talked and interacted throughout the event, and spent the main fan-sign session signing photobooks and chatting with fans individually.",
-              "Lucky draws and Polaroid giveaways added to the celebration, while OomBam surprised everyone by singing ‘แนะนำให้เป็นแฟนเรา’ (Recommend Being My Girlfriend) together. The day closed with photos with fans — a fitting final memory for their first fan sign together."
-            ],
-            note: "Their first fan sign — blooming together with Blossoms 🌷",
-            galleries: { pair: [
-              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign.webp",
-              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign_2.webp",
-              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign_3.webp",
-              "assets/images/2026/July/BWYP_Launch/OB_BWYP_FanSign_4.webp",
-              "assets/images/2026/July/BWYP_Launch/OB_BWYP_Launch.webp",
-              "assets/images/2026/July/BWYP_Launch/OB_BWYP_Launch_2.webp"
-            ] }
-          }
-        },
-        {
-          date: "21 Jul",
-          title: "Thailand Content Market",
-          summary: "A memorable industry day of warm smiles, conversations and OomBam chemistry within Thailand's creative entertainment scene.",
-          image: "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar.webp",
-          imageAlt: "Oom and Bam at Thailand Content Market",
-          imagePosition: "center center",
-          creditText: "Photo: @OomBam_CH3",
-          creditHref: "https://x.com/OomBam_CH3",
-          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" }],
-          detail: {
-            eyebrow: "21 JULY 2026",
-            title: "OomBam at Thailand Content Market",
-            narrativeParts: [
-              "A memorable day filled with excitement, warm smiles, and inspiring conversations as Oom Eisaya and Bam Saralee brought their wonderful chemistry to the Thailand Content Market. 💙💖",
-              "OomBam joined the event to celebrate Thailand’s creative entertainment industry and connect with fans and industry guests. From sharing their experiences and discussing their work to creating sweet and playful moments together, they made the event even more special. 🥹✨",
-              "Their natural chemistry, genuine friendship, and passion for their projects shone throughout the day, giving fans plenty of unforgettable moments to treasure. OomBam once again proved that wherever they go, they bring warmth, joy, and a little bit of magic with them. 🌟💕"
-            ],
-            note: "Creative conversations. Familiar chemistry. ✨",
-            galleries: { pair: [
-              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar.webp",
-              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_2.webp",
-              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_3.webp",
-              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_4.webp",
-              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_5.webp",
-              "assets/images/2026/July/Thai_Con_Mar/OB_Thai_Con_Mar_6.webp"
-            ] }
-          }
-        },
-        {
-          date: "30 Jul",
-          title: "JAEW SAEB FUR X OOMBAM",
-          summary: "Alive Park Hall, Future Park — delicious food, playful teasing and another wonderfully chaotic OomBam day.",
-          image: "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur.webp",
-          imageAlt: "Oom and Bam at JAEW SAEB FUR X OOMBAM at Alive Park Hall, Future Park",
-          imagePosition: "center center",
-          creditText: "Photo: @OomBam_CH3",
-          creditHref: "https://x.com/OomBam_CH3",
-          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3" }],
-          detail: {
-            eyebrow: "30 JULY 2026 · ALIVE PARK HALL, FUTURE PARK",
-            title: "Jaew Saeb Fur x OomBam",
-            narrativeParts: [
-              "A day full of delicious food, laughter, playful teasing, and of course… OomBam being OomBam. 💙💖",
-              "On July 30, Oom Eisaya and Bam Saralee brought their irresistible chemistry to JAEW SAEB FUR, turning a food event into another unforgettable OomBam moment. From tasting delicious dishes and joking around with each other to sharing laughs with fans, the whole event was filled with so many cute and chaotic moments. 🥹✨",
-              "And the surprises didn’t stop there! OomBam also gave fans exciting updates about their second series, while teasing what’s coming next for them. 👀💕",
-              "Definitely one of those days where the food was saeb, but OomBam was even more saeb. 😂🌶️💐 Thank you for another beautiful memory, OomBam. Until the next adventure! 🤍"
-            ],
-            note: "#JAEWSAEBFURXOOMBAM",
-            galleries: { pair: [
-              "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur.webp",
-              "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur_2.webp",
-              "assets/images/2026/July/Jaew_Saeb_Fur/OB_Jaew_Saeb_Fur_3.webp"
-            ] }
-          }
-        }
-      ]
-    },
-    {
-      key: "august",
-      eyebrow: "AUGUST 2026",
-      title: "OomBam Goes International",
-      intro: "August became a month of wider visibility and shared milestones for OomBam. From the playful energy of Girls Cup, to the international spotlight of Weibo Gala 2026, and their first Shanghai fansign, the month reflected both their growing presence as a pair and their expanding connection with fans beyond Thailand.",
-      note: "Different stages. Same OomBam ♡",
-      image: "assets/images/2026/August/OB_Aug_2026.jpg",
-      alt: "OomBam during August 2026 activities",
-      creditText: "Photo: @dewy_photo",
-      creditHref: "https://www.instagram.com/dewy_photo?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
-      events: [
-        {
-          date: "01 Aug",
-          title: "Girls Cup Presented by MAMA",
-          summary: "Oom and Bam joined the Girls Cup on opposing teams, bringing playful rivalry and their familiar chemistry into a lively shared event.",
-          image: "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%283%29.jpg",
-          imageAlt: "Oom and Bam at Girls Cup Presented by MAMA on August 1, 2026",
-          imagePosition: "center center",
-          creditText: "Photo: @dewy_photo",
-          creditHref: "https://www.instagram.com/dewy_photo?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
-          detail: {
-            eyebrow: "01 AUGUST 2026",
-            title: "Girls Cup Presented by MAMA",
-            narrative: "Girls Cup opened August on a bright, energetic note for OomBam. Taking part on opposite teams — Oom with Team Mint and Bam with Team Peach — they brought playful rivalry and their natural chemistry into a more spontaneous setting. The event gave fans a fun look at their dynamic beyond formal promotional appearances and became a memorable shared moment to start the month.",
-            narrativeParts: [
-              "Girls Cup opened August on a bright, energetic note for OomBam. Taking part on opposite teams — Oom with Team Mint and Bam with Team Peach — they brought playful rivalry and their natural chemistry into a more spontaneous setting.",
-              "The event gave fans a fun look at their dynamic beyond formal promotional appearances and became a memorable shared moment to start the month."
-            ],
-            note: "Playful rivals. Same OomBam ♡",
-            galleries: {
-              pair: [
-                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%283%29.jpg",
-                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%281%29.jpg",
-                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%282%29.jpg",
-                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%284%29.jpg",
-                "assets/images/2026/August/GirlsCup/OB_GirlsCup_2026%20%288%29.jpg"
-              ],
-              oom: [
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%281%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%282%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%283%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%284%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%285%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%286%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%288%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%289%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2810%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2811%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2812%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2813%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2814%29.jpg",
-                "assets/images/2026/August/GirlsCup/GirlsCup_Oom_Solo%20%2815%29.jpg"
-              ],
-              bam: [
-                "assets/images/2026/August/GirlsCup/Girlscup_Bam_Solo%20%281%29.jpg",
-                "assets/images/2026/August/GirlsCup/Girlscup_Bam_Solo%20%282%29.jpg",
-                "assets/images/2026/August/GirlsCup/Girlscup_Bam_Solo%20%283%29.jpg"
-              ]
-            }
-          }
-        },
-        {
-          date: "08 Aug",
-          title: "Weibo Gala 2026 • Cultural Communication Night",
-          summary: "The defining August highlight and a major international visibility milestone."
-        },
-        {
-          date: "15 Aug",
-          title: "1st Fansign in Shanghai",
-          summary: "OomBam met fans in Shanghai for their first fansign in the city, extending their post-Fulfill journey overseas.",
-          image: "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai.jpg",
-          imageAlt: "Oom and Bam at their first fansign in Shanghai in August 2026",
-          creditText: "Photos: @OomBam_CH3 / @HyyNov_ · fan photos used with permission",
           creditHref: "https://x.com/OomBam_CH3?s=20",
-          creditLinks: [
-            { label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" },
-            { label: "@HyyNov_", href: "https://x.com/HyyNov_?s=20" }
-          ],
-          creditSuffix: " · fan photos used with permission",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" }],
           detail: {
-            eyebrow: "15 AUGUST 2026",
-            title: "OomBam 1st Fansign in Shanghai",
+            eyebrow: "06 MAY 2026",
+            title: "OomBam 1st Fan Meeting in Taipei",
             narrativeParts: [
-              "OomBam held their first fansign in Shanghai on August 15, 2026, bringing the Thai GL duo together with fans for a special signing and interaction event after Fulfill.",
-              "Beyond the formal activities, fans celebrated Oom and Bam’s playful exchanges, smiles and comfortable dynamic — another overseas moment reflecting their growing international reach."
+              "OomBam held their first fan meeting in Taipei in May 2026, bringing the duo together with fans while Fulfill: The Series was still airing.",
+              "The event centered on fan interaction and shared moments with Oom and Bam, adding an early international milestone to their journey as a pair."
             ],
-            note: "So happy, so fulfilled — Shanghai ♡",
+            note: "From the screen to Taipei ♡",
             galleries: { pair: [
-              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai.jpg",
-              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_2.jpg",
-              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_3.jpg",
-              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_4.jpg",
-              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_5.jpg",
-              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_6.jpg",
-              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_7.jpg",
-              "assets/images/2026/August/Shanghai_FM/OB_Aug_Fansign_Shanghai_8.jpg"
+              "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM.jpg",
+              "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM_2.jpg",
+              "assets/images/2026/May/Taipei_FM/Ob_Taipei_FM_3.jpg"
             ] }
           }
+        },
+        {
+          date: "08 May",
+          title: "Fulfill EP03 Promotion",
+          summary: "Shared promotional activities kept the series and pairing highly visible during the core broadcast stretch."
+        },
+        {
+          date: "14 May",
+          title: "Tres Cherie POEM x CHERRY KHEMUPSORN",
+          summary: "A joint appearance around the TRÈS CHÉRIE collection, where fashion and sustainability shared the spotlight.",
+          image: "assets/images/2026/May/PoemCherry/Oom_Poem_Cherry.jpg",
+          imageAlt: "Oom and Bam at the POEM x Cherry Khemupsorn TRÈS CHÉRIE event",
+          creditText: "Photo: @OomBam_CH3",
+          creditHref: "https://x.com/OomBam_CH3?s=20",
+          creditLinks: [{ label: "@OomBam_CH3", href: "https://x.com/OomBam_CH3?s=20" }],
+          detail: {
+            eyebrow: "14 MAY 2026",
+            title: "TRÈS CHÉRIE — POEM x Cherry Khemupsorn",
+            narrativeParts: [
+              "OomBam appeared at the TRÈS CHÉRIE showcase from POEM and Cherry Khemupsorn, a collection built around sustainable fashion, deadstock fabrics, Thai textiles and timeless design.",
+              "The appearance gave the month another shared public moment beyond Fulfill promotions, placing Oom and Bam in a fashion-focused setting together."
+            ],
+            note: "A shared moment in fashion ♡",
+            galleries: { pair: [
+              "assets/images/2026/May/PoemCherry/Oom_Poem_Cherry.jpg",
+              "assets/images/2026/May/PoemCherry/Bam_Poem_Cherry.jpg"
+            ] }
+          }
+        },
+        {
+          date: "19 May",
+          title: "Paragon Cineplex Pair Event",
+          summary: "Another shared public event that brought OomBam directly to fans in a cinema setting."
         }
       ]
     },
     {
-      key: "september",
-      eyebrow: "SEPTEMBER 2026",
-      title: "September Spotlight",
-      intro: "September’s schedule spans shared appearances for OomBam across awards, fashion and beauty events, a world premiere, and a charity concert.",
-      note: "New stages. Shared moments ♡",
-      image: "assets/images/2026/September/OB_September_2026.jpg",
-      alt: "OomBam during September 2026 activities",
-      creditText: "@oombam_ch3 · Instagram",
-      creditHref: "https://www.instagram.com/p/DdL0Iq2mROy/",
+      key: "april",
+      eyebrow: "APRIL 2026",
+      title: "The Fulfill Era Begins",
+      intro: "April marked the opening chapter of OomBam’s 2026 journey — moving from introductions and teasers into the official premiere era of Fulfill.",
+      note: "Same people. More memories ♡",
+      image: "assets/images/2026/April/OB_April_2026.jpg",
+      alt: "OomBam during April 2026 activities",
+      creditText: "Photo: @jzornphotoholic",
+      creditHref: "https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
       events: [
-        { date: "03 Sep", title: "Y Entertainment Awards 2026", summary: "Y Entertainment Awards 2026." },
-        { date: "12 Sep", title: "MChoice & Mint Awards 2026", summary: "MChoice & Mint Awards 2026." },
-        { date: "18 Sep", title: "The Touch Preventive Blueprint", summary: "The Touch Preventive Blueprint." },
-        { date: "28 Sep", title: "Gala World Premiere", summary: "Gala World Premiere." },
-        { date: "30 Sep", title: "Nineentertain 24th Anniversary Charity Concert", summary: "Nineentertain 24th Anniversary Charity Concert." }
-      ]
-    },
-    {
-      key: "october",
-      eyebrow: "OCTOBER 2026",
-      title: "Another Month in Bloom",
-      intro: 'October unfolds with new milestones, meaningful encounters, and moments worth remembering. From fashion and beauty spotlights to shared appearances, Oom and Bam continue to shine in their own ways. At the heart of it all, Bam’s birthday brings a celebration of kindness and giving through a special charity project. A month where individual journeys and shared moments come together, reminding us that every chapter has its own beautiful way of blooming.',
-      image: "assets/images/2026/Oct/OB_Oct_2026.webp",
-      alt: "Oom and Bam sharing a warm moment in October 2026",
-      creditText: "Photo: supplied by the archive",
-      creditHref: "",
-      events: [
-        {date:"01 Oct",title:"Bam · PLEATS PLEASE ISSEY MIYAKE ‘AZURE COLORS’ Pop-up Opening · Central Chidlom"},
-        {date:"08 Oct",title:"Bam · Live DIOR BEAUTY · LINE @DIOR BEAUTY"},
-        {date:"10 Oct",title:"OomBam · Bam’s Heart to Heart Charity Project 2026 · Anuban Thammasala, Bangkok"},
-        {date:"15 Oct",title:"OomBam · Burberry Winter 2026 Cocktail Event · Private"},
-        {date:"22 Oct",title:"Oom · โปรโมท ละคร เก็บแผ่นดิน · Maleenont Tower"},
-        {date:"26 Oct",title:"Bam · EVEANDBOY The Reborn SQ1 (Ultra Mild) · Siam Square One"}
+        {
+          date: "13–17 Apr",
+          title: "Character Introduction Week",
+          summary: "A focused rollout that introduced the series world and helped establish the pairing ahead of premiere week."
+        },
+        {
+          date: "20 Apr",
+          title: "Teaser V5",
+          summary: "A late promotional push that sharpened anticipation for OomBam’s on-screen chapter."
+        },
+        {
+          date: "21 Apr",
+          title: "CH3 Thailand Official Content",
+          summary: "Network-led promotions brought the series into its launch phase and widened attention around the pair."
+        },
+        {
+          date: "24 Apr",
+          title: "Fulfill First Premiere & Press Tour",
+          summary: "The defining milestone of the month, marking the public start of the Fulfill era."
+        },
+        {
+          date: "26 Apr",
+          title: "Post-Premiere Episode 1 Promotions",
+          summary: "Early audience engagement carried the momentum forward immediately after the first broadcast week."
+        }
       ]
     }
   ];
