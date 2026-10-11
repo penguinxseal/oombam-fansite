@@ -1662,16 +1662,37 @@
     if (!modalEvents) return;
     modalEvents.replaceChildren();
     month.events.forEach((event) => {
-      const item = event.detail ? document.createElement("button") : document.createElement("span");
-      item.className = `moments-modal__moment-link${event.detail ? " is-clickable" : " is-static"}`;
-      item.textContent = month.key === "october" ? `${event.date} · ${event.title}` : event.title;
-
+      const item = document.createElement(event.detail ? "button" : "div");
+      item.className = `moments-modal__moment-link moments-timeline-row${event.detail ? " is-clickable" : " is-static"}`;
       if (event.detail) {
         item.type = "button";
         item.setAttribute("aria-label", `Open ${event.title} photo story`);
         item.addEventListener("click", () => renderEventDetail(month, event));
       }
-
+      const date = document.createElement("span");
+      date.className = "moments-timeline-date";
+      if (event.date) {
+        const match = event.date.match(/^(\d{1,2}(?:[–-]\d{1,2})?)\s+([A-Za-z]{3})$/);
+        if (match) {
+          const day = document.createElement("strong");
+          day.textContent = match[1].padStart(2, "0");
+          const mon = document.createElement("small");
+          mon.textContent = match[2].toUpperCase();
+          date.append(day, mon);
+        } else {
+          date.textContent = event.date;
+        }
+      } else {
+        date.textContent = "✦";
+        date.classList.add("is-undated");
+      }
+      const copy = document.createElement("span");
+      copy.className = "moments-timeline-copy";
+      const title = document.createElement("span");
+      title.className = "moments-timeline-title";
+      title.textContent = event.title;
+      copy.append(title);
+      item.append(date, copy);
       modalEvents.append(item);
     });
   };
