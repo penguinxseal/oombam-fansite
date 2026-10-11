@@ -563,59 +563,30 @@ body.page-community .garden-link { margin-top: 8px !important; }
                 Coming together to support and celebrate Oom and Bam.
               </p>
 </div>
-<button class="text-button">
-              View All Projects
-            </button>
+<button class="text-button" type="button" data-birthday-open>View Featured Story ↗</button>
 </div>
-<div class="project-grid">
-<!-- CURRENT -->
-<article class="project-card current-project">
-<span class="project-status current">
-                Current Project
-              </span>
-<h3>
-                OomBam 1st Fanmeeting<br/>
-                Support Project
-              </h3>
-<div class="progress-track">
-<span style="width: 72%;"></span>
-</div>
-<div class="progress-meta">
-<span>In progress</span>
-<strong>72%</strong>
-</div>
-<p>Thank you for all your love!</p>
-<span class="project-emoji">🎁</span>
+<div class="project-grid ob-project-grid">
+<article class="project-card completed-project ob-featured-project" id="bam-birthday-project">
+<span class="project-status completed">Completed Project</span>
+<p class="ob-project-date">10 OCT 2026 · BANGKOK</p>
+<h3>Bam's Birthday Support Project 2026</h3>
+<p class="ob-project-tagline">A Little Love, Delivered to Bangkok</p>
+<strong class="completed-text">✓ Successfully delivered</strong>
+<p>Planned and coordinated by the OBSocPH Admin Team.</p>
+<button type="button" class="ob-project-story-button" data-birthday-open>View Story <span aria-hidden="true">↗</span></button>
+<span class="project-emoji" aria-hidden="true">🎁</span>
 </article>
-<!-- UPCOMING -->
-<article class="project-card upcoming-project">
-<span class="project-status upcoming">
-                Upcoming Project
-              </span>
-<h3>
-                Bam's Birthday<br/>
-                Support Project
-              </h3>
-<strong class="coming-soon">
-                Coming soon
-              </strong>
-<p>More details to be announced!</p>
-<span class="project-emoji">🗓️</span>
+<article class="project-card ob-placeholder-project">
+<span class="project-status current">Community Initiatives</span>
+<h3>Growing Together</h3>
+<p>Ideas and possibilities for future community projects.</p>
+<span class="project-emoji" aria-hidden="true">🌱</span>
 </article>
-<!-- COMPLETED -->
-<article class="project-card completed-project">
-<span class="project-status completed">
-                Completed Project
-              </span>
-<h3>
-                Food Support Project<br/>
-                for OomBam
-              </h3>
-<strong class="completed-text">
-                ✓ Completed
-              </strong>
-<p>Thank you, Blossoms! 🤍</p>
-<span class="project-emoji">🌷</span>
+<article class="project-card ob-placeholder-project">
+<span class="project-status upcoming">Future Projects</span>
+<h3>More to Come</h3>
+<p>New plans will find their place here when they're ready.</p>
+<span class="project-emoji" aria-hidden="true">🌷</span>
 </article>
 </div>
 </div>
@@ -721,5 +692,46 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/community-config.js?v=2.1"></script>
 <script src="js/site-auth.js?v=20.10.1"></script>
-<script src="js/community.js?v=20.10.6"></script></body>
+<script src="js/community.js?v=20.10.6"></script>
+<!-- OBSocPH completed birthday project archive -->
+<div class="ob-birthday-modal" id="obBirthdayModal" aria-hidden="true">
+  <div class="ob-birthday-backdrop" data-birthday-close></div>
+  <section class="ob-birthday-dialog" role="dialog" aria-modal="true" aria-labelledby="obBirthdayTitle" tabindex="-1">
+    <button class="ob-birthday-close" type="button" aria-label="Close birthday project story" data-birthday-close>×</button>
+    <header class="ob-birthday-header">
+      <p class="ob-birthday-kicker">BLOSSOM PROJECTS · COMPLETED · 10 OCT 2026</p>
+      <h2 id="obBirthdayTitle">A Little Love, Delivered to Bangkok</h2>
+      <p>Bam's Birthday Support Project 2026 · OomBam Society Philippines</p>
+    </header>
+    <div class="ob-birthday-body">
+      <figure class="ob-birthday-hero"><img src="assets/projects/2026/October/Bam_Bday_Charity/Project%2001%20-%20Bam_BDay%20(1).webp" alt="Bam's birthday project photo" loading="lazy" onerror="this.closest('figure').hidden=true"><figcaption>Birthday project archive · Photos courtesy of Basketeer Thailand</figcaption></figure>
+      <div class="ob-birthday-story">
+        <p>It started with a simple question among the OomBam Society PH admins: What should we send Bam for her birthday?</p>
+        <p>Naturally, one idea led to another. There were flowers to choose, colors to match, gift arrangements to consider, and a premium durian box that somehow became one of the highlights of the plan. Because, well, it's Bam. A little something ordinary just wouldn't do. 😂</p>
+        <p>Behind the scenes, the OBSocPH admin team worked through the details—from contacting suppliers in Bangkok and comparing arrangements to finalizing the orders, preparing personalized message cards, coordinating payment, and confirming delivery to the event venue.</p>
+        <p>There were plenty of decisions along the way, including a few last-minute adjustments. But seeing everything finally come together made all the planning worthwhile.</p>
+        <h3>October 10 — Delivery Day</h3>
+        <p>The gifts arrived at Bam's <em>Heart to Heart Charity Project 2026</em> in Bangkok: a premium durian gift box, a pink flower arrangement, and birthday messages prepared especially for her.</p>
+        <p>What started as a conversation among the admins had turned into an actual birthday surprise, delivered all the way from a little fan community in the Philippines.</p>
+        <p>More than anything, this project reflects the time, effort, and teamwork of the OBSocPH admin team. From the initial brainstorming to the final delivery arrangements, every detail was handled with care, a little patience, and probably more group-chat messages than anyone would care to count. 😂</p>
+        <p>A big thank-you to everyone who helped make it happen and to those who supported the project along the way.</p>
+        <p class="ob-birthday-signoff">From the OBSocPH admins, with love (and durian). 💛</p>
+      </div>
+      <section class="ob-birthday-gallery-section" aria-label="Birthday project photo journal">
+        <div class="ob-birthday-section-heading"><p>THE PHOTO JOURNAL</p><h3>Little details, big smiles.</h3></div>
+        <div class="ob-birthday-gallery" id="obBirthdayGallery"></div>
+        <button type="button" class="ob-birthday-more" id="obBirthdayMore" aria-expanded="false">View All Photos ↓</button>
+      </section>
+      <aside class="ob-birthday-credits">
+        <h3>Credits &amp; Acknowledgments</h3>
+        <p><strong>Project Planning &amp; Coordination</strong><a href="https://www.instagram.com/oombamsocietyph/" target="_blank" rel="noopener noreferrer">@oombamsocietyph — OomBam Society Philippines Admin Team ↗</a></p>
+        <p><strong>Gift Supplier &amp; Photo Credits</strong><a href="https://www.instagram.com/basketeer_thailand/" target="_blank" rel="noopener noreferrer">@basketeer_thailand — Basketeer Thailand ↗</a></p>
+        <p><strong>Special Thanks</strong><a href="https://www.instagram.com/journeywithbam/" target="_blank" rel="noopener noreferrer">@journeywithbam ↗</a><span>For receiving the gift delivery at Bam's charity event venue in Bangkok.</span></p>
+      </aside>
+    </div>
+  </section>
+</div>
+<div class="ob-birthday-lightbox" id="obBirthdayLightbox" aria-hidden="true"><button type="button" data-birthday-lightbox-close aria-label="Close photo">×</button><img alt="Birthday project photo enlarged" src=""></div>
+<script src="js/birthday-project.js?v=1.0.0" defer></script>
+</body>
 </html>
