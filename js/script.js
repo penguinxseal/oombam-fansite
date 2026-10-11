@@ -1517,6 +1517,24 @@
         { date: "28 Sep", title: "Gala World Premiere", summary: "Gala World Premiere." },
         { date: "30 Sep", title: "Nineentertain 24th Anniversary Charity Concert", summary: "Nineentertain 24th Anniversary Charity Concert." }
       ]
+    },
+    {
+      key: "october",
+      eyebrow: "OCTOBER 2026",
+      title: "Another Month in Bloom",
+      intro: 'October unfolds with new milestones, meaningful encounters, and moments worth remembering. From fashion and beauty spotlights to shared appearances, Oom and Bam continue to shine in their own ways. At the heart of it all, Bam’s birthday brings a celebration of kindness and giving through a special charity project. A month where individual journeys and shared moments come together, reminding us that every chapter has its own beautiful way of blooming.',
+      image: "assets/images/2026/Oct/OB_Oct_2026.webp",
+      alt: "Oom and Bam sharing a warm moment in October 2026",
+      creditText: "Photo: supplied by the archive",
+      creditHref: "",
+      events: [
+        {date:"01 Oct",title:"Bam · PLEATS PLEASE ISSEY MIYAKE ‘AZURE COLORS’ Pop-up Opening · Central Chidlom"},
+        {date:"08 Oct",title:"Bam · Live DIOR BEAUTY · LINE @DIOR BEAUTY"},
+        {date:"10 Oct",title:"OomBam · Bam’s Heart to Heart Charity Project 2026 · Anuban Thammasala, Bangkok"},
+        {date:"15 Oct",title:"OomBam · Burberry Winter 2026 Cocktail Event · Private"},
+        {date:"22 Oct",title:"Oom · โปรโมท ละคร เก็บแผ่นดิน · Maleenont Tower"},
+        {date:"26 Oct",title:"Bam · EVEANDBOY The Reborn SQ1 (Ultra Mild) · Siam Square One"}
+      ]
     }
   ];
 
@@ -1539,13 +1557,14 @@
       if (momentsNext) momentsNext.disabled = true;
       return;
     }
-    momentsRail.classList.toggle("is-shifted", momentsRailIndex === 1);
+    momentsRail.classList.toggle("is-shifted", momentsRailIndex > 0);
+    momentsRail.style.setProperty("--moments-rail-offset", `${momentsRailIndex}`);
     if (momentsPrev) momentsPrev.disabled = momentsRailIndex === 0;
-    if (momentsNext) momentsNext.disabled = momentsRailIndex === 1;
+    if (momentsNext) momentsNext.disabled = momentsRailIndex === Math.max(0, momentsRail.children.length - 5);
   };
 
-  momentsPrev?.addEventListener("click", () => { momentsRailIndex = 0; updateMomentsRail(); });
-  momentsNext?.addEventListener("click", () => { momentsRailIndex = 1; updateMomentsRail(); });
+  momentsPrev?.addEventListener("click", () => { momentsRailIndex = Math.max(0, momentsRailIndex - 1); updateMomentsRail(); });
+  momentsNext?.addEventListener("click", () => { momentsRailIndex = Math.min(Math.max(0, momentsRail.children.length - 5), momentsRailIndex + 1); updateMomentsRail(); });
   window.addEventListener("resize", updateMomentsRail, { passive: true });
   updateMomentsRail();
 
@@ -1645,7 +1664,7 @@
     month.events.forEach((event) => {
       const item = event.detail ? document.createElement("button") : document.createElement("span");
       item.className = `moments-modal__moment-link${event.detail ? " is-clickable" : " is-static"}`;
-      item.textContent = event.title;
+      item.textContent = month.key === "october" ? `${event.date} · ${event.title}` : event.title;
 
       if (event.detail) {
         item.type = "button";
