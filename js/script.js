@@ -1,3 +1,17 @@
+/**
+ * OOMBAM FANSITE
+ * ------------------------------------------------
+ * Developed by: ObsocPH x Ben10 Admins
+ * Developer / Maintainer: B9_Lalajoie_Emjoy
+ * Community: OomBam Society Philippines (OBSocPH)
+ *
+ * Independent, fan-made archive dedicated to
+ * celebrating Oom Eisaya and Bam Saralee.
+ *
+ * © 2026 OomBam Fansite Contributors
+ * ------------------------------------------------
+ */
+
 "use strict";
 
 (() => {
@@ -1058,8 +1072,8 @@
       intro: 'October unfolds with new milestones, meaningful encounters, and moments worth remembering. From fashion and beauty spotlights to shared appearances, Oom and Bam continue to shine in their own ways. At the heart of it all, Bam’s birthday brings a celebration of kindness and giving through a special charity project. A month where individual journeys and shared moments come together, reminding us that every chapter has its own beautiful way of blooming.',
       image: "assets/images/2026/Oct/OB_Oct_2026.webp",
       alt: "Oom and Bam sharing a warm moment in October 2026",
-      creditText: "Photo: supplied by the archive",
-      creditHref: "",
+      creditText: "Photo: @HyyNov_",
+      creditHref: "https://x.com/HyyNov_",
       events: [
         {date:"01 Oct",title:"Bam · PLEATS PLEASE ISSEY MIYAKE ‘AZURE COLORS’ Pop-up Opening · Central Chidlom"},
         {date:"08 Oct",title:"Bam · Live DIOR BEAUTY · LINE @DIOR BEAUTY"},
@@ -1077,8 +1091,8 @@
       note: "New stages. Shared moments ♡",
       image: "assets/images/2026/September/OB_September_2026.jpg",
       alt: "OomBam during September 2026 activities",
-      creditText: "@oombam_ch3 · Instagram",
-      creditHref: "https://www.instagram.com/p/DdL0Iq2mROy/",
+      creditText: "Photo: @OomBam_CH3",
+      creditHref: "https://x.com/OomBam_CH3",
       events: [
         { date: "03 Sep", title: "Y Entertainment Awards 2026", summary: "Y Entertainment Awards 2026." },
         { date: "12 Sep", title: "MChoice & Mint Awards 2026", summary: "MChoice & Mint Awards 2026." },
