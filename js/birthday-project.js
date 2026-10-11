@@ -1,3 +1,16 @@
+/**
+ * OOMBAM FANSITE
+ * ------------------------------------------------
+ * Developed by: ObsocPH x Ben10 Admins
+ * Developer / Maintainer: B9_Lalajoie_Emjoy
+ * Community: OomBam Society Philippines (OBSocPH)
+ *
+ * Independent, fan-made archive dedicated to
+ * celebrating Oom Eisaya and Bam Saralee.
+ *
+ * © 2026 OomBam Fansite Contributors
+ * ------------------------------------------------
+ */
 /* OBSocPH completed birthday project story — independent of Community auth and feed */
 (()=>{'use strict';const modal=document.getElementById('obBirthdayModal');if(!modal)return;
 const lightbox=document.getElementById('obBirthdayLightbox'),gallery=document.getElementById('obBirthdayGallery'),more=document.getElementById('obBirthdayMore');let previousFocus=null;
