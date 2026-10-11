@@ -1,4 +1,4 @@
-/* OomBam schedule automation v20.13.4 — Thailand time (ICT / UTC+7) */
+/* OomBam schedule automation v20.14.0 — Thailand time (ICT / UTC+7) */
 (() => {
   'use strict';
   const THAI_TZ = 'Asia/Bangkok';
@@ -9,11 +9,11 @@
     const get = t => parts.find(p => p.type === t)?.value;
     return `${get('year')}-${get('month')}-${get('day')}`;
   };
-  const eventInstant = el => new Date(`${el.dataset.date}T${el.dataset.time || '00:00'}:00+07:00`);
+  const eventInstant = el => new Date(`${el.dataset.date}T${el.dataset.time || '12:00'}:00+07:00`);
   const prettyDateTime = el => {
     const d=eventInstant(el);
     const date=new Intl.DateTimeFormat('en-GB',{timeZone:THAI_TZ,day:'2-digit',month:'short',year:'numeric'}).format(d).toUpperCase();
-    if(!el.dataset.time) return `${date} · TIME TBA`;
+    if(!el.dataset.time) return `${date} · TIME TBA (countdown to 12:00 PM ICT)`;
     const time=new Intl.DateTimeFormat('en-US',{timeZone:THAI_TZ,hour:'numeric',minute:'2-digit',hour12:true}).format(d);
     return `${date} · ${time} ICT`;
   };
@@ -59,7 +59,7 @@
   }
   function setupHome(){
     const panel=document.querySelector('[data-schedule-page="home"]'); if(!panel) return;
-    const active=arrangeHome(panel), next=active[0];
+    let active=arrangeHome(panel), next=active[0];
     const title=panel.querySelector('[data-next-title]'),meta=panel.querySelector('[data-next-meta]'),stat=panel.querySelector('[data-next-status]'),label=panel.querySelector('[data-countdown-label]');
     const out={days:panel.querySelector('[data-days]'),hours:panel.querySelector('[data-hours]'),minutes:panel.querySelector('[data-minutes]'),seconds:panel.querySelector('[data-seconds]')};
     if(!next){ if(title) title.textContent='Next schedule coming soon'; if(meta) meta.textContent='Watch this space for the next official OomBam schedule.'; panel.querySelector('[data-countdown]')?.setAttribute('hidden',''); return; }
@@ -70,12 +70,12 @@
     const tick=()=>{
       const today=thaiDateKey(), now=Date.now(), start=eventInstant(next).getTime(), isToday=next.dataset.date===today;
       panel.classList.toggle('has-today-event',isToday);
-      if(!next.dataset.time){ if(label) label.textContent=isToday?'HAPPENING TODAY · TIME TBA':'TIME TO BE ANNOUNCED'; render(0); return; }
+      if(!next.dataset.time){ if(label) label.textContent=isToday?'EVENT DAY':'COUNTDOWN TO EVENT DAY'; render(isToday?0:start-now); return; }
       if(isToday){ if(now<start){if(label)label.textContent='STARTS TODAY';render(start-now);} else {if(label)label.textContent='HAPPENING TODAY';render(0);} }
       else {if(label)label.textContent='STARTS IN';render(start-now);}
     };
     tick(); const timer=setInterval(tick,1000); document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick();});
-    let known=thaiDateKey(); setInterval(()=>{const current=thaiDateKey();if(current!==known){clearInterval(timer);location.reload();}},30000);
+    let known=thaiDateKey(); setInterval(()=>{const current=thaiDateKey();if(current!==known){location.reload();}},30000);
   }
   function setupSolo(){ document.querySelectorAll('.updates-section--schedule').forEach(section=>{ const today=thaiDateKey(); [...section.querySelectorAll('[data-schedule-event]')].forEach(el=>{el.classList.toggle('is-past',el.dataset.date<today);el.classList.toggle('is-today',el.dataset.date===today);}); }); }
   const boot=()=>{setupHome();setupSolo();};
