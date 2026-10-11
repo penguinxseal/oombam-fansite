@@ -17335,3 +17335,66 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
     line-height: 1.55 !important;
   }
 }
+
+/* October 2026 — Moments month modal: content-first, responsive timeline.
+   Scoped to month view; existing event-detail gallery is unchanged. */
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead {
+  height: auto !important;
+  min-height: 330px !important;
+  align-items: stretch !important;
+}
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-copy {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  padding-top: 34px !important;
+  padding-bottom: 28px !important;
+}
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image {
+  height: auto !important;
+  min-height: 300px !important;
+}
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__event-grid {
+  width: calc(100% - 60px) !important;
+  max-width: 780px !important;
+  gap: 0 !important;
+}
+.moments-modal__panel--editorial:not(.is-event-detail) .moments-timeline-row {
+  display: grid !important;
+  grid-template-columns: 56px minmax(0, 1fr) !important;
+  gap: 16px !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 62px !important;
+  padding: 9px 0 !important;
+  border-bottom: 1px solid rgba(145,155,165,.2) !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+.moments-timeline-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  color: #91b3c5;
+  line-height: 1.1;
+  font-size: .7rem;
+  letter-spacing: .06em;
+}
+.moments-timeline-date strong { font-size: 1.45rem; font-weight: 500; letter-spacing: 0; }
+.moments-timeline-date small { font-size: .65rem; letter-spacing: .12em; }
+.moments-timeline-date.is-undated { font-size: 1rem; }
+.moments-timeline-copy { display: block; min-width: 0; }
+.moments-timeline-title { display: block; font-size: .85rem; line-height: 1.5; }
+@media (max-width: 760px) {
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead { min-height: 0 !important; }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image { height: 230px !important; min-height: 0 !important; }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-copy { padding: 20px 18px 22px !important; }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__event-grid { width: calc(100% - 36px) !important; margin-inline: 18px !important; }
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-timeline-row { grid-template-columns: 43px minmax(0,1fr) !important; gap: 12px !important; }
+  .moments-timeline-title { font-size: .8rem; }
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image { min-height: 300px !important; }
+}
