@@ -1,3 +1,16 @@
+/**
+ * OOMBAM FANSITE
+ * ------------------------------------------------
+ * Developed by: ObsocPH x Ben10 Admins
+ * Developer / Maintainer: B9_Lalajoie_Emjoy
+ * Community: OomBam Society Philippines (OBSocPH)
+ *
+ * Independent, fan-made archive dedicated to
+ * celebrating Oom Eisaya and Bam Saralee.
+ *
+ * © 2026 OomBam Fansite Contributors
+ * ------------------------------------------------
+ */
     "use strict";
 
     // Community Hardening v20.11.13a — Phase 1 hotfix
@@ -922,10 +935,16 @@
         const normalized = normalizeSubmission(value);
         if (/(.)\1{11,}/u.test(normalized)) return true;
         const tokens = normalized.split(/\s+/).filter(Boolean);
-        if (tokens.length >= 8) {
+        // Flag only extreme repetition dominated by one substantial token.
+        // Natural letters often repeat common words and names many times.
+        if (tokens.length >= 12) {
           const counts = new Map();
-          for (const token of tokens) counts.set(token, (counts.get(token) || 0) + 1);
-          if ([...counts.values()].some(count => count >= 6)) return true;
+          for (const token of tokens) {
+            const cleaned = token.replace(/[^\p{L}\p{N}]/gu, "");
+            if (cleaned.length < 4) continue;
+            counts.set(cleaned, (counts.get(cleaned) || 0) + 1);
+          }
+          if ([...counts.values()].some(count => count >= 12 && count / tokens.length >= 0.55)) return true;
         }
         return false;
       };
