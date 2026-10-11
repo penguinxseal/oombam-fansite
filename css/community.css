@@ -8496,3 +8496,44 @@ html[data-theme="dark"] body.page-community .garden-artist-link__icon,body.dark-
     display:none!important;
   }
 }
+
+/* OBSocPH birthday archive: scoped, responsive; no changes to community features */
+.ob-project-grid .ob-featured-project{border-color:rgba(181,145,114,.38);background:linear-gradient(135deg,rgba(247,227,208,.18),rgba(255,255,255,.03))}
+.ob-project-grid .ob-project-date{font-size:.67rem;letter-spacing:.12em;opacity:.75;margin:0 0 10px}
+.ob-project-grid .ob-project-tagline{font-style:italic;margin-top:8px}
+.ob-project-grid .completed-text{display:block;margin-top:12px;color:#78b58f;font-size:.8rem}
+.ob-project-story-button{position:relative;z-index:3;margin-top:14px;padding:9px 15px;border:1px solid currentColor;border-radius:24px;background:transparent;color:inherit;cursor:pointer;font:inherit;font-size:.8rem}
+.ob-project-story-button:hover,.ob-project-story-button:focus-visible{background:rgba(185,149,116,.15)}
+.ob-placeholder-project{opacity:.85}
+.ob-birthday-modal{display:none;position:fixed;inset:0;z-index:10050;padding:clamp(8px,3vw,30px);align-items:center;justify-content:center}
+.ob-birthday-modal.is-open{display:flex}
+.ob-birthday-backdrop{position:absolute;inset:0;background:rgba(3,6,10,.83);backdrop-filter:blur(6px)}
+.ob-birthday-dialog{position:relative;isolation:isolate;overflow-y:auto;overscroll-behavior:contain;max-height:calc(100dvh - 2 * clamp(8px,3vw,30px));width:min(960px,100%);border:1px solid rgba(180,174,168,.28);border-radius:19px;background:#15171b;color:#f6f0ed;box-shadow:0 25px 75px rgba(0,0,0,.4)}
+.ob-birthday-close{position:sticky;top:12px;float:right;margin:12px 12px -55px 0;z-index:4;width:38px;height:38px;border-radius:50%;border:1px solid #5b5d63;background:#22262c;color:white;font-size:25px;cursor:pointer}
+.ob-birthday-header{padding:clamp(26px,5vw,55px) clamp(20px,5vw,54px) 20px}
+.ob-birthday-kicker{font-size:.68rem;letter-spacing:.18em;color:#d6b9a7}
+.ob-birthday-header h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2rem,5vw,3.5rem);line-height:1.05;margin:14px 0}
+.ob-birthday-header>p:last-child{color:#b8b6ba;font-size:.9rem}
+.ob-birthday-body{padding:0 clamp(20px,5vw,54px) 42px}
+.ob-birthday-hero{margin:0 0 28px;display:grid;justify-items:center;gap:7px}
+.ob-birthday-hero img{width:100%;max-height:430px;object-fit:contain;border-radius:10px;background:#202127}
+.ob-birthday-hero figcaption{font-size:.7rem;color:#bbb6b7}
+.ob-birthday-story{max-width:760px;margin:auto;font-size:clamp(.92rem,1.5vw,1.04rem);line-height:1.85;color:#e0dde0}
+.ob-birthday-story p{margin:0 0 17px}.ob-birthday-story h3,.ob-birthday-section-heading h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.6rem,3vw,2.3rem);margin:25px 0 12px}
+.ob-birthday-signoff{font-weight:600;color:#f3d6bd}
+.ob-birthday-gallery-section{margin-top:42px}.ob-birthday-section-heading p{font-size:.7rem;letter-spacing:.17em;color:#d6b9a7}
+.ob-birthday-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ob-birthday-gallery button{border:0;background:#25272d;border-radius:9px;overflow:hidden;cursor:zoom-in;padding:0;min-width:0;aspect-ratio:4/5}
+.ob-birthday-gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s}
+.ob-birthday-gallery button:hover img{transform:scale(1.035)}
+.ob-birthday-gallery button[hidden]{display:none}
+.ob-birthday-more{display:block;margin:22px auto;padding:10px 22px;background:transparent;border:1px solid #a5a0a2;border-radius:22px;color:inherit;cursor:pointer}
+.ob-birthday-credits{border-top:1px solid #454247;margin-top:35px;padding-top:22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.ob-birthday-credits h3{grid-column:1/-1;font-family:Georgia,serif;font-size:1.2rem}
+.ob-birthday-credits p{font-size:.79rem;line-height:1.65;min-width:0;overflow-wrap:anywhere}
+.ob-birthday-credits strong,.ob-birthday-credits a,.ob-birthday-credits span{display:block}.ob-birthday-credits a{color:#edc8b2}
+.ob-birthday-lightbox{display:none;position:fixed;inset:0;z-index:10070;background:rgba(0,0,0,.94);align-items:center;justify-content:center;padding:45px 16px}
+.ob-birthday-lightbox.is-open{display:flex}.ob-birthday-lightbox img{max-width:100%;max-height:100%;object-fit:contain}.ob-birthday-lightbox button{position:absolute;top:12px;right:20px;background:transparent;border:0;color:white;font-size:36px;cursor:pointer}
+@media(max-width:767px){.ob-birthday-modal{padding:7px}.ob-birthday-dialog{max-height:calc(100dvh - 14px);border-radius:12px}.ob-birthday-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ob-birthday-credits{grid-template-columns:1fr;gap:4px}.ob-birthday-close{top:7px}.ob-project-grid{grid-template-columns:1fr}}
+@media(min-width:768px) and (max-width:1023px){.ob-birthday-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}.ob-birthday-credits{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-height:480px) and (orientation:landscape){.ob-birthday-modal{padding:5px}.ob-birthday-dialog{max-height:calc(100dvh - 10px)}.ob-birthday-header{padding-top:22px}}
