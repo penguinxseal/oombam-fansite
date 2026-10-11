@@ -16359,7 +16359,7 @@ body.dark-theme .sakura-clip-card__caption{color:#bac2c8}
   justify-self: auto !important;
 }
 .page-home .moments-carousel-shell .moments-magazine-strip.is-shifted {
-  transform: translateX(calc(-1 * ((100% - 48px) / 5 + 12px)));
+  transform: translateX(calc(-1 * var(--moments-rail-offset, 1) * ((100% - 48px) / 5 + 12px)));
 }
 .page-home .moments-carousel-nav {
   position: absolute;
@@ -16418,7 +16418,7 @@ body.dark-theme .sakura-clip-card__caption{color:#bac2c8}
     width: calc((100% - 40px) / 5) !important;
   }
   .page-home .moments-carousel-shell .moments-magazine-strip.is-shifted {
-    transform: translateX(calc(-1 * ((100% - 40px) / 5 + 10px)));
+    transform: translateX(calc(-1 * var(--moments-rail-offset, 1) * ((100% - 40px) / 5 + 10px)));
   }
 }
 
