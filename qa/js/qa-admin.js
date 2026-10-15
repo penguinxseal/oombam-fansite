@@ -12,7 +12,7 @@
  }
  const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  async function refresh(){const v=await api('list');rows=v.testers;const target=$('#testers');target.replaceChildren();
-  const stats=document.createElement('p');stats.textContent=`${rows.length}/5 links created · ${rows.filter(r=>r.status==='submitted').length} submitted`;target.append(stats);
+  const stats=document.createElement('p');stats.textContent=`${rows.length}/11 links created · ${rows.filter(r=>r.status==='submitted').length} submitted`;target.append(stats);
   for(const [i,r] of rows.entries()){
    const details=document.createElement('details');details.className='tester';const summary=document.createElement('summary');summary.textContent=`Tester ${i+1} · ${r.nickname||'Not started'} · ${r.status}${r.revoked_at?' · REVOKED':''} · ${Object.keys(r.answers||{}).length}/30`;details.append(summary);
    const content=document.createElement('div');const stamp=document.createElement('p');stamp.className='muted tiny';stamp.textContent=`Updated: ${new Date(r.updated_at).toLocaleString()}`;content.append(stamp);
@@ -20,7 +20,7 @@
    if(!r.revoked_at){const b=document.createElement('button');b.className='secondary';b.textContent='Revoke link';b.onclick=async()=>{if(!confirm('Revoke this tester link?'))return;try{await api('revoke',{id:r.id});await refresh();}catch(e){message(e.message,true);}};content.append(b);}
    details.append(content);target.append(details);
   }
-  $('#create').disabled=rows.length>=5;
+  $('#create').disabled=rows.length>=11;
  }
  $('#sign-in').onclick=async()=>{try{const {data,error}=await client.auth.signInWithPassword({email:$('#email').value,password:$('#password').value});if(error)throw error;session=data.session;await refresh();$('#login').classList.add('hidden');$('#dashboard').classList.remove('hidden');$('#password').value='';message('Administrator authenticated.');}catch(e){session=null;message(e.message,true);}};
  $('#create').onclick=async()=>{try{const v=await api('create');const box=$('#new-link');box.replaceChildren();const p=document.createElement('p');p.textContent='Copy this link now (it cannot be retrieved later):';const input=document.createElement('input');input.value=v.link;input.readOnly=true;const b=document.createElement('button');b.textContent='Copy link';b.onclick=()=>navigator.clipboard.writeText(input.value).then(()=>message('Link copied. Share privately.')).catch(()=>{input.select();message('Select and copy the link manually.');});box.append(p,input,b);await refresh();}catch(e){message(e.message,true);}};
