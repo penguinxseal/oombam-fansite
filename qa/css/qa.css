@@ -18,3 +18,13 @@
   main{padding-top:12px}
   main>.panel:first-child{margin-top:8px}
 }
+
+/* QA results dashboard */
+.qa-stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}
+.qa-stat-card{display:flex;flex-direction:column;gap:6px;min-width:0;padding:15px;background:#fbf4fa;border:1px solid #ecdfeb;border-radius:13px}
+.qa-stat-card strong{font-size:clamp(1.2rem,3vw,1.9rem);line-height:1.2}
+.qa-result-bar{display:flex;height:15px;overflow:hidden;border-radius:999px;background:#eee6eb;margin:15px 0}
+.qa-bar-pass{background:#36856b}.qa-bar-fail{background:#d26b72}.qa-bar-not_tested{background:#d5ad65}.qa-bar-unanswered{background:#ddd4dc}
+.qa-table-scroll{overflow-x:auto;max-width:100%}.qa-results-table{width:100%;border-collapse:collapse;font-size:.87rem;text-align:left}.qa-results-table th,.qa-results-table td{padding:12px 10px;border-bottom:1px solid #eee1e9}.qa-results-table th{background:#f9eff6;white-space:nowrap}
+.qa-issue{border-left:3px solid #d26b72;padding:10px 14px;margin:12px 0;background:#fff8f9;border-radius:0 9px 9px 0}.qa-issue p{margin:6px 0}.qa-issues{max-height:500px;overflow:auto}
+@media(max-width:680px){.qa-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.qa-stat-card{padding:12px}.qa-results-table{min-width:540px}}
