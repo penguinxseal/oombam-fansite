@@ -1,1 +1,18 @@
 :root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#382e37;background:#fff8fb}*{box-sizing:border-box}body{margin:0}main{max-width:900px;margin:0 auto;padding:32px 20px 80px}header{background:linear-gradient(110deg,#fff0f5,#f4e9ff);border-bottom:1px solid #eadbe5;padding:30px 20px;text-align:center}h1{font-size:clamp(1.5rem,4vw,2.3rem);margin:8px 0}h2{font-size:1.15rem}p{line-height:1.55}.muted{color:#746675}.panel{background:white;border:1px solid #ebdfe7;border-radius:18px;padding:22px;margin:20px 0;box-shadow:0 5px 22px #5731460a}.question{border-top:1px solid #f1e5ed;padding:18px 0}.question:first-of-type{border:0}.question strong{display:block;margin-bottom:12px}.options{display:flex;flex-wrap:wrap;gap:15px}.options label{display:flex;align-items:center;gap:5px}textarea,input{font:inherit;border:1px solid #d7c8d3;border-radius:10px;padding:12px;width:100%;margin:8px 0}textarea{min-height:66px;resize:vertical}button{font:inherit;background:#87537e;color:white;border:0;border-radius:11px;padding:12px 18px;cursor:pointer}button.secondary{background:#e9dbe6;color:#4c3347}button:disabled{opacity:.5;cursor:not-allowed}.actions{display:flex;gap:10px;flex-wrap:wrap;position:sticky;bottom:0;background:#fff8fbeF;padding:14px 0}.error{color:#a42343}.success{color:#26794e}.hidden{display:none!important}.stat{display:inline-block;background:#f6edf5;border-radius:9px;padding:6px 12px;margin:5px 0}.tester{border-top:1px solid #eee;padding:18px 0}.tester summary{cursor:pointer;font-weight:600}.tiny{font-size:.85rem}a{color:#76436f}
+
+/* Beta-question hero reuses the existing Just the Two of Us image; no assets duplicated. */
+.qa-hero{position:relative;isolation:isolate;min-height:310px;display:flex;align-items:center;justify-content:flex-start;text-align:left;overflow:hidden;padding:48px max(24px,calc((100vw - 1060px)/2));background:#faf1f4}
+.qa-hero::before{content:"";position:absolute;inset:0;z-index:-2;background:url("../../assets/images/fulfill-banner.jpg") center 43%/cover no-repeat}
+.qa-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(255,248,251,.98) 0%,rgba(255,248,251,.94) 34%,rgba(255,248,251,.72) 52%,rgba(255,248,251,.05) 83%)}
+.qa-hero__content{max-width:460px}
+.qa-hero__eyebrow{font-size:.9rem;letter-spacing:.09em;font-weight:650}
+.qa-hero h1{font-size:clamp(2rem,4vw,3rem);line-height:1.1}
+.qa-hero p{font-size:clamp(.95rem,1.6vw,1.12rem);margin-bottom:0}
+@media(max-width:680px){
+ .qa-hero{min-height:420px;align-items:flex-end;padding:190px 20px 30px;text-align:center;justify-content:center}
+ .qa-hero::before{background-position: center 24%}
+ .qa-hero::after{background:linear-gradient(0deg,rgba(255,248,251,.99) 0%,rgba(255,248,251,.96) 30%,rgba(255,248,251,.42) 60%,rgba(255,248,251,0) 90%)}
+ .qa-hero__content{max-width:420px}
+}
+
+/* Both QA page heroes reuse /assets/images/fulfill-banner.jpg from the existing site. */
