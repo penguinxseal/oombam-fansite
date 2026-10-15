@@ -126,27 +126,62 @@ window.QA_QUESTIONS = [
   },
   {
     "id": "LCH-07-01",
-    "area": "Final Launch Readiness",
-    "question": "Is the approved production version deployed with correct teaser/full-site visibility?"
+    "area": "Member Readiness",
+    "question": "Can you access the website and view the member-only content without any issues?"
   },
   {
     "id": "LCH-07-02",
-    "area": "Final Launch Readiness",
-    "question": "Have essential features passed with no unresolved critical or high-severity issues?"
+    "area": "Member Readiness",
+    "question": "Are the website’s main features working properly when you use them as a member?"
   },
   {
     "id": "LCH-07-03",
-    "area": "Final Launch Readiness",
-    "question": "Is a known-good GitHub commit or release available for rollback?"
+    "area": "Member Readiness",
+    "question": "Can you navigate between pages and sections easily on your device?"
   },
   {
     "id": "LCH-07-04",
-    "area": "Final Launch Readiness",
-    "question": "Are launch, moderation, support and monitoring responsibilities assigned?"
+    "area": "Member Readiness",
+    "question": "Are the community guidelines easy to find, read, and understand?"
   },
   {
     "id": "LCH-07-05",
-    "area": "Final Launch Readiness",
-    "question": "Are outstanding SEO and social-sharing checks complete or explicitly accepted as non-blocking?"
+    "area": "Member Readiness",
+    "question": "Are you satisfied with the website’s overall appearance, readability, and usability?"
+  },
+  {
+    "id": "LCH-08-01",
+    "area": "Community Features Testing",
+    "question": "Can you write and send a Fan Letter to Oom successfully?"
+  },
+  {
+    "id": "LCH-08-02",
+    "area": "Community Features Testing",
+    "question": "Can you write and send a Fan Letter to Bam successfully?"
+  },
+  {
+    "id": "LCH-08-03",
+    "area": "Community Features Testing",
+    "question": "Can you write and send a Fan Letter to OomBam successfully?"
+  },
+  {
+    "id": "LCH-08-04",
+    "area": "Community Features Testing",
+    "question": "Can you create a post on the Blossom Wall and see it displayed correctly?"
+  },
+  {
+    "id": "LCH-08-05",
+    "area": "Community Features Testing",
+    "question": "Can you send a message in Blossom Live Chat and see it appear correctly?"
+  },
+  {
+    "id": "LCH-08-06",
+    "area": "Community Features Testing",
+    "question": "Can you create and view an entry in Log & Journal?"
+  },
+  {
+    "id": "LCH-08-07",
+    "area": "Community Features Testing",
+    "question": "Can you submit a project suggestion for OomBam successfully?"
   }
 ];

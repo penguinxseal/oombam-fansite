@@ -23,7 +23,7 @@
   }form.append(sec);
  }
  const answers=()=>{const o={};for(const el of form.querySelectorAll('.question')){const selected=el.querySelector('input:checked');if(selected)o[el.dataset.id]={result:selected.value,notes:el.querySelector('textarea').value};}return o;};
- const progress=()=>{$('#progress').textContent=`${Object.keys(answers()).length} of 30 questions answered`;};
+ const progress=()=>{$('#progress').textContent=`${Object.keys(answers()).length} of 37 questions answered`;};
  form.addEventListener('change',progress);
  function disable(){locked=true;nick.disabled=true;form.querySelectorAll('input,textarea').forEach(e=>e.disabled=true);$('#actions').classList.add('hidden');}
  try{
@@ -34,7 +34,7 @@
   else{$('#actions').classList.remove('hidden');show('Your private questionnaire is ready.');}
  }catch(e){show(e.message,true);return;}
  async function save(final){if(locked)return;if(!nick.value.trim()){show('Please enter your nickname first.',true);nick.focus();return;}
-  const a=answers();if(final&&Object.keys(a).length!==30){show('Please choose Pass, Fail, or Not Tested for every question.',true);return;}
+  const a=answers();if(final&&Object.keys(a).length!==37){show('Please choose Pass, Fail, or Not Tested for every question.',true);return;}
   if(final&&!confirm('Submit your final answers? You will not be able to edit them afterward.'))return;
   $('#save').disabled=$('#submit').disabled=true;
   try{await call(final?'submit':'save',{nickname:nick.value.trim(),answers:a});show(final?'Submitted! Your answers are now locked. 💛':'Draft saved. Use your original private link to return.');if(final)disable();}
