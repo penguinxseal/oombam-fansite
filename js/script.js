@@ -2,7 +2,7 @@
  * OOMBAM FANSITE
  * ------------------------------------------------
  * Developed by: ObsocPH x Ben10 Admins
- * Developer / Maintainer: B9_Lalajoie_Emjoy
+ * Developer / Maintainer: B9
  * Community: OomBam Society Philippines (OBSocPH)
  *
  * Independent, fan-made archive dedicated to
