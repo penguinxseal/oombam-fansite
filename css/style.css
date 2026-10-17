@@ -17739,26 +17739,110 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
 }
 
 
-/* v20.17.3 — Event gallery only; preserve month overviews and portrait phones. */
-@media (min-width: 901px) {
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-modal__masthead-image {min-height:0!important;padding:14px 48px 12px!important;}
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-gallery-visual > img {max-height:min(72svh,650px)!important;}
+
+
+/* v20.17.4 — Event photo/credits are one intrinsic-height unit.
+   Only individual photo galleries, never month overviews or Burberry Stories. */
+@media (min-width: 761px), (orientation: landscape) {
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image:has(.moments-gallery-visual) {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 12px 48px 10px !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage:has(.moments-gallery-visual) {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame:has(.moments-gallery-visual) {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    gap: 0 !important;
+    margin: 0 auto !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-visual {
+    display: block !important;
+    flex: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    line-height: 0 !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-visual > img {
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: min(68svh, 650px) !important;
+    object-fit: contain !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-event-gallery__meta {
+    position: static !important;
+    flex: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 9px 0 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+  }
 }
-@media (orientation:landscape) and (max-width:900px) {
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-modal__masthead,
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-modal__masthead-image,
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-modal__gallery-stage {height:auto!important;min-height:0!important;max-height:none!important;}
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-modal__masthead-image {padding:12px 42px 8px!important;}
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-gallery-photo-frame,
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-gallery-visual {width:fit-content!important;max-width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;}
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-gallery-visual > img {width:auto!important;height:auto!important;max-width:calc(100vw - 140px)!important;max-height:108svh!important;object-fit:contain!important;}
- .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro,
- .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro p {font-size:14px!important;line-height:1.55!important;}
- .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro p + p {margin-top:12px!important;}
- .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {font-size:clamp(1.5rem,3vw,2rem)!important;line-height:1.12!important;}
+/* Landscape iPhone/Android and tablets: match short-height viewports, even >900px wide. */
+@media (orientation: landscape) and (max-height: 600px) {
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-visual > img {
+    max-height: 85svh !important;
+    max-width: calc(100vw - 150px) !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image:has(.moments-gallery-visual) {
+    padding: 12px 46px 8px !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro,
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro p {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro p + p {
+    margin-top: 10px !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2,
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__body h2 {
+    font-size: 25px !important;
+    line-height: 1.15 !important;
+  }
 }
-@media (min-width:901px), (orientation:landscape) and (max-width:900px) {
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-gallery-photo-frame {justify-content:flex-start!important;gap:0!important;padding:0!important;}
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-event-gallery__meta {position:static!important;height:auto!important;min-height:0!important;margin:7px 0 0!important;padding:0!important;transform:none!important;}
- .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-event-gallery {inset:0!important;height:100%!important;}
+/* Unified editorial close control, away from the scrollbar. */
+.page-home .moments-modal__panel--editorial .moments-modal__close {
+  top: 16px !important;
+  right: 24px !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  border-radius: 50% !important;
+  color: #f4f1ec !important;
+  background: rgba(28, 33, 39, .86) !important;
+  border: 1px solid rgba(255,255,255,.34) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,.16) !important;
+  font-size: 1.25rem !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.page-home .moments-modal__panel--editorial .moments-modal__close:hover,
+.page-home .moments-modal__panel--editorial .moments-modal__close:focus-visible {
+  background: rgba(44, 53, 62, .96) !important;
+  outline: 2px solid rgba(255,255,255,.6);
+  outline-offset: 2px;
 }
