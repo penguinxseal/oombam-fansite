@@ -17737,3 +17737,28 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
     transform: none !important;
   }
 }
+
+
+/* v20.17.3 — Event gallery only; preserve month overviews and portrait phones. */
+@media (min-width: 901px) {
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-modal__masthead-image {min-height:0!important;padding:14px 48px 12px!important;}
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-gallery-visual > img {max-height:min(72svh,650px)!important;}
+}
+@media (orientation:landscape) and (max-width:900px) {
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-modal__masthead,
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-modal__masthead-image,
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-modal__gallery-stage {height:auto!important;min-height:0!important;max-height:none!important;}
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-modal__masthead-image {padding:12px 42px 8px!important;}
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-gallery-photo-frame,
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-gallery-visual {width:fit-content!important;max-width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;}
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-gallery-visual > img {width:auto!important;height:auto!important;max-width:calc(100vw - 140px)!important;max-height:108svh!important;object-fit:contain!important;}
+ .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro,
+ .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro p {font-size:14px!important;line-height:1.55!important;}
+ .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro p + p {margin-top:12px!important;}
+ .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {font-size:clamp(1.5rem,3vw,2rem)!important;line-height:1.12!important;}
+}
+@media (min-width:901px), (orientation:landscape) and (max-width:900px) {
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-gallery-photo-frame {justify-content:flex-start!important;gap:0!important;padding:0!important;}
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-event-gallery__meta {position:static!important;height:auto!important;min-height:0!important;margin:7px 0 0!important;padding:0!important;transform:none!important;}
+ .page-home .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-event-gallery {inset:0!important;height:100%!important;}
+}
