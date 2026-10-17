@@ -2048,7 +2048,14 @@
           post.rel = "noopener noreferrer";
           post.textContent = "View video on X ↗";
           links.append(source, post);
-          viewport.append(label, embed, hint, links);
+          // Independent, accessible fallback that remains clickable when X blocks embeds.
+          const fallback = document.createElement("a");
+          fallback.className = "moments-story-carousel__fallback";
+          fallback.href = story.url;
+          fallback.target = "_blank";
+          fallback.rel = "noopener noreferrer";
+          fallback.textContent = "Watch original video on X ↗";
+          viewport.append(label, embed, hint, links, fallback);
           const postId = story.url.match(/status\/(\d+)/)?.[1];
           if (!postId) return;
           const mount = () => {
