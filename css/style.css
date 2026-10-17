@@ -17675,3 +17675,36 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
     text-wrap: pretty !important;
   }
 }
+
+
+/* 2026-10-17 — MONTHLY OVERVIEW ONLY: cap the complete-image frame.
+   The masthead's auto height was stretching the photo to its natural size.
+   Individual event galleries are intentionally excluded. */
+@media (min-width: 761px) {
+  .page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead {
+    height: 310px !important;
+    min-height: 0 !important;
+    max-height: 310px !important;
+    align-items: stretch !important;
+  }
+  .page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image {
+    height: 310px !important;
+    min-height: 0 !important;
+    max-height: 310px !important;
+    padding: 12px 18px !important;
+    box-sizing: border-box !important;
+  }
+  .page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image .moments-modal__gallery-stage,
+  .page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image .moments-gallery-photo-frame {
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+  }
+  .page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image .moments-gallery-photo-frame > img {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
