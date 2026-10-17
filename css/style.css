@@ -17604,3 +17604,51 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
 @media (max-width:760px) and (orientation:portrait) {
   .moments-modal__panel--editorial.is-event-detail:not(:has(.has-story-archive)) .moments-modal__masthead-image { padding:12px 35px 10px !important; }
 }
+
+
+/* 2026-10-17 — MONTH OVERVIEW FEATURED PHOTO: SHOW ENTIRE SOURCE IMAGE.
+   Scope intentionally excludes individual event galleries and month thumbnails.
+   The photo stays inside its editorial panel without zoom/cropping. */
+.page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  background: #111419 !important;
+}
+.page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image .moments-modal__gallery-stage {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+.page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image .moments-gallery-photo-frame {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  background: transparent !important;
+}
+.page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image .moments-gallery-photo-frame > img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: none !important;
+}
