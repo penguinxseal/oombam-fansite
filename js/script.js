@@ -2158,6 +2158,8 @@
     const month = monthMap.get(monthKey) || MOMENTS_MONTHS[0];
     activeMonthKey = month.key;
 
+    // Scope October heading adjustments to its month overview only.
+    modal.querySelector(".moments-modal__panel")?.classList.toggle("is-october-month", month.key === "october");
     modal.querySelector(".moments-modal__panel")?.classList.remove("is-event-detail");
     activeGalleryPhotos = [];
     activeGalleryIndex = 0;
