@@ -17652,3 +17652,26 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
   object-position: center center !important;
   transform: none !important;
 }
+
+/* 2026-10-17 — Event headings only: remove the old 22ch restriction.
+   Scoped to individual event details, not monthly overview or gallery. */
+@media (min-width: 761px) {
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    white-space: nowrap !important;
+    text-wrap: nowrap !important;
+    font-size: clamp(1.45rem, 2.35vw, 2rem) !important;
+    line-height: 1.1 !important;
+    margin: 0 0 14px !important;
+  }
+}
+@media (max-width: 760px) {
+  .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    width: 100% !important;
+    max-width: none !important;
+    white-space: normal !important;
+    text-wrap: pretty !important;
+  }
+}
