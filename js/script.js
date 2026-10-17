@@ -1218,6 +1218,7 @@
 },
         {
         "date": "15 Oct",
+        "image": "assets/images/2026/Oct/OB_Burberry_Winter.webp",
         "title": "OomBam · Burberry Winter 2026 Cocktail Event · Private",
         "summary": "October continued with another fashion engagement as Oom and Bam attended the private Burberry Winter 2026 Cocktail Event.",
         "detail": {
@@ -1999,16 +2000,43 @@
         const heading = document.createElement("div");
         heading.className = "moments-story-archive__heading";
         heading.innerHTML = "<span>15 OCT · BURBERRY WINTER 2026</span><h3>Through Their Stories</h3><p>Moments shared through Instagram Stories and archived by OomBam Society Philippines.</p>";
-        const grid = document.createElement("div");
-        grid.className = "moments-story-archive__grid";
-        event.detail.stories.forEach((story, i) => {
-          const card = document.createElement("div");
-          card.className = "moments-story-archive__card";
-          const number = document.createElement("span");
-          number.className = "moments-story-archive__number";
-          number.textContent = `STORY ${String(i + 1).padStart(2, "0")}`;
-          const name = document.createElement("strong");
-          name.textContent = story.label;
+        const carousel = document.createElement("div");
+        carousel.className = "moments-story-carousel";
+        const viewport = document.createElement("div");
+        viewport.className = "moments-story-carousel__viewport";
+        const controls = document.createElement("div");
+        controls.className = "moments-story-carousel__controls";
+        const previous = document.createElement("button");
+        previous.type = "button";
+        previous.className = "moments-story-carousel__nav";
+        previous.textContent = "‹";
+        previous.setAttribute("aria-label", "Previous Burberry story");
+        const count = document.createElement("span");
+        count.className = "moments-story-carousel__count";
+        const next = document.createElement("button");
+        next.type = "button";
+        next.className = "moments-story-carousel__nav";
+        next.textContent = "›";
+        next.setAttribute("aria-label", "Next Burberry story");
+        controls.append(previous, count, next);
+        carousel.append(viewport, controls);
+        let storyIndex = 0;
+        let embedVersion = 0;
+        const renderStory = () => {
+          const currentVersion = ++embedVersion;
+          const story = event.detail.stories[storyIndex];
+          viewport.replaceChildren();
+          count.textContent = `${String(storyIndex + 1).padStart(2, "0")} / ${String(event.detail.stories.length).padStart(2, "0")}`;
+          const label = document.createElement("p");
+          label.className = "moments-story-carousel__label";
+          label.textContent = `STORY ${String(storyIndex + 1).padStart(2, "0")} · ${story.label}`;
+          const embed = document.createElement("div");
+          embed.className = "moments-story-carousel__embed";
+          const hint = document.createElement("p");
+          hint.className = "moments-story-carousel__hint";
+          hint.textContent = "Video preview may require X access. Open the original post if the player does not load.";
+          const links = document.createElement("div");
+          links.className = "moments-story-carousel__links";
           const source = document.createElement("a");
           source.href = story.sourceHref;
           source.target = "_blank";
@@ -2018,11 +2046,40 @@
           post.href = story.url;
           post.target = "_blank";
           post.rel = "noopener noreferrer";
-          post.className = "moments-story-archive__post";
-          post.textContent = "View archived Story on X ↗";
-          card.append(number, name, source, post);
-          grid.append(card);
-        });
+          post.textContent = "View video on X ↗";
+          links.append(source, post);
+          viewport.append(label, embed, hint, links);
+          const postId = story.url.match(/status\/(\d+)/)?.[1];
+          if (!postId) return;
+          const mount = () => {
+            if (currentVersion !== embedVersion || !embed.isConnected || !window.twttr?.widgets?.createTweet) return;
+            window.twttr.widgets.createTweet(postId, embed, { conversation: "none", cards: "visible", align: "center", dnt: true })
+              .then((element) => { if (!element && currentVersion === embedVersion) hint.textContent = "X preview unavailable. Use View video on X."; })
+              .catch(() => { if (currentVersion === embedVersion) hint.textContent = "X preview unavailable. Use View video on X."; });
+          };
+          if (window.twttr?.widgets?.createTweet) mount();
+          else {
+            if (!document.querySelector('script[data-oombam-x-widget]')) {
+              const script = document.createElement("script");
+              script.src = "https://platform.twitter.com/widgets.js";
+              script.async = true;
+              script.dataset.oombamXWidget = "";
+              script.onload = mount;
+              script.onerror = () => { hint.textContent = "X preview unavailable. Use View video on X."; };
+              document.head.append(script);
+            } else {
+              const awaitWidget = () => {
+                if (currentVersion !== embedVersion) return;
+                if (window.twttr?.widgets?.createTweet) mount();
+                else hint.textContent = "If the X player is unavailable, use View video on X.";
+              };
+              document.querySelector('script[data-oombam-x-widget]')?.addEventListener("load", awaitWidget, { once: true });
+            }
+          }
+        };
+        previous.addEventListener("click", () => { storyIndex = (storyIndex - 1 + event.detail.stories.length) % event.detail.stories.length; renderStory(); });
+        next.addEventListener("click", () => { storyIndex = (storyIndex + 1) % event.detail.stories.length; renderStory(); });
+        renderStory();
         const credit = document.createElement("p");
         credit.className = "moments-story-archive__credit";
         const archiveLink = document.createElement("a");
@@ -2031,7 +2088,7 @@
         archiveLink.rel = "noopener noreferrer";
         archiveLink.textContent = "@OomBamSocietyPH ↗";
         credit.append("Shared on X by ", archiveLink, " · Original IG Stories credited individually above.");
-        storyArchive.append(heading, grid, credit);
+        storyArchive.append(heading, carousel, credit);
       }
     }
     if (modalImage) modalImage.hidden = storyMode;
