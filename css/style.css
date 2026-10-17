@@ -17713,3 +17713,27 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
     object-position: center !important;
   }
 }
+
+/* July/August overview only: reveal full original photo without cropping.
+   Keep the existing 350–390px monthly header and all other months unchanged. */
+@media (min-width: 761px) {
+  .page-home .moments-modal__panel--editorial.month-photo-fit-july-august:not(.is-event-detail) .moments-gallery-visual {
+    display: flex !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+  .page-home .moments-modal__panel--editorial.month-photo-fit-july-august:not(.is-event-detail) #momentsModalImage {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    transform: none !important;
+  }
+}
