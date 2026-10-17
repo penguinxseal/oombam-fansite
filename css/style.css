@@ -18084,3 +18084,27 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
     margin-top: 10px !important;
   }
 }
+
+/* v20.17.5 — Uniform monthly overview image treatment, April–October.
+   Mirrors the approved July/August contain/center behavior; excludes event details. */
+@media (min-width: 761px) {
+  .page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-gallery-visual {
+    display: flex !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+  .page-home .moments-modal__panel--editorial:not(.is-event-detail) #momentsModalImage {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    transform: none !important;
+  }
+}
