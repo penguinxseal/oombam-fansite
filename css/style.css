@@ -17677,20 +17677,26 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
 }
 
 
-/* 2026-10-17 — MONTHLY OVERVIEW ONLY: cap the complete-image frame.
-   The masthead's auto height was stretching the photo to its natural size.
-   Individual event galleries are intentionally excluded. */
+/* 2026-10-17 — Restore balanced monthly overview header.
+   Preserve complete image and leave event galleries/mobile portrait unchanged. */
 @media (min-width: 761px) {
   .page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead {
-    height: 310px !important;
-    min-height: 0 !important;
-    max-height: 310px !important;
+    height: auto !important;
+    min-height: 350px !important;
+    max-height: none !important;
     align-items: stretch !important;
   }
+  .page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-copy {
+    height: auto !important;
+    min-height: 350px !important;
+    padding-top: 34px !important;
+    padding-bottom: 28px !important;
+    overflow: visible !important;
+  }
   .page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image {
-    height: 310px !important;
-    min-height: 0 !important;
-    max-height: 310px !important;
+    height: auto !important;
+    min-height: 350px !important;
+    max-height: 390px !important;
     padding: 12px 18px !important;
     box-sizing: border-box !important;
   }
@@ -17703,8 +17709,7 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
   .page-home .moments-modal__panel--editorial:not(.is-event-detail) .moments-modal__masthead-image .moments-gallery-photo-frame > img {
     width: 100% !important;
     height: 100% !important;
-    max-height: 100% !important;
     object-fit: contain !important;
-    object-position: center center !important;
+    object-position: center !important;
   }
 }
