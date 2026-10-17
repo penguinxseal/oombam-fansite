@@ -1075,10 +1075,211 @@
       creditText: "Photo: @HyyNov_",
       creditHref: "https://x.com/HyyNov_",
       events: [
-        {date:"01 Oct",title:"Bam · PLEATS PLEASE ISSEY MIYAKE ‘AZURE COLORS’ Pop-up Opening · Central Chidlom"},
-        {date:"08 Oct",title:"Bam · Live DIOR BEAUTY · LINE @DIOR BEAUTY"},
-        {date:"10 Oct",title:"OomBam · Bam’s Heart to Heart Charity Project 2026 · Anuban Thammasala, Bangkok"},
-        {date:"15 Oct",title:"OomBam · Burberry Winter 2026 Cocktail Event · Private"},
+        {
+        "date": "01 Oct",
+        "title": "Shades of the Sky",
+        "summary": "October began on a colorful note as Bam attended the opening of PLEATS PLEASE ISSEY MIYAKE's AZURE COLORS pop-up at Central Chidlom.",
+        "image": "assets/images/2026/Oct/bam_pleats/Bam_Pleats%20%281%29.webp",
+        "creditLinks": [
+                {
+                        "label": "@OomBam_CH3",
+                        "href": "https://x.com/OomBam_CH3"
+                },
+                {
+                        "label": "@HyyNov_",
+                        "href": "https://x.com/HyyNov_"
+                },
+                {
+                        "label": "@oombam_ch3",
+                        "href": "https://www.instagram.com/oombam_ch3/"
+                }
+        ],
+        "detail": {
+                "title": "Shades of the Sky",
+                "eyebrow": "01 OCTOBER 2026",
+                "narrativeParts": [
+                        "October began on a colorful note as Bam attended the opening of PLEATS PLEASE ISSEY MIYAKE's AZURE COLORS pop-up at Central Chidlom.",
+                        "Inspired by the changing hues of the sky and clouds, the collection featured six shades, from pale white and soft blue to deep navy. The immersive space echoed this sense of lightness, highlighting the brand's signature pleats and fluid silhouettes.",
+                        "Bam explored the collection firsthand, taking in the atmosphere and discovering her personal favorites. A refreshing start to October, marked by color, creativity, and her effortless charm."
+                ],
+                "galleries": {
+                        "pair": [
+                                "assets/images/2026/Oct/bam_pleats/Bam_Pleats%20%281%29.webp",
+                                "assets/images/2026/Oct/bam_pleats/Bam_Pleats%20%282%29.webp",
+                                "assets/images/2026/Oct/bam_pleats/Bam_Pleats%20%283%29.webp",
+                                "assets/images/2026/Oct/bam_pleats/Bam_Pleats%20%284%29.webp",
+                                "assets/images/2026/Oct/bam_pleats/Bam_Pleats%20%285%29.webp",
+                                "assets/images/2026/Oct/bam_pleats/Bam_Pleats%20%286%29.webp",
+                                "assets/images/2026/Oct/bam_pleats/Bam_Pleats%20%287%29.webp"
+                        ]
+                }
+        }
+},
+        {
+        "date": "08 Oct",
+        "title": "A Birthday in Dior",
+        "summary": "On October 8, Bam's birthday coincided with a special appearance for DIOR BEAUTY, bringing together a personal milestone and another moment in her growing journey through fashion and beauty.",
+        "image": "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%281%29.webp",
+        "creditLinks": [
+                {
+                        "label": "@OomBam_CH3",
+                        "href": "https://x.com/OomBam_CH3"
+                },
+                {
+                        "label": "@HyyNov_",
+                        "href": "https://x.com/HyyNov_"
+                },
+                {
+                        "label": "@oombam_ch3",
+                        "href": "https://www.instagram.com/oombam_ch3/"
+                }
+        ],
+        "detail": {
+                "title": "A Birthday in Dior",
+                "eyebrow": "08 OCTOBER 2026",
+                "narrativeParts": [
+                        "On October 8, Bam's birthday coincided with a special appearance for DIOR BEAUTY, bringing together a personal milestone and another moment in her growing journey through fashion and beauty.",
+                        "Through a live session on LINE @DIOR BEAUTY, Bam connected with viewers in a digital setting dedicated to the elegance and artistry associated with the French beauty house.",
+                        "The occasion added another highlight to an already meaningful day. Between birthday wishes from fans and her professional commitments, October 8 became a celebration of both the person and the artist that so many have come to admire."
+                ],
+                "galleries": {
+                        "pair": [
+                                "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%281%29.webp",
+                                "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%282%29.webp",
+                                "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%283%29.webp",
+                                "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%284%29.webp",
+                                "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%285%29.webp",
+                                "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%286%29.webp",
+                                "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%287%29.webp",
+                                "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%288%29.webp",
+                                "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%289%29.webp",
+                                "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%2810%29.webp",
+                                "assets/images/2026/Oct/bambday_dior/Bam_BDay_Dior%20%2811%29.webp"
+                        ]
+                }
+        }
+},
+        {
+        "date": "10 Oct",
+        "title": "A Celebration That Gives Back",
+        "summary": "Some birthdays are remembered for the celebrations. Others leave something meaningful behind.",
+        "image": "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%281%29.webp",
+        "creditLinks": [
+                {
+                        "label": "@OomBam_CH3",
+                        "href": "https://x.com/OomBam_CH3"
+                },
+                {
+                        "label": "@HyyNov_",
+                        "href": "https://x.com/HyyNov_"
+                },
+                {
+                        "label": "@oombam_ch3",
+                        "href": "https://www.instagram.com/oombam_ch3/"
+                }
+        ],
+        "detail": {
+                "title": "A Celebration That Gives Back",
+                "eyebrow": "10 OCTOBER 2026",
+                "narrativeParts": [
+                        "Some birthdays are remembered for the celebrations. Others leave something meaningful behind.",
+                        "On October 10, Bam marked her birthday through Bam's Heart to Hearts: Charity Project 2026, a community-centered initiative held at Anuban Thammasala in Bangkok. Rather than focusing solely on the festivities, the occasion brought together Bam, Oom, fellow actress PP, and supporters for a day dedicated to giving back.",
+                        "One of the day's activities involved painting the school's walls, transforming an ordinary space through shared effort and creativity. It was a simple but meaningful gesture, reflecting the spirit of a birthday celebration that extended beyond gifts and greetings.",
+                        "With Oom alongside Bam, the occasion became another memorable chapter in their shared journey. Beyond their appearances on screen, it offered a glimpse of how their connection with supporters can bring people together for something bigger than fandom.",
+                        "A birthday celebrated not only with love, but through acts of kindness that could leave a lasting impression."
+                ],
+                "galleries": {
+                        "pair": [
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%281%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%282%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%283%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%284%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%285%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%286%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%287%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%288%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%289%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2810%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2811%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2812%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2813%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2814%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2815%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2816%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2817%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2818%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2819%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2820%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2821%29.webp",
+                                "assets/images/2026/Oct/HeartCharity/Bam_Heart_Charity%20%2822%29.webp"
+                        ]
+                }
+        }
+},
+        {
+        "date": "15 Oct",
+        "title": "OomBam · Burberry Winter 2026 Cocktail Event · Private",
+        "summary": "October continued with another fashion engagement as Oom and Bam attended the private Burberry Winter 2026 Cocktail Event.",
+        "detail": {
+                "title": "An Evening of British Elegance",
+                "narrativeParts": [
+                        "October continued with another fashion engagement as Oom and Bam attended the private Burberry Winter 2026 Cocktail Event.",
+                        "The occasion brought the pair into the world of the iconic British fashion house, known for its heritage outerwear, signature checks, and contemporary interpretations of classic British style.",
+                        "Set against the backdrop of Burberry's winter fashion presentation, the evening represented a different side of Oom and Bam's October appearances, moving from the warmth of community celebrations to the refined atmosphere of a private fashion gathering.",
+                        "Together, their appearance added another entry to an October filled with varied experiences, from individual brand engagements to meaningful moments shared side by side."
+                ],
+                "stories": [
+                        {
+                                "label": "Oom’s IG Story",
+                                "source": "@oomeisaya",
+                                "sourceHref": "https://www.instagram.com/oomeisaya/",
+                                "url": "https://x.com/OomBamSocietyPH/status/2110696083664064725?s=20"
+                        },
+                        {
+                                "label": "Bam’s IG Story",
+                                "source": "@bbam_s",
+                                "sourceHref": "https://www.instagram.com/bbam_s/",
+                                "url": "https://x.com/OomBamSocietyPH/status/2110696577891529117?s=20"
+                        },
+                        {
+                                "label": "oombam_ch3 IG Story",
+                                "source": "@oombam_ch3",
+                                "sourceHref": "https://www.instagram.com/oombam_ch3/",
+                                "url": "https://x.com/OomBamSocietyPH/status/2110699764102865344?s=20"
+                        },
+                        {
+                                "label": "oombam_ch3 IG Story",
+                                "source": "@oombam_ch3",
+                                "sourceHref": "https://www.instagram.com/oombam_ch3/",
+                                "url": "https://x.com/OomBamSocietyPH/status/2110732249683595347?s=20"
+                        },
+                        {
+                                "label": "Oom’s IG Story",
+                                "source": "@oomeisaya",
+                                "sourceHref": "https://www.instagram.com/oomeisaya/",
+                                "url": "https://x.com/OomBamSocietyPH/status/2110744944696828384?s=20"
+                        },
+                        {
+                                "label": "oombam_ch3 IG Story",
+                                "source": "@oombam_ch3",
+                                "sourceHref": "https://www.instagram.com/oombam_ch3/",
+                                "url": "https://x.com/OomBamSocietyPH/status/2110752647028564126?s=20"
+                        },
+                        {
+                                "label": "oombam_ch3 IG Story",
+                                "source": "@oombam_ch3",
+                                "sourceHref": "https://www.instagram.com/oombam_ch3/",
+                                "url": "https://x.com/OomBamSocietyPH/status/2110752752418824495?s=20"
+                        },
+                        {
+                                "label": "Bam’s IG Story",
+                                "source": "@bbam_s",
+                                "sourceHref": "https://www.instagram.com/bbam_s/",
+                                "url": "https://x.com/OomBamSocietyPH/status/2110933119805341851?s=20"
+                        }
+                ]
+        }
+},
         {date:"22 Oct",title:"Oom · โปรโมท ละคร เก็บแผ่นดิน · Maleenont Tower"},
         {date:"26 Oct",title:"Bam · EVEANDBOY The Reborn SQ1 (Ultra Mild) · Siam Square One"}
       ]
@@ -1598,6 +1799,7 @@
   const galleryCounter = document.getElementById("momentsGalleryCounter");
   const galleryCredit = document.getElementById("momentsGalleryCredit");
   const galleryMeta = document.getElementById("momentsGalleryMeta");
+  const storyArchive = document.getElementById("momentsStoryArchive");
   const eventsHeading = document.querySelector(".moments-modal__events-heading");
   const modalFooter = document.querySelector(".moments-modal__footer--editorial");
   const openers = [...document.querySelectorAll("[data-moment-open]")];
@@ -1788,20 +1990,67 @@
     }
     if (monthPhotoCredit) monthPhotoCredit.hidden = true;
 
+    // Burberry uses attributed external Story links, never an empty image gallery.
+    const storyMode = Array.isArray(event.detail.stories) && event.detail.stories.length > 0;
+    if (storyArchive) {
+      storyArchive.replaceChildren();
+      storyArchive.hidden = !storyMode;
+      if (storyMode) {
+        const heading = document.createElement("div");
+        heading.className = "moments-story-archive__heading";
+        heading.innerHTML = "<span>15 OCT · BURBERRY WINTER 2026</span><h3>Through Their Stories</h3><p>Moments shared through Instagram Stories and archived by OomBam Society Philippines.</p>";
+        const grid = document.createElement("div");
+        grid.className = "moments-story-archive__grid";
+        event.detail.stories.forEach((story, i) => {
+          const card = document.createElement("div");
+          card.className = "moments-story-archive__card";
+          const number = document.createElement("span");
+          number.className = "moments-story-archive__number";
+          number.textContent = `STORY ${String(i + 1).padStart(2, "0")}`;
+          const name = document.createElement("strong");
+          name.textContent = story.label;
+          const source = document.createElement("a");
+          source.href = story.sourceHref;
+          source.target = "_blank";
+          source.rel = "noopener noreferrer";
+          source.textContent = `Original IG: ${story.source} ↗`;
+          const post = document.createElement("a");
+          post.href = story.url;
+          post.target = "_blank";
+          post.rel = "noopener noreferrer";
+          post.className = "moments-story-archive__post";
+          post.textContent = "View archived Story on X ↗";
+          card.append(number, name, source, post);
+          grid.append(card);
+        });
+        const credit = document.createElement("p");
+        credit.className = "moments-story-archive__credit";
+        const archiveLink = document.createElement("a");
+        archiveLink.href = "https://x.com/OomBamSocietyPH";
+        archiveLink.target = "_blank";
+        archiveLink.rel = "noopener noreferrer";
+        archiveLink.textContent = "@OomBamSocietyPH ↗";
+        credit.append("Shared on X by ", archiveLink, " · Original IG Stories credited individually above.");
+        storyArchive.append(heading, grid, credit);
+      }
+    }
+    if (modalImage) modalImage.hidden = storyMode;
+    const galleryStage = modalImage?.closest(".moments-modal__gallery-stage");
+    if (galleryStage) galleryStage.classList.toggle("has-story-archive", storyMode);
     activeGalleryEvent = event;
     activeGalleryPhotos = getEventGalleryPhotos(event);
     const preferred = event.image;
     activeGalleryIndex = Math.max(0, activeGalleryPhotos.indexOf(preferred));
     if (!activeGalleryPhotos.length && preferred) activeGalleryPhotos = [preferred];
-    renderGalleryPhoto(activeGalleryIndex);
+    if (!storyMode) renderGalleryPhoto(activeGalleryIndex);
 
     if (eventBackButton) {
       eventBackButton.hidden = false;
       eventBackButton.textContent = `← Back to ${month.eyebrow.split(" ")[0]}`;
       eventBackButton.onclick = () => renderMonth(month.key);
     }
-    if (eventGallery) eventGallery.hidden = false;
-    if (galleryMeta) galleryMeta.hidden = false;
+    if (eventGallery) eventGallery.hidden = storyMode || activeGalleryPhotos.length < 2;
+    if (galleryMeta) galleryMeta.hidden = storyMode || !activeGalleryPhotos.length;
     if (eventsHeading) eventsHeading.hidden = true;
     if (modalEvents) modalEvents.hidden = true;
     if (modalFooter) modalFooter.hidden = true;
@@ -1913,6 +2162,9 @@
     activeGalleryPhotos = [];
     activeGalleryIndex = 0;
     activeGalleryEvent = null;
+    if (storyArchive) { storyArchive.hidden = true; storyArchive.replaceChildren(); }
+    if (modalImage) modalImage.hidden = false;
+    modalImage?.closest(".moments-modal__gallery-stage")?.classList.remove("has-story-archive");
     if (eventBackButton) eventBackButton.hidden = true;
     if (eventGallery) eventGallery.hidden = true;
     if (galleryMeta) galleryMeta.hidden = true;
