@@ -17846,3 +17846,135 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
   outline: 2px solid rgba(255,255,255,.6);
   outline-offset: 2px;
 }
+
+
+/* =============================================================
+   EVENT PHOTO GALLERY — SINGLE LAYOUT AUTHORITY (2026-10-17)
+   Photo and credits occupy adjacent normal-flow rows; no fixed
+   gallery canvas. Only event photo galleries (not month overviews,
+   not Burberry's linked Instagram Story archive).
+   ============================================================= */
+.page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image:has(.moments-gallery-visual):not(:has(.has-story-archive)) {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 12px 48px 10px !important;
+  overflow: visible !important;
+}
+.page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__gallery-stage:has(.moments-gallery-visual):not(.has-story-archive),
+.page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame:has(.moments-gallery-visual) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  gap: 0 !important;
+  overflow: visible !important;
+  flex: 0 0 auto !important;
+}
+.page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-visual {
+  display: block !important;
+  position: relative !important;
+  flex: 0 0 auto !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+  overflow: visible !important;
+}
+.page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-visual > img {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: min(65svh, 570px) !important;
+  min-height: 0 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  margin: 0 auto !important;
+}
+.page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame .moments-event-gallery__meta {
+  display: flex !important;
+  position: relative !important;
+  inset: auto !important;
+  bottom: auto !important;
+  flex: 0 0 auto !important;
+  align-self: center !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 7px auto 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  gap: 4px 10px !important;
+  flex-wrap: wrap !important;
+  line-height: 1.4 !important;
+}
+.page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame .moments-event-gallery__meta[hidden] {
+  display: none !important;
+}
+/* Navigation is positioned against the image, never the credits. */
+.page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-visual .moments-event-gallery {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  pointer-events: none !important;
+}
+.page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-visual .moments-event-gallery[hidden] { display: none !important; }
+.page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-visual .moments-event-gallery__arrow { pointer-events: auto !important; }
+
+/* Short landscape phones: photo stays legible, story typography compact.
+   Height criterion catches wide iPhones missed by width-only media rules. */
+@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-image:has(.moments-gallery-visual) {
+    padding: 10px 44px 8px !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-visual > img {
+    max-height: min(74svh, 410px) !important;
+    max-width: calc(100vw - 130px) !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy {
+    padding: 43px 20px 18px !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__masthead-copy h2 {
+    font-size: 1.55rem !important;
+    line-height: 1.08 !important;
+    max-width: none !important;
+    margin-bottom: 10px !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro,
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro p {
+    font-size: 12px !important;
+    line-height: 1.48 !important;
+    max-width: none !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__intro p + p {
+    margin-top: 9px !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-modal__back-event {
+    top: 10px !important;
+    left: 20px !important;
+  }
+  .page-home .moments-modal__panel--editorial.is-event-detail .moments-gallery-photo-frame .moments-event-gallery__meta {
+    font-size: 10px !important;
+    margin-top: 5px !important;
+  }
+}
