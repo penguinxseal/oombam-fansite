@@ -8574,3 +8574,24 @@ body.dark-theme .community-letter-reading__footer .community-artist-remove {colo
 html[data-theme="dark"] .community-letter-reading__footer .community-artist-love,
 body.dark-theme .community-letter-reading__footer .community-artist-love {color:#ffd2e1;border-color:rgba(255,210,225,.35)}
 @media(max-width:600px){.community-letter-reading__footer .community-artist-remove,.community-letter-reading__footer .community-artist-love{min-height:44px}.community-letter-reading__footer{gap:12px}}
+
+/* November guest-only preview; existing member experience preserved. */
+.page-community .guest-chat-preview,.page-community .guest-wall-invite{display:none}
+.page-community.community-is-guest .guest-chat-preview{display:flex}
+.page-community.community-is-guest .guest-wall-invite{display:block}
+.page-community.community-is-guest .blossom-chat .chat-window,.page-community.community-is-guest .blossom-chat .chat-input,.page-community.community-is-guest .blossom-chat .chat-coming-soon{display:none!important}
+.page-community .guest-wall-invite{text-align:center;padding:18px 12px 4px}
+.page-community .guest-wall-invite strong{font-size:1rem}
+.page-community .guest-wall-invite p{opacity:.7;margin:8px 0 0;font-size:.9rem}
+.page-community .guest-chat-preview{flex-direction:column;gap:15px;padding:24px;border:1px solid rgba(207,157,189,.2);border-radius:22px;background:rgba(151,128,167,.045);min-height:350px}
+.page-community .guest-chat-preview__intro{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;margin-bottom:6px}
+.page-community .guest-chat-preview__intro>span{font-size:30px}
+.page-community .guest-chat-preview__intro strong{font-family:Georgia,serif;font-size:clamp(1.3rem,2vw,1.8rem)}
+.page-community .guest-chat-preview__intro p{max-width:340px;margin:0;opacity:.75;font-size:.9rem}
+.page-community .guest-chat-preview__bubble{align-self:flex-start;max-width:85%;padding:13px 16px;border-radius:17px 17px 17px 5px;background:rgba(224,153,183,.16);line-height:1.5}
+.page-community .guest-chat-preview__bubble--reply{align-self:flex-end;border-radius:17px 17px 5px 17px;background:rgba(130,186,222,.17)}
+.page-community .guest-chat-preview small{text-align:center;opacity:.65}
+.page-community .guest-chat-preview__join{align-self:center;cursor:pointer;border:1px solid rgba(228,137,170,.55);border-radius:999px;background:rgba(236,162,188,.17);color:inherit;font:inherit;font-weight:600;padding:12px 22px}
+.page-community .guest-chat-preview__join:hover,.page-community .guest-chat-preview__join:focus-visible{background:rgba(236,162,188,.28);outline-offset:3px}
+.page-community .ob-nav__link[data-nav-key="welcome"]{max-width:none;overflow:visible;text-overflow:clip;padding-right:12px}
+@media(max-width:760px){.page-community .guest-chat-preview{padding:17px;min-height:0}.page-community .guest-chat-preview__bubble{max-width:94%}.page-community .ob-mobile-nav__link[data-nav-key="welcome"]{overflow:visible;padding-right:12px}}
