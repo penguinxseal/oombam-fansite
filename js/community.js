@@ -2420,7 +2420,29 @@
                remove.disabled = true;
                remove.textContent = "Removing…";
                try {
-                 await invokeCommunityModeration({ action: "artist-hide-letter", id: letter.id });
+                 // Artist removal must use the current authenticated user's JWT.
+                 // Explicitly supply it rather than relying on an implicit Functions header.
+                 const removeLetterWithSession = async (refresh = false) => {
+                   const result = refresh ? await db.auth.refreshSession() : await db.auth.getSession();
+                   if (result.error || !result.data?.session?.access_token) {
+                     throw new Error("Your artist session could not be verified. Please sign in again.");
+                   }
+                   const { data, error } = await db.functions.invoke("community-moderation", {
+                     body: { action: "artist-hide-letter", id: letter.id },
+                     headers: { Authorization: `Bearer ${result.data.session.access_token}` }
+                   });
+                   if (error) {
+                     let detail = null;
+                     try { detail = await error.context?.json(); } catch (_) {}
+                     const message = detail?.error || error.message || "Could not remove letter.";
+                     const status = error.context?.status;
+                     if (status === 401 && !refresh) return removeLetterWithSession(true);
+                     throw new Error(message);
+                   }
+                   if (!data?.success) throw new Error(data?.error || "Could not remove letter.");
+                   return data;
+                 };
+                 await removeLetterWithSession();
                  button?.remove();
                  reader.innerHTML = `<p class="community-artist-empty">Letter removed from your inbox. 🌸</p>`;
                  reader.classList.remove("is-open");
