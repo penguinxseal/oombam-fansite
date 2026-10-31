@@ -18108,3 +18108,32 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
     transform: none !important;
   }
 }
+
+/* =========================================================
+   OOMBAM FANSITE — Developed by: ObsocPH x Ben10 Admins
+   Developer/Maintainer: B9_Lalajoie_Emjoy
+   Community: OBSocPH
+   © 2026 OomBam Fansite Contributors.
+
+   HOMEPAGE — MOBILE/TABLET INDEPENDENT STORY + UPDATES
+   Keep desktop/laptop composition unchanged. On mobile and
+   touch tablets, stack the two panels in document order so
+   the shorter calendar no longer stretches to story height.
+========================================================= */
+@media (max-width: 900px),
+       (min-width: 901px) and (max-width: 1366px) and (pointer: coarse) {
+  .page-home .story-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: start !important;
+  }
+  .page-home .story-panel,
+  .page-home .upcoming-panel {
+    height: auto !important;
+    min-height: 0 !important;
+    align-self: start !important;
+  }
+  .page-home .story-section {
+    overflow: visible !important;
+  }
+}
