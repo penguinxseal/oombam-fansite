@@ -18212,3 +18212,76 @@ body.page-home .community-milestones__note {
   font-size: .67rem !important;
   line-height: 1.5 !important;
 }
+
+
+/* =========================================================
+   OOMBAM FANSITE — Developed by: ObsocPH x Ben10 Admins
+   Developer/Maintainer: B9_Lalajoie_Emjoy
+   Community: OBSocPH
+   © 2026 OomBam Fansite Contributors.
+   UI-008B — Keep heading/countdown fixed; scroll schedule only.
+   Prevent parent-grid height from creating empty space.
+========================================================= */
+@media (min-width: 901px) and (pointer: fine),
+       (min-width: 1367px) {
+  body.page-home .story-section {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: transparent !important;
+  }
+  body.page-home .story-grid {
+    align-items: start !important;
+    height: auto !important;
+    min-height: 0 !important;
+    background: transparent !important;
+  }
+  body.page-home .story-panel,
+  body.page-home .upcoming-panel {
+    align-self: start !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+  body.page-home .story-panel {
+    background: #f3faff !important;
+    border-radius: 0 0 22px 22px !important;
+  }
+  body.dark-theme.page-home .story-panel { background: #202228 !important; }
+  body.page-home .upcoming-panel {
+    overflow: hidden !important;
+    border-radius: 0 0 22px 22px !important;
+    scrollbar-width: auto;
+  }
+  body.page-home .upcoming-content {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+  }
+  /* Only this child scrolls. Heading and featured countdown are siblings. */
+  body.page-home .upcoming-content > .upcoming-updates {
+    flex: 0 1 auto !important;
+    min-height: 0 !important;
+    max-height: clamp(280px, 39dvh, 420px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-y: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(112,154,183,.42) transparent;
+    padding-right: 7px !important;
+  }
+  body.page-home .upcoming-content > .upcoming-updates::-webkit-scrollbar { width: 5px; }
+  body.page-home .upcoming-content > .upcoming-updates::-webkit-scrollbar-thumb {
+    background: rgba(112,154,183,.42);
+    border-radius: 999px;
+  }
+}
+/* On touch devices, retain natural-height stacked panels with no nested scroll. */
+@media (max-width: 900px),
+       (min-width: 901px) and (max-width: 1366px) and (pointer: coarse) {
+  body.page-home .upcoming-panel,
+  body.page-home .upcoming-content > .upcoming-updates {
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+}
