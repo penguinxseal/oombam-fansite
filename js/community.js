@@ -46,7 +46,6 @@
         profile: "oombam-community-preview-profile",
         lastWallSubmit: "oombam-community-last-wall-submit",
         wallHistory: "oombam-community-wall-history",
-        lastLetterSubmit: "oombam-community-last-letter-submit",
         letterHistory: "oombam-community-letter-history",
         lastChat: "oombam-community-last-chat",
         authPreview: "oombam-community-auth-preview"
@@ -915,7 +914,7 @@
       const COMMUNITY_LIMITS = {
         wallCooldownMs: 5 * 60 * 1000,
         wallDailyMax: 5,
-        letterCooldownMs: 24 * 60 * 60 * 1000
+        letterDuplicateWindowMs: 7 * 24 * 60 * 60 * 1000
       };
 
       const normalizeSubmission = (value = "") =>
@@ -1256,11 +1255,6 @@
         }
         form.addEventListener("submit", async (event) => {
           event.preventDefault();
-          if (isRateLimited(KEYS.lastLetterSubmit, COMMUNITY_LIMITS.letterCooldownMs)) {
-            showFormStatus(form, "You’ve already sent a Fan Letter today. You can send another one after 24 hours.", "error");
-            return;
-          }
-
           const data = new FormData(form);
           const payload = {
             recipient: safeText(data.get("recipient"), 20),
@@ -1285,7 +1279,7 @@
             showFormStatus(form, reasonMessage, "error");
             return;
           }
-          if (hasRecentDuplicate(KEYS.letterHistory, assessment.fingerprint, COMMUNITY_LIMITS.letterCooldownMs)) {
+          if (hasRecentDuplicate(KEYS.letterHistory, assessment.fingerprint, COMMUNITY_LIMITS.letterDuplicateWindowMs)) {
             showFormStatus(form, "This looks very similar to a Fan Letter you’ve already submitted.", "error");
             return;
           }
@@ -1297,7 +1291,6 @@
           try {
             const result = await submitLetter(payload);
             if (result?.moderation !== "rejected") {
-              markRate(KEYS.lastLetterSubmit);
               rememberSubmission(KEYS.letterHistory, assessment.fingerprint);
             }
             form.reset();
@@ -1311,7 +1304,7 @@
             showFormStatus(form, message, moderation === "rejected" ? "error" : "success");
           } catch (error) {
             console.error(error);
-            showFormStatus(form, "We could not submit your letter right now. Please try again.", "error");
+            showFormStatus(form, error?.message || "We could not submit your letter right now. Please try again.", "error");
           } finally {
             submit.disabled = false;
           }
