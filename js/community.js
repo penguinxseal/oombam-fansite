@@ -1039,8 +1039,19 @@
       async function invokeCommunityModeration(body) {
         if (!hasSupabaseConfig) throw new Error("Community moderation service is not configured.");
         const { data, error } = await db.functions.invoke("community-moderation", { body });
-        if (error) throw error;
-        if (!data?.success) throw new Error(data?.error || "Community action failed.");
+        if (error) {
+          let detail = null;
+          try { detail = await error.context?.json?.(); } catch (_) { /* non-JSON response */ }
+          const failure = new Error(detail?.error || error.message || "Community action failed.");
+          failure.code = detail?.code || "";
+          failure.status = error.context?.status || 0;
+          throw failure;
+        }
+        if (!data?.success) {
+          const failure = new Error(data?.error || "Community action failed.");
+          failure.code = data?.code || "";
+          throw failure;
+        }
         return data;
       }
 
@@ -1293,18 +1304,37 @@
             if (result?.moderation !== "rejected") {
               rememberSubmission(KEYS.letterHistory, assessment.fingerprint);
             }
-            form.reset();
-            form._resetLetterEditor?.();
             const moderation = result?.moderation || "pending";
-            const message = moderation === "approved"
-              ? "Sent! 🌸 Your letter has been delivered."
-              : moderation === "rejected"
-                ? "This letter could not be submitted because it did not meet the Community Guidelines."
-                : "Submitted 🌸 Your letter passed the browser checks and is awaiting the Community safety service.";
-            showFormStatus(form, message, moderation === "rejected" ? "error" : "success");
+            if (moderation === "rejected") {
+              showFormStatus(form, "This letter could not be submitted because it did not meet the Community Guidelines.", "error");
+            } else {
+              showFormStatus(form, moderation === "approved"
+                ? "Your letter has been received! 🌸"
+                : "Your letter has been received and is awaiting Community safety review. 🌸", "success");
+              form.querySelectorAll("input, select, textarea, [contenteditable], button").forEach(el => { el.disabled = true; if (el.hasAttribute("contenteditable")) el.setAttribute("contenteditable", "false"); });
+              window.setTimeout(() => {
+                if (!document.getElementById("communityModal")?.hidden && document.getElementById("communityModalBody")?.contains(wrapper)) closeModal();
+              }, 2000);
+            }
           } catch (error) {
-            console.error(error);
-            showFormStatus(form, error?.message || "We could not submit your letter right now. Please try again.", "error");
+            console.error("Fan Letter submission failed:", error);
+            if (error?.code === "letter_rate_limit" || error?.status === 429) {
+              const recipientName = payload.recipient === "OomBam" ? "OomBam" : payload.recipient;
+              showFormStatus(form, `You've already sent 3 letters to ${recipientName} within the rolling 24-hour limit. You can send another when a slot becomes available. You may still write to the other recipients if you have remaining allowances.`, "error");
+              const actions = form.querySelector(".community-form__actions");
+              if (actions) {
+                const gotIt = actions.querySelector("[data-quota-close]") || document.createElement("button");
+                gotIt.type = "button";
+                gotIt.className = "community-form__primary";
+                gotIt.dataset.quotaClose = "";
+                gotIt.textContent = "Got it 🌸";
+                gotIt.addEventListener("click", closeModal, { once: true });
+                actions.querySelector('[type="submit"]')?.setAttribute("hidden", "");
+                if (!gotIt.isConnected) actions.append(gotIt);
+              }
+            } else {
+              showFormStatus(form, error?.message || "We could not submit your letter right now. Please try again.", "error");
+            }
           } finally {
             submit.disabled = false;
           }
@@ -2405,7 +2435,7 @@
                 <div class="community-letter-reading__message"></div>
                 <footer class="community-letter-reading__footer">
                   <span>— ${safeText(letter.display_name || "Blossom",40)}${flag ? ` · ${flag}` : ""}</span>
-                  <button type="button" class="community-artist-remove">Remove Letter</button>
+                  <button type="button" class="community-artist-remove" aria-label="Remove letter privately">✕ Remove</button>
                    <button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button>
                 </footer>
                 <p class="community-letter-reading__love-note" ${seen.has(letter.id) ? "" : "hidden"}>The sender will know you saw their letter. 🌸</p>
