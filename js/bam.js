@@ -429,7 +429,8 @@
       if (verifySessionError || !verified?.user?.id) throw new Error("invalid-session");
       const profile = await readBamProfile(verifier, verified.user.id);
       if (!profileIsBam(profile)) {
-        await verifier.auth.signOut().catch(() => {});
+        // Do not sign out the verifier: signOut revokes the shared artist session.
+        // The non-persistent verifier is discarded on navigation.
         throw new Error("wrong-artist");
       }
 
@@ -438,7 +439,8 @@
         refresh_token: payload.refresh_token,
       });
       if (persistError) throw new Error("session-persist-failed");
-      await verifier.auth.signOut().catch(() => {});
+      // Do not sign out the verifier: signOut revokes the shared artist session.
+        // The non-persistent verifier is discarded on navigation.
       setStatus("Access confirmed. Opening the Blossom Community…", true);
       window.setTimeout(() => { window.location.href = "community.html"; }, 350);
     } catch (error) {
