@@ -8595,3 +8595,58 @@ body.dark-theme .community-letter-reading__footer .community-artist-love {color:
 .page-community .guest-chat-preview__join:hover,.page-community .guest-chat-preview__join:focus-visible{background:rgba(236,162,188,.28);outline-offset:3px}
 .page-community .ob-nav__link[data-nav-key="welcome"]{max-width:none;overflow:visible;text-overflow:clip;padding-right:12px}
 @media(max-width:760px){.page-community .guest-chat-preview{padding:17px;min-height:0}.page-community .guest-chat-preview__bubble{max-width:94%}.page-community .ob-mobile-nav__link[data-nav-key="welcome"]{overflow:visible;padding-right:12px}}
+
+/* =========================================================
+   OOMBAM FANSITE — Developed by: ObsocPH x Ben10 Admins
+   Developer/Maintainer: B9_Lalajoie_Emjoy
+   Community: OBSocPH
+   © 2026 OomBam Fansite Contributors.
+   UI-008 / UI-009: scoped November layout corrections.
+========================================================= */
+
+/* Guest chat: contain the invitation within the card, never overlap rules.
+   Only the guest state changes; signed-in chat sizing is preserved. */
+body.page-community.community-is-guest .blossom-chat {
+  height: auto !important;
+  min-height: 560px !important;
+  overflow: visible !important;
+}
+body.page-community.community-is-guest .blossom-chat .guest-chat-preview {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+  margin: 0 0 16px !important;
+  padding-bottom: 22px !important;
+}
+body.page-community.community-is-guest .guest-chat-preview__join {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto !important;
+  position: static !important;
+  margin: 5px auto 0 !important;
+  min-height: 44px;
+  max-width: 100%;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.35;
+}
+body.page-community.community-is-guest .blossom-chat .chat-rules {
+  position: static !important;
+  flex: 0 0 auto !important;
+  margin: 0 0 12px !important;
+  padding: 8px 12px 0 !important;
+  text-align: center;
+  line-height: 1.5;
+}
+@media (max-width: 760px) {
+  body.page-community.community-is-guest .blossom-chat {
+    min-height: 0 !important;
+  }
+  body.page-community.community-is-guest .blossom-chat .guest-chat-preview {
+    padding: 18px 14px 20px !important;
+  }
+}
