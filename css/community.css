@@ -8550,3 +8550,27 @@ html[data-theme="dark"] body.page-community .garden-artist-link__icon,body.dark-
 @media(max-width:767px){.ob-birthday-modal{padding:7px}.ob-birthday-dialog{max-height:calc(100dvh - 14px);border-radius:12px}.ob-birthday-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ob-birthday-credits{grid-template-columns:1fr;gap:4px}.ob-birthday-close{top:7px}.ob-project-grid{grid-template-columns:1fr}}
 @media(min-width:768px) and (max-width:1023px){.ob-birthday-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}.ob-birthday-credits{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-height:480px) and (orientation:landscape){.ob-birthday-modal{padding:5px}.ob-birthday-dialog{max-height:calc(100dvh - 10px)}.ob-birthday-header{padding-top:22px}}
+
+/* BUG-002A-02 — Artist inbox action polish (scoped; dark/light responsive) */
+.community-letter-reading__footer .community-artist-remove,
+.community-letter-reading__footer .community-artist-love {
+  appearance:none; display:inline-flex; align-items:center; justify-content:center;
+  min-height:40px; padding:9px 16px; border-radius:999px;
+  font:inherit; font-size:.85rem; font-weight:650; line-height:1.2;
+  cursor:pointer; transition:background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.community-letter-reading__footer .community-artist-remove {
+  border:1px solid rgba(171,98,111,.3); background:rgba(187,107,120,.07); color:#995365;
+}
+.community-letter-reading__footer .community-artist-love {
+  border:1px solid rgba(202,112,145,.4); background:rgba(240,166,190,.17); color:#9a4867;
+}
+.community-letter-reading__footer .community-artist-remove:hover:not(:disabled),
+.community-letter-reading__footer .community-artist-love:hover:not(:disabled) {transform:translateY(-1px);background:rgba(238,167,190,.24)}
+.community-letter-reading__footer button:focus-visible {outline:3px solid #81b7d9;outline-offset:3px}
+.community-letter-reading__footer button:disabled {cursor:default;opacity:.65}
+html[data-theme="dark"] .community-letter-reading__footer .community-artist-remove,
+body.dark-theme .community-letter-reading__footer .community-artist-remove {color:#f3b7c4;border-color:rgba(243,183,196,.35)}
+html[data-theme="dark"] .community-letter-reading__footer .community-artist-love,
+body.dark-theme .community-letter-reading__footer .community-artist-love {color:#ffd2e1;border-color:rgba(255,210,225,.35)}
+@media(max-width:600px){.community-letter-reading__footer .community-artist-remove,.community-letter-reading__footer .community-artist-love{min-height:44px}.community-letter-reading__footer{gap:12px}}
