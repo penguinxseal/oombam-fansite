@@ -2405,7 +2405,8 @@
                 <div class="community-letter-reading__message"></div>
                 <footer class="community-letter-reading__footer">
                   <span>— ${safeText(letter.display_name || "Blossom",40)}${flag ? ` · ${flag}` : ""}</span>
-                  <button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button>
+                  <button type="button" class="community-artist-remove">Remove Letter</button>
+                   <button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button>
                 </footer>
                 <p class="community-letter-reading__love-note" ${seen.has(letter.id) ? "" : "hidden"}>The sender will know you saw their letter. 🌸</p>
               </article>`;
@@ -2413,7 +2414,28 @@
             reader.classList.add("is-open");
             shell.classList.add("is-reading");
             wrapper.classList.add("is-reading");
-            const love = reader.querySelector(".community-artist-love");
+                         const remove = reader.querySelector(".community-artist-remove");
+             remove?.addEventListener("click", async () => {
+               if (!window.confirm("Remove this letter from your inbox? The sender will not be notified.")) return;
+               remove.disabled = true;
+               remove.textContent = "Removing…";
+               try {
+                 await invokeCommunityModeration({ action: "artist-hide-letter", id: letter.id });
+                 button?.remove();
+                 reader.innerHTML = `<p class="community-artist-empty">Letter removed from your inbox. 🌸</p>`;
+                 reader.classList.remove("is-open");
+                 shell.classList.remove("is-reading");
+                 wrapper.classList.remove("is-reading");
+                 if (!list.querySelector(".community-mailbox__preview")) {
+                   shell.innerHTML = `<p class="community-artist-empty">No letters are waiting here yet. 🌸</p>`;
+                 }
+               } catch (err) {
+                 remove.disabled = false;
+                 remove.textContent = "Remove Letter";
+                 window.alert(safeText(err?.message || "Could not remove letter.", 180));
+               }
+             });
+const love = reader.querySelector(".community-artist-love");
             love?.addEventListener("click", async () => {
               love.disabled = true; love.textContent = "Sending love…";
               const { error: loveError } = await db.from("letter_artist_reactions").insert({ letter_id: letter.id, artist_user_id: currentSession.user.id, reaction: "seen_with_love" });
