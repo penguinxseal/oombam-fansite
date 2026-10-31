@@ -18148,3 +18148,67 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
 .page-home .community-milestones__row small,.page-home .community-milestones__note{opacity:.7;font-size:.72rem;line-height:1.45}
 .page-home .community-milestones__note{margin:11px 0 0;font-style:italic}
 .page-home .moments-mag-card[data-month-card="april"][hidden]{display:none!important}
+
+/* =========================================================
+   OOMBAM FANSITE — Developed by: ObsocPH x Ben10 Admins
+   Developer/Maintainer: B9_Lalajoie_Emjoy
+   Community: OBSocPH
+   © 2026 OomBam Fansite Contributors.
+   UI-008 / UI-009: scoped November layout corrections.
+========================================================= */
+
+/* Desktop only: stop the calendar from determining Our Story's height.
+   A fixed scroll boundary also keeps expanded October events inside the panel. */
+@media (min-width: 901px) and (pointer: fine),
+       (min-width: 1367px) {
+  body.page-home .story-grid {
+    align-items: start !important;
+  }
+  body.page-home .story-panel {
+    align-self: start !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  body.page-home .upcoming-panel {
+    align-self: start !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: min(840px, calc(100dvh - 120px)) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-y: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(112, 154, 183, .45) transparent;
+  }
+  body.page-home .upcoming-panel::-webkit-scrollbar { width: 6px; }
+  body.page-home .upcoming-panel::-webkit-scrollbar-thumb {
+    background: rgba(112, 154, 183, .45); border-radius: 999px;
+  }
+}
+/* Calendar milestone typography follows the existing schedule scale. */
+body.page-home .community-milestones__title {
+  font-family: "DM Sans", sans-serif !important;
+  font-size: .72rem !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  letter-spacing: .085em !important;
+}
+body.page-home .community-milestones__row time {
+  flex-basis: 60px !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: .72rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+}
+body.page-home .community-milestones__row strong {
+  font-family: "DM Sans", sans-serif !important;
+  font-size: .73rem !important;
+  font-weight: 650 !important;
+  line-height: 1.45 !important;
+}
+body.page-home .community-milestones__row small,
+body.page-home .community-milestones__note {
+  font-family: "DM Sans", sans-serif !important;
+  font-size: .67rem !important;
+  line-height: 1.5 !important;
+}
