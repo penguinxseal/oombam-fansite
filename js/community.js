@@ -2422,22 +2422,22 @@
                try {
                  // Artist removal must use the current authenticated user's JWT.
                  // Explicitly supply it rather than relying on an implicit Functions header.
-                 const removeLetterWithSession = async (refresh = false) => {
-                   const result = refresh ? await db.auth.refreshSession() : await db.auth.getSession();
-                   if (result.error || !result.data?.session?.access_token) {
-                     throw new Error("Your artist session could not be verified. Please sign in again.");
+                 const removeLetterWithSession = async () => {
+                   const { data: sessionData, error: sessionError } = await db.auth.getSession();
+                   const token = sessionData?.session?.access_token;
+                   if (sessionError || !token) {
+                     throw new Error("Your session has expired. Please sign out and sign in again.");
                    }
                    const { data, error } = await db.functions.invoke("community-moderation", {
                      body: { action: "artist-hide-letter", id: letter.id },
-                     headers: { Authorization: `Bearer ${result.data.session.access_token}` }
+                     headers: { Authorization: `Bearer ${token}` }
                    });
                    if (error) {
                      let detail = null;
                      try { detail = await error.context?.json(); } catch (_) {}
-                     const message = detail?.error || error.message || "Could not remove letter.";
                      const status = error.context?.status;
-                     if (status === 401 && !refresh) return removeLetterWithSession(true);
-                     throw new Error(message);
+                     if (status === 401) throw new Error("Your artist session is invalid. Please sign out and sign in again.");
+                     throw new Error(detail?.error || error.message || "Could not remove letter.");
                    }
                    if (!data?.success) throw new Error(data?.error || "Could not remove letter.");
                    return data;
@@ -2773,14 +2773,12 @@ const love = reader.querySelector(".community-artist-love");
         }
 
         try {
-          db = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
-            auth: {
-              persistSession: true,
-              autoRefreshToken: true,
-              detectSessionInUrl: true,
-              flowType: "implicit"
-            }
+          // site-auth.js loads first and owns the shared authentication client.
+          // Reusing it prevents concurrent refreshes against the same stored token.
+          db = window.OOMBAM_SHARED_SUPABASE_CLIENT || window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
+            auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: "implicit" }
           });
+          window.OOMBAM_SHARED_SUPABASE_CLIENT = db;
 
           // Register recovery detection before getSession(). Supabase can emit
           // PASSWORD_RECOVERY while it is processing the URL, so registering only
