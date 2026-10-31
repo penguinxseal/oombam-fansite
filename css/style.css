@@ -18137,3 +18137,14 @@ body.dark-theme.page-home .schedule-past__list .upcoming-update-row{opacity:.58!
     overflow: visible !important;
   }
 }
+
+/* November community milestones — preserve the existing calendar. */
+.page-home .community-milestones{border-top:1px solid rgba(140,165,182,.24);padding:15px 0 14px;margin-top:14px}
+.page-home .community-milestones__title{display:flex;justify-content:space-between;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#7fa8c2;margin:0 0 11px;font-size:.82rem}
+.page-home .community-milestones__row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(140,165,182,.14)}
+.page-home .community-milestones__row time{flex:0 0 72px;font-size:.82rem;font-weight:700;color:#7fa8c2}
+.page-home .community-milestones__row span{display:flex;flex-direction:column;gap:3px;min-width:0}
+.page-home .community-milestones__row strong{font-size:.88rem;font-weight:650}
+.page-home .community-milestones__row small,.page-home .community-milestones__note{opacity:.7;font-size:.72rem;line-height:1.45}
+.page-home .community-milestones__note{margin:11px 0 0;font-style:italic}
+.page-home .moments-mag-card[data-month-card="april"][hidden]{display:none!important}
