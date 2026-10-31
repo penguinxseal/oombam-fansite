@@ -10,9 +10,12 @@
   const isCommunity = body.classList.contains("page-community");
   const shouldShowSignedOutEntry = isHome || isCommunity;
   const safe = (value = "", max = 120) => String(value).replace(/\s+/g, " ").trim().slice(0, max);
-  const db = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
-    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+  // Share one GoTrue client across the Community page scripts.
+  // Only the Community page needs URL session processing for recovery/sign-in.
+  const db = window.OOMBAM_SHARED_SUPABASE_CLIENT || window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: isCommunity, flowType: "implicit" }
   });
+  window.OOMBAM_SHARED_SUPABASE_CLIENT = db;
 
   let session = null;
   let profile = null;
