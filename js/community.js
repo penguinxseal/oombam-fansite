@@ -213,6 +213,7 @@
       };
 
       const updateWelcomeNavigation = () => {
+        document.body.classList.toggle("community-is-guest", !currentSession?.user);
         const signedInName = currentSession?.user && currentMember?.displayName
           ? shortDisplayName(currentMember.displayName)
           : "";
@@ -1940,6 +1941,10 @@
           requireParticipationAuth(() => renderLetterForm(recipient));
         }
         if (action === "message") requireParticipationAuth(() => renderMessageForm());
+        if (action === "guest-join") {
+          (document.getElementById("communityHeaderSignup") || document.getElementById("communityHeaderSignin"))?.click();
+          return;
+        }
         if (action === "view-wall") renderWallModal();
         if (action === "submit-menu") requireParticipationAuth(() => renderSubmitMenu());
       });
