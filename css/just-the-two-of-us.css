@@ -3400,3 +3400,11 @@ body:not(.dark-theme) .collection-sources__note { color: rgba(48,42,44,.46); }
 .streaming-actions { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:17px; }
 .streaming-actions .netflix-button { margin-top:0; }
 .streaming-actions .ch3plus-button { background:#333b50; box-shadow:0 12px 28px rgba(25,31,45,.14); }
+
+/* Fulfill feature: two independent streaming destinations, without nested links. */
+.netflix-feature-cover-link { position:absolute; inset:0; z-index:1; }
+.netflix-feature-copy { pointer-events:none; z-index:2; }
+.feature-streaming-actions { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.feature-streaming-actions .watch-pill { pointer-events:auto; position:relative; z-index:3; color:#fff; text-decoration:none; white-space:nowrap; }
+.feature-streaming-actions .watch-pill:hover, .feature-streaming-actions .watch-pill:focus-visible { background:rgba(255,255,255,.25); }
+@media (max-width:420px) { .feature-streaming-actions { gap:5px; } .feature-streaming-actions .watch-pill { font-size:.49rem; padding:7px 9px; } }
