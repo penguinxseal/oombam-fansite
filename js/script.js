@@ -2054,7 +2054,8 @@
     }
     if (galleryCredit) {
       galleryCredit.replaceChildren();
-      const links = activeGalleryEvent.creditLinks || [];
+      const creditSource = activeGalleryEvent.detail || activeGalleryEvent;
+      const links = creditSource.creditLinks || [];
       const prefix = document.createElement("span");
       prefix.textContent = links.length ? (links.length > 1 ? "Photos · " : "Photo · ") : "";
       galleryCredit.append(prefix);
@@ -2069,15 +2070,15 @@
           link.textContent = `${item.label} ↗`;
           galleryCredit.append(link);
         });
-        if (activeGalleryEvent.creditSuffix) {
-          galleryCredit.append(document.createTextNode(activeGalleryEvent.creditSuffix));
+        if (creditSource.creditSuffix) {
+          galleryCredit.append(document.createTextNode(creditSource.creditSuffix));
         }
       } else {
         const link = document.createElement("a");
-        link.href = activeGalleryEvent.creditHref || "#";
+        link.href = creditSource.creditHref || "#";
         link.target = "_blank";
         link.rel = "noopener noreferrer";
-        link.textContent = `${(activeGalleryEvent.creditText || "Photo: @dewy_photo").replace(/^Photos?:\s*/, "")} ↗`;
+        link.textContent = `${(creditSource.creditText || "Photo: @dewy_photo").replace(/^Photos?:\s*/, "")} ↗`;
         galleryCredit.append(link);
       }
     }
