@@ -1288,20 +1288,120 @@
     {
       key: "september",
       eyebrow: "SEPTEMBER 2026",
-      title: "September Spotlight",
-      intro: "September’s schedule spans shared appearances for OomBam across awards, fashion and beauty events, a world premiere, and a charity concert.",
-      note: "New stages. Shared moments ♡",
+      title: "Under the Same Spotlight",
+      intro: "A month of shared appearances, from awards nights and a world premiere to meaningful celebrations and a charity concert.",
+      note: "Under the Same Spotlight ♡",
       image: "assets/images/2026/September/OB_September_2026.jpg",
       alt: "OomBam during September 2026 activities",
       creditText: "Photo: @OomBam_CH3",
       creditHref: "https://x.com/OomBam_CH3",
       events: [
-        { date: "03 Sep", title: "Y Entertainment Awards 2026", summary: "Y Entertainment Awards 2026." },
-        { date: "12 Sep", title: "MChoice & Mint Awards 2026", summary: "MChoice & Mint Awards 2026." },
-        { date: "18 Sep", title: "The Touch Preventive Blueprint", summary: "The Touch Preventive Blueprint." },
-        { date: "28 Sep", title: "Gala World Premiere", summary: "Gala World Premiere." },
-        { date: "30 Sep", title: "Nineentertain 24th Anniversary Charity Concert", summary: "Nineentertain 24th Anniversary Charity Concert." }
-      ]
+        {
+                "date": "03 Sep",
+                "title": "Y Entertainment Awards 2026",
+                "summary": "A night celebrating talent and creativity as Oom and Bam joined the entertainment industry at the Entertain Awards 2026, marking another shared appearance in their journey.",
+                "image": "assets/images/2026/September/YEntAwards/OB_Y%20AWARDS%202026%20%281%29.webp",
+                "imageAlt": "Oom and Bam at Y Entertainment Awards 2026, September 2026",
+                "detail": {
+                        "eyebrow": "03 SEPTEMBER 2026",
+                        "title": "Y Entertainment Awards 2026",
+                        "narrative": "A night celebrating talent and creativity as Oom and Bam joined the entertainment industry at the Entertain Awards 2026, marking another shared appearance in their journey.",
+                        "note": "Under the Same Spotlight ♡",
+                        "galleries": {
+                                "pair": [
+                                        "assets/images/2026/September/YEntAwards/OB_Y%20AWARDS%202026%20%281%29.webp",
+                                        "assets/images/2026/September/YEntAwards/OB_Y%20AWARDS%202026%20%282%29.webp",
+                                        "assets/images/2026/September/YEntAwards/OB_Y%20AWARDS%202026%20%283%29.webp",
+                                        "assets/images/2026/September/YEntAwards/OB_Y%20AWARDS%202026%20%284%29.webp",
+                                        "assets/images/2026/September/YEntAwards/OB_Y%20AWARDS%202026%20%285%29.webp"
+                                ]
+                        }
+                }
+        },
+        {
+                "date": "12 Sep",
+                "title": "MChoice & Mint Awards 2026",
+                "summary": "Another memorable evening for OomBam as they stepped into the spotlight at the Mchoice & Mint Awards, sharing another milestone in a year filled with new experiences and opportunities.",
+                "image": "assets/images/2026/September/MintAwards/OB_MINTAWARDS%202026%20%281%29.webp",
+                "imageAlt": "Oom and Bam at MChoice & Mint Awards 2026, September 2026",
+                "detail": {
+                        "eyebrow": "12 SEPTEMBER 2026",
+                        "title": "MChoice & Mint Awards 2026",
+                        "narrative": "Another memorable evening for OomBam as they stepped into the spotlight at the Mchoice & Mint Awards, sharing another milestone in a year filled with new experiences and opportunities.",
+                        "note": "Under the Same Spotlight ♡",
+                        "galleries": {
+                                "pair": [
+                                        "assets/images/2026/September/MintAwards/OB_MINTAWARDS%202026%20%281%29.webp",
+                                        "assets/images/2026/September/MintAwards/OB_MINTAWARDS%202026%20%282%29.webp",
+                                        "assets/images/2026/September/MintAwards/OB_MINTAWARDS%202026%20%283%29.webp",
+                                        "assets/images/2026/September/MintAwards/OB_MINTAWARDS%202026%20%284%29.webp"
+                                ]
+                        }
+                }
+        },
+        {
+                "date": "18 Sep",
+                "title": "The Touch Preventive Blueprint",
+                "summary": "Oom and Bam came together for The Touch Preventive Blueprint, adding another special appearance to their September calendar and another memory for fans to treasure.",
+                "image": "assets/images/2026/September/TTPB/OB_TTPB%20%281%29.webp",
+                "imageAlt": "Oom and Bam at The Touch Preventive Blueprint, September 2026",
+                "detail": {
+                        "eyebrow": "18 SEPTEMBER 2026",
+                        "title": "The Touch Preventive Blueprint",
+                        "narrative": "Oom and Bam came together for The Touch Preventive Blueprint, adding another special appearance to their September calendar and another memory for fans to treasure.",
+                        "note": "Under the Same Spotlight ♡",
+                        "galleries": {
+                                "pair": [
+                                        "assets/images/2026/September/TTPB/OB_TTPB%20%281%29.webp",
+                                        "assets/images/2026/September/TTPB/OB_TTPB%20%282%29.webp",
+                                        "assets/images/2026/September/TTPB/OB_TTPB%20%283%29.webp",
+                                        "assets/images/2026/September/TTPB/OB_TTPB%20%284%29.webp"
+                                ]
+                        }
+                }
+        },
+        {
+                "date": "28 Sep",
+                "title": "Gala World Premiere",
+                "summary": "OomBam graced the World Premiere Gala, bringing their signature elegance to another shared appearance and adding a beautiful chapter to September’s collection of memories.",
+                "image": "assets/images/2026/September/GalaWorldPremiere/OB_GALA%20PREMIERE%20%281%29.webp",
+                "imageAlt": "Oom and Bam at Gala World Premiere, September 2026",
+                "detail": {
+                        "eyebrow": "28 SEPTEMBER 2026",
+                        "title": "Gala World Premiere",
+                        "narrative": "OomBam graced the World Premiere Gala, bringing their signature elegance to another shared appearance and adding a beautiful chapter to September’s collection of memories.",
+                        "note": "Under the Same Spotlight ♡",
+                        "galleries": {
+                                "pair": [
+                                        "assets/images/2026/September/GalaWorldPremiere/OB_GALA%20PREMIERE%20%281%29.webp",
+                                        "assets/images/2026/September/GalaWorldPremiere/OB_GALA%20PREMIERE%20%282%29.webp",
+                                        "assets/images/2026/September/GalaWorldPremiere/OB_GALA%20PREMIERE%20%283%29.webp"
+                                ]
+                        }
+                }
+        },
+        {
+                "date": "30 Sep",
+                "title": "Nineentertain 24th Anniversary Charity Concert",
+                "summary": "Closing September with a meaningful celebration, Oom and Bam joined the Nineentertain 24th Anniversary Charity Concert, bringing the month to a close with a shared moment dedicated to entertainment and giving.",
+                "image": "assets/images/2026/September/9EntParagon/OB_9ENT%20PARAGON%20%281%29.webp",
+                "imageAlt": "Oom and Bam at Nineentertain 24th Anniversary Charity Concert, September 2026",
+                "detail": {
+                        "eyebrow": "30 SEPTEMBER 2026",
+                        "title": "Nineentertain 24th Anniversary Charity Concert",
+                        "narrative": "Closing September with a meaningful celebration, Oom and Bam joined the Nineentertain 24th Anniversary Charity Concert, bringing the month to a close with a shared moment dedicated to entertainment and giving.",
+                        "note": "Under the Same Spotlight ♡",
+                        "galleries": {
+                                "pair": [
+                                        "assets/images/2026/September/9EntParagon/OB_9ENT%20PARAGON%20%281%29.webp",
+                                        "assets/images/2026/September/9EntParagon/OB_9ENT%20PARAGON%20%282%29.webp",
+                                        "assets/images/2026/September/9EntParagon/OB_9ENT%20PARAGON%20%283%29.webp",
+                                        "assets/images/2026/September/9EntParagon/OB_9ENT%20PARAGON%20%284%29.webp"
+                                ]
+                        }
+                }
+        }
+]
     },
     {
       key: "august",
