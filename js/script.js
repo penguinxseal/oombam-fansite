@@ -1281,8 +1281,7 @@
                 ]
         }
 },
-        {date:"22 Oct",title:"Oom · โปรโมท ละคร เก็บแผ่นดิน · Maleenont Tower"},
-        {date:"26 Oct",title:"Bam · EVEANDBOY The Reborn SQ1 (Ultra Mild) · Siam Square One"}
+
       ]
     },
     {
@@ -1841,29 +1840,170 @@
       creditHref: "https://www.instagram.com/jzornphotoholic?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
       events: [
         {
-          date: "13–17 Apr",
-          title: "Character Introduction Week",
-          summary: "A focused rollout that introduced the series world and helped establish the pairing ahead of premiere week."
+          "date": "21 Apr",
+          "title": "Fulfill: Official Worship & Promotion",
+          "summary": "Oom and Bam brought the world of Fulfill closer to fans through Channel 3’s promotional content, introducing the newlywed journey of Ai-Oon and Pafun. From their marriage certificate reveal to playful wedding-themed moments, the promotions offered a charming glimpse into the love story awaiting viewers.",
+          "image": "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%280%29.webp",
+          "imageAlt": "Fulfill: Official Worship & Promotion — April 2026",
+          "detail": {
+            "eyebrow": "21 APRIL 2026",
+            "title": "Fulfill: Official Worship & Promotion",
+            "narrative": "Oom and Bam brought the world of Fulfill closer to fans through Channel 3’s promotional content, introducing the newlywed journey of Ai-Oon and Pafun. From their marriage certificate reveal to playful wedding-themed moments, the promotions offered a charming glimpse into the love story awaiting viewers.",
+            "sources": [
+              {
+                "label": "Manager Online",
+                "href": "https://mgronline.com/drama/detail/9690000037492"
+              },
+              {
+                "label": "OomBam content listing",
+                "href": "https://www.namu.moe/w/%EC%9B%80%EB%B1%80"
+              }
+            ],
+            "creditText": "Photo: @oombam_ch3",
+            "creditHref": "https://www.instagram.com/oombam_ch3/",
+            "creditLinks": [
+              {
+                "label": "@oombam_ch3",
+                "href": "https://www.instagram.com/oombam_ch3/"
+              }
+            ],
+            "galleries": {
+              "pair": [
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%280%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%281%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%282%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%283%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%284%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%285%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%286%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%287%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%288%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%289%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2810%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2811%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2812%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2813%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2814%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2815%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2816%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2817%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2818%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2819%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2820%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2821%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2822%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2823%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2824%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2825%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2826%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2827%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2828%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2829%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2830%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2831%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2832%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2833%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2834%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2835%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2836%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2837%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2838%29.webp",
+                "assets/images/2026/April/WorshipPromo/OB%20Worship%20Promo%20%2839%29.webp"
+              ]
+            }
+          }
         },
         {
-          date: "20 Apr",
-          title: "Teaser V5",
-          summary: "A late promotional push that sharpened anticipation for OomBam’s on-screen chapter."
+          "date": "24 Apr",
+          "title": "Fulfill: First Premiere & Press Tour",
+          "summary": "A milestone for OomBam as Fulfill รักเติมเต็ม made its highly anticipated debut. At the First Premiere with OomBam, fans gathered at Major Cineplex Ratchayothin to celebrate the beginning of Ai-Oon and Pafun’s story. From special performances and playful activities to heartfelt fan surprises, the evening marked a memorable new chapter for Oom, Bam, and the Blossoms.",
+          "image": "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%280%29.webp",
+          "imageAlt": "Fulfill: First Premiere & Press Tour — April 2026",
+          "detail": {
+            "eyebrow": "24 APRIL 2026",
+            "title": "Fulfill: First Premiere & Press Tour",
+            "narrative": "A milestone for OomBam as Fulfill รักเติมเต็ม made its highly anticipated debut. At the First Premiere with OomBam, fans gathered at Major Cineplex Ratchayothin to celebrate the beginning of Ai-Oon and Pafun’s story. From special performances and playful activities to heartfelt fan surprises, the evening marked a memorable new chapter for Oom, Bam, and the Blossoms.",
+            "sources": [
+              {
+                "label": "TrueID premiere recap",
+                "href": "https://entertainment.trueid.net/detail/94Dj8dzwnyPO"
+              },
+              {
+                "label": "Official event listing",
+                "href": "https://www.thaiticketmajor.com/performance/fulfill-first-premiere-with-oombam.html"
+              }
+            ],
+            "creditText": "Photo: @oombam_ch3",
+            "creditHref": "https://www.instagram.com/oombam_ch3/",
+            "creditLinks": [
+              {
+                "label": "@oombam_ch3",
+                "href": "https://www.instagram.com/oombam_ch3/"
+              }
+            ],
+            "galleries": {
+              "pair": [
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%280%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%281%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%282%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%283%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%284%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%285%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%286%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%287%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%288%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%289%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%2810%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%2811%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%2812%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%2813%29.webp",
+                "assets/images/2026/April/PremierPressTour/OB_Premier%20Press%20Tour%20%2814%29.webp"
+              ]
+            }
+          }
         },
         {
-          date: "21 Apr",
-          title: "CH3 Thailand Official Content",
-          summary: "Network-led promotions brought the series into its launch phase and widened attention around the pair."
-        },
-        {
-          date: "24 Apr",
-          title: "Fulfill First Premiere & Press Tour",
-          summary: "The defining milestone of the month, marking the public start of the Fulfill era."
-        },
-        {
-          date: "26 Apr",
-          title: "Post-Premiere Episode 1 Promotions",
-          summary: "Early audience engagement carried the momentum forward immediately after the first broadcast week."
+          "date": "26 Apr",
+          "title": "Fulfill: Episode 1 Highlights & Reactions",
+          "summary": "Following the premiere of Fulfill, Oom and Bam continued sharing the excitement surrounding the series’ opening episode. Through interviews, reactions, and behind-the-scenes conversations, they revisited the beginning of Ai-Oon and Pafun’s married life, keeping the celebration alive as fans embraced their story.",
+          "image": "assets/images/2026/April/EP1HighlightReaction/OB_EP1%20Highlights%20Reaction%20%281%29.webp",
+          "imageAlt": "Fulfill: Episode 1 Highlights & Reactions — April 2026",
+          "detail": {
+            "eyebrow": "26 APRIL 2026",
+            "title": "Fulfill: Episode 1 Highlights & Reactions",
+            "narrative": "Following the premiere of Fulfill, Oom and Bam continued sharing the excitement surrounding the series’ opening episode. Through interviews, reactions, and behind-the-scenes conversations, they revisited the beginning of Ai-Oon and Pafun’s married life, keeping the celebration alive as fans embraced their story.",
+            "sources": [
+              {
+                "label": "TrueID post-premiere coverage",
+                "href": "https://entertainment.trueid.net/detail/94Dj8dzwnyPO"
+              },
+              {
+                "label": "OomBam content listing",
+                "href": "https://www.namu.moe/w/%EC%9B%80%EB%B1%80"
+              }
+            ],
+            "creditText": "Photo: @oombam_ch3",
+            "creditHref": "https://www.instagram.com/oombam_ch3/",
+            "creditLinks": [
+              {
+                "label": "@oombam_ch3",
+                "href": "https://www.instagram.com/oombam_ch3/"
+              }
+            ],
+            "galleries": {
+              "pair": [
+                "assets/images/2026/April/EP1HighlightReaction/OB_EP1%20Highlights%20Reaction%20%281%29.webp",
+                "assets/images/2026/April/EP1HighlightReaction/OB_EP1%20Highlights%20Reaction%20%282%29.webp",
+                "assets/images/2026/April/EP1HighlightReaction/OB_EP1%20Highlights%20Reaction%20%283%29.webp",
+                "assets/images/2026/April/EP1HighlightReaction/OB_EP1%20Highlights%20Reaction%20%284%29.webp",
+                "assets/images/2026/April/EP1HighlightReaction/OB_EP1%20Highlights%20Reaction%20%285%29.webp",
+                "assets/images/2026/April/EP1HighlightReaction/OB_EP1%20Highlights%20Reaction%20%286%29.webp",
+                "assets/images/2026/April/EP1HighlightReaction/OB_EP1%20Highlights%20Reaction%20%287%29.webp",
+                "assets/images/2026/April/EP1HighlightReaction/OB_EP1%20Highlights%20Reaction%20%288%29.webp",
+                "assets/images/2026/April/EP1HighlightReaction/OB_EP1%20Highlights%20Reaction%20%289%29.webp"
+              ]
+            }
+          }
         }
       ]
     }
@@ -2099,6 +2239,21 @@
       event.detail.narrative || event.summary,
       event.detail.narrativeParts
     );
+    // Optional editorial source links for event details; existing galleries unchanged.
+    if (modalIntro && Array.isArray(event.detail.sources) && event.detail.sources.length) {
+      const references = document.createElement("p");
+      references.append(document.createTextNode("Sources: "));
+      event.detail.sources.forEach((source, index) => {
+        if (index) references.append(document.createTextNode(" · "));
+        const link = document.createElement("a");
+        link.href = source.href;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = source.label + " ↗";
+        references.append(link);
+      });
+      modalIntro.append(references);
+    }
     if (modalNote) modalNote.textContent = "";
 
     if (modalCredit) {
