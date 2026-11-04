@@ -1307,6 +1307,9 @@
                         "title": "Y Entertainment Awards 2026",
                         "narrative": "A night celebrating talent and creativity as Oom and Bam joined the entertainment industry at the Entertain Awards 2026, marking another shared appearance in their journey.",
                         "note": "Under the Same Spotlight ♡",
+                        "creditText": "Photos: @HyyNov_ · @oombam_ch3",
+                        "creditHref": "https://x.com/HyyNov_",
+                        "creditLinks": [{ label: "@HyyNov_", href: "https://x.com/HyyNov_" }, { label: "@oombam_ch3", href: "https://www.instagram.com/oombam_ch3/" }],
                         "galleries": {
                                 "pair": [
                                         "assets/images/2026/September/YEntAwards/OB_Y%20AWARDS%202026%20%281%29.webp",
@@ -1329,6 +1332,9 @@
                         "title": "MChoice & Mint Awards 2026",
                         "narrative": "Another memorable evening for OomBam as they stepped into the spotlight at the Mchoice & Mint Awards, sharing another milestone in a year filled with new experiences and opportunities.",
                         "note": "Under the Same Spotlight ♡",
+                        "creditText": "Photos: @HyyNov_ · @oombam_ch3",
+                        "creditHref": "https://x.com/HyyNov_",
+                        "creditLinks": [{ label: "@HyyNov_", href: "https://x.com/HyyNov_" }, { label: "@oombam_ch3", href: "https://www.instagram.com/oombam_ch3/" }],
                         "galleries": {
                                 "pair": [
                                         "assets/images/2026/September/MintAwards/OB_MINTAWARDS%202026%20%281%29.webp",
@@ -1350,6 +1356,9 @@
                         "title": "The Touch Preventive Blueprint",
                         "narrative": "Oom and Bam came together for The Touch Preventive Blueprint, adding another special appearance to their September calendar and another memory for fans to treasure.",
                         "note": "Under the Same Spotlight ♡",
+                        "creditText": "Photos: @oombam_ch3",
+                        "creditHref": "https://www.instagram.com/oombam_ch3/",
+                        "creditLinks": [{ label: "@oombam_ch3", href: "https://www.instagram.com/oombam_ch3/" }],
                         "galleries": {
                                 "pair": [
                                         "assets/images/2026/September/TTPB/OB_TTPB%20%281%29.webp",
@@ -1371,6 +1380,9 @@
                         "title": "Gala World Premiere",
                         "narrative": "OomBam graced the World Premiere Gala, bringing their signature elegance to another shared appearance and adding a beautiful chapter to September’s collection of memories.",
                         "note": "Under the Same Spotlight ♡",
+                        "creditText": "Photos: @HyyNov_ · @oombam_ch3",
+                        "creditHref": "https://x.com/HyyNov_",
+                        "creditLinks": [{ label: "@HyyNov_", href: "https://x.com/HyyNov_" }, { label: "@oombam_ch3", href: "https://www.instagram.com/oombam_ch3/" }],
                         "galleries": {
                                 "pair": [
                                         "assets/images/2026/September/GalaWorldPremiere/OB_GALA%20PREMIERE%20%281%29.webp",
@@ -1391,6 +1403,9 @@
                         "title": "Nineentertain 24th Anniversary Charity Concert",
                         "narrative": "Closing September with a meaningful celebration, Oom and Bam joined the Nineentertain 24th Anniversary Charity Concert, bringing the month to a close with a shared moment dedicated to entertainment and giving.",
                         "note": "Under the Same Spotlight ♡",
+                        "creditText": "Photos: @HyyNov_ · @oombam_ch3",
+                        "creditHref": "https://x.com/HyyNov_",
+                        "creditLinks": [{ label: "@HyyNov_", href: "https://x.com/HyyNov_" }, { label: "@oombam_ch3", href: "https://www.instagram.com/oombam_ch3/" }],
                         "galleries": {
                                 "pair": [
                                         "assets/images/2026/September/9EntParagon/OB_9ENT%20PARAGON%20%281%29.webp",
