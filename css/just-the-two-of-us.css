@@ -1,3 +1,17 @@
+/**
+ * OOMBAM FANSITE
+ * ------------------------------------------------
+ * Developed by: ObsocPH x Ben10 Admins
+ * Developer / Maintainer: B9
+ * Community: OomBam Society Philippines (OBSocPH)
+ *
+ * Independent, fan-made archive dedicated to
+ * celebrating Oom Eisaya and Bam Saralee.
+ *
+ * © 2026 OomBam Fansite Contributors
+ * ------------------------------------------------
+ */
+
 /* =========================================================
    JUST THE TWO OF US — EDITORIAL POLISH v12
    Blush Pink + Powder Blue + Warm Ivory Cinematic Archive
@@ -3381,3 +3395,8 @@ body:not(.dark-theme) .collection-sources__note { color: rgba(48,42,44,.46); }
   .collection-sources__links { font-size: .68rem; }
   .collection-sources__note { font-size: .60rem; }
 }
+
+/* Fulfill streaming destinations: preserve existing responsive hero layout. */
+.streaming-actions { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:17px; }
+.streaming-actions .netflix-button { margin-top:0; }
+.streaming-actions .ch3plus-button { background:#333b50; box-shadow:0 12px 28px rgba(25,31,45,.14); }
