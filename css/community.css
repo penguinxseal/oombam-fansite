@@ -8607,3 +8607,27 @@ body.page-community.dark-theme .community-feedback-record select option {
   background-color: #1c2226;
   color: #f5f6f7;
 }
+
+/* FEAT-007 — Username management in existing account modal only. */
+.community-username-settings {
+  margin-block: 1.15rem;
+  padding: 1rem;
+  border: 1px solid rgba(145, 151, 161, .28);
+  border-radius: 1rem;
+}
+.community-username-settings h3 { margin: 0 0 .4rem; font-size: 1.12rem; }
+.community-username-settings p { margin: .35rem 0 .85rem; line-height: 1.5; }
+.community-username-form { display: grid; gap: .65rem; }
+.community-username-form label { font-weight: 600; }
+.community-username-form input {
+  width: 100%; min-width: 0; box-sizing: border-box;
+  padding: .85rem 1rem; border-radius: .75rem;
+  border: 1px solid rgba(145, 151, 161, .5);
+  background: transparent; color: inherit; font: inherit;
+}
+.community-username-form input:disabled { opacity: .6; }
+.community-username-form .community-username-availability,
+.community-username-form .community-username-result {
+  margin: 0; font-size: .9rem;
+}
+.community-username-form .community-username-save { justify-self: start; }
