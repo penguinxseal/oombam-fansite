@@ -1,3 +1,17 @@
+/**
+ * OOMBAM FANSITE
+ * ------------------------------------------------
+ * Developed by: ObsocPH x Ben10 Admins
+ * Developer / Maintainer: B9
+ * Community: OomBam Society Philippines (OBSocPH)
+ *
+ * Independent, fan-made archive dedicated to
+ * celebrating Oom Eisaya and Bam Saralee.
+ *
+ * © 2026 OomBam Fansite Contributors
+ * ------------------------------------------------
+ */
+
 /* OomBam schedule automation v20.17.0 — Thailand Time (Asia/Bangkok, UTC+7) */
 (() => {
   'use strict';
