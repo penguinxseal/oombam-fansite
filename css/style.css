@@ -18471,3 +18471,99 @@ body.dark-theme.page-home .ob-funds {
   .page-home .ob-funds__tile { grid-template-columns: 19px minmax(0,1fr); }
   .page-home .ob-funds__tile-status { grid-column: 2; }
 }
+
+/* FEAT-008 follow-up: compact Blossoms homepage panel, preserving existing links. */
+.page-home .blossoms-home-redesign {
+  margin: 18px clamp(28px,4vw,54px) 20px;
+  padding: clamp(24px,3vw,36px) clamp(22px,3.5vw,38px);
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+.page-home .blossoms-home-redesign .blossoms-home-inner {
+  display: grid;
+  grid-template-columns: minmax(220px,.85fr) minmax(0,1.5fr);
+  gap: clamp(22px,3.5vw,52px);
+  align-items: center;
+}
+.page-home .blossoms-home-redesign .blossoms-home-copy { max-width: 480px; }
+.page-home .blossoms-home-redesign .blossoms-home-copy h2 {
+  font-size: clamp(2rem,3.25vw,3.25rem);
+  line-height: 1.08;
+  margin-bottom: 12px;
+}
+.page-home .blossoms-home-redesign .blossoms-home-copy p:not(.section-label) {
+  font-size: clamp(.79rem,1vw,.91rem);
+  line-height: 1.6;
+}
+.page-home .blossoms-home-redesign .blossoms-home-actions {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 17px;
+}
+.page-home .blossoms-home-redesign .blossoms-home-actions a {
+  font-size: .7rem; padding: 10px 13px; line-height: 1.2;
+}
+.page-home .blossoms-home-redesign .blossoms-feature-links { gap: 10px; }
+.page-home .blossoms-home-redesign .blossoms-feature-link {
+  min-width: 0; min-height: 0; padding: 16px 14px;
+  border-radius: 13px;
+  transition: transform .18s ease,border-color .18s ease,background .18s ease;
+}
+.page-home .blossoms-home-redesign .blossoms-feature-icon {
+  width: 35px; height: 35px; margin-bottom: 13px;
+}
+.page-home .blossoms-home-redesign .blossoms-feature-icon svg { width: 19px; height: 19px; }
+.page-home .blossoms-home-redesign .blossoms-feature-link strong {
+  font-size: .79rem; line-height: 1.3; margin-bottom: 6px;
+}
+.page-home .blossoms-home-redesign .blossoms-feature-link small {
+  font-size: .7rem; line-height: 1.45;
+}
+@media (min-width: 761px) and (max-width: 1050px) {
+  .page-home .blossoms-home-redesign .blossoms-home-inner { grid-template-columns: 1fr; gap: 20px; }
+  .page-home .blossoms-home-redesign .blossoms-home-copy { max-width: 750px; }
+}
+@media (max-width: 760px) {
+  .page-home .blossoms-home-redesign { margin: 12px 14px 18px; padding: 19px 15px; border-radius: 15px; }
+  .page-home .blossoms-home-redesign .blossoms-home-inner { grid-template-columns: 1fr; gap: 17px; }
+  .page-home .blossoms-home-redesign .blossoms-home-copy h2 { font-size: clamp(1.9rem,6.5vw,2.5rem); margin-bottom: 9px; }
+  .page-home .blossoms-home-redesign .blossoms-home-copy p:not(.section-label) { font-size: .78rem; line-height: 1.5; }
+  .page-home .blossoms-home-redesign .blossoms-home-actions { margin-top: 13px; }
+  .page-home .blossoms-home-redesign .blossoms-feature-links { grid-template-columns: 1fr; gap: 7px; }
+  .page-home .blossoms-home-redesign .blossoms-feature-link {
+    display: grid; grid-template-columns: 34px minmax(0,1fr);
+    gap: 10px; align-items: center; padding: 11px 12px; border-radius: 11px;
+  }
+  .page-home .blossoms-home-redesign .blossoms-feature-icon {
+    width: 32px; height: 32px; margin: 0;
+  }
+  .page-home .blossoms-home-redesign .blossoms-feature-icon svg { width: 17px; height: 17px; }
+  .page-home .blossoms-home-redesign .blossoms-feature-link strong { font-size: .76rem; margin-bottom: 2px; }
+  .page-home .blossoms-home-redesign .blossoms-feature-link small { font-size: .67rem; line-height: 1.35; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-home .blossoms-home-redesign .blossoms-feature-link { transition: none; }
+}
+
+/* FEAT-008 QA: align Funds panel outer edges with Blossoms on narrow screens.
+   Override legacy homepage section width constraints without changing siblings. */
+@media (max-width: 760px) {
+  body.page-home > .ob-funds,
+  body.page-home .ob-funds {
+    box-sizing: border-box;
+    width: calc(100% - 28px) !important;
+    max-width: none !important;
+    margin: 12px 14px 0 !important;
+    padding: 19px 15px;
+    border-radius: 15px;
+  }
+  body.page-home .ob-funds__inner { width: 100%; max-width: 100%; min-width: 0; }
+  body.page-home .ob-funds__tile { min-width: 0; box-sizing: border-box; }
+}
+@media (max-width: 360px) {
+  body.page-home .ob-funds { padding-inline: 12px; }
+}
+html[data-theme="dark"] body.page-home .ob-funds {
+  --fund-ink: #f2eef1; --fund-muted: #c4c0c9; --fund-accent: #edafc7;
+  --fund-line: rgba(232,184,205,.22); --fund-tile: rgba(255,255,255,.035);
+  background: linear-gradient(120deg,#171b1e 0%,#211e25 55%,#1b2224 100%);
+  border-color: rgba(210,208,215,.13);
+}
