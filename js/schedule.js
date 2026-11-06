@@ -1,4 +1,4 @@
-/* OomBam schedule automation v20.14.0 — Thailand time (ICT / UTC+7) */
+/* OomBam schedule automation v20.17.0 — Thailand Time (Asia/Bangkok, UTC+7) */
 (() => {
   'use strict';
   const THAI_TZ = 'Asia/Bangkok';
@@ -9,13 +9,13 @@
     const get = t => parts.find(p => p.type === t)?.value;
     return `${get('year')}-${get('month')}-${get('day')}`;
   };
-  const eventInstant = el => new Date(`${el.dataset.date}T${el.dataset.time || '12:00'}:00+07:00`);
+  const eventInstant = el => new Date(`${el.dataset.date}T${el.dataset.time || '00:00'}:00+07:00`); // Unknown times are sorted by date only; not used for countdown
   const prettyDateTime = el => {
     const d=eventInstant(el);
     const date=new Intl.DateTimeFormat('en-GB',{timeZone:THAI_TZ,day:'2-digit',month:'short',year:'numeric'}).format(d).toUpperCase();
-    if(!el.dataset.time) return `${date} · TIME TBA (countdown to 12:00 PM ICT)`;
+    if(!el.dataset.time) return `${date} · Time TBA`;
     const time=new Intl.DateTimeFormat('en-US',{timeZone:THAI_TZ,hour:'numeric',minute:'2-digit',hour12:true}).format(d);
-    return `${date} · ${time} ICT`;
+    return `${date} · ${time} Thailand Time (UTC+7)`;
   };
   const addTodayBadge = el => {
     if(el.querySelector('.schedule-today-badge')) return;
@@ -54,7 +54,7 @@
     if(el.dataset.public==='true') words.push('Public / Fan attendance encouraged');
     if(el.dataset.private==='true') words.push('Private Event');
     if(el.dataset.gifts==='true') words.push('Gifts allowed');
-    else words.push('No gifts accepted');
+    else if(el.dataset.private==='true'||el.dataset.public==='true') words.push('No gifts accepted');
     return dots+`<span>${words.join(' · ')}</span>`;
   }
   function setupHome(){
@@ -70,14 +70,35 @@
     const tick=()=>{
       const today=thaiDateKey(), now=Date.now(), start=eventInstant(next).getTime(), isToday=next.dataset.date===today;
       panel.classList.toggle('has-today-event',isToday);
-      if(!next.dataset.time){ if(label) label.textContent=isToday?'EVENT DAY':'COUNTDOWN TO EVENT DAY'; render(isToday?0:start-now); return; }
+      if(!next.dataset.time){ if(label) label.textContent=isToday?'EVENT DAY · TIME TBA':'EVENT TIME TO BE ANNOUNCED'; panel.querySelector('[data-countdown]')?.setAttribute('hidden',''); return; }
       if(isToday){ if(now<start){if(label)label.textContent='STARTS TODAY';render(start-now);} else {if(label)label.textContent='HAPPENING TODAY';render(0);} }
       else {if(label)label.textContent='STARTS IN';render(start-now);}
     };
     tick(); const timer=setInterval(tick,1000); document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick();});
     let known=thaiDateKey(); setInterval(()=>{const current=thaiDateKey();if(current!==known){location.reload();}},30000);
   }
-  function setupSolo(){ document.querySelectorAll('.updates-section--schedule').forEach(section=>{ const today=thaiDateKey(); [...section.querySelectorAll('[data-schedule-event]')].forEach(el=>{el.classList.toggle('is-past',el.dataset.date<today);el.classList.toggle('is-today',el.dataset.date===today);}); }); }
-  const boot=()=>{setupHome();setupSolo();};
+  function setupSolo(){
+    document.querySelectorAll('.updates-section--schedule').forEach(section=>{
+      const today=thaiDateKey();
+      const activeList=section.querySelector('.solo-schedule-list');
+      const archive=section.querySelector('[data-past-events]');
+      const wrap=section.querySelector('[data-past-events-wrap]');
+      const count=section.querySelector('[data-past-count]');
+      const upcoming=[],past=[];
+      [...section.querySelectorAll('[data-schedule-event]')].forEach(el=>{
+        const isPast=el.dataset.date<today;
+        el.classList.toggle('is-past',isPast);
+        el.classList.toggle('is-today',el.dataset.date===today);
+        (isPast?past:upcoming).push(el);
+      });
+      upcoming.sort((a,b)=>eventInstant(a)-eventInstant(b));
+      past.sort((a,b)=>eventInstant(b)-eventInstant(a));
+      upcoming.forEach(el=>activeList?.appendChild(el));
+      past.forEach(el=>archive?.appendChild(el));
+      if(count)count.textContent=String(past.length);
+      if(wrap)wrap.hidden=past.length===0;
+    });
+  }
+  const boot=()=>{setupHome();setupSolo();if(!document.querySelector('[data-schedule-page="home"]')){let known=thaiDateKey();setInterval(()=>{if(thaiDateKey()!==known)location.reload();},30000);}};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
