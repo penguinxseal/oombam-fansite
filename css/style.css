@@ -18567,3 +18567,33 @@ html[data-theme="dark"] body.page-home .ob-funds {
   background: linear-gradient(120deg,#171b1e 0%,#211e25 55%,#1b2224 100%);
   border-color: rgba(210,208,215,.13);
 }
+
+/* =========================================================
+   FEAT-009 — MOBILE-ONLY HOMEPAGE PANEL EDGE CONSISTENCY
+   Keep existing light-mode gradients and all inner card layouts.
+   No tablet/desktop visual changes.
+========================================================= */
+@media (max-width: 760px) {
+  body.page-home .ob-funds,
+  body.page-home .blossoms-home-redesign {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 0 !important;
+    border-width: 1px !important;
+  }
+  /* Dark mode only: consistent full-width surface; inner tiles unchanged. */
+  html[data-theme="dark"] body.page-home .ob-funds,
+  html[data-theme="dark"] body.page-home .blossoms-home-redesign,
+  body.dark-theme.page-home .ob-funds,
+  body.dark-theme.page-home .blossoms-home-redesign {
+    background: #111214 !important;
+    border-color: rgba(255,255,255,.08) !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-home .moments-carousel-shell .moments-magazine-strip { transition: none !important; }
+  .page-home .moments-carousel-viewport { scroll-behavior: auto !important; }
+}
