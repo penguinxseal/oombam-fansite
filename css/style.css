@@ -1,3 +1,16 @@
+/**
+ * OOMBAM FANSITE
+ * ------------------------------------------------
+ * Developed by: ObsocPH x Ben10 Admins
+ * Developer / Maintainer: B9
+ * Community: OomBam Society Philippines (OBSocPH)
+ *
+ * Independent, fan-made archive dedicated to
+ * celebrating Oom Eisaya and Bam Saralee.
+ *
+ * © 2026 OomBam Fansite Contributors
+ * ------------------------------------------------
+ */
 /* =========================
    VARIABLES
 ========================= */
@@ -18383,3 +18396,64 @@ body.page-home .community-milestones__row small {
 .page-home .upcoming-update-row .schedule-event-note {opacity:.8;}
 .page-home .upcoming-update-row .schedule-event-alert {color:#a66c37;}
 body.dark-theme.page-home .upcoming-update-row .schedule-event-alert {color:#e0b587;}
+
+
+/* FEAT-008 — Our Community Funds (scoped; complements homepage editorial palette). */
+.ob-funds {
+  --ob-funds-ink: #342d35;
+  --ob-funds-muted: #6f6570;
+  --ob-funds-accent: #a45f81;
+  --ob-funds-edge: rgba(161, 113, 136, .22);
+  --ob-funds-card: rgba(255,255,255,.88);
+  color: var(--ob-funds-ink);
+  background: linear-gradient(135deg,#fdf5f8 0%,#f6f5fb 52%,#f2f8fb 100%);
+  padding: clamp(48px,7vw,88px) 22px;
+}
+.ob-funds__inner { max-width: 1120px; margin-inline: auto; }
+.ob-funds__heading { text-align: center; margin-bottom: 24px; }
+.ob-funds__eyebrow { margin: 0 0 10px; color: var(--ob-funds-accent); letter-spacing: .15em; font-size: .72rem; font-weight: 700; text-transform: uppercase; }
+.ob-funds__heading h2 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-size: clamp(2rem,4.3vw,3.35rem); line-height: 1.12; color: var(--ob-funds-ink); }
+.ob-funds__commitment { margin: 0 auto 24px; max-width: 880px; border: 1px solid var(--ob-funds-edge); background: var(--ob-funds-card); border-radius: 18px; padding: clamp(20px,3.4vw,34px); box-shadow: 0 12px 32px rgba(70,45,62,.035); }
+.ob-funds__commitment h3 { margin: 0 0 13px; color: var(--ob-funds-ink); font-size: 1.08rem; font-weight: 700; line-height: 1.4; }
+.ob-funds__commitment p { margin: 0 0 11px; font-size: .95rem; line-height: 1.7; color: var(--ob-funds-muted); }
+.ob-funds__commitment p:last-child { margin-bottom: 0; }
+.ob-funds__commitment strong { color: var(--ob-funds-ink); font-weight: 700; }
+.ob-funds__tiles { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.ob-funds__tile { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; border: 1px solid var(--ob-funds-edge); background: var(--ob-funds-card); border-radius: 16px; padding: 22px; }
+.ob-funds__tile-icon { font-size: 1.5rem; color: var(--ob-funds-accent); line-height: 1; margin-bottom: 13px; }
+.ob-funds__tile h3 { margin: 0 0 9px; color: var(--ob-funds-ink); font-size: .98rem; line-height: 1.35; font-weight: 700; }
+.ob-funds__tile p { margin: 0 0 18px; color: var(--ob-funds-muted); font-size: .86rem; line-height: 1.6; flex: 1; }
+.ob-funds__tile-status { font-size: .74rem; font-weight: 600; color: var(--ob-funds-accent); }
+.ob-funds__footer { margin: 27px auto 0; max-width: 700px; text-align: center; }
+.ob-funds__maintenance { display: inline-block; border: 1px solid var(--ob-funds-edge); background: var(--ob-funds-card); border-radius: 99px; padding: 6px 13px; color: var(--ob-funds-accent); font-size: .78rem; font-weight: 700; }
+.ob-funds__footer p { margin: 12px 0 0; font-size: .84rem; line-height: 1.65; color: var(--ob-funds-muted); }
+@media (min-width: 601px) and (max-width: 900px) {
+  .ob-funds__tiles { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .ob-funds__tile:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .ob-funds { padding: 42px 16px; }
+  .ob-funds__heading { margin-bottom: 20px; }
+  .ob-funds__heading h2 { font-size: clamp(1.75rem,7vw,2.15rem); }
+  .ob-funds__eyebrow { font-size: .61rem; letter-spacing: .11em; }
+  .ob-funds__commitment { padding: 18px; margin-bottom: 14px; border-radius: 14px; }
+  .ob-funds__commitment h3 { font-size: .92rem; }
+  .ob-funds__commitment p { font-size: .84rem; line-height: 1.65; }
+  .ob-funds__tiles { grid-template-columns: minmax(0,1fr); gap: 10px; }
+  .ob-funds__tile { border-radius: 13px; padding: 15px; }
+  .ob-funds__tile-icon { font-size: 1.2rem; margin-bottom: 9px; }
+  .ob-funds__tile h3 { font-size: .84rem; margin-bottom: 6px; }
+  .ob-funds__tile p { font-size: .79rem; margin-bottom: 10px; }
+  .ob-funds__tile-status { font-size: .69rem; }
+  .ob-funds__footer { margin-top: 20px; }
+  .ob-funds__footer p { font-size: .78rem; }
+}
+body.dark-theme .ob-funds,
+body.community-page.dark-theme .ob-funds {
+  --ob-funds-ink: #f3eaf0;
+  --ob-funds-muted: #cfc2cd;
+  --ob-funds-accent: #f0afcd;
+  --ob-funds-edge: rgba(232,180,205,.22);
+  --ob-funds-card: rgba(43,40,52,.88);
+  background: linear-gradient(135deg,#211e29,#242633);
+}
