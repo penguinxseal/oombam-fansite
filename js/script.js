@@ -2012,32 +2012,78 @@
   const monthMap = new Map(MOMENTS_MONTHS.map((month, index) => [month.key, { ...month, index }]));
 
 
-  // v20.11.3 — Moments month rail: keep five cards visible on tablet/desktop.
+  // FEAT-009 — Preserve the existing Moments rail; add accessible 5-second autoplay.
   const momentsRail = document.querySelector(".moments-magazine-strip");
+  const momentsViewport = document.querySelector(".moments-carousel-viewport");
+  const momentsShell = document.querySelector(".moments-carousel-shell");
   const momentsPrev = document.querySelector(".moments-carousel-nav--prev");
   const momentsNext = document.querySelector(".moments-carousel-nav--next");
+  const momentsMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const momentsMobile = window.matchMedia("(max-width: 760px)");
   let momentsRailIndex = 0;
-
+  let momentsPauseUntil = 0;
+  let momentsHovered = false;
+  let momentsTouching = false;
+  let momentsTimer = null;
+  let momentsScrollReset = null;
+  const momentsCards = () => momentsRail ? [...momentsRail.children].filter(card => !card.hidden && card.getAttribute("aria-hidden") !== "true") : [];
+  const momentsMaxIndex = () => Math.max(0, momentsCards().length - 5);
+  const momentsManualPause = () => { momentsPauseUntil = Date.now() + 12000; };
   const updateMomentsRail = () => {
     if (!momentsRail) return;
-    const desktopRail = window.matchMedia("(min-width: 761px)").matches;
-    if (!desktopRail) {
+    if (momentsMobile.matches) {
       momentsRailIndex = 0;
       momentsRail.classList.remove("is-shifted");
+      momentsRail.style.removeProperty("--moments-rail-offset");
       if (momentsPrev) momentsPrev.disabled = true;
       if (momentsNext) momentsNext.disabled = true;
       return;
     }
+    momentsRailIndex = Math.min(momentsRailIndex, momentsMaxIndex());
     momentsRail.classList.toggle("is-shifted", momentsRailIndex > 0);
-    momentsRail.style.setProperty("--moments-rail-offset", `${momentsRailIndex}`);
+    momentsRail.style.setProperty("--moments-rail-offset", String(momentsRailIndex));
     if (momentsPrev) momentsPrev.disabled = momentsRailIndex === 0;
-    if (momentsNext) momentsNext.disabled = momentsRailIndex === Math.max(0, momentsRail.children.length - 5);
+    if (momentsNext) momentsNext.disabled = momentsRailIndex === momentsMaxIndex();
   };
-
-  momentsPrev?.addEventListener("click", () => { momentsRailIndex = Math.max(0, momentsRailIndex - 1); updateMomentsRail(); });
-  momentsNext?.addEventListener("click", () => { momentsRailIndex = Math.min(Math.max(0, momentsRail.children.length - 5), momentsRailIndex + 1); updateMomentsRail(); });
+  const momentsAdvance = () => {
+    if (!momentsRail || !momentsViewport) return;
+    if (momentsMobile.matches) {
+      const cards = momentsCards();
+      if (cards.length < 2) return;
+      const current = momentsViewport.scrollLeft;
+      const nextCard = cards.find(card => card.offsetLeft - momentsRail.offsetLeft > current + 8);
+      if (nextCard) {
+        momentsViewport.scrollTo({ left: nextCard.offsetLeft - momentsRail.offsetLeft, behavior: "smooth" });
+      } else {
+        // Return smoothly to the beginning without changing any card or credit.
+        momentsViewport.scrollTo({ left: 0, behavior: "smooth" });
+      }
+    } else {
+      momentsRailIndex = momentsRailIndex >= momentsMaxIndex() ? 0 : momentsRailIndex + 1;
+      updateMomentsRail();
+    }
+  };
+  momentsPrev?.addEventListener("click", () => { momentsManualPause(); momentsRailIndex = Math.max(0, momentsRailIndex - 1); updateMomentsRail(); });
+  momentsNext?.addEventListener("click", () => { momentsManualPause(); momentsRailIndex = Math.min(momentsMaxIndex(), momentsRailIndex + 1); updateMomentsRail(); });
+  momentsShell?.addEventListener("mouseenter", () => { momentsHovered = true; });
+  momentsShell?.addEventListener("mouseleave", () => { momentsHovered = false; });
+  momentsShell?.addEventListener("focusin", () => { momentsHovered = true; });
+  momentsShell?.addEventListener("focusout", event => { if (!momentsShell.contains(event.relatedTarget)) momentsHovered = false; });
+  momentsViewport?.addEventListener("touchstart", () => { momentsTouching = true; momentsManualPause(); }, { passive: true });
+  momentsViewport?.addEventListener("touchend", () => { momentsTouching = false; momentsManualPause(); }, { passive: true });
+  momentsViewport?.addEventListener("touchcancel", () => { momentsTouching = false; momentsManualPause(); }, { passive: true });
+  momentsViewport?.addEventListener("pointerdown", momentsManualPause, { passive: true });
+  momentsViewport?.addEventListener("wheel", momentsManualPause, { passive: true });
+  momentsViewport?.addEventListener("keydown", momentsManualPause);
   window.addEventListener("resize", updateMomentsRail, { passive: true });
   updateMomentsRail();
+  if (momentsRail && momentsViewport) {
+    momentsTimer = window.setInterval(() => {
+      if (document.hidden || momentsMotion.matches || momentsHovered || momentsTouching ||
+          Date.now() < momentsPauseUntil || document.body.classList.contains("moments-open")) return;
+      momentsAdvance();
+    }, 5000);
+  }
 
   const modal = document.getElementById("momentsModal");
   const modalEyebrow = document.getElementById("momentsModalEyebrow");
