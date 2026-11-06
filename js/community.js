@@ -402,22 +402,16 @@
         updateHeaderAuthControls();
       };
 
-      const renderAuthAccount = () => {
-        if (!currentSession?.user || !currentMember) {
-          renderAuthGate("signin");
+      const renderUsernameSettings = () => {
+        if (!currentSession?.user || !currentMember || isCommunityArtist()) {
+          renderAuthAccount();
           return;
         }
-
         const wrapper = document.createElement("div");
         wrapper.innerHTML = `
           <p class="community-modal__eyebrow">BLOSSOM ACCOUNT</p>
-          <h2 class="community-modal__title" id="communityModalTitle"></h2>
-          <p class="community-modal__intro">Your Blossom Community account is active.</p>
-          <div class="community-account-card">
-            <span>Email</span><strong class="community-account-email"></strong>
-            <span>Username</span><strong class="community-account-name"></strong>
-            <span class="community-account-role-label" hidden>Role</span><strong class="community-account-role" hidden></strong>
-          </div>
+          <h2 class="community-modal__title" id="communityModalTitle">Change Username</h2>
+          <p class="community-modal__intro">Manage your community username.</p>
           <section class="community-username-settings" aria-labelledby="communityUsernameHeading">
             <h3 id="communityUsernameHeading">Change Username</h3>
             <p>You may change your username once every 30 days. Your next change will be available 30 days after your most recent update.</p>
@@ -430,25 +424,10 @@
             </form>
           </section>
           <div class="community-form__actions">
-            <button class="community-form__primary community-artist-inbox-account" type="button" hidden>Artist Inbox 💌</button>
-            <button class="community-form__secondary community-my-letters" type="button">My Letters</button>
+            <button class="community-form__secondary community-username-back" type="button">Back to Account</button>
             <button class="community-form__secondary" type="button" data-community-close>Close</button>
-            <button class="community-form__primary community-signout" type="button">Sign Out</button>
           </div>`;
-
-        wrapper.querySelector("#communityModalTitle").textContent = `Welcome back, ${currentMember.displayName} 🌸`;
-        wrapper.querySelector(".community-account-email").textContent = currentMember.email;
-        wrapper.querySelector(".community-account-name").textContent = currentMember.displayName;
-        if (isCommunityAdmin() || isCommunityArtist()) {
-          const roleLabel = wrapper.querySelector(".community-account-role-label");
-          const roleValue = wrapper.querySelector(".community-account-role");
-          if (roleLabel && roleValue) {
-            roleLabel.hidden = false;
-            roleValue.hidden = false;
-            roleValue.textContent = isCommunityAdmin() ? "Community Admin" : "ARTIST";
-          }
-        }
-
+        wrapper.querySelector(".community-username-back")?.addEventListener("click", renderAuthAccount);
         // FEAT-007: Account-only username changes. Supabase RPC enforces
         // uniqueness and the rolling 30-day cooldown; UI checks are advisory.
         const usernameSection = wrapper.querySelector(".community-username-settings");
@@ -503,8 +482,6 @@
                   return;
                 }
                 currentMember.displayName = data.username;
-                wrapper.querySelector(".community-account-name").textContent = data.username;
-                wrapper.querySelector("#communityModalTitle").textContent = `Welcome back, ${data.username} 🌸`;
                 storage.set(KEYS.profile, {
                   displayName: data.username,
                   avatar: currentMember.avatar,
@@ -523,6 +500,65 @@
             });
             void refreshEligibility();
           }
+        }
+
+        showAccountView(wrapper);
+      };
+
+      const showAccountView = (wrapper) => {
+        const modal = document.getElementById("communityModal");
+        if (modal && !modal.hidden) {
+          modal.querySelector(".community-modal__dialog")?.classList.remove("community-modal__dialog--wide");
+          modal.querySelector("#communityModalBody")?.replaceChildren(wrapper);
+          modal.querySelector(".community-modal__dialog")?.scrollTo(0, 0);
+        } else {
+          openModal(wrapper);
+        }
+      };
+
+      const renderAuthAccount = () => {
+        if (!currentSession?.user || !currentMember) {
+          renderAuthGate("signin");
+          return;
+        }
+
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = `
+          <p class="community-modal__eyebrow">BLOSSOM ACCOUNT</p>
+          <h2 class="community-modal__title" id="communityModalTitle"></h2>
+          <p class="community-modal__intro">Your Blossom Community account is active.</p>
+          <div class="community-account-card">
+            <span>Email</span><strong class="community-account-email"></strong>
+            <span>Username</span><strong class="community-account-name"></strong>
+            <span class="community-account-role-label" hidden>Role</span><strong class="community-account-role" hidden></strong>
+          </div>
+          <div class="community-account-tools">
+            <button class="community-form__secondary community-change-username" type="button">Change Username</button>
+          </div>
+          <div class="community-form__actions">
+            <button class="community-form__primary community-artist-inbox-account" type="button" hidden>Artist Inbox 💌</button>
+            <button class="community-form__secondary community-my-letters" type="button">My Letters</button>
+            <button class="community-form__secondary" type="button" data-community-close>Close</button>
+            <button class="community-form__primary community-signout" type="button">Sign Out</button>
+          </div>`;
+
+        wrapper.querySelector("#communityModalTitle").textContent = `Welcome back, ${currentMember.displayName} 🌸`;
+        wrapper.querySelector(".community-account-email").textContent = currentMember.email;
+        wrapper.querySelector(".community-account-name").textContent = currentMember.displayName;
+        if (isCommunityAdmin() || isCommunityArtist()) {
+          const roleLabel = wrapper.querySelector(".community-account-role-label");
+          const roleValue = wrapper.querySelector(".community-account-role");
+          if (roleLabel && roleValue) {
+            roleLabel.hidden = false;
+            roleValue.hidden = false;
+            roleValue.textContent = isCommunityAdmin() ? "Community Admin" : "ARTIST";
+          }
+        }
+
+        const changeUsernameButton = wrapper.querySelector(".community-change-username");
+        if (changeUsernameButton) {
+          changeUsernameButton.hidden = isCommunityArtist();
+          changeUsernameButton.addEventListener("click", renderUsernameSettings);
         }
 
         const accountArtistInbox = wrapper.querySelector(".community-artist-inbox-account");
@@ -553,7 +589,7 @@
           }
         });
 
-        openModal(wrapper);
+        showAccountView(wrapper);
       };
 
       const renderSignupSuccess = (email, displayName = "") => {
