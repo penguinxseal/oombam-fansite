@@ -17012,7 +17012,7 @@ body.dark-theme.page-home .schedule-countdown__clock>i{color:#9ab7c6!important}
 .page-home .schedule-feature-card .event-status{margin-top:7px!important}
 .page-home .schedule-countdown{padding:5px 0 5px 12px!important;min-height:0!important}
 .page-home .schedule-countdown__head{font-size:.42rem!important;font-weight:800!important;letter-spacing:.08em!important}
-.page-home .schedule-countdown__head span:first-child::after{content:' (THAILAND TIME · ICT)'}
+.page-home .schedule-countdown__head span:first-child::after{content:' (THAILAND TIME)'}
 .page-home .schedule-countdown__head span+span{display:none!important}
 .page-home .schedule-countdown__clock{grid-template-columns:minmax(38px,1fr) 7px minmax(38px,1fr) 7px minmax(38px,1fr)!important;margin-top:6px!important}
 .page-home .countdown-part strong{font-size:1.25rem!important}.page-home .countdown-part span{margin-top:4px!important;font-size:.36rem!important}
@@ -17056,7 +17056,7 @@ body.dark-theme.page-home .schedule-countdown__clock>i{color:#9ab7c6!important}
 .page-home .schedule-feature-card .status-dot{width:8px!important;height:8px!important}
 .page-home .schedule-countdown{position:relative;z-index:1;margin:0!important;padding:6px 0 5px 10px!important;border:0!important;border-left:1px solid rgba(72,115,143,.24)!important;min-width:0!important}
 .page-home .schedule-countdown__head{display:block!important;margin:0 0 6px!important;color:#425e70!important;font:800 .37rem/1.2 "DM Sans",sans-serif!important;letter-spacing:.045em!important;text-align:center!important;white-space:nowrap}
-.page-home .schedule-countdown__head span:first-child::after{content:' (THAILAND TIME · ICT)'}
+.page-home .schedule-countdown__head span:first-child::after{content:' (THAILAND TIME)'}
 .page-home .schedule-countdown__head span+span{display:none!important}
 .page-home .schedule-countdown__clock{display:grid!important;grid-template-columns:1fr 5px 1fr 5px 1fr 5px 1fr!important;align-items:start!important;width:100%!important;gap:0!important;margin:0!important}
 .page-home .countdown-part{display:grid!important;grid-template-rows:auto auto!important;justify-items:center!important;min-width:0!important}
@@ -18376,3 +18376,10 @@ body.page-home .community-milestones__row small {
     height: 52px !important;
   }
 }
+
+/* November 6 update: preserve uniform event tiles while adding a compact notice. */
+.page-home .upcoming-update-row .schedule-event-note,
+.page-home .upcoming-update-row .schedule-event-alert {display:block;font-size:.64rem;line-height:1.45;font-weight:400;margin-top:4px;white-space:normal;}
+.page-home .upcoming-update-row .schedule-event-note {opacity:.8;}
+.page-home .upcoming-update-row .schedule-event-alert {color:#a66c37;}
+body.dark-theme.page-home .upcoming-update-row .schedule-event-alert {color:#e0b587;}
