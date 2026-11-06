@@ -8577,3 +8577,33 @@ body.page-community .community-feedback-btn:hover {background:rgba(220,112,151,.
 /* Avoid grid row collision in admin moderation modal */
 .community-admin-panel {display:flex!important;flex-direction:column!important;gap:14px!important;min-height:0!important;max-height:min(76vh,700px)!important}
 .community-admin-panel .community-admin-list {flex:1 1 auto!important;min-height:100px!important;max-height:none!important}
+
+
+/* FEAT-006B — readable native dropdown options in both site themes.
+   Scoped to Feedback submission and Admin Feedback status controls only. */
+body.page-community .community-feedback-form select,
+body.page-community .community-feedback-record select {
+  color-scheme: light;
+  background-color: #fffaf6;
+  color: #243244;
+}
+body.page-community .community-feedback-form select option,
+body.page-community .community-feedback-record select option {
+  background-color: #fffaf6;
+  color: #243244;
+}
+html[data-theme="dark"] body.page-community .community-feedback-form select,
+html[data-theme="dark"] body.page-community .community-feedback-record select,
+body.page-community.dark-theme .community-feedback-form select,
+body.page-community.dark-theme .community-feedback-record select {
+  color-scheme: dark;
+  background-color: #1c2226;
+  color: #f5f6f7;
+}
+html[data-theme="dark"] body.page-community .community-feedback-form select option,
+html[data-theme="dark"] body.page-community .community-feedback-record select option,
+body.page-community.dark-theme .community-feedback-form select option,
+body.page-community.dark-theme .community-feedback-record select option {
+  background-color: #1c2226;
+  color: #f5f6f7;
+}
