@@ -415,9 +415,20 @@
           <p class="community-modal__intro">Your Blossom Community account is active.</p>
           <div class="community-account-card">
             <span>Email</span><strong class="community-account-email"></strong>
-            <span>Display name</span><strong class="community-account-name"></strong>
+            <span>Username</span><strong class="community-account-name"></strong>
             <span class="community-account-role-label" hidden>Role</span><strong class="community-account-role" hidden></strong>
           </div>
+          <section class="community-username-settings" aria-labelledby="communityUsernameHeading">
+            <h3 id="communityUsernameHeading">Change Username</h3>
+            <p>You may change your username once every 30 days. Your next change will be available 30 days after your most recent update.</p>
+            <form class="community-username-form">
+              <label for="communityNewUsername">New username</label>
+              <input id="communityNewUsername" name="newUsername" type="text" minlength="3" maxlength="20" pattern="[A-Za-z0-9_]{3,20}" autocomplete="off" spellcheck="false" required placeholder="3–20 letters, numbers or underscores">
+              <p class="community-username-availability" aria-live="polite">Checking when you can next change your username…</p>
+              <button class="community-form__secondary community-username-save" type="submit" disabled>Save Username</button>
+              <p class="community-username-result" role="status" aria-live="polite"></p>
+            </form>
+          </section>
           <div class="community-form__actions">
             <button class="community-form__primary community-artist-inbox-account" type="button" hidden>Artist Inbox 💌</button>
             <button class="community-form__secondary community-my-letters" type="button">My Letters</button>
@@ -435,6 +446,82 @@
             roleLabel.hidden = false;
             roleValue.hidden = false;
             roleValue.textContent = isCommunityAdmin() ? "Community Admin" : "ARTIST";
+          }
+        }
+
+        // FEAT-007: Account-only username changes. Supabase RPC enforces
+        // uniqueness and the rolling 30-day cooldown; UI checks are advisory.
+        const usernameSection = wrapper.querySelector(".community-username-settings");
+        if (usernameSection) {
+          const form = usernameSection.querySelector(".community-username-form");
+          const input = form.querySelector("input");
+          const button = form.querySelector("button");
+          const availability = form.querySelector(".community-username-availability");
+          const result = form.querySelector(".community-username-result");
+          const artist = isCommunityArtist();
+          if (artist) {
+            usernameSection.hidden = true; // Special artist identities are managed separately.
+          } else {
+            let nextEligible = null;
+            const formatDate = (iso) => new Intl.DateTimeFormat("en", {
+              dateStyle: "medium", timeStyle: "short"
+            }).format(new Date(iso));
+            const refreshEligibility = async () => {
+              try {
+                const { data, error } = await db.rpc("community_username_status");
+                if (error) throw error;
+                nextEligible = data?.next_eligible_at || null;
+                const canChange = data?.can_change === true;
+                availability.textContent = data?.message || (canChange
+                  ? "You can change your username now. After saving, the next change is available in 30 days."
+                  : `You can change your username again on ${formatDate(nextEligible)}.`);
+                button.disabled = !canChange;
+                input.disabled = !canChange;
+              } catch (error) {
+                console.error("Username eligibility:", error);
+                availability.textContent = "Username changes are temporarily unavailable. Please try again later.";
+                button.disabled = true;
+                input.disabled = true;
+              }
+            };
+            form.addEventListener("submit", async (event) => {
+              event.preventDefault();
+              const value = input.value.trim();
+              if (!/^[A-Za-z0-9_]{3,20}$/.test(value)) {
+                result.textContent = "Use 3–20 letters, numbers or underscores.";
+                return;
+              }
+              button.disabled = true;
+              input.disabled = true;
+              result.textContent = "Saving your username…";
+              try {
+                const { data, error } = await db.rpc("community_change_username", { p_new_username: value });
+                if (error) throw error;
+                if (!data?.success) {
+                  result.textContent = data?.message || "Unable to change username.";
+                  await refreshEligibility();
+                  return;
+                }
+                currentMember.displayName = data.username;
+                wrapper.querySelector(".community-account-name").textContent = data.username;
+                wrapper.querySelector("#communityModalTitle").textContent = `Welcome back, ${data.username} 🌸`;
+                storage.set(KEYS.profile, {
+                  displayName: data.username,
+                  avatar: currentMember.avatar,
+                  role: currentMember.role || "member",
+                  artistIdentity: currentMember.artistIdentity || ""
+                });
+                updateAuthUI();
+                input.value = "";
+                result.textContent = "Username updated! You can change it again in 30 days.";
+                await refreshEligibility();
+              } catch (error) {
+                console.error("Username change:", error);
+                result.textContent = "Could not update username. Please try again.";
+                await refreshEligibility();
+              }
+            });
+            void refreshEligibility();
           }
         }
 
