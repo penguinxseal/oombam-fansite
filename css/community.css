@@ -8551,184 +8551,29 @@ html[data-theme="dark"] body.page-community .garden-artist-link__icon,body.dark-
 @media(min-width:768px) and (max-width:1023px){.ob-birthday-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}.ob-birthday-credits{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-height:480px) and (orientation:landscape){.ob-birthday-modal{padding:5px}.ob-birthday-dialog{max-height:calc(100dvh - 10px)}.ob-birthday-header{padding-top:22px}}
 
-/* BUG-002A-02 — Artist inbox action polish (scoped; dark/light responsive) */
-.community-letter-reading__footer .community-artist-remove,
-.community-letter-reading__footer .community-artist-love {
-  appearance:none; display:inline-flex; align-items:center; justify-content:center;
-  min-height:40px; padding:9px 16px; border-radius:999px;
-  font:inherit; font-size:.85rem; font-weight:650; line-height:1.2;
-  cursor:pointer; transition:background .18s ease, border-color .18s ease, transform .18s ease;
-}
-.community-letter-reading__footer .community-artist-remove {
-  border:1px solid rgba(171,98,111,.3); background:rgba(187,107,120,.07); color:#995365;
-}
-.community-letter-reading__footer .community-artist-love {
-  border:1px solid rgba(202,112,145,.4); background:rgba(240,166,190,.17); color:#9a4867;
-}
-.community-letter-reading__footer .community-artist-remove:hover:not(:disabled),
-.community-letter-reading__footer .community-artist-love:hover:not(:disabled) {transform:translateY(-1px);background:rgba(238,167,190,.24)}
-.community-letter-reading__footer button:focus-visible {outline:3px solid #81b7d9;outline-offset:3px}
-.community-letter-reading__footer button:disabled {cursor:default;opacity:.65}
-html[data-theme="dark"] .community-letter-reading__footer .community-artist-remove,
-body.dark-theme .community-letter-reading__footer .community-artist-remove {color:#f3b7c4;border-color:rgba(243,183,196,.35)}
-html[data-theme="dark"] .community-letter-reading__footer .community-artist-love,
-body.dark-theme .community-letter-reading__footer .community-artist-love {color:#ffd2e1;border-color:rgba(255,210,225,.35)}
-@media(max-width:600px){.community-letter-reading__footer .community-artist-remove,.community-letter-reading__footer .community-artist-love{min-height:44px}.community-letter-reading__footer{gap:12px}}
+/* BUG-005 / FEAT-006 — isolated Community moderation and feedback styles */
+body.page-community .community-cta-actions {display:flex;flex-wrap:wrap;justify-content:flex-end;gap:12px;align-items:center}
+body.page-community .community-feedback-btn {background:transparent;border:1px solid #dc7097;color:#c95c86;border-radius:12px;padding:14px 20px;font:inherit;font-weight:650;cursor:pointer;min-height:48px}
+body.page-community.dark-theme .community-feedback-btn,html[data-theme="dark"] body.page-community .community-feedback-btn {color:#f1a1bd}
+body.page-community .community-feedback-btn:hover {background:rgba(220,112,151,.1)}
+.community-admin-panel {grid-template-rows:auto auto auto auto minmax(0,1fr)!important;row-gap:14px!important}
+.community-admin-panel .community-modal__intro {margin-bottom:0!important}
+.community-admin-panel .community-admin-summary {position:static!important;margin:0!important;line-height:1.5!important;transform:none!important}
+.community-admin-panel .community-admin-toolbar {position:static!important;margin:0!important}
+.community-admin-panel .community-admin-list {min-height:0;overflow-y:auto}
+.community-feedback-form {display:grid;gap:14px}
+.community-feedback-form label {display:block;font-size:.9rem;font-weight:600;margin-bottom:5px}
+.community-feedback-form select,.community-feedback-form textarea,.community-feedback-form input {box-sizing:border-box;width:100%;padding:12px;border:1px solid rgba(150,150,150,.4);border-radius:10px;background:var(--surface,transparent);color:inherit;font:inherit}
+.community-feedback-form textarea {min-height:130px;resize:vertical}
+.community-feedback-form .community-feedback-submit {background:#dc7097;color:white;border:0;border-radius:12px;padding:13px 18px;cursor:pointer;font:inherit;font-weight:700}
+.community-feedback-form .community-feedback-submit:disabled {opacity:.6;cursor:wait}
+.community-feedback-status {font-size:.86rem;min-height:1.5em}
+.community-feedback-record {border:1px solid rgba(125,116,108,.25);border-radius:14px;padding:14px;display:grid;gap:9px}
+.community-feedback-record p {margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.community-feedback-record small {opacity:.75}
+.community-feedback-record select {max-width:220px;padding:8px;border-radius:9px}
+@media(max-width:760px){body.page-community .community-cta-actions{justify-content:center;flex-direction:column;width:100%}body.page-community .community-cta-actions>button{width:100%;max-width:360px}.community-admin-panel{max-height:80vh!important}}
 
-/* November guest-only preview; existing member experience preserved. */
-.page-community .guest-chat-preview,.page-community .guest-wall-invite{display:none}
-.page-community.community-is-guest .guest-chat-preview{display:flex}
-.page-community.community-is-guest .guest-wall-invite{display:block}
-.page-community.community-is-guest .blossom-chat .chat-window,.page-community.community-is-guest .blossom-chat .chat-input,.page-community.community-is-guest .blossom-chat .chat-coming-soon{display:none!important}
-.page-community .guest-wall-invite{text-align:center;padding:18px 12px 4px}
-.page-community .guest-wall-invite strong{font-size:1rem}
-.page-community .guest-wall-invite p{opacity:.7;margin:8px 0 0;font-size:.9rem}
-.page-community .guest-chat-preview{flex-direction:column;gap:15px;padding:24px;border:1px solid rgba(207,157,189,.2);border-radius:22px;background:rgba(151,128,167,.045);min-height:350px}
-.page-community .guest-chat-preview__intro{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;margin-bottom:6px}
-.page-community .guest-chat-preview__intro>span{font-size:30px}
-.page-community .guest-chat-preview__intro strong{font-family:Georgia,serif;font-size:clamp(1.3rem,2vw,1.8rem)}
-.page-community .guest-chat-preview__intro p{max-width:340px;margin:0;opacity:.75;font-size:.9rem}
-.page-community .guest-chat-preview__bubble{align-self:flex-start;max-width:85%;padding:13px 16px;border-radius:17px 17px 17px 5px;background:rgba(224,153,183,.16);line-height:1.5}
-.page-community .guest-chat-preview__bubble--reply{align-self:flex-end;border-radius:17px 17px 5px 17px;background:rgba(130,186,222,.17)}
-.page-community .guest-chat-preview small{text-align:center;opacity:.65}
-.page-community .guest-chat-preview__join{align-self:center;cursor:pointer;border:1px solid rgba(228,137,170,.55);border-radius:999px;background:rgba(236,162,188,.17);color:inherit;font:inherit;font-weight:600;padding:12px 22px}
-.page-community .guest-chat-preview__join:hover,.page-community .guest-chat-preview__join:focus-visible{background:rgba(236,162,188,.28);outline-offset:3px}
-.page-community .ob-nav__link[data-nav-key="welcome"]{max-width:none;overflow:visible;text-overflow:clip;padding-right:12px}
-@media(max-width:760px){.page-community .guest-chat-preview{padding:17px;min-height:0}.page-community .guest-chat-preview__bubble{max-width:94%}.page-community .ob-mobile-nav__link[data-nav-key="welcome"]{overflow:visible;padding-right:12px}}
-
-/* =========================================================
-   OOMBAM FANSITE — Developed by: ObsocPH x Ben10 Admins
-   Developer/Maintainer: B9_Lalajoie_Emjoy
-   Community: OBSocPH
-   © 2026 OomBam Fansite Contributors.
-   UI-008 / UI-009: scoped November layout corrections.
-========================================================= */
-
-/* Guest chat: contain the invitation within the card, never overlap rules.
-   Only the guest state changes; signed-in chat sizing is preserved. */
-body.page-community.community-is-guest .blossom-chat {
-  height: auto !important;
-  min-height: 560px !important;
-  overflow: visible !important;
-}
-body.page-community.community-is-guest .blossom-chat .guest-chat-preview {
-  display: flex !important;
-  flex: 0 0 auto !important;
-  min-height: 0 !important;
-  height: auto !important;
-  overflow: visible !important;
-  box-sizing: border-box !important;
-  margin: 0 0 16px !important;
-  padding-bottom: 22px !important;
-}
-body.page-community.community-is-guest .guest-chat-preview__join {
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto !important;
-  position: static !important;
-  margin: 5px auto 0 !important;
-  min-height: 44px;
-  max-width: 100%;
-  text-align: center;
-  white-space: normal;
-  line-height: 1.35;
-}
-body.page-community.community-is-guest .blossom-chat .chat-rules {
-  position: static !important;
-  flex: 0 0 auto !important;
-  margin: 0 0 12px !important;
-  padding: 8px 12px 0 !important;
-  text-align: center;
-  line-height: 1.5;
-}
-@media (max-width: 760px) {
-  body.page-community.community-is-guest .blossom-chat {
-    min-height: 0 !important;
-  }
-  body.page-community.community-is-guest .blossom-chat .guest-chat-preview {
-    padding: 18px 14px 20px !important;
-  }
-}
-
-/* =========================================================
-   OOMBAM FANSITE — Developed by: ObsocPH x Ben10 Admins
-   Developer/Maintainer: B9_Lalajoie_Emjoy
-   Community: OBSocPH
-   © 2026 OomBam Fansite Contributors.
-   UI-010: Guest Blossom Wall / Chat visual alignment.
-========================================================= */
-
-/* Desktop: both guest panels form a matched row; signed-in chat untouched. */
-@media (min-width: 901px) {
-  body.page-community.community-is-guest .social-grid {
-    align-items: stretch !important;
-  }
-  body.page-community.community-is-guest .social-grid > .blossom-wall,
-  body.page-community.community-is-guest .social-grid > .blossom-chat {
-    height: 100% !important;
-    min-height: 0 !important;
-    box-sizing: border-box !important;
-    align-self: stretch !important;
-  }
-  body.page-community.community-is-guest .blossom-chat {
-    display: flex !important;
-    flex-direction: column !important;
-  }
-  body.page-community.community-is-guest .blossom-chat .chat-rules {
-    margin-top: auto !important;
-    padding-top: 14px !important;
-  }
-}
-
-/* Reduce visual weight and height of the guest-only illustrative preview. */
-body.page-community.community-is-guest .blossom-chat .guest-chat-preview {
-  gap: 10px !important;
-  padding: 17px 19px 16px !important;
-  margin-bottom: 10px !important;
-  min-height: 0 !important;
-}
-body.page-community.community-is-guest .guest-chat-preview__intro {
-  gap: 5px !important;
-  margin-bottom: 3px !important;
-}
-body.page-community.community-is-guest .guest-chat-preview__intro > span {
-  font-size: 23px !important;
-  line-height: 1.15 !important;
-}
-body.page-community.community-is-guest .guest-chat-preview__intro strong {
-  font-size: clamp(19px, 1.45vw, 24px) !important;
-  line-height: 1.22 !important;
-}
-body.page-community.community-is-guest .guest-chat-preview__intro p {
-  font-size: 14px !important;
-  line-height: 1.4 !important;
-}
-body.page-community.community-is-guest .guest-chat-preview__bubble {
-  font-size: 14px !important;
-  line-height: 1.4 !important;
-  padding: 10px 13px !important;
-}
-body.page-community.community-is-guest .guest-chat-preview > small {
-  font-size: 11px !important;
-  line-height: 1.4 !important;
-}
-body.page-community.community-is-guest .guest-chat-preview__join {
-  font-size: 14px !important;
-  padding: 10px 17px !important;
-  min-height: 42px !important;
-  margin: 3px auto 0 !important;
-}
-body.page-community.community-is-guest .guest-wall-invite {
-  padding-top: 12px !important;
-}
-@media (max-width: 900px) {
-  body.page-community.community-is-guest .social-grid > .blossom-wall,
-  body.page-community.community-is-guest .social-grid > .blossom-chat {
-    height: auto !important;
-    min-height: 0 !important;
-  }
-  body.page-community.community-is-guest .blossom-chat .guest-chat-preview {
-    padding: 17px 14px !important;
-  }
-}
+/* Avoid grid row collision in admin moderation modal */
+.community-admin-panel {display:flex!important;flex-direction:column!important;gap:14px!important;min-height:0!important;max-height:min(76vh,700px)!important}
+.community-admin-panel .community-admin-list {flex:1 1 auto!important;min-height:100px!important;max-height:none!important}
