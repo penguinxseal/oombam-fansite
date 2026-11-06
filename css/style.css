@@ -18597,3 +18597,31 @@ html[data-theme="dark"] body.page-home .ob-funds {
   .page-home .moments-carousel-shell .moments-magazine-strip { transition: none !important; }
   .page-home .moments-carousel-viewport { scroll-behavior: auto !important; }
 }
+
+
+/* =========================================================
+   FEAT-009C — HOMEPAGE DARK-MODE INNER PANEL CONSISTENCY
+   Exact original Blossoms / Updates dark surface: #111214.
+   Applies across desktop, tablet, mobile; light mode untouched.
+   Scope: main homepage section panels only (not inner cards).
+========================================================= */
+html[data-theme="dark"] body.page-home,
+body.dark-theme.page-home {
+  --ob-home-dark-panel: #111214;
+}
+
+html[data-theme="dark"] body.page-home .story-panel,
+html[data-theme="dark"] body.page-home .upcoming-panel,
+html[data-theme="dark"] body.page-home .moments-section,
+html[data-theme="dark"] body.page-home .media-home-section,
+html[data-theme="dark"] body.page-home .ob-funds,
+html[data-theme="dark"] body.page-home .blossoms-home-section,
+body.dark-theme.page-home .story-panel,
+body.dark-theme.page-home .upcoming-panel,
+body.dark-theme.page-home .moments-section,
+body.dark-theme.page-home .media-home-section,
+body.dark-theme.page-home .ob-funds,
+body.dark-theme.page-home .blossoms-home-section {
+  background: var(--ob-home-dark-panel) !important;
+  background-image: none !important;
+}
