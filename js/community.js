@@ -1933,8 +1933,10 @@
           try {
             const values = new FormData(form);
             await invokeFeedback({action:"submit",category:values.get("category"),details:values.get("details"),email:values.get("email"),pageUrl:window.location.origin+window.location.pathname,website:values.get("website")});
+            // Close only after the server confirms the report was saved.
+            // A failed request leaves the form and its contents available for retry.
             form.reset();
-            status.textContent = "Thank you! Your feedback has been submitted.";
+            closeModal();
           } catch (error) {
             status.textContent = error?.message || "Could not submit feedback. Please try again.";
           } finally { button.disabled = false; }
