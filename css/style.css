@@ -18625,3 +18625,16 @@ body.dark-theme.page-home .blossoms-home-section {
   background: var(--ob-home-dark-panel) !important;
   background-image: none !important;
 }
+
+/* =========================================================
+   FEAT-009D — OUR STORY DARK-MODE BACKGROUND SEAM FIX
+   The shared story-section wrapper retained the older #202228
+   surface beneath the new #111214 story-panel, creating a
+   visible strip at the bottom. Match the wrapper to the panel.
+   No sizing, radius, spacing or calendar behavior changes.
+========================================================= */
+html[data-theme="dark"] body.page-home .story-section,
+body.dark-theme.page-home .story-section {
+  background: #111214 !important;
+  --story-bg: #111214;
+}
