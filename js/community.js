@@ -213,7 +213,6 @@
       };
 
       const updateWelcomeNavigation = () => {
-        document.body.classList.toggle("community-is-guest", !currentSession?.user);
         const signedInName = currentSession?.user && currentMember?.displayName
           ? shortDisplayName(currentMember.displayName)
           : "";
@@ -1040,19 +1039,8 @@
       async function invokeCommunityModeration(body) {
         if (!hasSupabaseConfig) throw new Error("Community moderation service is not configured.");
         const { data, error } = await db.functions.invoke("community-moderation", { body });
-        if (error) {
-          let detail = null;
-          try { detail = await error.context?.json?.(); } catch (_) { /* non-JSON response */ }
-          const failure = new Error(detail?.error || error.message || "Community action failed.");
-          failure.code = detail?.code || "";
-          failure.status = error.context?.status || 0;
-          throw failure;
-        }
-        if (!data?.success) {
-          const failure = new Error(data?.error || "Community action failed.");
-          failure.code = data?.code || "";
-          throw failure;
-        }
+        if (error) throw error;
+        if (!data?.success) throw new Error(data?.error || "Community action failed.");
         return data;
       }
 
@@ -1305,37 +1293,18 @@
             if (result?.moderation !== "rejected") {
               rememberSubmission(KEYS.letterHistory, assessment.fingerprint);
             }
+            form.reset();
+            form._resetLetterEditor?.();
             const moderation = result?.moderation || "pending";
-            if (moderation === "rejected") {
-              showFormStatus(form, "This letter could not be submitted because it did not meet the Community Guidelines.", "error");
-            } else {
-              showFormStatus(form, moderation === "approved"
-                ? "Your letter has been received! 🌸"
-                : "Your letter has been received and is awaiting Community safety review. 🌸", "success");
-              form.querySelectorAll("input, select, textarea, [contenteditable], button").forEach(el => { el.disabled = true; if (el.hasAttribute("contenteditable")) el.setAttribute("contenteditable", "false"); });
-              window.setTimeout(() => {
-                if (!document.getElementById("communityModal")?.hidden && document.getElementById("communityModalBody")?.contains(wrapper)) closeModal();
-              }, 2000);
-            }
+            const message = moderation === "approved"
+              ? "Sent! 🌸 Your letter has been delivered."
+              : moderation === "rejected"
+                ? "This letter could not be submitted because it did not meet the Community Guidelines."
+                : "Submitted 🌸 Your letter passed the browser checks and is awaiting the Community safety service.";
+            showFormStatus(form, message, moderation === "rejected" ? "error" : "success");
           } catch (error) {
-            console.error("Fan Letter submission failed:", error);
-            if (error?.code === "letter_rate_limit" || error?.status === 429) {
-              const recipientName = payload.recipient === "OomBam" ? "OomBam" : payload.recipient;
-              showFormStatus(form, `You've already sent 3 letters to ${recipientName} within the rolling 24-hour limit. You can send another when a slot becomes available. You may still write to the other recipients if you have remaining allowances.`, "error");
-              const actions = form.querySelector(".community-form__actions");
-              if (actions) {
-                const gotIt = actions.querySelector("[data-quota-close]") || document.createElement("button");
-                gotIt.type = "button";
-                gotIt.className = "community-form__primary";
-                gotIt.dataset.quotaClose = "";
-                gotIt.textContent = "Got it 🌸";
-                gotIt.addEventListener("click", closeModal, { once: true });
-                actions.querySelector('[type="submit"]')?.setAttribute("hidden", "");
-                if (!gotIt.isConnected) actions.append(gotIt);
-              }
-            } else {
-              showFormStatus(form, error?.message || "We could not submit your letter right now. Please try again.", "error");
-            }
+            console.error(error);
+            showFormStatus(form, error?.message || "We could not submit your letter right now. Please try again.", "error");
           } finally {
             submit.disabled = false;
           }
@@ -1930,6 +1899,78 @@
         }
       }
 
+      /* FEAT-006 — Feedback submissions are private; server owns validation and persistence. */
+      const feedbackCategories = { issue: "Website Issue", feedback: "General Feedback", suggestion: "Suggestion" };
+      const feedbackStatuses = ["new", "under_review", "resolved", "closed"];
+      const invokeFeedback = async (body) => {
+        if (!hasSupabaseConfig) throw new Error("Feedback service is unavailable. Please try again later.");
+        const { data, error } = await db.functions.invoke("community-feedback", { body });
+        if (error) throw error;
+        if (!data?.success) throw new Error(data?.error || "Feedback request failed.");
+        return data;
+      };
+      const renderFeedbackForm = () => {
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = `
+          <p class="community-modal__eyebrow">COMMUNITY BLOSSOMS</p>
+          <h2 class="community-modal__title" id="communityModalTitle">Feedback & Issue Report</h2>
+          <p class="community-modal__intro">Help us improve OomBam Society. Reports are private and visible only to authorized admins.</p>
+          <form class="community-feedback-form" id="communityFeedbackForm">
+            <div><label for="feedbackCategory">Category</label><select id="feedbackCategory" name="category" required><option value="issue">Website Issue</option><option value="feedback">General Feedback</option><option value="suggestion">Suggestion</option></select></div>
+            <div><label for="feedbackDetails">Details</label><textarea id="feedbackDetails" name="details" maxlength="3000" minlength="10" required placeholder="Describe the issue or suggestion (at least 10 characters)"></textarea></div>
+            <div><label for="feedbackEmail">Email (optional)</label><input id="feedbackEmail" name="email" type="email" maxlength="254" autocomplete="email" placeholder="Only if you'd like a response" /></div>
+            <input name="website" type="text" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px" />
+            <p class="community-feedback-status" role="status" aria-live="polite"></p>
+            <button class="community-feedback-submit" type="submit">Submit Feedback</button>
+          </form>`;
+        const form = wrapper.querySelector("form");
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const button = form.querySelector("button[type=submit]");
+          const status = form.querySelector("[role=status]");
+          button.disabled = true;
+          status.textContent = "Submitting…";
+          try {
+            const values = new FormData(form);
+            await invokeFeedback({action:"submit",category:values.get("category"),details:values.get("details"),email:values.get("email"),pageUrl:window.location.origin+window.location.pathname,website:values.get("website")});
+            form.reset();
+            status.textContent = "Thank you! Your feedback has been submitted.";
+          } catch (error) {
+            status.textContent = error?.message || "Could not submit feedback. Please try again.";
+          } finally { button.disabled = false; }
+        });
+        openModal(wrapper);
+      };
+
+      const renderAdminFeedback = () => {
+        if (!isCommunityAdmin()) return;
+        const wrapper = document.createElement("div");
+        wrapper.className = "community-admin-panel";
+        wrapper.innerHTML = `<p class="community-modal__eyebrow">COMMUNITY ADMIN</p><h2 class="community-modal__title" id="communityModalTitle">Feedback & Issues</h2><p class="community-modal__intro">Private reports submitted by visitors and members.</p><p class="community-admin-summary" role="status">Loading reports…</p><div class="community-admin-list"></div>`;
+        const list = wrapper.querySelector(".community-admin-list");
+        const summary = wrapper.querySelector(".community-admin-summary");
+        const load = async () => {
+          list.replaceChildren();summary.textContent = "Loading reports…";
+          try {
+            const result = await invokeFeedback({action:"admin-list"});
+            const rows = result.reports || [];
+            summary.textContent = rows.length ? `${rows.length} most recent reports.` : "No feedback or issue reports yet.";
+            rows.forEach((item) => {
+              const card = document.createElement("article");card.className="community-feedback-record";
+              const heading = document.createElement("strong");heading.textContent=feedbackCategories[item.category]||"Feedback";
+              const meta=document.createElement("small");meta.textContent=[adminDate(item.created_at),item.email||"No contact email",item.page_url||""].filter(Boolean).join(" · ");
+              const body=document.createElement("p");body.textContent=item.details||"";
+              const status=document.createElement("select");status.setAttribute("aria-label","Report status");
+              feedbackStatuses.forEach(value=>{const option=document.createElement("option");option.value=value;option.textContent=value.replaceAll("_"," ");status.append(option);});
+              status.value=item.status;
+              status.addEventListener("change",async()=>{status.disabled=true;try{await invokeFeedback({action:"admin-status",id:item.id,status:status.value});}catch(e){window.alert(e?.message||"Update failed");status.value=item.status;}finally{status.disabled=false;}});
+              card.append(heading,meta,body,status);list.append(card);
+            });
+          } catch (error) {summary.textContent="Unable to load feedback.";const e=document.createElement("p");e.className="community-admin-error";e.textContent=error?.message||"Check admin access.";list.append(e);}
+        };
+        openModal(wrapper,{wide:true});load();
+      };
+
       document.addEventListener("click", (event) => {
         const actionEl = event.target.closest("[data-community-action]");
         if (!actionEl) return;
@@ -1941,12 +1982,9 @@
           requireParticipationAuth(() => renderLetterForm(recipient));
         }
         if (action === "message") requireParticipationAuth(() => renderMessageForm());
-        if (action === "guest-join") {
-          (document.getElementById("communityHeaderSignup") || document.getElementById("communityHeaderSignin"))?.click();
-          return;
-        }
         if (action === "view-wall") renderWallModal();
         if (action === "submit-menu") requireParticipationAuth(() => renderSubmitMenu());
+        if (action === "feedback") renderFeedbackForm();
       });
 
       chatInput?.addEventListener("focus", () => {
@@ -2440,8 +2478,7 @@
                 <div class="community-letter-reading__message"></div>
                 <footer class="community-letter-reading__footer">
                   <span>— ${safeText(letter.display_name || "Blossom",40)}${flag ? ` · ${flag}` : ""}</span>
-                  <button type="button" class="community-artist-remove" aria-label="Remove letter privately">✕ Remove</button>
-                   <button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button>
+                  <button type="button" class="community-artist-love" ${seen.has(letter.id) ? "disabled" : ""}>${seen.has(letter.id) ? "♥ Seen with Love" : "♡ Seen with Love"}</button>
                 </footer>
                 <p class="community-letter-reading__love-note" ${seen.has(letter.id) ? "" : "hidden"}>The sender will know you saw their letter. 🌸</p>
               </article>`;
@@ -2449,50 +2486,7 @@
             reader.classList.add("is-open");
             shell.classList.add("is-reading");
             wrapper.classList.add("is-reading");
-                         const remove = reader.querySelector(".community-artist-remove");
-             remove?.addEventListener("click", async () => {
-               if (!window.confirm("Remove this letter from your inbox? The sender will not be notified.")) return;
-               remove.disabled = true;
-               remove.textContent = "Removing…";
-               try {
-                 // Artist removal must use the current authenticated user's JWT.
-                 // Explicitly supply it rather than relying on an implicit Functions header.
-                 const removeLetterWithSession = async () => {
-                   const { data: sessionData, error: sessionError } = await db.auth.getSession();
-                   const token = sessionData?.session?.access_token;
-                   if (sessionError || !token) {
-                     throw new Error("Your session has expired. Please sign out and sign in again.");
-                   }
-                   const { data, error } = await db.functions.invoke("community-moderation", {
-                     body: { action: "artist-hide-letter", id: letter.id },
-                     headers: { Authorization: `Bearer ${token}` }
-                   });
-                   if (error) {
-                     let detail = null;
-                     try { detail = await error.context?.json(); } catch (_) {}
-                     const status = error.context?.status;
-                     if (status === 401) throw new Error("Your artist session is invalid. Please sign out and sign in again.");
-                     throw new Error(detail?.error || error.message || "Could not remove letter.");
-                   }
-                   if (!data?.success) throw new Error(data?.error || "Could not remove letter.");
-                   return data;
-                 };
-                 await removeLetterWithSession();
-                 button?.remove();
-                 reader.innerHTML = `<p class="community-artist-empty">Letter removed from your inbox. 🌸</p>`;
-                 reader.classList.remove("is-open");
-                 shell.classList.remove("is-reading");
-                 wrapper.classList.remove("is-reading");
-                 if (!list.querySelector(".community-mailbox__preview")) {
-                   shell.innerHTML = `<p class="community-artist-empty">No letters are waiting here yet. 🌸</p>`;
-                 }
-               } catch (err) {
-                 remove.disabled = false;
-                 remove.textContent = "Remove Letter";
-                 window.alert(safeText(err?.message || "Could not remove letter.", 180));
-               }
-             });
-const love = reader.querySelector(".community-artist-love");
+            const love = reader.querySelector(".community-artist-love");
             love?.addEventListener("click", async () => {
               love.disabled = true; love.textContent = "Sending love…";
               const { error: loveError } = await db.from("letter_artist_reactions").insert({ letter_id: letter.id, artist_user_id: currentSession.user.id, reaction: "seen_with_love" });
@@ -2541,7 +2535,7 @@ const love = reader.querySelector(".community-artist-love");
         wall: {
           table: "blossom_messages",
           label: "Blossom Wall",
-          select: "id, display_name, country_code, message, status, created_at"
+          select: "id, user_id, display_name, country_code, message, status, created_at"
         }
       };
 
@@ -2599,6 +2593,7 @@ const love = reader.querySelector(".community-artist-love");
         const flag = flagFromCountry(item.country_code || "");
         if (item.country_code) parts.push(`${safeText(item.country_code, 8)}${flag ? ` ${flag}` : ""}`);
         if (item.created_at) parts.push(adminDate(item.created_at));
+        if (item.user_id) parts.push(`Account: ${safeText(item.user_id, 40)}`);
         parts.forEach((value) => {
           const span = document.createElement("span");
           span.textContent = value;
@@ -2619,9 +2614,7 @@ const love = reader.querySelector(".community-artist-love");
         const actions = document.createElement("div");
         actions.className = "community-admin-actions";
         const actionDefs = [
-          ["Approve", "approved", "approve"],
-          ["Reject", "rejected", "reject"],
-          ["Move to Pending", "pending", "pending"]
+          ...(currentStatus === "pending" ? [["Approve", "approved", "approve"], ["Reject", "rejected", "reject"]] : [])
         ];
         actionDefs.forEach(([label, status, className]) => {
           if (currentStatus === status) return;
@@ -2645,7 +2638,7 @@ const love = reader.querySelector(".community-artist-love");
         });
 
 
-        if (kind === "wall" && currentStatus === "approved") {
+        if (kind === "wall" && ["pending", "rejected"].includes(currentStatus)) {
           const del = document.createElement("button");
           del.type = "button";
           del.className = "delete";
@@ -2677,11 +2670,12 @@ const love = reader.querySelector(".community-artist-love");
         wrapper.innerHTML = `
           <p class="community-modal__eyebrow">COMMUNITY ADMIN</p>
           <h2 class="community-modal__title" id="communityModalTitle">Moderation</h2>
-          <p class="community-modal__intro">Review public Blossom Wall submissions without leaving the Community page. Fan Letters are not available in Admin moderation.</p>
+          <p class="community-modal__intro">Review flagged Blossom Wall posts and monitor rejected submissions. Clean posts publish automatically and do not appear here.</p>
+          <button type="button" class="community-admin-filter" data-open-feedback-admin>Feedback & Issues</button>
           <div class="community-admin-toolbar">
             <div class="community-admin-filters" aria-label="Moderation status">
               <button class="community-admin-filter is-active" type="button" data-admin-status="pending">Pending</button>
-              <button class="community-admin-filter" type="button" data-admin-status="approved">Approved</button>
+              
               <button class="community-admin-filter" type="button" data-admin-status="rejected">Rejected</button>
             </div>
           </div>
@@ -2703,11 +2697,11 @@ const love = reader.querySelector(".community-artist-love");
           try {
             const data = await fetchAdminQueue(activeKind, activeStatus);
             const label = ADMIN_TABLES[activeKind].label;
-            summary.textContent = `${data.length} ${activeStatus} ${label.toLowerCase()} submission${data.length === 1 ? "" : "s"}.`;
+            summary.textContent = activeStatus === "pending" ? (data.length ? `${data.length} post${data.length === 1 ? "" : "s"} pending approval.` : "No posts pending approval.") : `${data.length} rejected post${data.length === 1 ? "" : "s"}.`;
             if (!data.length) {
               const empty = document.createElement("div");
               empty.className = "community-admin-empty";
-              empty.textContent = `No ${activeStatus} ${label.toLowerCase()} submissions right now.`;
+              empty.textContent = activeStatus === "pending" ? "All caught up! New posts requiring review will appear here." : "No rejected posts to review.";
               list.append(empty);
               return;
             }
@@ -2729,6 +2723,7 @@ const love = reader.querySelector(".community-artist-love");
           });
         });
 
+        wrapper.querySelector("[data-open-feedback-admin]")?.addEventListener("click",renderAdminFeedback);
         openModal(wrapper, { wide: true });
         load();
       };
@@ -2808,12 +2803,14 @@ const love = reader.querySelector(".community-artist-love");
         }
 
         try {
-          // site-auth.js loads first and owns the shared authentication client.
-          // Reusing it prevents concurrent refreshes against the same stored token.
-          db = window.OOMBAM_SHARED_SUPABASE_CLIENT || window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
-            auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: "implicit" }
+          db = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
+            auth: {
+              persistSession: true,
+              autoRefreshToken: true,
+              detectSessionInUrl: true,
+              flowType: "implicit"
+            }
           });
-          window.OOMBAM_SHARED_SUPABASE_CLIENT = db;
 
           // Register recovery detection before getSession(). Supabase can emit
           // PASSWORD_RECOVERY while it is processing the URL, so registering only
