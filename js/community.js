@@ -414,7 +414,7 @@
           <p class="community-modal__intro">Manage your community username.</p>
           <section class="community-username-settings" aria-labelledby="communityUsernameHeading">
             <h3 id="communityUsernameHeading">Change Username</h3>
-            <p>You may change your username once every 30 days. Your next change will be available 30 days after your most recent update.</p>
+            <p>During testing, you can change your username as often as needed.</p>
             <form class="community-username-form">
               <label for="communityNewUsername">New username</label>
               <input id="communityNewUsername" name="newUsername" type="text" minlength="3" maxlength="20" pattern="[A-Za-z0-9_]{3,20}" autocomplete="off" spellcheck="false" required placeholder="3–20 letters, numbers or underscores">
@@ -428,8 +428,8 @@
             <button class="community-form__secondary" type="button" data-community-close>Close</button>
           </div>`;
         wrapper.querySelector(".community-username-back")?.addEventListener("click", renderAuthAccount);
-        // FEAT-007: Account-only username changes. Supabase RPC enforces
-        // uniqueness and the rolling 30-day cooldown; UI checks are advisory.
+        // FEAT-007B: Account-only username changes. Supabase RPC enforces
+        // authentication and uniqueness; testing cooldown is disabled server-side.
         const usernameSection = wrapper.querySelector(".community-username-settings");
         if (usernameSection) {
           const form = usernameSection.querySelector(".community-username-form");
@@ -441,19 +441,14 @@
           if (artist) {
             usernameSection.hidden = true; // Special artist identities are managed separately.
           } else {
-            let nextEligible = null;
-            const formatDate = (iso) => new Intl.DateTimeFormat("en", {
-              dateStyle: "medium", timeStyle: "short"
-            }).format(new Date(iso));
             const refreshEligibility = async () => {
               try {
                 const { data, error } = await db.rpc("community_username_status");
                 if (error) throw error;
-                nextEligible = data?.next_eligible_at || null;
                 const canChange = data?.can_change === true;
                 availability.textContent = data?.message || (canChange
-                  ? "You can change your username now. After saving, the next change is available in 30 days."
-                  : `You can change your username again on ${formatDate(nextEligible)}.`);
+                  ? "Username changes are unrestricted during testing."
+                  : "Username changes are currently unavailable.");
                 button.disabled = !canChange;
                 input.disabled = !canChange;
               } catch (error) {
@@ -489,8 +484,10 @@
                   artistIdentity: currentMember.artistIdentity || ""
                 });
                 updateAuthUI();
+                void refreshWallPreview();
+                void loadChat();
                 input.value = "";
-                result.textContent = "Username updated! You can change it again in 30 days.";
+                result.textContent = "Username updated! Changes to your existing posts and letters will appear after refreshing.";
                 await refreshEligibility();
               } catch (error) {
                 console.error("Username change:", error);
