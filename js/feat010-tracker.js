@@ -17,11 +17,11 @@
   // Approximate page-load counts; not unique people or bot-resistant.
   const config = window.OOMBAM_COMMUNITY_CONFIG;
   if (!config?.supabaseUrl || !config?.supabaseAnonKey) return;
-  // One anonymous session identifier per tab; no account or personal data stored.
+  // Shared anonymous browser ID across pages and tabs; no account or personal data stored.
   const idKey = "feat010-visitor-id";
   const makeId = () => window.crypto?.randomUUID?.() || null;
   let visitorId = null;
-  try { visitorId = sessionStorage.getItem(idKey); if (!visitorId) { visitorId = makeId(); if (visitorId) sessionStorage.setItem(idKey, visitorId); } } catch (_) { visitorId = makeId(); }
+  try { visitorId = localStorage.getItem(idKey); if (!visitorId) { visitorId = makeId(); if (visitorId) localStorage.setItem(idKey, visitorId); } } catch (_) { visitorId = makeId(); }
   const endpoint = `${config.supabaseUrl}/rest/v1/rpc/`;
   const headers = { apikey: config.supabaseAnonKey, Authorization: `Bearer ${config.supabaseAnonKey}`, "Content-Type": "application/json" };
   const badge = document.createElement("span");
@@ -44,8 +44,16 @@
   update();
   window.setInterval(update, 30000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) update(); });
-  // One request per page load, with no user identity sent.
-  fetch(`${config.supabaseUrl}/rest/v1/rpc/feat010_record_visit`, {
+  // A visit means one active browser session; prevent navigation and multi-tab inflation.
+  const visitKey = "feat010-last-visit";
+  let shouldRecord = true;
+  try {
+    const now = Date.now();
+    const previous = Number(localStorage.getItem(visitKey) || 0);
+    shouldRecord = !previous || now - previous > 30 * 60 * 1000;
+    localStorage.setItem(visitKey, String(now));
+  } catch (_) { /* Storage unavailable: best-effort page-load tracking. */ }
+  if (shouldRecord) fetch(`${config.supabaseUrl}/rest/v1/rpc/feat010_record_visit`, {
     method: "POST",
     headers: {
       "apikey": config.supabaseAnonKey,
@@ -54,5 +62,5 @@
     },
     body: "{}",
     keepalive: true
-  }).catch(() => {}); // Analytics must never interfere with the homepage.
+  }).catch(() => {}); // Analytics must never interfere with the site.
 })();
