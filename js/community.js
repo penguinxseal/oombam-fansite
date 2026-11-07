@@ -2064,7 +2064,7 @@
         openModal(wrapper);
       };
 
-      const renderAdminFeedback = () => {
+      const renderAdminFeedback = (target = null) => {
         if (!isCommunityAdmin()) return;
         const wrapper = document.createElement("div");
         wrapper.className = "community-admin-panel";
@@ -2090,7 +2090,8 @@
             });
           } catch (error) {summary.textContent="Unable to load feedback.";const e=document.createElement("p");e.className="community-admin-error";e.textContent=error?.message||"Check admin access.";list.append(e);}
         };
-        openModal(wrapper,{wide:true});load();
+        if (target) { target.replaceChildren(wrapper); } else { openModal(wrapper,{wide:true}); }
+        load();
       };
 
       document.addEventListener("click", (event) => {
@@ -2784,7 +2785,7 @@
         return article;
       };
 
-      const renderAdminModeration = () => {
+      const renderAdminModerationContent = (target) => {
         if (!isCommunityAdmin()) return;
 
         const wrapper = document.createElement("div");
@@ -2793,7 +2794,7 @@
           <p class="community-modal__eyebrow">COMMUNITY ADMIN</p>
           <h2 class="community-modal__title" id="communityModalTitle">Moderation</h2>
           <p class="community-modal__intro">Review flagged Blossom Wall posts and monitor rejected submissions. Clean posts publish automatically and do not appear here.</p>
-          <button type="button" class="community-admin-filter" data-open-feedback-admin>Feedback & Issues</button>
+
           <div class="community-admin-toolbar">
             <div class="community-admin-filters" aria-label="Moderation status">
               <button class="community-admin-filter is-active" type="button" data-admin-status="pending">Pending</button>
@@ -2845,9 +2846,74 @@
           });
         });
 
-        wrapper.querySelector("[data-open-feedback-admin]")?.addEventListener("click",renderAdminFeedback);
-        openModal(wrapper, { wide: true });
+        target.replaceChildren(wrapper);
         load();
+      };
+
+
+      const renderAdminModeration = () => {
+        if (!isCommunityAdmin()) return;
+        const hub = document.createElement("div");
+        hub.className = "obs-admin-hub";
+        hub.innerHTML = `
+          <aside class="obs-admin-sidebar" aria-label="Admin Hub navigation">
+            <div class="obs-admin-brand">OomBam<br><span>Society ♡</span></div>
+            <div class="obs-admin-tag">COMMUNITY ADMIN</div>
+            <nav class="obs-admin-nav" aria-label="Admin sections">
+              <button type="button" class="is-active" data-hub-page="home">⌂ <span>Admin Hub</span></button>
+              <button type="button" data-hub-page="moderation">☏ <span>Moderation</span></button>
+              <button type="button" data-hub-page="visitors">▥ <span>Visitor Statistics</span></button>
+              <button type="button" data-hub-page="feedback">▤ <span>Feedback & Issues</span></button>
+            </nav>
+            <div class="obs-admin-mascots" aria-hidden="true">🐧 ♡ 🦭</div>
+          </aside>
+          <section class="obs-admin-main">
+            <header class="obs-admin-header">
+              <span class="obs-admin-shield" aria-hidden="true">♢</span>
+              <div><h2 id="communityModalTitle">Admin Hub</h2><p>Manage community activity and keep OomBam Society a safe and positive space.</p></div>
+            </header>
+            <div class="obs-admin-quicklinks">
+              <button type="button" data-hub-page="moderation"><span class="obs-admin-quick-icon">☏</span><span><strong>Moderation</strong><small>Review Blossom Wall posts</small></span><span aria-hidden="true">›</span></button>
+              <button type="button" data-hub-page="visitors"><span class="obs-admin-quick-icon">▥</span><span><strong>Visitor Statistics</strong><small>View live visitors and homepage counts</small></span><span aria-hidden="true">›</span></button>
+              <button type="button" data-hub-page="feedback"><span class="obs-admin-quick-icon">▤</span><span><strong>Feedback & Issues</strong><small>Check community reports</small></span><span aria-hidden="true">›</span></button>
+            </div>
+            <div class="obs-admin-content" id="obsAdminContent" aria-live="polite"></div>
+          </section>`;
+        const content = hub.querySelector("#obsAdminContent");
+        const quicklinks = hub.querySelector(".obs-admin-quicklinks");
+        const title = hub.querySelector(".obs-admin-header h2");
+        const subtitle = hub.querySelector(".obs-admin-header p");
+        const showVisitors = async () => {
+          content.innerHTML = `<div class="obs-admin-section-title"><h3>Visitor Statistics</h3><p>Approximate homepage page loads · UTC</p></div><div class="obs-admin-stats"><div><span>Online Now</span><strong data-online-now>—</strong></div><div><span>Visits Today</span><strong data-visit-today>—</strong></div><div><span>Total Visits</span><strong data-visit-total>—</strong></div></div><p class="obs-admin-stats-note" role="status">Loading statistics…</p>`;
+          try {
+            const { data, error } = await db.rpc("feat010_admin_summary");
+            if (error) throw error;
+            if (!content.isConnected || !content.querySelector("[data-visit-today]")) return;
+            const online = await db.rpc("feat010_online_count");
+            if (online.error) throw online.error;
+            content.querySelector("[data-online-now]").textContent = Number(online.data ?? 0).toLocaleString();
+            content.querySelector("[data-visit-today]").textContent = Number(data?.today ?? 0).toLocaleString();
+            content.querySelector("[data-visit-total]").textContent = Number(data?.total ?? 0).toLocaleString();
+            content.querySelector(".obs-admin-stats-note").textContent = "Counts begin when homepage tracking is deployed.";
+          } catch (error) {
+            const status = content.querySelector(".obs-admin-stats-note");
+            if (status) status.textContent = "Unable to load statistics. Please check your admin session.";
+            console.error("FEAT-010 statistics:", error);
+          }
+        };
+        const navigate = (page) => {
+          if (!isCommunityAdmin()) { closeModal(); return; }
+          hub.querySelectorAll(".obs-admin-nav button").forEach(button => button.classList.toggle("is-active", button.dataset.hubPage === page));
+          quicklinks.hidden = page !== "home";
+          title.textContent = page === "home" ? "Admin Hub" : page === "visitors" ? "Visitor Statistics" : page === "feedback" ? "Feedback & Issues" : "Moderation";
+          subtitle.textContent = page === "home" ? "Manage community activity and keep OomBam Society a safe and positive space." : "Community management · OomBam Society";
+          if (page === "visitors") showVisitors();
+          else if (page === "feedback") renderAdminFeedback(content);
+          else renderAdminModerationContent(content);
+        };
+        hub.querySelectorAll("[data-hub-page]").forEach(button => button.addEventListener("click", () => navigate(button.dataset.hubPage)));
+        openModal(hub, { wide: true });
+        navigate("home");
       };
 
 
