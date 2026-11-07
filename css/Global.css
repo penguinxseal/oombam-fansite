@@ -1,3 +1,17 @@
+/**
+ * OOMBAM FANSITE
+ * ------------------------------------------------
+ * Developed by: ObsocPH x Ben10 Admins
+ * Developer / Maintainer: B9
+ * Community: OomBam Society Philippines (OBSocPH)
+ *
+ * Independent, fan-made archive dedicated to
+ * celebrating Oom Eisaya and Bam Saralee.
+ *
+ * © 2026 OomBam Fansite Contributors
+ * ------------------------------------------------
+ */
+
 /* =========================================================
    OOMBAM FANSITE — GLOBAL SITE HEADER / NAVIGATION
    OB_00001.9 — responsive footer + homepage Blossom auth utility
@@ -2088,3 +2102,10 @@ html[data-theme="dark"] .page-home .blossoms-home-actions .blossoms-home-link {
   .ob-mobile-nav__link[data-nav-key="welcome"].ob-welcome-link { max-width:100%; display:flex; }
   .ob-mobile-nav__link[data-nav-key="welcome"] .ob-welcome-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 }
+
+/* FEAT-010: identical site-wide compact live indicator (header pages only). */
+.ob-header__actions .feat010-online-badge{display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;border:1px solid #e994be;border-radius:999px;padding:6px 10px;color:inherit;font-size:12px;font-weight:600;line-height:1;background:rgba(150,105,140,.06);pointer-events:none;flex-shrink:0}
+.feat010-online-badge svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
+.feat010-online-dot{width:8px;height:8px;background:#38d86b;border-radius:50%;box-shadow:0 0 6px rgba(56,216,107,.4)}
+@media(max-width:700px){.ob-header__actions .feat010-online-badge{padding:6px 8px;gap:5px;font-size:11px}.feat010-online-label{display:none}.feat010-online-badge svg{width:15px;height:15px}}
+@media(max-width:370px){.feat010-online-badge svg{display:none}}
