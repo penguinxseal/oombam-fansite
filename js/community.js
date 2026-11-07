@@ -2068,15 +2068,21 @@
         if (!isCommunityAdmin()) return;
         const wrapper = document.createElement("div");
         wrapper.className = "community-admin-panel";
-        wrapper.innerHTML = `<p class="community-modal__eyebrow">COMMUNITY ADMIN</p><h2 class="community-modal__title" id="communityModalTitle">Feedback & Issues</h2><p class="community-modal__intro">Private reports submitted by visitors and members.</p><p class="community-admin-summary" role="status">Loading reports…</p><div class="community-admin-list"></div>`;
+        wrapper.innerHTML = `<p class="community-modal__eyebrow">COMMUNITY ADMIN</p><h2 class="community-modal__title" id="communityModalTitle">Feedback & Issues</h2><p class="community-modal__intro">Private reports submitted by visitors and members.</p><div class="obs-feedback-toolbar"><button type="button" class="is-active" data-feedback-filter="active">Active</button><button type="button" data-feedback-filter="archived">Archived</button></div><p class="community-admin-summary" role="status">Loading reports…</p><div class="community-admin-list"></div>`;
         const list = wrapper.querySelector(".community-admin-list");
         const summary = wrapper.querySelector(".community-admin-summary");
+        let feedbackFilter = "active";
+        wrapper.querySelectorAll("[data-feedback-filter]").forEach(button => button.addEventListener("click", () => {
+          feedbackFilter = button.dataset.feedbackFilter;
+          wrapper.querySelectorAll("[data-feedback-filter]").forEach(b => b.classList.toggle("is-active", b === button));
+          load();
+        }));
         const load = async () => {
           list.replaceChildren();summary.textContent = "Loading reports…";
           try {
-            const result = await invokeFeedback({action:"admin-list"});
+            const result = await invokeFeedback({action:"admin-list",view:feedbackFilter});
             const rows = result.reports || [];
-            summary.textContent = rows.length ? `${rows.length} most recent reports.` : "No feedback or issue reports yet.";
+            summary.textContent = rows.length ? `${rows.length} ${feedbackFilter} reports.` : `No ${feedbackFilter} reports.`;
             rows.forEach((item) => {
               const card = document.createElement("article");card.className="community-feedback-record";
               const heading = document.createElement("strong");heading.textContent=feedbackCategories[item.category]||"Feedback";
@@ -2086,7 +2092,23 @@
               feedbackStatuses.forEach(value=>{const option=document.createElement("option");option.value=value;option.textContent=value.replaceAll("_"," ");status.append(option);});
               status.value=item.status;
               status.addEventListener("change",async()=>{status.disabled=true;try{await invokeFeedback({action:"admin-status",id:item.id,status:status.value});}catch(e){window.alert(e?.message||"Update failed");status.value=item.status;}finally{status.disabled=false;}});
-              card.append(heading,meta,body,status);list.append(card);
+              const actions = document.createElement("div"); actions.className = "obs-feedback-actions";
+              const archive = document.createElement("button"); archive.type = "button";
+              archive.textContent = feedbackFilter === "archived" ? "Restore" : "Archive";
+              archive.addEventListener("click", async () => {
+                archive.disabled = true;
+                try { await invokeFeedback({action:feedbackFilter === "archived" ? "admin-restore" : "admin-archive",id:item.id}); await load(); }
+                catch(e) { window.alert(e?.message || "Archive action failed"); archive.disabled = false; }
+              });
+              const remove = document.createElement("button"); remove.type = "button"; remove.className = "obs-feedback-delete"; remove.textContent = "Delete";
+              remove.addEventListener("click", async () => {
+                if (!window.confirm("Permanently delete this feedback report? This cannot be undone.")) return;
+                remove.disabled = true;
+                try { await invokeFeedback({action:"admin-delete",id:item.id}); await load(); }
+                catch(e) { window.alert(e?.message || "Delete failed"); remove.disabled = false; }
+              });
+              actions.append(archive,remove);
+              card.append(heading,meta,body,status,actions);list.append(card);
             });
           } catch (error) {summary.textContent="Unable to load feedback.";const e=document.createElement("p");e.className="community-admin-error";e.textContent=error?.message||"Check admin access.";list.append(e);}
         };
