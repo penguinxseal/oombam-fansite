@@ -8857,3 +8857,19 @@ body.page-community .obs-guest-chat-preview__footer { opacity: .8; }
 @keyframes feat012-pan{from{transform:translateX(0)}to{transform:translateX(calc(-1 * var(--feat012-travel,0px)))}}
 @media(max-width:500px){.feat012-garden .feat012-panel{padding:10px 12px}.feat012-heading h2{font-size:.93rem}.feat012-flag{width:40px;flex-basis:40px;height:38px;font-size:1.5rem}}
 @media(prefers-reduced-motion:reduce){.feat012-viewport .feat012-flags{animation:none!important}.feat012-flag{transition:none}}
+
+/* FEAT-012 compact country flag ribbon v2 — presentation only */
+.feat012-garden{margin-block:.45rem}
+.feat012-garden .feat012-panel{padding:10px 14px}
+.feat012-heading{margin-bottom:1px;gap:8px}
+.feat012-heading h2{font-size:clamp(.95rem,1.45vw,1.12rem);line-height:1.3}
+.feat012-heading>span{font-size:.72rem}
+.feat012-subtitle{font-size:.73rem;opacity:.7;margin:0 0 5px;line-height:1.3}
+.feat012-flags{min-height:25px;gap:9px}
+.feat012-flag,.feat012-flag:hover,.feat012-flag[aria-pressed="true"]{flex:0 0 auto;width:32px;height:23px;min-width:0;min-height:0;padding:1px;border:0;border-radius:2px;background:transparent;box-shadow:none;line-height:1;overflow:visible}
+.feat012-flag-image{display:block;width:30px;height:20px;object-fit:contain;pointer-events:none}
+.feat012-flag:hover .feat012-flag-image,.feat012-flag[aria-pressed="true"] .feat012-flag-image{filter:drop-shadow(0 1px 3px rgba(223,113,155,.6))}
+.feat012-flag:focus-visible{outline:2px solid #df719b;outline-offset:3px}
+.feat012-flag-fallback{width:auto;max-width:110px;height:auto;min-height:23px;font-size:.7rem;line-height:1.2;text-align:left}
+.feat012-detail{margin-top:4px;font-size:.72rem}
+@media(max-width:500px){.feat012-garden .feat012-panel{padding:9px 12px}.feat012-heading h2{font-size:.94rem}.feat012-flag{width:32px;height:23px;flex-basis:auto}.feat012-subtitle{font-size:.7rem}}
