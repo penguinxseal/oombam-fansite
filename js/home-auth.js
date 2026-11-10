@@ -81,6 +81,10 @@
       if (insertError) throw insertError;
       member = { userId:created.user_id, email:fallback.email, displayName:created.display_name, avatar:created.avatar || "🌸", countryCode:created.country_code || "" };
     }
+    const signupCountry=user.user_metadata?.country_code;
+    if(!member.countryCode && signupCountry && OOMBAM_FEAT012.valid(signupCountry)) {
+      try {await OOMBAM_FEAT012.save(db,user.id,signupCountry);member.countryCode=signupCountry;} catch(err){console.warn("Country preference",err);}
+    }
     saveProfile({ displayName:member.displayName, avatar:member.avatar });
     setKnown();
     return member;
@@ -107,6 +111,7 @@
   const closeModal = () => {
     const modal = document.getElementById("homeAuthModal");
     if (!modal || modal.hidden) return;
+    if(modal.querySelector(".feat012-home-prompt") && session?.user) OOMBAM_FEAT012.dismiss(session.user.id);
     modal.hidden = true;
     document.body.classList.remove("home-auth-modal-open");
   };
@@ -136,12 +141,31 @@
     if (!session?.user || !member) return renderAuth("signin");
     const wrap = document.createElement("div");
     wrap.innerHTML = `<p class="home-auth-eyebrow">BLOSSOM ACCOUNT</p><h2 class="home-auth-title" id="homeAuthTitle">Welcome back, ${safe(member.displayName,30)} 🌸</h2><p class="home-auth-intro">Your Blossom Community account is active.</p><div class="home-auth-account"><span>Email</span><strong class="email"></strong><span>Display name</span><strong class="name"></strong></div><div class="home-auth-actions"><button class="home-auth-secondary" type="button" data-home-auth-close>Close</button><button class="home-auth-primary signout" type="button">Sign Out</button></div>`;
+    const picker=OOMBAM_FEAT012.selector(member.countryCode);
+    const slot=document.createElement("div");slot.className="feat012-home-account";
+    slot.append(picker.element);
+    const save=document.createElement("button");save.type="button";save.className="home-auth-secondary";save.textContent="Save Country";
+    const feedback=document.createElement("p");feedback.setAttribute("role","status");slot.append(save,feedback);
+    wrap.querySelector(".home-auth-account").after(slot);
+    save.addEventListener("click",async()=>{save.disabled=true;try{await OOMBAM_FEAT012.save(db,session.user.id,picker.getValue());member.countryCode=picker.getValue();OOMBAM_FEAT012.dismiss(session.user.id);feedback.textContent="Country saved 🌸";}catch(err){feedback.textContent=err.message||"Could not save country";}finally{save.disabled=false;}});
     wrap.querySelector(".email").textContent=member.email;
     wrap.querySelector(".name").textContent=member.displayName;
     wrap.querySelector(".signout").addEventListener("click", async (e)=>{ const b=e.currentTarget;b.disabled=true;try{const{error}=await db.auth.signOut();if(error)throw error;session=null;member=null;updateControls();closeModal();}catch(err){b.disabled=false;} });
     openModal(wrap);
   };
 
+  const maybePromptCountry = () => {
+    if(!session?.user || !member || member.countryCode || OOMBAM_FEAT012.dismissed(session.user.id)) return;
+    const existing=document.getElementById("homeAuthModal");
+    if(existing && !existing.hidden) return;
+    const w=document.createElement("div");
+    w.innerHTML=`<p class="home-auth-eyebrow">OUR GLOBAL BLOSSOM GARDEN</p><h2 class="home-auth-title" id="homeAuthTitle">🌍 Where Are You Blooming From?</h2><p class="home-auth-intro">Your country is optional and can be changed in Account Settings.</p><div class="feat012-home-prompt"></div><p class="home-auth-status" role="status"></p><div class="home-auth-actions"><button class="home-auth-secondary later" type="button">Maybe Later</button><button class="home-auth-primary save" type="button">Save My Country 🌸</button></div>`;
+    const picker=OOMBAM_FEAT012.selector();w.querySelector(".feat012-home-prompt").append(picker.element);
+    w.querySelector(".later").addEventListener("click",()=>{OOMBAM_FEAT012.dismiss(session.user.id);closeModal()});
+    w.querySelector(".save").addEventListener("click",async e=>{const b=e.currentTarget;b.disabled=true;try{await OOMBAM_FEAT012.save(db,session.user.id,picker.getValue());member.countryCode=picker.getValue();OOMBAM_FEAT012.dismiss(session.user.id);closeModal();}catch(err){status(w,err.message||"Could not save country","error");b.disabled=false;}});
+    openModal(w);
+  };
+  const recordActivity = async () => {if(session?.user && db) try {await db.rpc("feat012_touch_activity");}catch(_){}};
   const renderForgot = (prefill="") => {
     const wrap=document.createElement("div");
     wrap.innerHTML=`<p class="home-auth-eyebrow">BLOSSOM ACCOUNT</p><h2 class="home-auth-title" id="homeAuthTitle">Reset your password</h2><p class="home-auth-intro">Enter your account email and we’ll send password reset instructions.</p><form class="home-auth-form"><label>Email address<input name="email" type="email" required value="${safe(prefill,120).replace(/"/g,"&quot;")}"></label><p class="home-auth-status" aria-live="polite"></p><div class="home-auth-actions"><button class="home-auth-secondary" type="button" data-home-auth-close>Cancel</button><button class="home-auth-primary" type="submit">Send Reset Email</button></div></form>`;
@@ -153,13 +177,14 @@
       const w=document.createElement("div");w.innerHTML=`<p class="home-auth-eyebrow">BLOSSOM COMMUNITY</p><h2 class="home-auth-title" id="homeAuthTitle">Community access unavailable</h2><p class="home-auth-intro">We could not connect to Blossom Community Access right now. Please refresh and try again.</p><div class="home-auth-actions"><button class="home-auth-primary" data-home-auth-close type="button">Close</button></div>`;return openModal(w);
     }
     const w=document.createElement("div");
-    w.innerHTML=`<p class="home-auth-eyebrow">BLOSSOM COMMUNITY ACCESS</p><h2 class="home-auth-title" id="homeAuthTitle">Grow with us 🌸</h2><p class="home-auth-intro intro"></p><div class="home-auth-tabs" role="tablist"><button class="home-auth-tab" data-mode="signup" type="button">Join Community</button><button class="home-auth-tab" data-mode="signin" type="button">Sign In</button></div><form class="home-auth-form"><label>Email address<input name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" required placeholder="you@example.com"></label><label class="signup-only">Display name<input name="displayName" maxlength="30" autocomplete="nickname" placeholder="e.g. Blossom PH"></label><label>Password<span class="home-password-field"><input name="password" type="password" minlength="8" maxlength="128" required><button class="home-password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button></span></label><div class="home-auth-guidance signup-only"><p><strong>Password:</strong> 8+ characters with lowercase, uppercase, a number, and a symbol.</p><p>Your email stays private and is never shown on Community posts.</p><p>After joining, confirm your Blossom account from the email we send within <strong>10 minutes</strong>.</p></div><button class="home-auth-forgot" type="button">Forgot password?</button><p class="home-auth-status" aria-live="polite"></p><div class="home-auth-actions"><button class="home-auth-secondary" type="button" data-home-auth-close>Cancel</button><button class="home-auth-primary submit" type="submit"></button></div></form>`;
+    w.innerHTML=`<p class="home-auth-eyebrow">BLOSSOM COMMUNITY ACCESS</p><h2 class="home-auth-title" id="homeAuthTitle">Grow with us 🌸</h2><p class="home-auth-intro intro"></p><div class="home-auth-tabs" role="tablist"><button class="home-auth-tab" data-mode="signup" type="button">Join Community</button><button class="home-auth-tab" data-mode="signin" type="button">Sign In</button></div><form class="home-auth-form"><label>Email address<input name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" required placeholder="you@example.com"></label><label class="signup-only">Display name<input name="displayName" maxlength="30" autocomplete="nickname" placeholder="e.g. Blossom PH"></label><div class="signup-only feat012-home-slot"></div><label>Password<span class="home-password-field"><input name="password" type="password" minlength="8" maxlength="128" required><button class="home-password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button></span></label><div class="home-auth-guidance signup-only"><p><strong>Password:</strong> 8+ characters with lowercase, uppercase, a number, and a symbol.</p><p>Your email stays private and is never shown on Community posts.</p><p>After joining, confirm your Blossom account from the email we send within <strong>10 minutes</strong>.</p></div><button class="home-auth-forgot" type="button">Forgot password?</button><p class="home-auth-status" aria-live="polite"></p><div class="home-auth-actions"><button class="home-auth-secondary" type="button" data-home-auth-close>Cancel</button><button class="home-auth-primary submit" type="submit"></button></div></form>`;
     const form=w.querySelector("form"), intro=w.querySelector(".intro"), submit=w.querySelector(".submit"), forgot=w.querySelector(".home-auth-forgot"), dn=form.elements.displayName, pw=form.elements.password;
+    const signupPicker=OOMBAM_FEAT012.selector();w.querySelector(".feat012-home-slot").append(signupPicker.element);
     wirePasswordToggles(w);
     let mode=initial==="signin"?"signin":"signup";
     const setMode=(m)=>{mode=m==="signin"?"signin":"signup";w.querySelectorAll("[data-mode]").forEach(b=>b.classList.toggle("is-active",b.dataset.mode===mode));w.querySelectorAll(".signup-only").forEach(el=>el.hidden=mode!=="signup");dn.required=mode==="signup";forgot.hidden=mode!=="signin";pw.autocomplete=mode==="signup"?"new-password":"current-password";pw.placeholder=mode==="signup"?"Create a secure password":"Enter your password";submit.textContent=mode==="signup"?"Join Community 🌸":"Sign In 🌸";submit.classList.toggle("is-signin",mode==="signin");intro.textContent=mode==="signup"?"Join the community to send letters, leave Blossom Wall messages, and take part in Blossom Chat.":"Welcome back, Blossom. Sign in to continue sharing, chatting, and growing with the community.";status(form);};
     w.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode)));forgot.addEventListener("click",()=>renderForgot(form.elements.email.value));
-    form.addEventListener("submit",async e=>{e.preventDefault();const fd=new FormData(form), email=safe(fd.get("email"),120).toLowerCase(), displayName=safe(fd.get("displayName"),30), password=String(fd.get("password")||"");if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return status(form,"Please enter a valid email address.","error");if(mode==="signup"&&!displayName)return status(form,"Please choose a display name.","error");if(mode==="signup"&&!validPassword(password))return status(form,"Password must have 8+ characters with lowercase, uppercase, a number, and a symbol.","error");submit.disabled=true;status(form,mode==="signup"?"Creating your Blossom account…":"Signing you in…");try{if(mode==="signup"){const{data,error}=await withTimeout(db.auth.signUp({email,password,options:{emailRedirectTo: confirmationRedirectUrl(),data:{display_name:displayName,avatar:"🌸"}}}),12000,"Sign up is taking longer than expected.");if(error)throw error;setKnown();setPending({email,displayName,createdAt:Date.now()});if(data.session?.user){session=data.session;await ensureProfile(data.session.user);clearPending();updateControls();closeModal();}else renderSignupSuccess(email);}else{const{data,error}=await withTimeout(db.auth.signInWithPassword({email,password}),12000,"Sign in is taking longer than expected.");if(error)throw error;session=data.session;setKnown();await ensureProfile(data.user);updateControls();closeModal();}}catch(err){status(form,safe(err.message||"We could not complete that request.",220),"error");}finally{submit.disabled=false;}});
+    form.addEventListener("submit",async e=>{e.preventDefault();const fd=new FormData(form), email=safe(fd.get("email"),120).toLowerCase(), displayName=safe(fd.get("displayName"),30), password=String(fd.get("password")||"");if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return status(form,"Please enter a valid email address.","error");if(mode==="signup"&&!displayName)return status(form,"Please choose a display name.","error");if(mode==="signup"&&!validPassword(password))return status(form,"Password must have 8+ characters with lowercase, uppercase, a number, and a symbol.","error");submit.disabled=true;status(form,mode==="signup"?"Creating your Blossom account…":"Signing you in…");try{if(mode==="signup"){const{data,error}=await withTimeout(db.auth.signUp({email,password,options:{emailRedirectTo: confirmationRedirectUrl(),data:{display_name:displayName,avatar:"🌸",country_code:signupPicker.getValue()||null}}}),12000,"Sign up is taking longer than expected.");if(error)throw error;setKnown();setPending({email,displayName,createdAt:Date.now()});if(data.session?.user){session=data.session;await ensureProfile(data.session.user);clearPending();updateControls();closeModal();}else renderSignupSuccess(email);}else{const{data,error}=await withTimeout(db.auth.signInWithPassword({email,password}),12000,"Sign in is taking longer than expected.");if(error)throw error;session=data.session;setKnown();await ensureProfile(data.user);updateControls();closeModal();recordActivity();setTimeout(maybePromptCountry,400);}}catch(err){status(form,safe(err.message||"We could not complete that request.",220),"error");}finally{submit.disabled=false;}});
     setMode(mode);openModal(w);
   };
 
@@ -183,7 +208,8 @@
       session=data.session || null;
       if(session?.user) await ensureProfile(session.user);
       ready=true; updateControls();
-      db.auth.onAuthStateChange(async (_event,newSession)=>{session=newSession||null;if(session?.user){try{await ensureProfile(session.user);}catch(err){console.error(err);}}else member=null;ready=true;updateControls();});
+      recordActivity();setTimeout(maybePromptCountry,900);
+      db.auth.onAuthStateChange(async (_event,newSession)=>{session=newSession||null;if(session?.user){try{await ensureProfile(session.user);}catch(err){console.error(err);}}else member=null;ready=true;updateControls();if(session?.user){recordActivity();setTimeout(maybePromptCountry,900);}});
     } catch(err) { console.error("Homepage Blossom Auth:",err); failed=true; ready=true; updateControls(); }
   };
   init();
