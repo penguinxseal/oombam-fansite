@@ -8873,3 +8873,41 @@ body.page-community .obs-guest-chat-preview__footer { opacity: .8; }
 .feat012-flag-fallback{width:auto;max-width:110px;height:auto;min-height:23px;font-size:.7rem;line-height:1.2;text-align:left}
 .feat012-detail{margin-top:4px;font-size:.72rem}
 @media(max-width:500px){.feat012-garden .feat012-panel{padding:9px 12px}.feat012-heading h2{font-size:.94rem}.feat012-flag{width:32px;height:23px;flex-basis:auto}.feat012-subtitle{font-size:.7rem}}
+
+/* FEAT-012 launch refinement: slim flag ribbon, details only on selection. */
+.feat012-garden{margin-block:.35rem!important}
+.feat012-garden .feat012-panel{position:relative;padding:8px 12px!important;overflow:visible!important}
+.feat012-heading{margin:0!important;gap:8px;align-items:center}
+.feat012-heading h2{font-size:clamp(.93rem,1.5vw,1.12rem)!important;line-height:1.25}
+.feat012-country-count{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-size:.72rem;opacity:.78}
+.feat012-globe{font-size:1rem;line-height:1}
+.feat012-subtitle{margin:1px 0 4px!important;font-size:.72rem!important;line-height:1.2!important}
+.feat012-viewport{min-height:21px;overflow-x:auto;overflow-y:hidden}
+.feat012-flags{min-height:21px!important;gap:9px!important}
+.feat012-flag,.feat012-flag:hover,.feat012-flag[aria-pressed="true"]{width:30px!important;height:20px!important;min-width:30px!important;min-height:20px!important;padding:0!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important}
+.feat012-flag-image{width:30px!important;height:20px!important;object-fit:cover!important}
+.feat012-detail:not([hidden]){position:absolute;left:12px;top:calc(100% - 2px);z-index:20;max-width:min(320px,calc(100vw - 48px));padding:7px 10px;margin:0;border:1px solid color-mix(in srgb,currentColor 15%,transparent);border-radius:9px;background:var(--surface,#fff);box-shadow:0 6px 18px rgba(0,0,0,.12);font-size:.74rem;opacity:1}
+.feat012-detail[hidden]{display:none!important}
+@media(max-width:500px){.feat012-garden .feat012-panel{padding:8px 10px!important}.feat012-heading h2{font-size:.92rem!important}.feat012-detail:not([hidden]){left:10px}}
+
+/* FEAT-012: consistent flag alignment without stretching national flag proportions. */
+.feat012-garden .feat012-flag,
+.feat012-garden .feat012-flag:hover,
+.feat012-garden .feat012-flag[aria-pressed="true"] {
+  display: inline-flex !important;
+  flex: 0 0 30px !important;
+  width: 30px !important;
+  height: 20px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+.feat012-garden .feat012-flag-image {
+  display: block !important;
+  width: 30px !important;
+  height: 20px !important;
+  max-width: 30px !important;
+  max-height: 20px !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
