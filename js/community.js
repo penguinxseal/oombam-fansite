@@ -3153,24 +3153,49 @@
 
       const loadBlossomGarden = async () => {
         const target=document.getElementById("feat012GardenResults");
+        const viewport=document.getElementById("feat012GardenViewport");
+        const detail=document.getElementById("feat012CountryDetail");
+        const countryTotal=document.getElementById("feat012Countries");
         if (!target || !db) return;
         try {
           const {data,error}=await db.rpc("feat012_country_stats");
           if(error) throw error;
           const rows=Array.isArray(data)?data:[];
           const totals=rows.find(r=>r.country_code==="__TOTAL__");
-          document.getElementById("feat012Countries").textContent=totals?.countries_count ?? "0";
-          document.getElementById("feat012Registered").textContent=totals?.registered_count ?? "0";
-          document.getElementById("feat012Active").textContent=totals?.active_count ?? "0";
+          const represented=rows.filter(r=>/^[A-Z]{2}$/.test(r.country_code||"") && OOMBAM_FEAT012.valid(r.country_code));
+          countryTotal.textContent=`${totals?.countries_count ?? represented.length} ${Number(totals?.countries_count ?? represented.length)===1?"country":"countries"}`;
           target.replaceChildren();
-          for(const r of rows.filter(r=>r.country_code!=="__TOTAL__")) {
-            const line=document.createElement("div");line.className="feat012-row";
-            const title=document.createElement("span");title.textContent=r.country_code==="__OTHER__"?"🌏 Other countries":`${OOMBAM_FEAT012.flag(r.country_code)} ${OOMBAM_FEAT012.name(r.country_code)}`;
-            const count=document.createElement("span");count.textContent=`${r.registered_count} registered · ${r.active_count} active`;
-            line.append(title,count);target.append(line);
+          detail.hidden=true;
+          for(const r of represented){
+            const button=document.createElement("button");
+            button.type="button";button.className="feat012-flag";
+            const country=OOMBAM_FEAT012.name(r.country_code);
+            button.textContent=OOMBAM_FEAT012.flag(r.country_code);
+            button.setAttribute("aria-label",country);
+            button.title=country;
+            button.addEventListener("click",()=>{
+              const isSelected=button.getAttribute("aria-pressed")==="true";
+              target.querySelectorAll(".feat012-flag").forEach(el=>el.setAttribute("aria-pressed","false"));
+              if(isSelected){detail.hidden=true;return;}
+              button.setAttribute("aria-pressed","true");
+              detail.textContent=`${country} · ${r.registered_count} registered · ${r.active_count} active (30d)`;
+              detail.hidden=false;
+            });
+            target.append(button);
           }
-          if(!target.childElementCount) target.textContent="Our global garden is ready for its first Blossoms 🌸";
-        } catch(err){target.textContent="Global Blossom statistics are temporarily unavailable.";console.warn("FEAT-012",err);}
+          if(!represented.length){target.textContent="The first country flag will bloom here 🌸";target.classList.add("feat012-empty");}
+          else target.classList.remove("feat012-empty");
+          // Animate only when the flags overflow. Native scrolling remains available.
+          const refreshMotion=()=>{
+            const overflow=target.scrollWidth>viewport.clientWidth+3;
+            const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            viewport.classList.toggle("feat012-moving",overflow&&!reduced);
+            viewport.style.setProperty("--feat012-travel",`${Math.max(0,target.scrollWidth-viewport.clientWidth)}px`);
+            viewport.style.setProperty("--feat012-duration",`${Math.max(10,represented.length*2.5)}s`);
+          };
+          requestAnimationFrame(refreshMotion);
+          window.addEventListener("resize",refreshMotion,{passive:true});
+        } catch(err){target.textContent="Country flags are temporarily unavailable.";console.warn("FEAT-012",err);}
       };
       const recordBlossomActivity = async () => {
         if(!db || !currentSession?.user) return;
