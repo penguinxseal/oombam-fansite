@@ -3170,7 +3170,21 @@
             const button=document.createElement("button");
             button.type="button";button.className="feat012-flag";
             const country=OOMBAM_FEAT012.name(r.country_code);
-            button.textContent=OOMBAM_FEAT012.flag(r.country_code);
+            // Use real flag artwork; Windows browsers often render emoji flags as letter codes.
+            const img=document.createElement("img");
+            img.className="feat012-flag-image";
+            img.src=`https://flagcdn.com/w40/${r.country_code.toLowerCase()}.png`;
+            img.alt="";
+            img.width=30;
+            img.height=20;
+            img.loading="lazy";
+            img.decoding="async";
+            img.addEventListener("error",()=>{
+              // Keep a readable, non-letter-code fallback if the image CDN fails.
+              button.textContent=country;
+              button.classList.add("feat012-flag-fallback");
+            },{once:true});
+            button.append(img);
             button.setAttribute("aria-label",country);
             button.title=country;
             button.addEventListener("click",()=>{
