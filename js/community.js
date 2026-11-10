@@ -1852,6 +1852,39 @@
         chatWindow.scrollTop = chatWindow.scrollHeight;
       }
 
+      // Public guest-only illustration: never reads or displays member chat data.
+      function renderGuestChatPreview() {
+        if (!chatWindow || !AUTH_REQUIRED || isSignedIn()) return;
+        const shell = document.createElement("section");
+        shell.className = "obs-guest-chat-preview";
+        shell.setAttribute("aria-label", "Blossom Chat guest preview");
+        const symbol = document.createElement("span");
+        symbol.className = "obs-guest-chat-preview__icon";
+        symbol.setAttribute("aria-hidden", "true");
+        symbol.textContent = "🌸";
+        const heading = document.createElement("h3");
+        heading.textContent = "Every Blossom has a place here";
+        const intro = document.createElement("p");
+        intro.textContent = "A cozy space to share OomBam excitement, meet fellow Blossoms, and celebrate little moments together.";
+        const sample = document.createElement("div");
+        sample.className = "obs-guest-chat-preview__sample";
+        const caption = document.createElement("span");
+        caption.className = "obs-guest-chat-preview__caption";
+        caption.textContent = "Sample conversation · Illustration only";
+        const bubble1 = document.createElement("p");
+        bubble1.className = "obs-guest-chat-preview__bubble";
+        bubble1.textContent = "🌸 Anyone excited for the next OomBam event?";
+        const bubble2 = document.createElement("p");
+        bubble2.className = "obs-guest-chat-preview__bubble obs-guest-chat-preview__bubble--reply";
+        bubble2.textContent = "💗 Always! Can't wait to celebrate together!";
+        const footer = document.createElement("p");
+        footer.className = "obs-guest-chat-preview__footer";
+        footer.textContent = "Sign in or create an account to join the real conversation.";
+        sample.append(caption, bubble1, bubble2);
+        shell.append(symbol, heading, intro, sample, footer);
+        chatWindow.replaceChildren(shell);
+      }
+
       async function loadChat() {
         if (!chatWindow) return;
 
@@ -2928,21 +2961,72 @@
         const title = hub.querySelector(".obs-admin-header h2");
         const subtitle = hub.querySelector(".obs-admin-header p");
         const showVisitors = async () => {
-          content.innerHTML = `<div class="obs-admin-section-title"><h3>Visitor Statistics</h3><p>Approximate homepage page loads · UTC</p></div><div class="obs-admin-stats"><div><span>Online Now</span><strong data-online-now>—</strong></div><div><span>Visits Today</span><strong data-visit-today>—</strong></div><div><span>Total Visits</span><strong data-visit-total>—</strong></div></div><p class="obs-admin-stats-note" role="status">Loading statistics…</p>`;
+          content.innerHTML = `<div class="obs-admin-section-title"><h3>Visitor Analytics</h3><p>Philippine time (Asia/Manila) · FEAT-011 data begins at activation</p></div>
+            <div class="obs-admin-stats feat011-stats">
+              <div><span>Online Now</span><strong data-online-now>—</strong></div>
+              <div><span>Visits Today</span><strong data-visit-today>—</strong></div>
+              <div><span>Page Views Today</span><strong data-views-today>—</strong></div>
+              <div><span>Estimated Browsers Today</span><strong data-browsers-today>—</strong></div>
+              <div><span>Total Visits</span><strong data-visit-total>—</strong></div>
+            </div>
+            <div class="feat011-controls"><label for="feat011-range">Trend range</label><select id="feat011-range"><option value="7">Last 7 days</option><option value="30">Last 30 days</option></select></div>
+            <div class="feat011-panel"><h4>Visitor trends</h4><div class="feat011-chart" data-trends></div><p class="feat011-legend">■ Visits &nbsp; ■ Page views</p></div>
+            <div class="feat011-panel"><h4>Top public pages (last 30 days)</h4><div data-top-pages></div></div>
+            <p class="obs-admin-stats-note" role="status">Loading analytics…</p>`;
+          const status = content.querySelector(".obs-admin-stats-note");
+          const format = n => Number(n ?? 0).toLocaleString();
+          const names = {home:"Homepage",oom:"Oom",bam:"Bam",community:"Community","just-the-two-of-us":"Just the Two of Us","community-guidelines":"Community Guidelines","submission-guidelines":"Submission Guidelines"};
+          const renderTrends = (days, range) => {
+            const holder = content.querySelector("[data-trends]");
+            if (!holder) return;
+            const entries = days.slice(-range);
+            if (!entries.length) { holder.textContent = "No data yet."; return; }
+            const max = Math.max(1, ...entries.flatMap(d => [Number(d.visits)||0,Number(d.views)||0]));
+            const columns = entries.map(d => {
+              const bar = document.createElement("div"); bar.className = "feat011-chart-day";
+              bar.title = `${d.day}: ${d.visits} visits, ${d.views} views`;
+              const bars = document.createElement("div"); bars.className = "feat011-chart-bars";
+              for (const [kind,value] of [["visits",d.visits],["views",d.views]]) {
+                const node = document.createElement("span"); node.className = `feat011-bar feat011-bar--${kind}`;
+                node.style.height = `${Math.max(2,100 * Number(value||0)/max)}%`;
+                bars.append(node);
+              }
+              const label = document.createElement("small"); label.textContent = d.day.slice(5);
+              bar.append(bars,label); return bar;
+            });
+            holder.replaceChildren(...columns);
+          };
           try {
-            const { data, error } = await db.rpc("feat010_admin_summary");
+            const { data, error } = await db.rpc("feat011_admin_analytics");
             if (error) throw error;
-            if (!content.isConnected || !content.querySelector("[data-visit-today]")) return;
+            if (!content.isConnected || !content.querySelector("[data-views-today]")) return;
             const online = await db.rpc("feat010_online_count");
             if (online.error) throw online.error;
-            content.querySelector("[data-online-now]").textContent = Number(online.data ?? 0).toLocaleString();
-            content.querySelector("[data-visit-today]").textContent = Number(data?.today ?? 0).toLocaleString();
-            content.querySelector("[data-visit-total]").textContent = Number(data?.total ?? 0).toLocaleString();
-            content.querySelector(".obs-admin-stats-note").textContent = "Counts begin when homepage tracking is deployed.";
+            content.querySelector("[data-online-now]").textContent = format(online.data);
+            content.querySelector("[data-visit-today]").textContent = format(data?.today_visits);
+            content.querySelector("[data-views-today]").textContent = format(data?.today_views);
+            content.querySelector("[data-browsers-today]").textContent = format(data?.today_browsers);
+            content.querySelector("[data-visit-total]").textContent = format(data?.total_visits);
+            const days = Array.isArray(data?.days) ? data.days : [];
+            const range = content.querySelector("#feat011-range");
+            renderTrends(days, 7);
+            range.addEventListener("change", () => renderTrends(days, Number(range.value)));
+            const top = content.querySelector("[data-top-pages]");
+            const pages = Array.isArray(data?.top_pages) ? data.top_pages : [];
+            if (!pages.length) top.textContent = "No page views yet.";
+            else {
+              const list = document.createElement("ol"); list.className = "feat011-top-list";
+              pages.forEach(page => {
+                const li = document.createElement("li");
+                const name = document.createElement("span"); name.textContent = names[page.page_key] || page.page_key;
+                const count = document.createElement("strong"); count.textContent = format(page.views);
+                li.append(name,count); list.append(li);
+              }); top.replaceChildren(list);
+            }
+            status.textContent = `New analytics began ${data?.activated_at ? new Date(data.activated_at).toLocaleString("en-PH",{timeZone:"Asia/Manila"}) : "at activation"} (PH time). Lifetime visits include preserved legacy counts; older daily figures are not reconstructed.`;
           } catch (error) {
-            const status = content.querySelector(".obs-admin-stats-note");
-            if (status) status.textContent = "Unable to load statistics. Please check your admin session.";
-            console.error("FEAT-010 statistics:", error);
+            if (status) status.textContent = "Unable to load FEAT-011 analytics. Confirm the database migration and admin session.";
+            console.error("FEAT-011 analytics:", error);
           }
         };
         const navigate = (page) => {
@@ -3106,7 +3190,7 @@
                 db.removeChannel(realtimeChannel);
                 realtimeChannel = null;
               }
-              if (chatWindow) chatWindow.replaceChildren();
+              renderGuestChatPreview();
               setChatState("preview", "Sign in to join live Blossom Chat.");
             }
             updateAuthUI();
@@ -3145,7 +3229,7 @@
           ]);
 
           if (!currentSession?.user && AUTH_REQUIRED && chatWindow) {
-            chatWindow.replaceChildren();
+            renderGuestChatPreview();
             setChatState("preview", "Sign in to join live Blossom Chat.");
           }
 
