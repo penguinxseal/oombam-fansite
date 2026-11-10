@@ -43,7 +43,7 @@ celebrating Oom Eisaya and Bam Saralee.
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=DM+Sans:wght@400;500;600&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
-<link href="css/Global.css?v=feat010-sitewide-1" rel="stylesheet"/><link href="css/community.css?v=feat012-1" rel="stylesheet"/><style id="community-hero-v18-failsafe">
+<link href="css/Global.css?v=feat010-sitewide-1" rel="stylesheet"/><link href="css/community.css?v=feat012-compact-1" rel="stylesheet"/><style id="community-hero-v18-failsafe">
 /* V18: final hero typography + no-crop banner */
 body.page-community .community-hero-media {
   height: auto !important;
@@ -509,15 +509,14 @@ body.page-community .garden-link { margin-top: 8px !important; }
 </article>
 </div>
 </section>
-<!-- FEAT-012: privacy-safe aggregate member statistics -->
+<!-- FEAT-012: Compact global flag carousel -->
 <section class="section-block feat012-garden" id="blossoms-around-world" aria-labelledby="feat012GardenTitle">
   <div class="community-container"><div class="panel feat012-panel">
-    <p class="feat012-eyebrow">OUR GLOBAL BLOSSOM GARDEN</p>
-    <h2 id="feat012GardenTitle">🌸 Blossoms Around the World</h2>
-    <p>Different countries. One shared love for OomBam.</p>
-    <div class="feat012-tiles"><div><strong id="feat012Countries">—</strong><span>Countries</span></div><div><strong id="feat012Registered">—</strong><span>Registered Blossoms</span></div><div><strong id="feat012Active">—</strong><span>Active · 30 days</span></div></div>
-    <h3>Country Rankings</h3><div id="feat012GardenResults" aria-live="polite">Loading global garden…</div>
-    <p class="feat012-privacy">Country counts are aggregated. Small groups are combined for privacy. Country selection is optional.</p>
+    <div class="feat012-heading"><h2 id="feat012GardenTitle">🌸 Blossoms Around the World</h2><span id="feat012Countries" aria-label="Countries represented">— countries</span></div>
+    <div class="feat012-viewport" id="feat012GardenViewport" aria-label="Countries represented by Blossoms">
+      <div id="feat012GardenResults" class="feat012-flags" aria-live="polite">Loading flags…</div>
+    </div>
+    <div id="feat012CountryDetail" class="feat012-detail" aria-live="polite" hidden></div>
   </div></div>
 </section>
 <!-- ======================================================
@@ -735,7 +734,7 @@ body.page-community .garden-link { margin-top: 8px !important; }
 <script src="js/feat010-tracker.js?v=feat011-integration-20261110"></script>
 <script src="js/site-auth.js?v=20.10.1"></script>
 <script src="js/feat012.js?v=feat012-1"></script>
-<script src="js/community.js?v=feat012-1"></script><!-- OBSocPH completed birthday project archive -->
+<script src="js/community.js?v=feat012-compact-1"></script><!-- OBSocPH completed birthday project archive -->
 <div class="ob-birthday-modal" id="obBirthdayModal" aria-hidden="true">
   <div class="ob-birthday-backdrop" data-birthday-close></div>
   <section class="ob-birthday-dialog" role="dialog" aria-modal="true" aria-labelledby="obBirthdayTitle" tabindex="-1">
