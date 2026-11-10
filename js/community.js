@@ -355,6 +355,13 @@
           };
         }
 
+        const signupCountry = user.user_metadata?.country_code;
+        if (!currentMember.countryCode && signupCountry && OOMBAM_FEAT012.valid(signupCountry)) {
+          try {
+            await OOMBAM_FEAT012.save(db,user.id,signupCountry);
+            currentMember.countryCode = signupCountry;
+          } catch(error) { console.warn("Country preference could not be saved",error); }
+        }
         storage.set(KEYS.profile, {
           displayName: currentMember.displayName,
           avatar: currentMember.avatar,
@@ -513,6 +520,21 @@
         }
       };
 
+      const maybePromptCountry = () => {
+        if (!currentSession?.user || !currentMember || currentMember.countryCode || !window.OOMBAM_FEAT012) return;
+        const id=currentSession.user.id;
+        if (OOMBAM_FEAT012.dismissed(id) || (document.getElementById("communityModal") && !document.getElementById("communityModal").hidden)) return;
+        const wrapper=document.createElement("div");
+        wrapper.innerHTML=`<p class="community-modal__eyebrow">OUR GLOBAL BLOSSOM GARDEN</p><h2 class="community-modal__title" id="communityModalTitle">🌍 Where Are You Blooming From?</h2><p class="community-modal__intro">Share your country if you'd like. You can change it later in Account Settings.</p><div class="feat012-prompt-slot"></div><p class="feat012-feedback" role="status"></p><div class="community-form__actions"><button class="community-form__secondary feat012-later" type="button">Maybe Later</button><button class="community-form__primary feat012-save" type="button">Save My Country 🌸</button></div>`;
+        const picker=OOMBAM_FEAT012.selector(); wrapper.querySelector(".feat012-prompt-slot").append(picker.element);
+        wrapper.querySelector(".feat012-later").addEventListener("click",()=>{OOMBAM_FEAT012.dismiss(id);closeModal()});
+        wrapper.querySelector(".feat012-save").addEventListener("click",async e=>{
+          const button=e.currentTarget;button.disabled=true;
+          try { await OOMBAM_FEAT012.save(db,id,picker.getValue());currentMember.countryCode=picker.getValue();OOMBAM_FEAT012.dismiss(id);closeModal();loadBlossomGarden(); }
+          catch(err){wrapper.querySelector(".feat012-feedback").textContent=err.message || "Could not save country.";button.disabled=false;}
+        });
+        openModal(wrapper);
+      };
       const renderAuthAccount = () => {
         if (!currentSession?.user || !currentMember) {
           renderAuthGate("signin");
@@ -529,6 +551,7 @@
             <span>Username</span><strong class="community-account-name"></strong>
             <span class="community-account-role-label" hidden>Role</span><strong class="community-account-role" hidden></strong>
           </div>
+          <div class="feat012-account-slot"></div>
           <div class="community-account-tools">
             <button class="community-form__secondary community-change-username" type="button">Change Username</button>
           </div>
@@ -552,6 +575,23 @@
           }
         }
 
+        const slot = wrapper.querySelector(".feat012-account-slot");
+        if (slot && window.OOMBAM_FEAT012) {
+          const picker = OOMBAM_FEAT012.selector(currentMember.countryCode);
+          slot.append(picker.element);
+          const button = document.createElement("button");
+          button.type = "button"; button.className = "community-form__secondary"; button.textContent = "Save Country";
+          const feedback = document.createElement("p"); feedback.setAttribute("role","status");
+          slot.append(button,feedback);
+          button.addEventListener("click", async () => {
+            button.disabled=true;
+            try { await OOMBAM_FEAT012.save(db,currentSession.user.id,picker.getValue());
+              currentMember.countryCode=picker.getValue(); feedback.textContent="Country saved 🌸";
+              OOMBAM_FEAT012.dismiss(currentSession.user.id);
+            } catch(err) { feedback.textContent=err.message || "Could not save country."; }
+            finally {button.disabled=false;}
+          });
+        }
         const changeUsernameButton = wrapper.querySelector(".community-change-username");
         if (changeUsernameButton) {
           changeUsernameButton.hidden = isCommunityArtist();
@@ -788,6 +828,7 @@
             <label class="community-auth-signup-only">Display name
               <input name="displayName" maxlength="30" autocomplete="nickname" placeholder="e.g. Blossom PH">
             </label>
+            <div class="community-auth-signup-only feat012-signup-slot"></div>
             <label>Password
               <span class="community-password-field">
                 <input name="password" type="password" minlength="8" maxlength="128" required>
@@ -807,6 +848,8 @@
             </div>
           </form>`;
 
+        const signupPicker = OOMBAM_FEAT012.selector();
+        wrapper.querySelector(".feat012-signup-slot")?.append(signupPicker.element);
         const form = wrapper.querySelector("form");
         wirePasswordToggles(wrapper);
         const submit = wrapper.querySelector(".community-auth-submit");
@@ -874,7 +917,7 @@
                 password,
                 options: {
                   emailRedirectTo: authConfirmRedirectUrl(),
-                  data: { display_name: displayName, avatar: "🌸" }
+                  data: { display_name: displayName, avatar: "🌸", country_code: signupPicker.getValue() || null }
                 }
               }), 12000, "Sign up is taking longer than expected. Please check your connection and try again.");
               if (error) throw error;
@@ -913,6 +956,7 @@
                 renderVerifiedWelcome();
               }
               onSuccess?.();
+              setTimeout(maybePromptCountry, 350);
             }
           } catch (error) {
             console.error("Blossom Auth:", error);
@@ -1006,6 +1050,7 @@
       const closeModal = () => {
         const modal = document.getElementById("communityModal");
         if (!modal || modal.hidden) return;
+        if (modal.querySelector(".feat012-prompt-slot") && currentSession?.user) OOMBAM_FEAT012.dismiss(currentSession.user.id);
         modal.hidden = true;
         unlockModalScroll();
       };
@@ -3106,6 +3151,31 @@
         return true;
       };
 
+      const loadBlossomGarden = async () => {
+        const target=document.getElementById("feat012GardenResults");
+        if (!target || !db) return;
+        try {
+          const {data,error}=await db.rpc("feat012_country_stats");
+          if(error) throw error;
+          const rows=Array.isArray(data)?data:[];
+          const totals=rows.find(r=>r.country_code==="__TOTAL__");
+          document.getElementById("feat012Countries").textContent=totals?.countries_count ?? "0";
+          document.getElementById("feat012Registered").textContent=totals?.registered_count ?? "0";
+          document.getElementById("feat012Active").textContent=totals?.active_count ?? "0";
+          target.replaceChildren();
+          for(const r of rows.filter(r=>r.country_code!=="__TOTAL__")) {
+            const line=document.createElement("div");line.className="feat012-row";
+            const title=document.createElement("span");title.textContent=r.country_code==="__OTHER__"?"🌏 Other countries":`${OOMBAM_FEAT012.flag(r.country_code)} ${OOMBAM_FEAT012.name(r.country_code)}`;
+            const count=document.createElement("span");count.textContent=`${r.registered_count} registered · ${r.active_count} active`;
+            line.append(title,count);target.append(line);
+          }
+          if(!target.childElementCount) target.textContent="Our global garden is ready for its first Blossoms 🌸";
+        } catch(err){target.textContent="Global Blossom statistics are temporarily unavailable.";console.warn("FEAT-012",err);}
+      };
+      const recordBlossomActivity = async () => {
+        if(!db || !currentSession?.user) return;
+        try { await db.rpc("feat012_touch_activity"); } catch(_) {}
+      };
       async function init() {
         updateAuthUI();
         wireAuthEntryButtons();
@@ -3194,10 +3264,14 @@
               setChatState("preview", "Sign in to join live Blossom Chat.");
             }
             updateAuthUI();
+            if (event === "SIGNED_IN") { setTimeout(maybePromptCountry, 900); recordBlossomActivity(); loadBlossomGarden(); }
           });
 
           authInitFailed = false;
           authReady = true;
+          if (currentSession?.user) setTimeout(maybePromptCountry, 900);
+          loadBlossomGarden();
+          recordBlossomActivity();
           updateAuthUI();
 
           setChatState("connecting", currentSession?.user
