@@ -8836,3 +8836,24 @@ body.page-community .obs-guest-chat-preview__footer { opacity: .8; }
 .feat012-account-slot,.feat012-home-account{margin:1rem 0}
 .feat012-account-slot>button{margin-top:.5rem}
 @media(max-width:500px){.feat012-tiles{gap:.35rem}.feat012-tiles>div{padding:.75rem .25rem}.feat012-tiles span{font-size:.68rem}.feat012-row{font-size:.78rem}}
+
+/* FEAT-012 compact flag carousel: community page only */
+.feat012-garden{margin-block:.7rem}
+.feat012-garden .feat012-panel{padding:12px 16px;text-align:left;overflow:hidden}
+.feat012-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.feat012-heading h2{font-size:clamp(.95rem,1.6vw,1.15rem);line-height:1.25;margin:0;font-weight:700}
+.feat012-heading>span{font-size:.72rem;opacity:.7;white-space:nowrap}
+.feat012-viewport{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-inline:contain}
+.feat012-viewport::-webkit-scrollbar{display:none}
+.feat012-flags{display:flex;align-items:center;gap:8px;width:max-content;min-width:100%;min-height:44px}
+.feat012-flag{display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;height:40px;border:1px solid color-mix(in srgb,currentColor 12%,transparent);border-radius:11px;background:color-mix(in srgb,currentColor 4%,transparent);font-size:1.65rem;line-height:1;cursor:pointer;transition:background .15s,border-color .15s}
+.feat012-flag:hover,.feat012-flag[aria-pressed="true"]{background:color-mix(in srgb,#df719b 15%,transparent);border-color:#df719b}
+.feat012-flag:focus-visible{outline:2px solid #df719b;outline-offset:2px}
+.feat012-detail{font-size:.75rem;margin-top:7px;opacity:.85}
+.feat012-detail[hidden]{display:none}
+.feat012-empty{font-size:.78rem;opacity:.7;align-items:center}
+.feat012-viewport.feat012-moving .feat012-flags{animation:feat012-pan var(--feat012-duration,16s) ease-in-out infinite alternate}
+.feat012-viewport.feat012-moving:hover .feat012-flags,.feat012-viewport.feat012-moving:focus-within .feat012-flags{animation-play-state:paused}
+@keyframes feat012-pan{from{transform:translateX(0)}to{transform:translateX(calc(-1 * var(--feat012-travel,0px)))}}
+@media(max-width:500px){.feat012-garden .feat012-panel{padding:10px 12px}.feat012-heading h2{font-size:.93rem}.feat012-flag{width:40px;flex-basis:40px;height:38px;font-size:1.5rem}}
+@media(prefers-reduced-motion:reduce){.feat012-viewport .feat012-flags{animation:none!important}.feat012-flag{transition:none}}
