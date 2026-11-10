@@ -8721,3 +8721,17 @@ html[data-theme="dark"] .community-modal__dialog:has(.obs-admin-hub) .community-
 .feat010-online-dot{width:8px;height:8px;background:#38d86b;border-radius:50%;box-shadow:0 0 6px rgba(56,216,107,.4)}
 @media(max-width:700px){.ob-header__actions .feat010-online-badge{padding:6px 8px;gap:5px;font-size:11px}.feat010-online-label{display:none}.feat010-online-badge svg{width:15px;height:15px}}
 @media(max-width:370px){.feat010-online-badge svg{display:none}}
+
+/* BUG-002A restoration: artist-only inbox action, scoped to letter reader. */
+.community-letter-reading__footer .community-artist-remove {
+  appearance:none; display:inline-flex; align-items:center; justify-content:center;
+  min-height:40px; padding:9px 16px; border-radius:999px;
+  font:inherit; font-size:.85rem; font-weight:650; line-height:1.2;
+  cursor:pointer; border:1px solid rgba(171,98,111,.3);
+  background:rgba(187,107,120,.07); color:#995365;
+}
+.community-letter-reading__footer .community-artist-remove:disabled { opacity:.6; cursor:wait; }
+html[data-theme="dark"] .community-letter-reading__footer .community-artist-remove,
+body.dark-theme .community-letter-reading__footer .community-artist-remove {
+  color:#f1b5c1; border-color:rgba(241,181,193,.42); background:rgba(241,181,193,.09);
+}
