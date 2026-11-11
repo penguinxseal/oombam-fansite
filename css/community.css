@@ -8911,3 +8911,16 @@ body.page-community .obs-guest-chat-preview__footer { opacity: .8; }
   object-fit: contain !important;
   object-position: center center !important;
 }
+
+/* FEAT-012 launch: consistent visible flag dimensions across all countries.
+   Intentional standard thumbnail aspect ratio, not intrinsic national flag ratio. */
+.feat012-garden .feat012-flag-image {
+  width: 30px !important;
+  height: 20px !important;
+  min-width: 30px !important;
+  min-height: 20px !important;
+  max-width: 30px !important;
+  max-height: 20px !important;
+  object-fit: fill !important;
+  vertical-align: middle !important;
+}
