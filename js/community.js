@@ -59,10 +59,10 @@
       const safeMultiline = (value = "", max = 5000) =>
         String(value).replace(/\r/g, "").trim().slice(0, max);
 
-      const formatMonth = (dateValue = new Date()) => {
+      const formatMonth = (dateValue = new Date(), abbreviated = false) => {
         const d = new Date(dateValue);
         if (Number.isNaN(d.getTime())) return "";
-        return new Intl.DateTimeFormat("en", { month: "long", year: "numeric" }).format(d);
+        return new Intl.DateTimeFormat("en", { month: abbreviated ? "short" : "long", year: "numeric" }).format(d);
       };
 
       const flagFromCountry = (country) => {
@@ -848,7 +848,7 @@
             </div>
           </form>`;
 
-        const signupPicker = OOMBAM_FEAT012.selector("", {required:true});
+        const signupPicker = OOMBAM_FEAT012.selector();
         wrapper.querySelector(".feat012-signup-slot")?.append(signupPicker.element);
         const form = wrapper.querySelector("form");
         wirePasswordToggles(wrapper);
@@ -871,7 +871,6 @@
             el.hidden = mode !== "signup";
           });
           displayNameInput.required = mode === "signup";
-          signupPicker.element.querySelector("select").required = mode === "signup";
           forgot.hidden = mode !== "signin";
           passwordInput.autocomplete = mode === "signup" ? "new-password" : "current-password";
           passwordInput.placeholder = mode === "signup" ? "Create a secure password" : "Enter your password";
@@ -908,11 +907,6 @@
             return;
           }
 
-          if (mode === "signup" && !OOMBAM_FEAT012.valid(signupPicker.getValue())) {
-            showFormStatus(form, "Please select your country to join.", "error");
-            return;
-          }
-
           submit.disabled = true;
           showFormStatus(form, mode === "signup" ? "Creating your Blossom account…" : "Signing you in…");
 
@@ -923,7 +917,7 @@
                 password,
                 options: {
                   emailRedirectTo: authConfirmRedirectUrl(),
-                  data: { display_name: displayName, avatar: "🌸", country_code: signupPicker.getValue() }
+                  data: { display_name: displayName, avatar: "🌸", country_code: signupPicker.getValue() || null }
                 }
               }), 12000, "Sign up is taking longer than expected. Please check your connection and try again.");
               if (error) throw error;
@@ -1684,14 +1678,20 @@
         quote.textContent = "“";
 
         const message = document.createElement("p");
-        message.textContent = safeMultiline(item.message, 280);
+        message.textContent = safeMultiline(item.message, 5000);
+        card.dataset.fullMessage = message.textContent;
+        card.classList.add("message-card--interactive");
+        card.tabIndex = 0;
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-label", "Read full Blossom Wall message");
 
         const author = document.createElement("strong");
         const flag = flagFromCountry(item.country_code || item.countryCode || "");
         author.textContent = `— ${safeText(item.display_name || item.displayName || "Blossom", 40)}${flag ? ` ${flag}` : ""}`;
 
         const date = document.createElement("small");
-        date.textContent = formatMonth(item.created_at || new Date());
+        date.textContent = formatMonth(item.created_at || new Date(), true);
+        card.dataset.fullDate = formatMonth(item.created_at || new Date());
 
         const blossom = document.createElement("span");
         blossom.className = "card-blossom";
@@ -1706,7 +1706,8 @@
           del.type = "button";
           del.className = "message-card__delete";
           del.textContent = "Delete";
-          del.addEventListener("click", async () => {
+          del.addEventListener("click", async (event) => {
+            event.stopPropagation();
             if (!window.confirm("Delete this Blossom Wall post? This action cannot be undone.")) return;
             del.disabled = true;
             try {
@@ -1728,6 +1729,56 @@
           card.append(adminActions);
         }
         return card;
+      }
+
+      // Preview cards open a readable full post; the View All modal remains unchanged.
+      function openWallPost(card) {
+        const wrapper = document.createElement("div");
+        const heading = document.createElement("h2");
+        heading.className = "community-modal__title";
+        heading.id = "communityModalTitle";
+        heading.textContent = "Blossom Wall Message";
+        const fullCard = card.cloneNode(true);
+        fullCard.classList.remove("message-card--interactive");
+        fullCard.classList.add("message-card--full");
+        fullCard.removeAttribute("role");
+        fullCard.removeAttribute("tabindex");
+        fullCard.removeAttribute("aria-label");
+        fullCard.querySelector(".message-card__admin-actions")?.remove();
+        const text = fullCard.querySelector("p");
+        if (text && card.dataset.fullMessage) text.textContent = card.dataset.fullMessage;
+        const date = fullCard.querySelector("small");
+        if (date && card.dataset.fullDate) date.textContent = card.dataset.fullDate;
+        wrapper.append(heading, fullCard);
+        openModal(wrapper);
+      }
+
+      if (messageGrid) {
+        messageGrid.querySelectorAll(".message-card").forEach((card) => {
+          card.classList.add("message-card--interactive");
+          card.tabIndex = 0;
+          card.setAttribute("role", "button");
+          card.setAttribute("aria-label", "Read full Blossom Wall message");
+          const date = card.querySelector("small");
+          if (date) {
+            card.dataset.fullDate = date.textContent.trim();
+            date.textContent = date.textContent.replace(/\b(January|February|March|April|June|July|August|September|October|November|December)\b/g, (month) => month.slice(0, 3));
+          }
+        });
+        messageGrid.addEventListener("click", (event) => {
+          if (event.target.closest(".message-card__admin-actions")) return;
+          const card = event.target.closest(".message-card");
+          if (card && messageGrid.contains(card)) openWallPost(card);
+        });
+        messageGrid.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          if (event.target.closest(".message-card__admin-actions")) return;
+          const card = event.target.closest(".message-card");
+          if (card && event.target === card) {
+            event.preventDefault();
+            openWallPost(card);
+          }
+        });
       }
 
       async function getApprovedWallMessages() {
@@ -2147,13 +2198,6 @@
         });
         openModal(wrapper);
       };
-
-      // Open issue reporting from the country selector in a separate tab,
-      // preserving the signup form (including the unsaved password) in its original tab.
-      if (window.location.hash === "#report-issue") {
-        renderFeedbackForm();
-        history.replaceState(null, "", window.location.pathname + window.location.search);
-      }
 
       const renderAdminFeedback = (target = null) => {
         if (!isCommunityAdmin()) return;
