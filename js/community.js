@@ -1898,10 +1898,103 @@
         return `${day} · ${time}`;
       }
 
+      /* FEAT-013: message replies and multi-emoji reactions. */
+      const CHAT_REACTIONS = [
+        ["Love & Affection", ["❤️","💕","💖","😍","🥰","😘","🫶","💗"]],
+        ["Happy & Excited", ["😊","😁","😂","🤣","🥳","🤩","🎉","👏"]],
+        ["Emotional & Supportive", ["🥹","😭","😢","🥺","🫂","🙏","💪","💐"]],
+        ["Surprised & Curious", ["😮","😱","🤯","🫢","👀","🤔","😳","🧐"]],
+        ["Disagreement & Frustration", ["😕","😒","🙄","😤","😡","👎","💔","😬"]],
+        ["Fun & Fandom", ["🌸","🐧","🦭","🐱","✨","🔥","💅","💯"]]
+      ];
+      const CHAT_REACTION_SET = new Set(CHAT_REACTIONS.flatMap(([, emojis]) => emojis));
+      let activeReply = null;
+      const chatMessageCache = new Map();
+      let chatReactionChannel = null;
+      const chatReplyBanner = document.createElement("div");
+      chatReplyBanner.className = "chat-reply-banner";
+      chatReplyBanner.hidden = true;
+      chatReplyBanner.setAttribute("aria-live", "polite");
+      chatForm?.prepend(chatReplyBanner);
+
+      function clearChatReply() {
+        activeReply = null;
+        chatReplyBanner.hidden = true;
+        chatReplyBanner.replaceChildren();
+      }
+      function chooseChatReply(item) {
+        if (AUTH_REQUIRED && !isSignedIn()) { requireParticipationAuth(() => chatInput?.focus()); return; }
+        if (!item?.id) return;
+        activeReply = { id: item.id, author: safeText(item.display_name || "Blossom", 30), text: safeMultiline(item.message, 120) };
+        const label = document.createElement("span");
+        label.textContent = `Replying to ${activeReply.author}: ${activeReply.text}`;
+        const cancel = document.createElement("button");
+        cancel.type = "button"; cancel.textContent = "×"; cancel.setAttribute("aria-label", "Cancel reply");
+        cancel.addEventListener("click", clearChatReply);
+        chatReplyBanner.replaceChildren(label, cancel);
+        chatReplyBanner.hidden = false;
+        chatInput?.focus();
+      }
+      async function loadMessageReactions(id, container) {
+        if (!hasSupabaseConfig || !id || !container.isConnected) return;
+        const { data, error } = await db.from("chat_message_reactions")
+          .select("emoji,user_id").eq("message_id", id);
+        if (error || !container.isConnected) return;
+        const counts = new Map();
+        const mine = new Set();
+        for (const row of data || []) {
+          counts.set(row.emoji, (counts.get(row.emoji) || 0) + 1);
+          if (row.user_id === currentMember?.userId || row.user_id === currentMember?.id) mine.add(row.emoji);
+        }
+        container.replaceChildren();
+        for (const [emoji, count] of counts) {
+          const button = document.createElement("button"); button.type = "button";
+          button.className = `chat-reaction-chip${mine.has(emoji) ? " is-mine" : ""}`;
+          button.textContent = `${emoji} ${count}`;
+          button.setAttribute("aria-label", `${emoji}, ${count} reactions; toggle reaction`);
+          button.addEventListener("click", () => toggleChatReaction(id, emoji, button));
+          container.append(button);
+        }
+      }
+      async function toggleChatReaction(messageId, emoji, button) {
+        if (AUTH_REQUIRED && !isSignedIn()) { requireParticipationAuth(); return; }
+        if (!CHAT_REACTION_SET.has(emoji) || !hasSupabaseConfig) return;
+        button.disabled = true;
+        try {
+          await invokeCommunityModeration({ action: "toggle-chat-reaction", messageId, emoji });
+          const row = [...chatWindow.querySelectorAll("[data-message-id]")].find(el => el.dataset.messageId === String(messageId));
+          if (row) await loadMessageReactions(messageId, row.querySelector(".chat-reactions"));
+        } catch (error) { if (chatNote) chatNote.textContent = safeText(error?.message || "Reaction failed.", 150); }
+        finally { button.disabled = false; }
+      }
+      function openChatReactionPicker(messageId, anchor) {
+        if (AUTH_REQUIRED && !isSignedIn()) { requireParticipationAuth(); return; }
+        const old = document.querySelector(".chat-reaction-popover");
+        if (old) { const same = old.dataset.forId === String(messageId); old.remove(); if (same) return; }
+        const pop = document.createElement("div"); pop.className = "chat-reaction-popover"; pop.dataset.forId = String(messageId);
+        for (const [category, emojis] of CHAT_REACTIONS) {
+          const section = document.createElement("div");
+          const heading = document.createElement("strong"); heading.textContent = category;
+          const grid = document.createElement("div"); grid.className = "chat-reaction-grid";
+          for (const emoji of emojis) {
+            const button = document.createElement("button"); button.type = "button";
+            button.textContent = emoji; button.setAttribute("aria-label", `React ${emoji}`);
+            button.addEventListener("click", async () => { await toggleChatReaction(messageId, emoji, button); pop.remove(); });
+            grid.append(button);
+          }
+          section.append(heading, grid); pop.append(section);
+        }
+        anchor.parentElement.append(pop);
+      }
+      document.addEventListener("click", event => {
+        if (!event.target.closest(".chat-reaction-action, .chat-reaction-popover")) document.querySelector(".chat-reaction-popover")?.remove();
+      });
+      document.addEventListener("keydown", event => { if (event.key === "Escape") document.querySelector(".chat-reaction-popover")?.remove(); });
+
       function createChatMessage(item) {
         const row = document.createElement("div");
         row.className = "chat-message";
-        if (item.id) row.dataset.messageId = item.id;
+        if (item.id) { row.dataset.messageId = item.id; row.tabIndex = -1; }
 
         const avatar = document.createElement("span");
         avatar.className = "avatar";
@@ -1922,7 +2015,33 @@
         const message = document.createElement("p");
         message.textContent = safeMultiline(item.message, 280);
 
-        content.append(meta, message);
+        content.append(meta);
+        if (item.reply_to_id) {
+          const quote = document.createElement("button");
+          quote.type = "button"; quote.className = "chat-message__quote";
+          const parent = item.reply_to || chatMessageCache.get(item.reply_to_id);
+          quote.textContent = parent ? `${safeText(parent.display_name || "Blossom",30)}: ${safeMultiline(parent.message,110)}` : "Original message unavailable";
+          quote.addEventListener("click", () => {
+            const target = [...chatWindow.querySelectorAll("[data-message-id]")].find(el => el.dataset.messageId === String(item.reply_to_id));
+            if (target) { target.scrollIntoView({ block: "nearest", behavior: "smooth" }); target.focus({ preventScroll: true }); }
+          });
+          content.append(quote);
+        }
+        content.append(message);
+        if (item.id && hasSupabaseConfig) {
+          chatMessageCache.set(item.id, item);
+          const controls = document.createElement("div"); controls.className = "chat-message__controls";
+          const reply = document.createElement("button"); reply.type = "button"; reply.className = "chat-reply-action";
+          reply.textContent = "↩"; reply.title = "Reply"; reply.setAttribute("aria-label", "Reply to message");
+          reply.addEventListener("click", () => chooseChatReply(item));
+          const react = document.createElement("button"); react.type = "button"; react.className = "chat-reaction-action";
+          react.textContent = "☺+"; react.title = "Add reaction"; react.setAttribute("aria-label", "React to message");
+          react.addEventListener("click", () => openChatReactionPicker(item.id, react));
+          controls.append(reply, react);
+          const reactions = document.createElement("div"); reactions.className = "chat-reactions";
+          content.append(controls, reactions);
+          queueMicrotask(() => loadMessageReactions(item.id, reactions));
+        }
         if (isCommunityAdmin() && item.id) {
           const del = document.createElement("button");
           del.type = "button";
@@ -1935,6 +2054,7 @@
             try {
               await invokeCommunityModeration({ action: "admin-delete-chat", id: item.id });
               row.remove();
+              chatMessageCache.delete(item.id);
             } catch (error) {
               del.disabled = false;
               window.alert(safeText(error?.message || "Could not delete this chat message.", 180));
@@ -2000,12 +2120,18 @@
         try {
           const { data, error } = await db
             .from("chat_messages")
-            .select("id, display_name, avatar, message, created_at")
+            .select("id, display_name, avatar, message, created_at, reply_to_id")
             .order("created_at", { ascending: true })
             .limit(40);
           if (error) throw error;
 
           if (data?.length) {
+            const parentIds = [...new Set(data.map(item => item.reply_to_id).filter(Boolean))].filter(id => !data.some(item => item.id === id));
+            if (parentIds.length) {
+              const { data: parents } = await db.from("chat_messages").select("id,display_name,message").in("id",parentIds);
+              (parents || []).forEach(parent => chatMessageCache.set(parent.id,parent));
+            }
+            data.forEach(item => { if (item.id) chatMessageCache.set(item.id, item); });
             chatWindow.replaceChildren(...data.map(createChatMessage));
             chatWindow.scrollTop = chatWindow.scrollHeight;
           }
@@ -2017,11 +2143,22 @@
               { event: "INSERT", schema: "public", table: "chat_messages" },
               payload => appendChatMessage(payload.new)
             )
+            .on("postgres_changes", { event: "DELETE", schema: "public", table: "chat_messages" }, payload => {
+              const row = [...chatWindow.querySelectorAll("[data-message-id]")].find(el => el.dataset.messageId === String(payload.old?.id));
+              row?.remove();
+            })
             .subscribe((status) => {
               if (status === "SUBSCRIBED") {
                 setChatState("live", "Live Blossom Chat is connected. Be kind and keep personal information private.");
               }
             });
+          chatReactionChannel = db.channel("blossom-chat-reactions")
+            .on("postgres_changes", { event: "*", schema: "public", table: "chat_message_reactions" }, payload => {
+              const id = payload.new?.message_id || payload.old?.message_id;
+              if (!id) return;
+              const row = [...chatWindow.querySelectorAll("[data-message-id]")].find(el => el.dataset.messageId === String(id));
+              if (row) loadMessageReactions(id, row.querySelector(".chat-reactions"));
+            }).subscribe();
         } catch (error) {
           console.error("Chat connection failed:", error);
           setChatState("error", "The live chat could not connect. Please try again later.");
@@ -2042,7 +2179,8 @@
           // intentionally not sent or trusted.
           return invokeCommunityModeration({
             action: "submit-chat",
-            message: payload.message
+            message: payload.message,
+            replyToId: activeReply?.id || null
           });
         }
 
@@ -2140,6 +2278,7 @@
           await sendChat(profile, message);
           markRate(KEYS.lastChat);
           if (chatInput) chatInput.value = "";
+          clearChatReply();
           if (chatNote) {
             chatNote.textContent = hasSupabaseConfig
               ? "Live Blossom Chat is connected. Be kind and keep personal information private."
@@ -3367,6 +3506,7 @@
               currentMember = null;
               communityAdminAccess = false;
               try { localStorage.removeItem(KEYS.profile); } catch (_) {}
+              if (db && chatReactionChannel) { db.removeChannel(chatReactionChannel); chatReactionChannel = null; }
               if (db && realtimeChannel) {
                 db.removeChannel(realtimeChannel);
                 realtimeChannel = null;
@@ -3458,5 +3598,6 @@
 
       window.addEventListener("beforeunload", () => {
         if (db && realtimeChannel) db.removeChannel(realtimeChannel);
+        if (db && chatReactionChannel) db.removeChannel(chatReactionChannel);
       });
     })();
