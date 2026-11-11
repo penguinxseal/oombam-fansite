@@ -8939,3 +8939,42 @@ body.dark-theme.page-community .feat012-garden .feat012-detail:not([hidden]) {
   border-color: rgba(255, 255, 255, .20) !important;
   box-shadow: 0 6px 18px rgba(0, 0, 0, .45) !important;
 }
+
+/* BUG-004: fixed Blossom Wall preview tiles; full messages open on tile click. */
+body.page-community .blossom-wall .message-grid .message-card {
+  height: 260px;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+body.page-community .blossom-wall .message-grid .message-card p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  min-height: 0;
+  flex: 0 1 auto;
+  margin-bottom: auto;
+}
+body.page-community .blossom-wall .message-grid .message-card strong,
+body.page-community .blossom-wall .message-grid .message-card small {
+  flex: 0 0 auto;
+  overflow-wrap: anywhere;
+  position: relative;
+  z-index: 1;
+}
+body.page-community .blossom-wall .message-grid .message-card strong { margin-top: 12px; }
+body.page-community .blossom-wall .message-grid .message-card small { margin-top: 6px; }
+body.page-community .blossom-wall .message-grid .message-card--interactive { cursor: pointer; }
+body.page-community .blossom-wall .message-grid .message-card--interactive:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+body.page-community .message-card--full { height: auto; min-height: 0; }
+body.page-community .message-card--full p {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  margin-bottom: 12px;
+}
