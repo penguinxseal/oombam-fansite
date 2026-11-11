@@ -3006,7 +3006,7 @@
         const title = hub.querySelector(".obs-admin-header h2");
         const subtitle = hub.querySelector(".obs-admin-header p");
         const showVisitors = async () => {
-          content.innerHTML = `<div class="obs-admin-section-title"><h3>Visitor Analytics</h3><p>Philippine time (Asia/Manila) · FEAT-011 data begins at activation</p></div>
+          content.innerHTML = `<div class="obs-admin-section-title"><h3>Visitor Analytics</h3><p>All times shown in Philippine time.</p></div>
             <div class="obs-admin-stats feat011-stats">
               <div><span>Online Now</span><strong data-online-now>—</strong></div>
               <div><span>Visits Today</span><strong data-visit-today>—</strong></div>
@@ -3068,7 +3068,7 @@
                 li.append(name,count); list.append(li);
               }); top.replaceChildren(list);
             }
-            status.textContent = `New analytics began ${data?.activated_at ? new Date(data.activated_at).toLocaleString("en-PH",{timeZone:"Asia/Manila"}) : "at activation"} (PH time). Lifetime visits include preserved legacy counts; older daily figures are not reconstructed.`;
+            status.textContent = "Visitor tracking started November 10, 2026.";
           } catch (error) {
             if (status) status.textContent = "Unable to load FEAT-011 analytics. Confirm the database migration and admin session.";
             console.error("FEAT-011 analytics:", error);
@@ -3079,7 +3079,7 @@
           hub.querySelectorAll(".obs-admin-nav button").forEach(button => button.classList.toggle("is-active", button.dataset.hubPage === page));
           quicklinks.hidden = page !== "home";
           title.textContent = page === "home" ? "Admin Hub" : page === "visitors" ? "Visitor Statistics" : page === "feedback" ? "Feedback & Issues" : "Moderation";
-          subtitle.textContent = page === "home" ? "Manage community activity and keep OomBam Society a safe and positive space." : "Community management · OomBam Society";
+          subtitle.textContent = page === "home" ? "Manage community activity and keep OomBam Society a safe and positive space." : "Community management";
           if (page === "visitors") showVisitors();
           else if (page === "feedback") renderAdminFeedback(content);
           else renderAdminModerationContent(content);
@@ -3192,7 +3192,7 @@
               target.querySelectorAll(".feat012-flag").forEach(el=>el.setAttribute("aria-pressed","false"));
               if(isSelected){detail.hidden=true;return;}
               button.setAttribute("aria-pressed","true");
-              detail.textContent=`${country} · ${r.registered_count} registered · ${r.active_count} active (30d)`;
+              detail.textContent=`${country} · ${r.registered_count} ${Number(r.registered_count)===1?"Blossom":"Blossoms"} · ${r.active_count} active in the last 30 days`;
               detail.hidden=false;
             });
             target.append(button);
@@ -3209,6 +3209,21 @@
           };
           requestAnimationFrame(refreshMotion);
           window.addEventListener("resize",refreshMotion,{passive:true});
+          if (!viewport.dataset.feat012DismissBound) {
+            viewport.dataset.feat012DismissBound="true";
+            document.addEventListener("pointerdown",event=>{
+              if(!event.target.closest("#blossoms-around-world")) {
+                detail.hidden=true;
+                target.querySelectorAll(".feat012-flag").forEach(el=>el.setAttribute("aria-pressed","false"));
+              }
+            });
+            document.addEventListener("keydown",event=>{
+              if(event.key==="Escape") {
+                detail.hidden=true;
+                target.querySelectorAll(".feat012-flag").forEach(el=>el.setAttribute("aria-pressed","false"));
+              }
+            });
+          }
         } catch(err){target.textContent="Country flags are temporarily unavailable.";console.warn("FEAT-012",err);}
       };
       const recordBlossomActivity = async () => {
