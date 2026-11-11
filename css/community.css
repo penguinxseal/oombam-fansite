@@ -8924,3 +8924,18 @@ body.page-community .obs-guest-chat-preview__footer { opacity: .8; }
   object-fit: fill !important;
   vertical-align: middle !important;
 }
+
+/* FEAT-012 launch hotfix: readable country detail popover in both themes.
+   Scoped to the Community garden; no layout or interaction changes. */
+body.page-community .feat012-garden .feat012-detail:not([hidden]) {
+  background-color: #ffffff !important;
+  color: #26332d !important;
+  border-color: rgba(38, 51, 45, .16) !important;
+}
+html[data-theme="dark"] body.page-community .feat012-garden .feat012-detail:not([hidden]),
+body.dark-theme.page-community .feat012-garden .feat012-detail:not([hidden]) {
+  background-color: #202226 !important;
+  color: #f3f3f4 !important;
+  border-color: rgba(255, 255, 255, .20) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .45) !important;
+}
