@@ -14,14 +14,15 @@ window.OOMBAM_FEAT012 = (() => {
   const valid = code => countries.some(c => c.code === code);
   const name = code => countries.find(c => c.code === code)?.name || code || "Not specified";
   const flag = code => /^[A-Z]{2}$/.test(code || "") ? String.fromCodePoint(...[...code].map(c=>127397+c.charCodeAt())) : "🌍";
-  const selector = (value = "") => {
+  const selector = (value = "", { required = false } = {}) => {
     const box = document.createElement("div"); box.className = "feat012-country";
-    box.innerHTML = `<label>Country / territory (optional)<input class="feat012-search" type="search" placeholder="Search countries and territories" autocomplete="off" aria-label="Search countries and territories"></label><select class="feat012-select" aria-label="Select your country or territory"><option value="">Prefer not to say</option></select><p class="feat012-help">Can't find your country? Please contact the OomBam Society admins to request an addition.</p>`;
+    box.innerHTML = `<label>${required ? "Country *" : "Country / territory (optional)"}<input class="feat012-search" type="search" placeholder="Search countries" autocomplete="off" aria-label="Search countries"></label><select class="feat012-select" aria-label="Select your country"><option value="">${required ? "Select your country" : "Prefer not to say"}</option></select><p class="feat012-help">Country not listed? Use <a href="community.html#report-issue" target="_blank" rel="noopener noreferrer">Report Issue</a> to request its addition.</p>`;
     const input=box.querySelector("input"), select=box.querySelector("select");
+    select.required = required;
     const render = (filter="") => {
       const old=select.value || value;
       const options=countries.filter(c=>c.name.toLowerCase().includes(filter.toLowerCase()) || c.code.toLowerCase()===filter.toLowerCase());
-      select.replaceChildren(new Option("Prefer not to say",""));
+      select.replaceChildren(new Option(required ? "Select your country" : "Prefer not to say",""));
       for(const c of options) select.add(new Option(`${flag(c.code)} ${c.name}`,c.code));
       if(options.some(c=>c.code===old)) select.value=old;
       else if(filter) select.selectedIndex=0;
