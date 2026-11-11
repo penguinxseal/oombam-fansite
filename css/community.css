@@ -8978,3 +8978,25 @@ body.page-community .message-card--full p {
   overflow-wrap: anywhere;
   margin-bottom: 12px;
 }
+
+/* FEAT-013 — Blossom Chat replies and emoji reactions */
+.page-community .chat-message > div { position:relative; }
+.page-community .chat-message__quote { display:block; max-width:100%; margin:5px 0; padding:7px 9px; border:0; border-left:3px solid #dd7eab; border-radius:5px; background:rgba(219,112,160,.09); color:inherit; font:500 .68rem/1.4 "DM Sans",sans-serif; text-align:left; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; cursor:pointer; }
+.page-community .chat-message__controls { display:flex; gap:6px; margin-top:3px; align-items:center; position:relative; }
+.page-community .chat-message__controls > button { display:inline-flex; align-items:center; justify-content:center; min-width:27px; min-height:27px; border:1px solid rgba(194,119,149,.25); border-radius:8px; background:transparent; color:inherit; font-size:.8rem; cursor:pointer; }
+.page-community .chat-message__controls > button:hover, .page-community .chat-message__controls > button:focus-visible { background:rgba(222,107,160,.12); border-color:rgba(222,107,160,.5); }
+.page-community .chat-reactions { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
+.page-community .chat-reaction-chip { border:1px solid rgba(190,120,150,.25); border-radius:999px; background:rgba(210,140,170,.08); color:inherit; padding:3px 7px; font-size:.68rem; cursor:pointer; }
+.page-community .chat-reaction-chip.is-mine { border-color:#d879a2; background:rgba(216,121,162,.17); }
+.page-community .chat-reaction-popover { position:absolute; z-index:50; left:0; bottom:100%; width:min(290px,80vw); max-height:280px; overflow-y:auto; padding:10px; border:1px solid rgba(160,120,140,.3); border-radius:12px; background:var(--card-bg,#fff); color:var(--text-main,#252525); box-shadow:0 8px 26px rgba(0,0,0,.18); }
+.page-community .chat-reaction-popover strong { display:block; font-size:.65rem; margin:7px 0 4px; }
+.page-community .chat-reaction-grid { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:2px; }
+.page-community .chat-reaction-grid button { background:transparent; border:0; padding:4px 0; border-radius:5px; font-size:1.05rem; cursor:pointer; }
+.page-community .chat-reaction-grid button:hover { background:rgba(216,121,162,.15); }
+.page-community .chat-reply-banner { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:7px 10px; border-left:3px solid #d879a2; border-radius:6px; background:rgba(216,121,162,.1); font-size:.7rem; }
+.page-community .chat-reply-banner[hidden] { display:none!important; }
+.page-community .chat-reply-banner span { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.page-community .chat-reply-banner button { border:0; background:transparent; color:inherit; cursor:pointer; font-size:1.2rem; }
+html[data-theme="dark"] body.page-community .chat-reaction-popover,body.page-community.dark-theme .chat-reaction-popover { background:#22252b; color:#f4edf1; border-color:rgba(255,255,255,.15); }
+.page-community .chat-input .chat-reply-banner { flex:1 0 100%; }
+.page-community .chat-input:has(.chat-reply-banner:not([hidden])) { flex-wrap:wrap; }
