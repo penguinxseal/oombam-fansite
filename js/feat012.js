@@ -16,7 +16,7 @@ window.OOMBAM_FEAT012 = (() => {
   const flag = code => /^[A-Z]{2}$/.test(code || "") ? String.fromCodePoint(...[...code].map(c=>127397+c.charCodeAt())) : "🌍";
   const selector = (value = "", { required = false } = {}) => {
     const box = document.createElement("div"); box.className = "feat012-country";
-    box.innerHTML = `<label>${required ? "Country *" : "Country / territory (optional)"}<input class="feat012-search" type="search" placeholder="Search countries" autocomplete="off" aria-label="Search countries"></label><select class="feat012-select" aria-label="Select your country"><option value="">${required ? "Select your country" : "Prefer not to say"}</option></select><p class="feat012-help">Country not listed? Use <a href="community.html#report-issue" target="_blank" rel="noopener noreferrer">Report Issue</a> to request its addition.</p>`;
+    box.innerHTML = `<label>${required ? "Country *" : "Country"}<input class="feat012-search" type="search" placeholder="Search countries" autocomplete="off" aria-label="Search countries"></label><select class="feat012-select" aria-label="Select your country"><option value="">${required ? "Select your country" : "Prefer not to say"}</option></select><p class="feat012-help">Country not listed? Use <a href="community.html#report-issue" target="_blank" rel="noopener noreferrer">Report Issue</a> to request its addition.</p>`;
     const input=box.querySelector("input"), select=box.querySelector("select");
     select.required = required;
     const render = (filter="") => {
