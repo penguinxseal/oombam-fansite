@@ -848,7 +848,7 @@
             </div>
           </form>`;
 
-        const signupPicker = OOMBAM_FEAT012.selector();
+        const signupPicker = OOMBAM_FEAT012.selector("", {required:true});
         wrapper.querySelector(".feat012-signup-slot")?.append(signupPicker.element);
         const form = wrapper.querySelector("form");
         wirePasswordToggles(wrapper);
@@ -871,6 +871,7 @@
             el.hidden = mode !== "signup";
           });
           displayNameInput.required = mode === "signup";
+          signupPicker.element.querySelector("select").required = mode === "signup";
           forgot.hidden = mode !== "signin";
           passwordInput.autocomplete = mode === "signup" ? "new-password" : "current-password";
           passwordInput.placeholder = mode === "signup" ? "Create a secure password" : "Enter your password";
@@ -907,6 +908,11 @@
             return;
           }
 
+          if (mode === "signup" && !OOMBAM_FEAT012.valid(signupPicker.getValue())) {
+            showFormStatus(form, "Please select your country to join.", "error");
+            return;
+          }
+
           submit.disabled = true;
           showFormStatus(form, mode === "signup" ? "Creating your Blossom account…" : "Signing you in…");
 
@@ -917,7 +923,7 @@
                 password,
                 options: {
                   emailRedirectTo: authConfirmRedirectUrl(),
-                  data: { display_name: displayName, avatar: "🌸", country_code: signupPicker.getValue() || null }
+                  data: { display_name: displayName, avatar: "🌸", country_code: signupPicker.getValue() }
                 }
               }), 12000, "Sign up is taking longer than expected. Please check your connection and try again.");
               if (error) throw error;
@@ -2141,6 +2147,13 @@
         });
         openModal(wrapper);
       };
+
+      // Open issue reporting from the country selector in a separate tab,
+      // preserving the signup form (including the unsaved password) in its original tab.
+      if (window.location.hash === "#report-issue") {
+        renderFeedbackForm();
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
 
       const renderAdminFeedback = (target = null) => {
         if (!isCommunityAdmin()) return;
