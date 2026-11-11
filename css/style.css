@@ -18655,3 +18655,18 @@ body.dark-theme.page-home .story-section {
 .feat012-account-slot,.feat012-home-account{margin:1rem 0}
 .feat012-account-slot>button{margin-top:.5rem}
 @media(max-width:500px){.feat012-tiles{gap:.35rem}.feat012-tiles>div{padding:.75rem .25rem}.feat012-tiles span{font-size:.68rem}.feat012-row{font-size:.78rem}}
+
+/* =========================================================
+   OOMBAM FANSITE — HERO COPY POSITIONING HOTFIX
+   Desktop/tablet only. Mobile remains unchanged.
+========================================================= */
+@media (min-width: 1101px) {
+  .page-home .hero-content {
+    transform: translateY(90px);
+  }
+}
+@media (min-width: 601px) and (max-width: 1100px) {
+  .page-home .hero-content {
+    transform: translateY(55px);
+  }
+}
