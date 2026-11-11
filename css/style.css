@@ -18662,11 +18662,11 @@ body.dark-theme.page-home .story-section {
 ========================================================= */
 @media (min-width: 1101px) {
   .page-home .hero-content {
-    transform: translateY(90px);
+    transform: translateY(135px);
   }
 }
 @media (min-width: 601px) and (max-width: 1100px) {
   .page-home .hero-content {
-    transform: translateY(55px);
+    transform: translateY(95px);
   }
 }
